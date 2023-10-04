@@ -1,0 +1,8 @@
+<div #mapViewNode class="h-[600px]"></div>
+
+<div>
+  <div *ngFor="let point of points; let i = index">
+    Latitude: {{ point.lat }}, Longitude: {{ point.lng }}
+    <button (click)="removePoint(i)">Kaldır</button>
+  </div>
+</div>
