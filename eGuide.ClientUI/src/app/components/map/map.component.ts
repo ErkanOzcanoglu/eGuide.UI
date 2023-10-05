@@ -19,6 +19,7 @@ export class MapComponent implements OnInit {
 
   public lat: any;
   public lng: any;
+  public coord: any;
   public mapView: any;
   public points: any[] = [];
 
@@ -42,10 +43,61 @@ export class MapComponent implements OnInit {
         view.on('click', this.addPointOnClick.bind(this));
 
         this.mapView = view;
+
+        const pointsfromDatabase = [
+          {
+            latitude: 39.815434,
+            longitude: 32.722838,
+          },
+          {
+            latitude: 40.815434,
+            longitude: 32.722838,
+          },
+          {
+            latitude: 23.815434,
+            longitude: 42.722838,
+          },
+        ];
+
+        this.addPointsFromDatabase(pointsfromDatabase);
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  addPointsFromDatabase(points: any[]) {
+    points.forEach((point) => {
+      const lat = point.latitude.toFixed(6);
+      const lng = point.longitude.toFixed(6);
+
+      const markerSymbol = new SimpleMarkerSymbol({
+        color: [226, 119, 40],
+        outline: {
+          color: [255, 255, 255],
+          width: 1,
+        },
+        size: 12,
+      });
+
+      const graphic = new Graphic({
+        geometry: new Point({
+          latitude: point.latitude,
+          longitude: point.longitude,
+        }),
+        symbol: markerSymbol,
+        attributes: {
+          lat: lat,
+          lng: lng,
+        },
+        popupTemplate: {
+          title: 'Coordinates',
+          content: `Lat: {lat}<br>Long: {lng}`,
+        },
+      });
+
+      this.mapView.graphics.add(graphic);
+    });
   }
 
   addPointOnClick(event: any) {
@@ -70,7 +122,7 @@ export class MapComponent implements OnInit {
         lng: lng,
       },
       popupTemplate: {
-        title: 'Koordinatlar',
+        title: 'Coordinates',
         content: `Lat: {lat}<br>Long: {lng}`,
       },
     });
