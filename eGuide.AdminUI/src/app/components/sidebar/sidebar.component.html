@@ -1,0 +1,158 @@
+<div class="container">
+  <!-- your sidebar content here -->
+  <div class="sidenav">
+    <!--! Logo Div -->
+    <div class="logo-con">
+      <p class="logo-text">eGuide</p>
+      <!--? hamburger icon -->
+      <i class="hidden fa fa-bars cursor-pointer text-2xl mr-2"></i>
+      <!--? close icon -->
+      <i class="fa fa-times cursor-pointer text-2xl"></i>
+    </div>
+
+    <!--! Profile Div -->
+    <div class="profile-con">
+      <div class="profile-img-con">
+        <img src="https://i.pravatar.cc/60" alt="profile-img" class="avatar" />
+      </div>
+      <div class="profile-name-con">
+        <p class="profile-name">John Doe</p>
+        <p class="profile-email">gmail@gmail.com</p>
+      </div>
+    </div>
+
+    <!--! Menu Div -->
+    <div class="menu-con">
+      <ul class="menu-ul">
+        <!--? Dashboard -->
+        <li class="menu-list">
+          <a href="#" class="active">
+            <i class="fa fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <!--? Management -->
+        <li class="menu-list">
+          <div class="con" (click)="hideManagement()">
+            <a href="#">
+              <!-- list-check icon -->
+              <i class="fas fa-list"></i>
+              <span>Management</span>
+            </a>
+            <button
+              *ngIf="!collapseManagement"
+              class="fas fa-caret-down"
+            ></button>
+            <button *ngIf="collapseManagement" class="fas fa-caret-up"></button>
+          </div>
+          <ul class="sumbenu-list" *ngIf="collapseManagement">
+            <li class="submenu-list">
+              <a href="/station">
+                <i class="fa fa-charging-station"></i>
+                <span>Station</span>
+              </a>
+            </li>
+            <li class="submenu-list">
+              <a href="#">
+                <i class="fa fa-hippo"></i>
+                <span>Facility</span>
+              </a>
+            </li>
+
+            <li class="submenu-list">
+              <a href="#">
+                <i class="fa fa-user"></i>
+                <span>Car</span>
+              </a>
+            </li>
+            <li class="submenu-list">
+              <a href="/socket">
+                <i class="fas fa-subway"></i>
+                <span>Socket</span>
+              </a>
+            </li>
+            <li class="submenu-list">
+              <a href="#">
+                <i class="fas fa-building"></i>
+                <span>Social Media</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!--? Services -->
+        <li class="menu-list">
+          <a href="#">
+            <i class="fas fa-user"></i>
+            <span>Services</span>
+          </a>
+        </li>
+
+        <!--? Customization -->
+        <li class="menu-list" (click)="hideCustomization()">
+          <div class="con">
+            <a href="#">
+              <i class="fas fa-cog"></i>
+              <span>Customization</span>
+            </a>
+            <button
+              *ngIf="!collapseCustomization"
+              class="fas fa-caret-down"
+            ></button>
+            <button
+              *ngIf="collapseCustomization"
+              class="fas fa-caret-up"
+            ></button>
+          </div>
+          <ul *ngIf="collapseCustomization">
+            <li class="submenu-list">
+              <a href="#">
+                <i class="fas fa-car"></i>
+                <span>Navbar</span>
+              </a>
+            </li>
+            <li class="submenu-list">
+              <a href="#">
+                <i class="fas fa-subway"></i>
+                <span>Footer</span>
+              </a>
+            </li>
+            <li class="submenu-list">
+              <a href="#">
+                <i class="fas fa-building"></i>
+                <span>Color</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!--? Chat -->
+        <li class="menu-list">
+          <a href="#">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+          </a>
+        </li>
+
+        <!--? Settings -->
+        <li class="menu-list">
+          <a href="#">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!--! Logout Div -->
+    <ul class="menu-con-logout">
+      <li class="">
+        <a class="" href="#">
+          <i class="pr-5 fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
