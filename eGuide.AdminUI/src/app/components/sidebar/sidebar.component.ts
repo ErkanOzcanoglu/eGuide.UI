@@ -1,16 +1,21 @@
 import { Component, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+
+interface SideNavToggle {
+  screenWidth: number;
+  collapseSideNav: boolean;
+}
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
-  @Output() closeSidenav = new EventEmitter<void>();
+  @Output() closeSidenav = new EventEmitter<SideNavToggle>();
 
   collapseManagement = false;
   collapseCustomization = false;
-  collapseSidebar = true;
+  collapseSideNav = false;
 
   hideManagement() {
     this.collapseManagement = !this.collapseManagement;
@@ -20,7 +25,13 @@ export class SidebarComponent {
     this.collapseCustomization = !this.collapseCustomization;
   }
 
-  sideBarToggler() {
-    this.collapseSidebar = !this.collapseSidebar;
+  setSideNav() {
+    this.collapseSideNav = !this.collapseSideNav;
+
+    const screenWidth = window.innerWidth;
+    this.closeSidenav.emit({
+      screenWidth,
+      collapseSideNav: this.collapseSideNav,
+    });
   }
 }

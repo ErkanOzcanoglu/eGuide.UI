@@ -1,5 +1,5 @@
 <div>
-  <form>
+  <form [formGroup]="stationForm">
     <div *ngIf="switchStatus" class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
         <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
@@ -14,6 +14,7 @@
         class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
         id="address"
         type="text"
+        formControlName="address"
         placeholder="Enter Address"
       />
     </div>
@@ -33,9 +34,10 @@
       </div>
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="address"
+        id="latitude"
         type="text"
-        placeholder="Enter Address"
+        formControlName="latitude"
+        placeholder="Enter Latitude"
       />
     </div>
     <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
@@ -46,59 +48,47 @@
       </div>
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="address"
+        id="longtitude"
         type="text"
-        placeholder="Enter Address"
+        formControlName="longtitude"
+        placeholder="Enter Longtitude"
       />
     </div>
-    <div class="mb-4">
-      <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
-        Name
-      </label>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="icon"
-        type="text"
-        placeholder="Enter icon"
-      />
-    </div>
-    <!-- socket type -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-200 text-sm font-bold mb-2"
-        for="socketType"
-      >
-        Socket Type
-      </label>
-      <select
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="socketType"
-      >
-        <option value="1">Type 1</option>
-        <option value="2">Type 2</option>
-        <option value="3">Type 3</option>
-        <option value="4">Type 4</option>
-      </select>
-    </div>
-    <!-- facilities -->
-    <div class="mb-4">
-      <label
-        class="block text-gray-200 text-sm font-bold mb-2"
-        for="facilities"
-      >
-        Facilities
-      </label>
-      <select
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="facilities"
-      >
-        <option value="1">Toilet</option>
-        <option value="2">Cafe</option>
-        <option value="3">Restaurant</option>
-        <option value="4">Shop</option>
-      </select>
-    </div>
+    <form [formGroup]="stationSocketForm">
+      <div class="mb-4">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
+          Name
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          formControlName="name"
+          type="text"
+          placeholder="Enter Name"
+        />
+      </div>
 
+      <div class="mb-4">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            for="facilities"
+          >
+            Socket
+          </label>
+        </div>
+        <select
+          class="select max-w-xs shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="socketId"
+          formControlName="socketId"
+        >
+          <option value="" disabled selected>Select Connector</option>
+          <option *ngFor="let con of sockets" [value]="con.id">
+            {{ con.name }}
+          </option>
+        </select>
+      </div>
+    </form>
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       type="button"

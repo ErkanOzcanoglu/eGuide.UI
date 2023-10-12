@@ -77,28 +77,26 @@
     </div>
 
     <!--! connector -->
-    <form [formGroup]="socketForm2">
-      <div class="mb-4">
-        <div class="flex w-full justify-between">
-          <label
-            class="block text-gray-200 text-sm font-bold mb-2"
-            for="facilities"
-          >
-            Connector
-          </label>
-        </div>
-        <select
-          class="select max-w-xs shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-          id="connector"
-          formControlName="connectorIds"
+    <div class="mb-4">
+      <div class="flex w-full justify-between">
+        <label
+          class="block text-gray-200 text-sm font-bold mb-2"
+          for="facilities"
         >
-          <option value="" disabled selected>Select Connector</option>
-          <option *ngFor="let con of connectors" [value]="con.id">
-            {{ con.type }}
-          </option>
-        </select>
+          Connector
+        </label>
       </div>
-    </form>
+      <select
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="connector"
+        formControlName="connectorId"
+      >
+        <option value="" disabled selected>Select Connector</option>
+        <option *ngFor="let con of connectors" [value]="con.id">
+          {{ con.type }}
+        </option>
+      </select>
+    </div>
 
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

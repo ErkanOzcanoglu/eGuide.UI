@@ -16,4 +16,10 @@ export class SocketService {
       responseType: 'json',
     });
   }
+
+  getSockets(): Observable<Socket[]> {
+    return this.http.get<Socket[]>(`${environment.apiUrl}/Socket`, {
+      responseType: 'json',
+    });
+  }
 }

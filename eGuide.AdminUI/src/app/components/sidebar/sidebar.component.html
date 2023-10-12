@@ -1,158 +1,233 @@
-<div class="container">
+<div
+  class="duration-300 h-screen"
+  [ngClass]="collapseSideNav ? 'w-28' : 'w-[400px]'"
+>
   <!-- your sidebar content here -->
-  <div class="sidenav">
+  <div
+    class="flex sidenav justify-center flex-col w-full h-full"
+    [ngClass]="collapseSideNav ? 'items-center' : ' items-center'"
+  >
     <!--! Logo Div -->
-    <div class="logo-con">
-      <p class="logo-text">eGuide</p>
+    <div
+      class="h-28 duration-500 w-full flex items-center"
+      [ngClass]="collapseSideNav ? 'ml-3 gap-5 ' : 'justify-between p-5'"
+    >
+      <p
+        class="font-bold duration-300"
+        [ngClass]="collapseSideNav ? 'ml-4 text-xl' : 'ml-10 text-3xl'"
+      >
+        eGuide
+      </p>
       <!--? hamburger icon -->
-      <i class="hidden fa fa-bars cursor-pointer text-2xl mr-2"></i>
+      <div
+        (click)="setSideNav()"
+        *ngIf="collapseSideNav"
+        [ngClass]="collapseSideNav ? 'ml-4' : 'ml-10'"
+        class="fa fa-bars cursor-pointer text-2xl mr-2"
+      ></div>
       <!--? close icon -->
-      <i class="fa fa-times cursor-pointer text-2xl"></i>
+      <div
+        *ngIf="!collapseSideNav"
+        (click)="setSideNav()"
+        class="fa fa-times cursor-pointer text-2xl"
+      ></div>
     </div>
 
     <!--! Profile Div -->
-    <div class="profile-con">
-      <div class="profile-img-con">
-        <img src="https://i.pravatar.cc/60" alt="profile-img" class="avatar" />
-      </div>
-      <div class="profile-name-con">
+    <div
+      [ngClass]="collapseSideNav ? 'justify-center' : 'pl-[60px]'"
+      class="h-28 duration-300 shadow shadow-black flex w-full items-center gap-10"
+    >
+      <img
+        src="https://i.pravatar.cc/60"
+        alt="profile-img"
+        class="rounded-full w-16 h-16"
+      />
+      <div
+        [ngClass]="collapseSideNav ? 'hidden' : 'flex flex-col'"
+        class="duration-300 profile-name-con"
+      >
         <p class="profile-name">John Doe</p>
         <p class="profile-email">gmail@gmail.com</p>
       </div>
     </div>
 
     <!--! Menu Div -->
-    <div class="menu-con">
+    <div
+      [ngClass]="collapseSideNav ? 'items-center' : 'items-start pl-14'"
+      class="flex duration-300 flex-col mt-[15px] overflow-scroll menu-con w-full"
+    >
       <ul class="menu-ul">
         <!--? Dashboard -->
-        <li class="menu-list">
+        <li
+          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+        >
           <a href="#" class="active">
             <i class="fa fa-chart-line"></i>
-            <span>Dashboard</span>
+            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Dashboard</span>
           </a>
         </li>
 
         <!--? Management -->
-        <li class="menu-list">
-          <div class="con" (click)="hideManagement()">
+        <li class="menu-list items-center flex flex-col">
+          <div
+            [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
+            class="flex justify-between hover:bg-blue-600 hover:rounded-2xl"
+            (click)="hideManagement()"
+          >
             <a href="#">
               <!-- list-check icon -->
               <i class="fas fa-list"></i>
-              <span>Management</span>
+              <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+                >Management</span
+              >
             </a>
             <button
-              *ngIf="!collapseManagement"
-              class="fas fa-caret-down"
+              *ngIf="!collapseSideNav"
+              [ngClass]="
+                collapseManagement ? 'fas fa-caret-up' : 'fas fa-caret-down'
+              "
             ></button>
-            <button *ngIf="collapseManagement" class="fas fa-caret-up"></button>
           </div>
-          <ul class="sumbenu-list" *ngIf="collapseManagement">
+          <ul
+            class="sumbenu-list justify-start w-full"
+            *ngIf="collapseManagement"
+          >
             <li class="submenu-list">
               <a href="/station">
                 <i class="fa fa-charging-station"></i>
-                <span>Station</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Station</span>
               </a>
             </li>
             <li class="submenu-list">
               <a href="#">
                 <i class="fa fa-hippo"></i>
-                <span>Facility</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Facility</span
+                >
               </a>
             </li>
 
             <li class="submenu-list">
               <a href="#">
                 <i class="fa fa-user"></i>
-                <span>Car</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Car</span>
               </a>
             </li>
             <li class="submenu-list">
               <a href="/socket">
                 <i class="fas fa-subway"></i>
-                <span>Socket</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Socket</span>
               </a>
             </li>
             <li class="submenu-list">
               <a href="#">
                 <i class="fas fa-building"></i>
-                <span>Social Media</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Social Media</span
+                >
               </a>
             </li>
           </ul>
         </li>
 
         <!--? Services -->
-        <li class="menu-list">
+        <li
+          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+        >
           <a href="#">
             <i class="fas fa-user"></i>
-            <span>Services</span>
+            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Services</span>
           </a>
         </li>
 
         <!--? Customization -->
-        <li class="menu-list" (click)="hideCustomization()">
-          <div class="con">
+        <li
+          class="menu-list items-center flex flex-col"
+          (click)="hideCustomization()"
+        >
+          <div
+            [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
+            class="flex justify-between hover:bg-blue-600 hover:rounded-2xl"
+          >
             <a href="#">
               <i class="fas fa-cog"></i>
-              <span>Customization</span>
+              <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+                >Customization</span
+              >
             </a>
             <button
-              *ngIf="!collapseCustomization"
-              class="fas fa-caret-down"
-            ></button>
-            <button
-              *ngIf="collapseCustomization"
-              class="fas fa-caret-up"
+              *ngIf="!collapseSideNav"
+              [ngClass]="
+                collapseCustomization ? 'fas fa-caret-up' : 'fas fa-caret-down'
+              "
             ></button>
           </div>
-          <ul *ngIf="collapseCustomization">
+          <ul *ngIf="collapseCustomization" class="justify-start w-full">
             <li class="submenu-list">
               <a href="#">
                 <i class="fas fa-car"></i>
-                <span>Navbar</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Navbar</span>
               </a>
             </li>
             <li class="submenu-list">
               <a href="#">
                 <i class="fas fa-subway"></i>
-                <span>Footer</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Footer</span>
               </a>
             </li>
             <li class="submenu-list">
               <a href="#">
                 <i class="fas fa-building"></i>
-                <span>Color</span>
+                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Color</span>
               </a>
             </li>
           </ul>
         </li>
 
         <!--? Chat -->
-        <li class="menu-list">
+        <li
+          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+        >
           <a href="#">
             <i class="fas fa-comments"></i>
-            <span>Chat</span>
+            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Chat</span>
           </a>
         </li>
 
         <!--? Settings -->
-        <li class="menu-list">
+        <li
+          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+        >
           <a href="#">
             <i class="fas fa-cog"></i>
-            <span>Settings</span>
+            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Settings</span>
           </a>
         </li>
       </ul>
     </div>
 
     <!--! Logout Div -->
-    <ul class="menu-con-logout">
-      <li class="">
-        <a class="" href="#">
-          <i class="pr-5 fas fa-sign-out-alt"></i>
-          <span>Logout</span>
-        </a>
-      </li>
-    </ul>
+    <!-- <ul
+      class="menu-con-logout w-full"
+      [ngClass]="collapseSideNav ? 'justify-center flex ml-4' : 'pl-[70px]'"
+    > -->
+    <div
+      [ngClass]="collapseSideNav ? 'items-center' : 'items-start pl-14'"
+      class="flex duration-300 flex-col mt-[15px] menu-cons w-full"
+    >
+      <ul class="menu-ul">
+        <!--? Dashboard -->
+        <li
+          [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
+          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+        >
+          <a href="#" class="active gap-5">
+            <i class="fa fa-sign-out-alt"></i>
+            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

@@ -17,9 +17,9 @@ import { StationFormComponent } from './components/station-form/station-form.com
 import { ConnectorModalComponent } from './modals/connector-modal/connector-modal.component';
 import { SocketComponent } from './screens/socket/socket.component';
 import { SocketFormComponent } from './components/socket-form/socket-form.component';
-import { StationModelComponent } from './components/station-model/station-model.component';
 
 import { MatSelectModule } from '@angular/material/select';
+import { StationSocketsComponent } from './components/station-sockets/station-sockets.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
     ConnectorModalComponent,
     SocketComponent,
     SocketFormComponent,
-    StationModelComponent,
+    StationSocketsComponent,
   ],
   imports: [
     BrowserModule,

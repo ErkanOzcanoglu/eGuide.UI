@@ -13,8 +13,6 @@ export class SocketFormComponent {
   switchStatus = false;
   connectors: Connector[] = [];
   socketForm: FormGroup = new FormGroup({});
-  socketForm2: FormGroup = new FormGroup({});
-  // selectedConnectors: string[] = [];
 
   constructor(
     private connectorService: ConnectorService,
@@ -34,27 +32,19 @@ export class SocketFormComponent {
       current: ['', [Validators.required]],
       type: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      connectorId: [''],
-    });
-
-    this.socketForm2 = this.formBuilder.group({
-      connectorIds: [[], [Validators.required]],
+      connectorId: ['', [Validators.required]],
     });
   }
 
   addSocket() {
     if (this.socketForm.valid) {
-      for (let i = 0; i < this.socketForm2.value.connectorIds.length; i++) {
-        this.socketForm.value.connectorId =
-          this.socketForm2.value.connectorIds[i];
-        console.log(this.socketForm.value);
-        this.socketService.addSocket(this.socketForm.value).subscribe((asd) => {
-          console.log(asd);
-        });
-      }
+      this.socketService.addSocket(this.socketForm.value).subscribe((asd) => {
+        console.log(asd);
+      });
     } else {
-      alert('Please fill all the fields');
+      console.log('Form is not valid');
     }
+    this.socketForm.reset();
   }
 
   getConnector(): void {

@@ -1,16 +1,5 @@
-.container {
-  min-height: fit-content;
-  height: 100%;
-  background-color: rgb(42, 44, 175);
-  width: 400px;
-  border-radius: 0 10px 0 0;
-}
-
 .sidenav {
-  z-index: 1;
   background-color: rgb(42, 44, 175);
-  min-height: 100%;
-  transition: 0.5s;
 }
 
 .logo-con {
@@ -55,15 +44,22 @@
 }
 
 .menu-con {
-  display: flex;
-  flex-direction: column;
-  padding-left: 3.5rem;
   height: calc(100vh - 288px);
-  overflow: scroll;
-  margin-top: 15px;
 }
 
 .menu-con a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 5px 10px 10px 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.menu-cons a {
   text-decoration: none;
   color: #fff;
   font-size: 1.2rem;
@@ -80,10 +76,7 @@
   color: #fff;
   font-size: 1.2rem;
   font-weight: 500;
-  padding: 13px 10px 10px 10px;
-  display: flex;
-  align-items: center;
-  margin-left: 3.5rem;
+  align-items: start;
   transition: 0.5s;
 }
 
@@ -95,21 +88,16 @@
   margin-left: 10px;
 }
 
-.con {
-  display: flex;
-}
-
 .submenu-list {
   margin-left: 2rem;
 }
 
 .menu-con::-webkit-scrollbar {
-  /* if is not active hidden than 1px */
   width: 1px;
 }
 
 .menu-con {
-  overflow-x: hidden; /* This will hide the horizontal scrollbar */
+  overflow-x: hidden;
 }
 
 .menu-con::-webkit-scrollbar-track {
@@ -117,10 +105,10 @@
 }
 
 .menu-con::-webkit-scrollbar-thumb {
-  background-color: #888; /* Set the color of the thumb */
-  border-radius: 5px; /* Set the border radius of the thumb */
+  background-color: #888;
+  border-radius: 5px;
 }
 
 .menu-con::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Set the color of the thumb on hover */
+  background-color: #555;
 }
