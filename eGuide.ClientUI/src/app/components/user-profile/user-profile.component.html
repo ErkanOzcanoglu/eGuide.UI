@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kullanıcı Profili</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="w-4/6 p-4 mx-auto">
+      <div class="mb-4">
+        <div class="bg-white rounded-lg shadow p-4">
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold">User Profile</h1>
+            <button
+              *ngIf="editMode"
+              (click)="onSaveClick()"
+              class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+            >
+              Save
+            </button>
+            <button
+              *ngIf="!editMode"
+              (click)="onModeChange()"
+              class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+            >
+              Edit
+            </button>
+          </div>
+          <div class="mt-4" *ngIf="user">
+            <p>
+              <span class="font-semibold">Name: </span>
+              <input
+                class="bg-white"
+                type="text"
+                [value]="user.name"
+                [(ngModel)]="user.name"
+                [disabled]="!editMode"
+              />
+            </p>
+            <p>
+              <span class="font-semibold">Surname: </span>
+              <input
+                class="bg-white"
+                type="text"
+                [value]="user.surname"
+                [(ngModel)]="user.surname"
+                [disabled]="!editMode"
+              />
+            </p>
+            <p>
+              <span class="font-semibold">E-mail: </span>
+              <input
+                class="bg-white"
+                type="text"
+                [value]="user.email"
+                [(ngModel)]="user.email"
+                [disabled]="!editMode"
+              />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="bg-white rounded-lg shadow p-4 h-96 flex">
+          <div class="w-1/2">
+            <h1 class="text-2xl font-semibold mb-5">Araçlar</h1>
+            <div class="flex items-center justify-between">
+              <h2 class="text-xl font-semibold mb-3">Araçlarım</h2>
+            </div>
+            <div class="mt-4">
+              <p>
+                <span class="font-semibold">Araç 1:</span> Detaylar buraya
+                gelebilir.
+              </p>
+              <p>
+                <span class="font-semibold">Araç 2:</span> Detaylar buraya
+                gelebilir.
+              </p>
+              <p>
+                <span class="font-semibold">Araç 3:</span> Detaylar buraya
+                gelebilir.
+              </p>
+            </div>
+          </div>
+          <div class="w-1/2">
+            <div class="mt-12">
+              <h2 class="text-xl font-semibold">Araç Ekle/Düzenle</h2>
+              <form>
+                <div class="mt-4">
+                  <label for="marka">Marka:</label>
+                  <select id="marka" class="w-80 border p-2 rounded bg-white">
+                    <option value="default">Lütfen bir marka seçin</option>
+                    <option *ngFor="let brand of brands" [value]="brand">
+                      {{ brand }}
+                    </option>
+                  </select>
+                </div>
+                <div class="mt-4">
+                  <label for="model">Model:</label>
+                  <select id="model" class="w-80 border p-2 rounded bg-white">
+                    <!-- Model seçenekleri buraya gelecek -->
+                    <option value="model1">Model 1</option>
+                    <option value="model2">Model 2</option>
+                    <option value="model3">Model 3</option>
+                  </select>
+                </div>
+                <div class="mt-4 ml-60">
+                  <button
+                    type="submit"
+                    class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover:bg-blue-600 focus:outline-none"
+                  >
+                    Araç Ekle
+                  </button>
+                  <button
+                    type="submit"
+                    class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="bg-white rounded-lg shadow p-4 h-72">
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold">Favoriler</h1>
+            <button
+              class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+            >
+              Edit
+            </button>
+          </div>
+          <div class="mt-4">
+            <p><span class="font-semibold">Ad Soyad:</span> John Doe</p>
+            <p>
+              <span class="font-semibold">E-posta:</span> johndoe@example.com
+            </p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="bg-white rounded-lg shadow p-4 h-72">
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold">Şifremi Unuttum</h1>
+            <button
+              class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
