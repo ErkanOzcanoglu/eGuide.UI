@@ -1,5 +1,6 @@
 export class UserVehicle {
-  id = '';
-  userId='';
-  vehicleId='';
+  // id = '';
+  userId = '';
+  vehicleId = '';
+
 }

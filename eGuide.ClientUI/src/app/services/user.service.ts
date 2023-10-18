@@ -28,9 +28,20 @@ export class UserService {
   }
 
   public updateUser(userId: string, user: User): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.url}/${userId}`,
-      user
+    return this.http.put(`${environment.apiUrl}/${this.url}/${userId}`, user);
+  }
+
+  public forgotPassword(userId: string): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.url}}/forgot-password?userId=${userId}`,
+      {}
+    );
+  }
+
+  public resetPassword(userId: string, request: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.url}/reset-password?userId=${userId}`,
+      request
     );
   }
 }

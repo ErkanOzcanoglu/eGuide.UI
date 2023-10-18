@@ -38,6 +38,7 @@ export class UserAuthComponent {
     this.userauthService.registerUser(this.registerForm.value).subscribe({
       next: (response) => {
         if (response && response.id) {
+           response.id = response.id.replace(/^"(.*)"$/, '$1');
           localStorage.setItem('userId', response.id);
         }
       },

@@ -14,24 +14,31 @@ export class UserVehicleService {
   constructor(private http: HttpClient, private router: Router) {}
 
   public saveVehicle(uservehicle: UserVehicle): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/Save`, uservehicle);
+    return this.http.post(`${environment.apiUrl}/${this.url}`, uservehicle);
   }
 
   public getvehicleById(userId: string): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.url}/getbyId?id=${userId}`
-    );
+    return this.http.get(`${environment.apiUrl}/${this.url}/?userId=${userId}`);
   }
 
-  updateVehicle(userId: string,vehicleId: string,idNew: string): Observable<any> {
+  updateVehicle(
+    userId: string,
+    vehicleId: string,
+    idNew: string
+  ): Observable<any> {
     const data = {
       userId: userId,
       vehicleId: vehicleId,
       idNew: idNew,
     };
     return this.http.put(
-      `${environment.apiUrl}/${this.url}/update-vehicle?userId${userId}&vehicleId=${vehicleId}&idNew=${idNew}`,data
+      `${environment.apiUrl}/${this.url}/update-vehicle?userid=${userId}&vehicleId=${vehicleId}&idNew=${idNew}`,
+      data
     );
   }
-  
+
+  deleteUserVehicleByVehicleId(vehicleId: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}`
+    );
+  }
 }

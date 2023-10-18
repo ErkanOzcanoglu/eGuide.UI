@@ -1,0 +1,109 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kullanıcı Profili</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head> -->
+<div class="bg-gray-100">
+  <div class="w-4/6 p-4 mx-auto">
+    <div class="mb-4">
+      <div class="bg-white rounded-lg shadow p-4 h-96 flex">
+        <div class="w-1/2">
+          <h1 class="text-2xl font-semibold mb-5">VEHICLE</h1>
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold mb-3">Vehicles</h2>
+          </div>
+          <div class="mt-4 overflow-auto mr-20 custom-scrollbar h-[160px]">
+            <ng-container *ngFor="let vehicle of vehicleList; let i = index">
+              <p (click)="selectVehicle(vehicle)">
+                <!-- <span class="font-semibold">Araç {{ i + 1 }}:</span> -->
+                {{ vehicle.brand }} - {{ vehicle.model }}
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="mt-12">
+            <h2 class="text-xl font-semibold">Araç Ekle/Düzenle</h2>
+            <form>
+              <div class="mt-4">
+                <label for="marka">Marka:</label>
+
+                <select
+                  id="marka"
+                  class="w-80 border p-2 rounded bg-white"
+                  (change)="onBrandSelected($event)"
+                >
+                  <option [value]="selectedBrand" [selected]="vehicleMode">
+                    {{
+                      selectedBrand ||
+                        (vehicleMode ? "default" : "Lütfen bir marka seçin")
+                    }}
+                  </option>
+                  <option *ngFor="let brand of brands" [value]="brand">
+                    {{ brand }}
+                  </option>
+                </select>
+              </div>
+              <div class="mt-4">
+                <label for="model">Model:</label>
+
+                <select
+                  id="model"
+                  class="w-80 border p-2 rounded bg-white"
+                  (change)="onModelSelected($event)"
+                >
+                  <option value="default">Lütfen bir model seçin</option>
+                  <option *ngFor="let model of models" [value]="model">
+                    {{ model }}
+                  </option>
+                </select>
+              </div>
+              <div class="mt-4 ml-60">
+                <button
+                  type="submit"
+                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover:bg-blue-600 focus:outline-none"
+                  *ngIf="editModeVehicle"
+                  (click)="addVehicle()"
+                >
+                  Add
+                </button>
+                <button
+                  type="submit"
+                  class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  *ngIf="!editModeVehicle"
+                  (click)="onModeChangeVehicle()"
+                >
+                  Edit
+                </button>
+                <button
+                  type="submit"
+                  class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  *ngIf="editModeVehicle"
+                  (click)="deleteVehicle()"
+                >
+                  Delete
+                </button>
+                <button
+                  type="submit"
+                  class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  *ngIf="editModeVehicle"
+                  (click)="updateUserVehicle()"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </body>
+</html> -->

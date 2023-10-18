@@ -33,6 +33,7 @@ export class LoginComponent {
   login(): void {   
     console.log(this.loginForm.value);
     this.userauthService.login(this.loginForm.value).subscribe((token: string) => {
+       token = token.replace(/^"(.*)"$/, '$1');
        localStorage.setItem('authToken', token)
        
   });

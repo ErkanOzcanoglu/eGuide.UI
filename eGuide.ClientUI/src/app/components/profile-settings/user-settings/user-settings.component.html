@@ -1,0 +1,68 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kullanıcı Profili</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head> -->
+<div class="bg-gray-100">
+  <div class="w-4/6 p-4 mx-auto">
+    <div class="bg-white mb-4 rounded-lg shadow p-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-semibold">User Profile</h1>
+        <button
+          *ngIf="editMode"
+          (click)="onSaveClick()"
+          class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+        >
+          Save
+        </button>
+        <button
+          *ngIf="!editMode"
+          (click)="onModeChange()"
+          class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+        >
+          Edit
+        </button>
+      </div>
+      <div class="mt-4" *ngIf="user">
+        <p>
+          <span class="font-semibold">Name: </span>
+          <input
+            class="bg-white"
+            type="text"
+            [value]="user.name"
+            [(ngModel)]="user.name"
+            [disabled]="!editMode"
+          />
+        </p>
+        <p>
+          <span class="font-semibold">Surname: </span>
+          <input
+            class="bg-white"
+            type="text"
+            [value]="user.surname"
+            [(ngModel)]="user.surname"
+            [disabled]="!editMode"
+          />
+        </p>
+        <p>
+          <span class="font-semibold">E-mail: </span>
+          <input
+            class="bg-white"
+            type="text"
+            [value]="user.email"
+            [(ngModel)]="user.email"
+            [disabled]="!editMode"
+          />
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </body>
+</html> -->

@@ -1,7 +1,5 @@
-export interface ResetPassword {
-    
-    token: string;
-    password: string;
-    confirmPassword: string;
-
-  }
+export class ResetPassword {
+  token = '';
+  password = '';
+  confirmPassword = '';
+}

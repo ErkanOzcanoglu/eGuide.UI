@@ -21,16 +21,15 @@ export class VehiclesService {
   }
 
   public getModelsByBrand(brand: string): Observable<string[]> {
-    const url = `${environment.apiUrl}/models/${brand}`;
-    return this.http.get<string[]>(url);
+    return this.http.get<string[]>(`${environment.apiUrl}/${this.url}/models/${brand}`);
   }
 
   public getPrimaryKeyByBrandAndModel(
     brand: string,
     model: string
   ): Observable<string> {
-    const url = `${environment.apiUrl}/primarykey/${brand}/${model}`;
-    return this.http.get<string>(url);
+
+    return this.http.get<string>(`${environment.apiUrl}/${this.url}/primarykey/${brand}/${model}`);
   }
 
   public getAllBrands(): Observable<string[]> {   
