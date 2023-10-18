@@ -37,8 +37,10 @@ export class UserVehicleService {
     );
   }
 
-  deleteUserVehicleByVehicleId(vehicleId: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}`
-    );
+  deleteUserVehicleByVehicleId(
+    userId: string,vehicleId: string): Observable<any>
+     {return this.http.delete(
+       `${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}?userid=${userId}`
+     );
   }
 }

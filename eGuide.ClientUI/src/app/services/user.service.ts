@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { User } from '../models/user';
+import { ResetPassword } from '../models/resetPassword';
 
 @Injectable({
   providedIn: 'root',
@@ -33,15 +34,21 @@ export class UserService {
 
   public forgotPassword(userId: string): Observable<any> {
     return this.http.post<any>(
-      `${environment.apiUrl}/${this.url}}/forgot-password?userId=${userId}`,
+      `${environment.apiUrl}/${this.url}/forgot-password?userId=${userId}`,
       {}
     );
   }
 
-  public resetPassword(userId: string, request: any): Observable<any> {
-    return this.http.post<any>(
+  resetPassword(
+    resetPasswordModel: ResetPassword,
+    userId: string
+  ): Observable<any> {
+    return this.http.post(
       `${environment.apiUrl}/${this.url}/reset-password?userId=${userId}`,
-      request
+      resetPasswordModel,
+      { responseType: 'text' }
     );
   }
+
+  
 }

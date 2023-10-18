@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
@@ -9,7 +9,7 @@ import { UserAuthService } from 'src/app/services/user-auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   user: User = new User();
   loginForm: FormGroup = new FormGroup({});
 
@@ -30,13 +30,13 @@ export class LoginComponent {
     });
   }
 
-  login(): void {   
+  login(): void {
     console.log(this.loginForm.value);
-    this.userauthService.login(this.loginForm.value).subscribe((token: string) => {
-       token = token.replace(/^"(.*)"$/, '$1');
-       localStorage.setItem('authToken', token)
-       
-  });
+    this.userauthService
+      .login(this.loginForm.value)
+      .subscribe((token: string) => {
+        token = token.replace(/^"(.*)"$/, '$1');
+        localStorage.setItem('authToken', token);
+      });
   }
-
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ResetPassword } from 'src/app/models/resetPassword';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './password-settings.component.html',
   styleUrls: ['./password-settings.component.css'],
 })
-export class PasswordSettingsComponent {
+export class PasswordSettingsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -15,27 +16,28 @@ export class PasswordSettingsComponent {
   ) {}
 
   userId = '';
+  resetPasswordModel: ResetPassword = new ResetPassword();
+  showForgotPasswordButton = true;
+
   ngOnInit() {
     this.userId = localStorage.getItem('authToken') || '';
   }
-  
 
-  resetPassword(password: string, confirmPassword: string) {
-    if (password === confirmPassword) {
-      const request = { Token: this.userId, Password: password };
-      this.userService.resetPassword(this.userId, request).subscribe(
-        (response) => {
-          // Şifre sıfırlama başarılı
-          // Kullanıcıyı yönlendirebilir veya başka bir işlem yapabilirsiniz
+  resetPassword(): void {
+    this.userService
+      .resetPassword(this.resetPasswordModel, this.userId)
+      .subscribe(
+        (response: string) => {
+          console.log(response);
+          
+          localStorage.removeItem('authToken');
+          this.router.navigate(['/login']); 
         },
         (error) => {
-          // Şifre sıfırlama sırasında bir hata oluştu
           console.error(error);
         }
       );
-    } else {
-      // Şifreler uyuşmuyor, hata mesajı gösterilebilir
-    }
+    this.showForgotPasswordButton = true;
   }
 
   forgotPassword() {
@@ -47,5 +49,7 @@ export class PasswordSettingsComponent {
         // Hata işlemleri
       }
     );
+
+    this.showForgotPasswordButton = false;
   }
 }

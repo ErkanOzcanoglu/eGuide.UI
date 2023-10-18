@@ -4,14 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
-
+  
   loggedIn = false;
 
   isAuthenticated() {
     const userId = localStorage.getItem('userId');
     const authToken = localStorage.getItem('authToken');
-     this.loggedIn = userId !== null || authToken !== null;
+    this.loggedIn = userId !== null || authToken !== null;
     return this.loggedIn;
   }
 

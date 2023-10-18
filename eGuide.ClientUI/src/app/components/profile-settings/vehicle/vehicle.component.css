@@ -1,6 +1,6 @@
 /* styles.css veya styles.scss gibi bir stil dosyasında */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px; /* Kaydırma çubuğunun genişliği */
+  width: 1px; /* Kaydırma çubuğunun genişliği */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {

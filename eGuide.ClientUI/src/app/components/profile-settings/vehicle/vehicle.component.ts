@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserVehicle } from 'src/app/models/user-vehicle';
@@ -11,12 +11,13 @@ import { VehiclesService } from 'src/app/services/vehicles.service';
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.css'],
 })
-export class VehicleComponent {
+export class VehicleComponent implements OnInit {
+ 
   vehicle: Vehicle = new Vehicle();
   vehicleList: Vehicle[] = [];
   uservehicle: UserVehicle = new UserVehicle();
 
-  onSelectVehicle: boolean = false;
+  onSelectVehicle = false;
 
   brands: string[] = [];
   models: string[] = [];
@@ -24,8 +25,10 @@ export class VehicleComponent {
 
   selectedBrand = '';
   selectedModel = '';
-  primaryKey: string = '';
-  vehicleMode: boolean = false;
+  primaryKey = '';
+  vehicleMode = false;
+  vehicleMode2=false;
+
   editModeVehicle = false;
 
   constructor(
@@ -64,6 +67,13 @@ export class VehicleComponent {
       this.updatePrimaryKey(selectedBrand, this.selectedModel);
   }
 
+  onKeyDown(event: KeyboardEvent, vehicle: Vehicle) {
+    if (event.key === 'Enter') {
+      // yanlıs calısıyor
+      this.selectVehicle(vehicle);
+    }
+  }
+
   loadModelsByBrand(selectedBrand: string) {
     if (selectedBrand && selectedBrand !== 'default') {
       this.vehicleService.getModelsByBrand(selectedBrand).subscribe(
@@ -98,8 +108,8 @@ export class VehicleComponent {
   }
 
   addVehicle(): void {
-    var userId = localStorage.getItem('authToken');
-    var vehicleId = localStorage.getItem('vehicleId');
+    const userId = localStorage.getItem('authToken');
+    const vehicleId = localStorage.getItem('vehicleId');
 
     if (userId !== null && vehicleId !== null) {
       const userVehicle: UserVehicle = {
@@ -121,7 +131,7 @@ export class VehicleComponent {
   }
 
   getVehicleById() {
-    var userId = localStorage.getItem('authToken');
+    const userId = localStorage.getItem('authToken');
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
@@ -142,9 +152,12 @@ export class VehicleComponent {
 
   deleteVehicle() {
     const vehicleId = localStorage.getItem('vehicleId');
+    const userId =localStorage.getItem('authToken');
 
-    if (vehicleId) {
-      this.userVehicleService.deleteUserVehicleByVehicleId(vehicleId).subscribe(
+    console.log(vehicleId);
+    console.log(userId);
+    if (vehicleId!==null && userId!==null) {
+      this.userVehicleService.deleteUserVehicleByVehicleId(userId,vehicleId).subscribe(
         () => {
           console.log('Araç başarıyla silindi.');
         },
@@ -157,31 +170,19 @@ export class VehicleComponent {
     }
   }
 
-  // selectVehicle(selectedVehicle: any) {
-  //   console.log('Seçilen Araç:', selectedVehicle.brand, selectedVehicle.model);
-
-  //   this.selectedBrand = selectedVehicle.brand;
-  //   this.selectedModel = selectedVehicle.model;
-
-  //   if (this.selectedBrand && this.selectedModel) {
-  //     this.updatePrimaryKey(this.selectedBrand, this.selectedModel);
-  //   } else {
-  //     this.primaryKey = 'xxx';
-  //   }
-  // }
-
-  selectVehicle(selectedVehicle: any) {
+  selectVehicle(selectedVehicle: Vehicle) {
     console.log('Seçilen Araç:', selectedVehicle.brand, selectedVehicle.model);
+    localStorage.setItem('brand', selectedVehicle.brand);
 
     this.selectedBrand = selectedVehicle.brand;
     this.selectedModel = selectedVehicle.model;
 
     if (this.selectedBrand && this.selectedModel) {
       this.updatePrimaryKey(this.selectedBrand, this.selectedModel);
-      localStorage.setItem('vehicleToUpdatedId', this.primaryKey);
     } else {
       this.primaryKey = 'xxx';
     }
+    
   }
 
   updateUserVehicle() {
@@ -200,19 +201,4 @@ export class VehicleComponent {
       );
     }
   }
-
-  // performAddVehicle() {
-  //   this.addVehicle();
-  //   this.onModeChangeVehicle();
-  // }
-
-  // performDeleteVehicle() {
-  //   this.deleteVehicle();
-  //   this.onModeChangeVehicle();
-  // }
-
-  // performUpdateVehicle() {
-  //   this.updateUserVehicle();
-  //   this.onModeChangeVehicle();
-  // }
 }
