@@ -6,11 +6,42 @@ import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './screens/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserAuthComponent } from './components/user-auth/user-auth.component';
+import { AuthGuard } from './models/auth-guard';
+import { AuthService } from './services/auth.service';
+import { LoginComponent } from './components/user-login/login.component';
+import { CommonModule } from '@angular/common';
+import { SettingsComponent } from './screens/settings/settings/settings.component';
+import { VehicleComponent } from './components/profile-settings/vehicle/vehicle.component';
+import { PasswordSettingsComponent } from './components/profile-settings/password-settings/password-settings.component';
+import { UserSettingsComponent } from './components/profile-settings/user-settings/user-settings.component';
+import { FavouritesComponent } from './components/profile-settings/favourites/favourites.component';
 
 @NgModule({
-  declarations: [AppComponent, MapComponent, NavbarComponent, HomeComponent],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [],
+  declarations: [
+    AppComponent,
+    MapComponent,
+    NavbarComponent,
+    HomeComponent,
+    UserAuthComponent,
+    LoginComponent,
+    SettingsComponent,
+    VehicleComponent,
+    FavouritesComponent,
+    PasswordSettingsComponent,
+    UserSettingsComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+  ],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
