@@ -9,26 +9,27 @@
       rel="stylesheet"
     />
   </head> -->
-    <style>
+
+<style>
   .custom-panel {
-    border: 2px solid #9e0404; 
-  
+    border: 2px solid #9e0404;
+
     .text {
-    color: #4b4b4c; 
+      color: #4b4b4c;
     }
 
-   .vehicle-list-item {
-    color: rgb(96, 96, 96) /* Yazı rengi mavi */
-   
-  }
+    .vehicle-list-item {
+      color: rgb(117, 117, 117); /* Yazı rengi mavi */
+    }
 
-  .field-label {
-    color: #4e4d4d; 
+    .field-label {
+      color: #4e4d4d;
     }
 
     .input-text {
-    color: rgb(96, 96, 96); 
+      color: rgb(96, 96, 96);
     }
+    
   }
 </style>
 <div class="bg-gray-100">
@@ -36,17 +37,17 @@
     <div class="mb-4">
       <div class="bg-white custom-panel rounded-lg shadow p-4 h-96 flex">
         <div class="w-1/2">
-          <h1 class="text-2xl font-semibold mb-5 text">VEHICLE</h1>
+          <h1 class="text-3xl font-semibold mb-5 text">VEHICLE</h1>
           <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold mb-3 field-label">Vehicles</h2>
+            <h2 class="text-xl font-semibold mb-3 field-label ml-5">Vehicles</h2>
           </div>
-          <div class="mt-4 overflow-auto mr-20 custom-scrollbar h-[160px]">
-            <ng-container *ngFor="let vehicle of vehicleList; let i = index ">
+          <div class="mt-4 overflow-auto mr-20 custom-scrollbar h-[160px] ml-20">
+            <ng-container *ngFor="let vehicle of vehicleList; let i = index">
               <p
                 (click)="selectVehicle(vehicle)"
                 (keydown)="onKeyDown($event, vehicle)"
                 tabindex="0"
-                class="vehicle-list-item"
+                class="vehicle-list-item text-2xl font-medium"
               >
                 {{ vehicle.brand }} - {{ vehicle.model }}
               </p>
@@ -61,7 +62,7 @@
                 <label for="brand">Brand:</label>
                 <select
                   id="brand"
-                  class="w-80 border p-2 rounded bg-white "
+                  class="w-80 border p-2 rounded bg-white"
                   (change)="onBrandSelected($event)"
                 >
                   <option [value]="selectedBrand" [selected]="vehicleMode">
@@ -82,10 +83,10 @@
                   class="w-80 border p-2 rounded bg-white"
                   (change)="onModelSelected($event)"
                 >
-                   <option [value]="selectedModel" [selected]="vehicleMode2">
+                  <option [value]="selectedModel" [selected]="vehicleMode2">
                     {{
                       selectedModel ||
-                        (vehicleMode2 ?  "default" : "Please select a model")                       
+                        (vehicleMode2 ? "default" : "Please select a model")
                     }}
                   </option>
                   <option *ngFor="let model of models" [value]="model">
@@ -104,7 +105,7 @@
                 </button>
                 <button
                   type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
                   *ngIf="!editModeVehicle"
                   (click)="onModeChangeVehicle()"
                 >
@@ -112,7 +113,7 @@
                 </button>
                 <button
                   type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
                   *ngIf="editModeVehicle"
                   (click)="deleteVehicle()"
                 >
@@ -120,11 +121,19 @@
                 </button>
                 <button
                   type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
+                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
                   *ngIf="editModeVehicle"
                   (click)="updateUserVehicle()"
                 >
                   Update
+                </button>
+                <button
+                  type="button"
+                  class="bg-red-400 text-white px-2 py-1 mx-2 rounded hover-red-600 focus:outline-none"
+                  *ngIf="editModeVehicle"
+                  (click)="cancelVehicleEdit()"
+                >
+                  Cancel
                 </button>
               </div>
             </form>
