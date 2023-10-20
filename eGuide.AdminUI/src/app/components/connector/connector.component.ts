@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 
@@ -7,7 +7,7 @@ import { ConnectorService } from 'src/app/services/connector.service';
   templateUrl: './connector.component.html',
   styleUrls: ['./connector.component.css'],
 })
-export class ConnectorComponent {
+export class ConnectorComponent implements OnInit {
   connectors: Connector[] = [];
   constructor(private connectorService: ConnectorService) {}
 

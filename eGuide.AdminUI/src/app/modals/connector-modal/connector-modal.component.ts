@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { Validators } from '@angular/forms';
   templateUrl: './connector-modal.component.html',
   styleUrls: ['./connector-modal.component.css'],
 })
-export class ConnectorModalComponent {
+export class ConnectorModalComponent implements OnInit {
   connector = new Connector();
   connectorForm: FormGroup = new FormGroup({});
 
@@ -31,7 +31,9 @@ export class ConnectorModalComponent {
 
   addConnector() {
     this.connectorService.createConnector(this.connectorForm.value).subscribe({
-      next: (data) => {},
+      next: (data) => {
+        this.connector = data;
+      },
     });
   }
 }

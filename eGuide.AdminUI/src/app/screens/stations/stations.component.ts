@@ -7,11 +7,18 @@ import { Component } from '@angular/core';
 })
 export class StationsComponent {
   switchStatus = false;
+  screenType = true;
 
-  constructor() {}
+  setScreenType() {
+    this.screenType = !this.screenType;
+  }
 
   toggleSwitch() {
     this.switchStatus = !this.switchStatus;
-    console.log(this.switchStatus);
+  }
+  mapClickedData: any;
+
+  onMapClick(event: any) {
+    this.mapClickedData = event;
   }
 }

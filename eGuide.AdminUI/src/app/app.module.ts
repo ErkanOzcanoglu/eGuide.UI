@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { loadModules } from 'esri-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +20,8 @@ import { SocketFormComponent } from './components/socket-form/socket-form.compon
 import { MatSelectModule } from '@angular/material/select';
 import { StationSocketsComponent } from './components/station-sockets/station-sockets.component';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { StationListComponent } from './components/station-list/station-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { StationSocketsComponent } from './components/station-sockets/station-so
     SocketComponent,
     SocketFormComponent,
     StationSocketsComponent,
+    StationListComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +45,7 @@ import { StationSocketsComponent } from './components/station-sockets/station-so
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

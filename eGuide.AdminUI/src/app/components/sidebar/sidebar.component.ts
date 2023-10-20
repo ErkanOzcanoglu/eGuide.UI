@@ -12,6 +12,11 @@ interface SideNavToggle {
 })
 export class SidebarComponent {
   @Output() closeSidenav = new EventEmitter<SideNavToggle>();
+  handleKeyup(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.collapseSideNav = true;
+    }
+  }
 
   collapseManagement = false;
   collapseCustomization = false;

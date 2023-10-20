@@ -24,11 +24,15 @@
         *ngIf="collapseSideNav"
         [ngClass]="collapseSideNav ? 'ml-4' : 'ml-10'"
         class="fa fa-bars cursor-pointer text-2xl mr-2"
+        tabindex="0"
+        (keyup)="handleKeyup($event)"
       ></div>
       <!--? close icon -->
       <div
         *ngIf="!collapseSideNav"
         (click)="setSideNav()"
+        tabindex="0"
+        (keyup)="handleKeyup($event)"
         class="fa fa-times cursor-pointer text-2xl"
       ></div>
     </div>
@@ -62,7 +66,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a href="#" class="active">
+          <a class="active cursor-pointer" href="/dashboard">
             <i class="fa fa-chart-line"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Dashboard</span>
           </a>
@@ -74,20 +78,23 @@
             [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
             class="flex justify-between hover:bg-blue-600 hover:rounded-2xl"
             (click)="hideManagement()"
+            tabindex="0"
+            (keyup)="handleKeyup($event)"
           >
-            <a href="#">
+            <a class="cursor-pointer">
               <!-- list-check icon -->
               <i class="fas fa-list"></i>
               <span [ngClass]="collapseSideNav ? 'hidden' : ''"
                 >Management</span
               >
             </a>
-            <button
+            <div
+              class="mr-2 flex justify-center items-center"
               *ngIf="!collapseSideNav"
               [ngClass]="
                 collapseManagement ? 'fas fa-caret-up' : 'fas fa-caret-down'
               "
-            ></button>
+            ></div>
           </div>
           <ul
             class="sumbenu-list justify-start w-full"
@@ -100,7 +107,7 @@
               </a>
             </li>
             <li class="submenu-list">
-              <a href="#">
+              <a class="cursor-pointer">
                 <i class="fa fa-hippo"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Facility</span
@@ -109,7 +116,7 @@
             </li>
 
             <li class="submenu-list">
-              <a href="#">
+              <a class="cursor-pointer">
                 <i class="fa fa-user"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''">Car</span>
               </a>
@@ -121,7 +128,7 @@
               </a>
             </li>
             <li class="submenu-list">
-              <a href="#">
+              <a class="cursor-pointer">
                 <i class="fas fa-building"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Social Media</span
@@ -135,7 +142,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a href="#">
+          <a class="cursor-pointer">
             <i class="fas fa-user"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Services</span>
           </a>
@@ -145,39 +152,42 @@
         <li
           class="menu-list items-center flex flex-col"
           (click)="hideCustomization()"
+          tabindex="0"
+          (keyup)="handleKeyup($event)"
         >
           <div
             [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
             class="flex justify-between hover:bg-blue-600 hover:rounded-2xl"
           >
-            <a href="#">
+            <a class="cursor-pointer">
               <i class="fas fa-cog"></i>
               <span [ngClass]="collapseSideNav ? 'hidden' : ''"
                 >Customization</span
               >
             </a>
-            <button
+            <div
+              class="mr-2 justify-center flex items-center"
               *ngIf="!collapseSideNav"
               [ngClass]="
                 collapseCustomization ? 'fas fa-caret-up' : 'fas fa-caret-down'
               "
-            ></button>
+            ></div>
           </div>
           <ul *ngIf="collapseCustomization" class="justify-start w-full">
             <li class="submenu-list">
-              <a href="#">
+              <a class="cursor-pointer">
                 <i class="fas fa-car"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''">Navbar</span>
               </a>
             </li>
             <li class="submenu-list">
-              <a href="#">
+              <a class="cursor-pointer">
                 <i class="fas fa-subway"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''">Footer</span>
               </a>
             </li>
             <li class="submenu-list">
-              <a href="#">
+              <a class="cursor-pointer">
                 <i class="fas fa-building"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''">Color</span>
               </a>
@@ -189,7 +199,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a href="#">
+          <a class="cursor-pointer">
             <i class="fas fa-comments"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Chat</span>
           </a>
@@ -199,7 +209,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a href="#">
+          <a class="cursor-pointer">
             <i class="fas fa-cog"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Settings</span>
           </a>
@@ -222,7 +232,7 @@
           [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a href="#" class="active gap-5">
+          <a class="cursor-pointer" class="active gap-5">
             <i class="fa fa-sign-out-alt"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Logout</span>
           </a>

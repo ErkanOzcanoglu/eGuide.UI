@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Station } from '../models/station';
 import { environment } from '../environments/environment';
+import { Station } from '../models/station';
 
 @Injectable({
   providedIn: 'root',
 })
-  
 export class StationService {
   constructor(private http: HttpClient, private router: Router) {}
 

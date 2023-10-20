@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { SocketService } from 'src/app/services/socket.service';
@@ -9,7 +9,7 @@ import { SocketService } from 'src/app/services/socket.service';
   templateUrl: './socket-form.component.html',
   styleUrls: ['./socket-form.component.css'],
 })
-export class SocketFormComponent {
+export class SocketFormComponent implements OnInit {
   switchStatus = false;
   connectors: Connector[] = [];
   socketForm: FormGroup = new FormGroup({});
@@ -55,6 +55,5 @@ export class SocketFormComponent {
 
   toggleSwitch() {
     this.switchStatus = !this.switchStatus;
-    console.log(this.switchStatus);
   }
 }
