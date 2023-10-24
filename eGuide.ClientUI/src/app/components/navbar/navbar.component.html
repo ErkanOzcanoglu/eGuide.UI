@@ -1,34 +1,40 @@
-<div class="navbar bg-base-100">
-  <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl">eGuide</a>
-  </div>
-  <div class="flex-none gap-2">
-    <div class="form-control">
-      <input
-        type="text"
-        placeholder="Search"
-        class="input input-bordered w-24 md:w-auto"
-      />
-    </div>
-    <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">
-          <img src="https://i.pravatar.cc/500?img=32" />
-        </div>
-      </label>
-      <ul
-        tabindex="0"
-        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+<div class="flex justify-center sticky top-5 z-20">
+  <div
+    class="navbar h-[80px] bg-[#ffffff] bg-opacity-95 rounded-full w-[95vw] flex justify-between px-10"
+  >
+    <div>
+      <a
+        href="/"
+        class="text-xl text-black hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        >eGuide</a
       >
-        <li>
-          <a class="justify-between">
-            Profile
-            <span class="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
-      </ul>
+    </div>
+    <div>
+      <a
+        href="/"
+        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >Home</a
+      >
+      <!-- <a
+        href=""
+        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >About</a
+      >
+      <a
+        href=""
+        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >Contact</a
+      > -->
+      <a
+        href="/login"
+        class="text-lg text-black font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
+        >Login</a
+      >
+      <a
+        href="/register"
+        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >Register</a
+      >
     </div>
   </div>
 </div>

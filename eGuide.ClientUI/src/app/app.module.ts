@@ -20,6 +20,7 @@ import { UserSettingsComponent } from './components/profile-settings/user-settin
 import { FavouritesComponent } from './components/profile-settings/favourites/favourites.component';
 import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { EmailLinkConfirmComponent } from './components/password-change/email-li
     UserSettingsComponent,
     ForgotUserPasswordComponent,
     EmailLinkConfirmComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

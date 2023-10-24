@@ -10,11 +10,11 @@ import { ForgotUserPasswordComponent } from './components/password-change/forgot
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: 'password-change', component: PasswordSettingsComponent },
   { path: 'forgot-password/:token', component: ForgotUserPasswordComponent },
   { path: 'email-confirm', component: EmailLinkConfirmComponent },
-
+  { path: '', component: HomeComponent },
+  { path: 'station/:name', component: HomeComponent },
   {
     path: 'settings',
     component: SettingsComponent,

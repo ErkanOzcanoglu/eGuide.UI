@@ -1,0 +1,20 @@
+#searchDiv {
+  background-color: #f8f8f8; /* Arka plan rengini değiştirin */
+  border-radius: 10px; /* Kenar yuvarlaklığını ekleyin */
+  padding: 10px; /* İçeriği biraz daha genişletmek için */
+  margin-bottom: 10px; /* Gerekirse, aşağıya doğru biraz boşluk ekleyin */
+  border: none !important;
+  outline: none !important;
+  /* Diğer stil ayarlarını buraya ekleyebilirsiniz */
+}
+
+#searchDiv input {
+  border: none !important;
+  outline: none !important;
+  width: 100%; /* Giriş alanını dolduracak şekilde ayarlayın */
+}
+
+#popupDiv {
+  background-color: aqua;
+  color: aqua;
+}

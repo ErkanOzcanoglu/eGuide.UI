@@ -1,0 +1,108 @@
+<div>
+  <form [formGroup]="socketForm" (ngSubmit)="addSocket()">
+    <!--! power -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Power
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="power"
+        formControlName="power"
+        type="text"
+        placeholder="Enter Power"
+      />
+    </div>
+
+    <!--! voltage  -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Voltage
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="voltage"
+        formControlName="voltage"
+        type="text"
+        placeholder="Enter Voltage"
+      />
+    </div>
+
+    <!--! current -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Current
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="current"
+        formControlName="current"
+        type="text"
+        placeholder="Enter Current"
+      />
+    </div>
+
+    <!--! type -->
+    <div class="mb-4">
+      <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
+        Type
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="type"
+        formControlName="type"
+        type="text"
+        placeholder="Enter Type"
+      />
+    </div>
+
+    <!--! name -->
+    <div class="mb-4">
+      <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
+        Name
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="type"
+        formControlName="name"
+        type="name"
+        placeholder="Enter Name"
+      />
+    </div>
+
+    <!--! connector -->
+    <div class="mb-4">
+      <div class="flex w-full justify-between">
+        <label
+          class="block text-gray-200 text-sm font-bold mb-2"
+          for="facilities"
+        >
+          Connector
+        </label>
+      </div>
+      <select
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="connector"
+        formControlName="connectorId"
+      >
+        <option value="" disabled selected>Select Connector</option>
+        <option *ngFor="let con of connectors" [value]="con.id">
+          {{ con.type }}
+        </option>
+      </select>
+    </div>
+
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+</div>
