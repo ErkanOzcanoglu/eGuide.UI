@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+interface Point {
+  lat: number;
+  lng: number;
+}
 @Component({
   selector: 'app-stations',
   templateUrl: './stations.component.html',
@@ -8,6 +12,8 @@ import { Component } from '@angular/core';
 export class StationsComponent {
   switchStatus = false;
   screenType = true;
+  mapClickedData: any;
+  mapFormAddressData: any;
 
   setScreenType() {
     this.screenType = !this.screenType;
@@ -16,9 +22,14 @@ export class StationsComponent {
   toggleSwitch() {
     this.switchStatus = !this.switchStatus;
   }
-  mapClickedData: any;
 
   onMapClick(event: any) {
     this.mapClickedData = event;
+    console.log(this.mapClickedData, 'mapClickedData');
+  }
+
+  onFormSubmit(event: Point) {
+    this.mapFormAddressData = event;
+    console.log(this.mapFormAddressData, 'mapFormAddressData');
   }
 }

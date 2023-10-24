@@ -7,7 +7,9 @@ import { LoginComponent } from './components/user-login/login.component';
 import { SettingsComponent } from './screens/settings/settings/settings.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  // dynamic path link
+  { path: 'station/:name', component: HomeComponent },
   {
     path: 'settings',
     component: SettingsComponent,

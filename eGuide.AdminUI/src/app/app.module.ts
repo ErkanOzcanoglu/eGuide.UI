@@ -22,6 +22,10 @@ import { StationSocketsComponent } from './components/station-sockets/station-so
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { StationListComponent } from './components/station-list/station-list.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +49,9 @@ import { StationListComponent } from './components/station-list/station-list.com
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,10 +1,16 @@
 import { SocketService } from './../../services/socket.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Socket } from 'src/app/models/socket';
 import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
+import { ToastrService } from 'ngx-toastr';
+
+interface Point {
+  lat: number;
+  lng: number;
+}
 @Component({
   selector: 'app-station-form',
   templateUrl: './station-form.component.html',
@@ -20,18 +26,25 @@ export class StationFormComponent implements OnInit {
   stationModelForm: FormGroup = new FormGroup({});
   stationSocketForm: FormGroup = new FormGroup({});
   selectedSocketsForm: FormGroup = new FormGroup({});
+
+  apiLoginErrorMessages: string[] = [];
+  submitted = false;
+
   @Input() mapClickedData: any;
+  @Output() formAddressData = new EventEmitter<Point>();
+
   constructor(
     private formBuilder: FormBuilder,
     private socketService: SocketService,
     private stationService: StationService,
     private stationModelService: StationModelService,
-    private stationSocketService: StationSocketService
+    private stationSocketService: StationSocketService,
+    private toastr: ToastrService
   ) {
     this.stationForm = this.formBuilder.group({
-      address: [''],
-      latitude: [''],
-      longitude: [''],
+      address: ['', Validators.required],
+      latitude: ['', Validators.required],
+      longitude: ['', Validators.required],
       stationModelId: ['', Validators.required],
     });
   }
@@ -66,7 +79,7 @@ export class StationFormComponent implements OnInit {
       address: [''],
       latitude: [''],
       longitude: [''],
-      stationModelId: ['', Validators.required],
+      stationModelId: [''],
     });
 
     this.stationModelForm = this.formBuilder.group({
@@ -74,51 +87,80 @@ export class StationFormComponent implements OnInit {
     });
 
     this.selectedSocketsForm = this.formBuilder.group({
-      sockets: [[], Validators.required],
+      sockets: ['', Validators.required],
     });
 
     this.stationSocketForm = this.formBuilder.group({
       socketId: ['', Validators.required],
-      stationModelId: ['', Validators.required],
+      stationModelId: [''],
     });
   }
 
   onSubmit() {
-    this.stationModelService
-      .createStationModel(this.stationModelForm.value)
-      .subscribe({
-        next: (stationModel) => {
-          this.stationForm.patchValue({ stationModelId: stationModel.id });
-          console.log(this.stationForm.value);
-          // conver lat and lng to string
-          this.stationForm.value.latitude =
-            this.stationForm.value.latitude.toString();
-          this.stationForm.value.longitude =
-            this.stationForm.value.longitude.toString();
-          this.stationService.createStation(this.stationForm.value).subscribe({
-            next: (station) => {
-              this.stationId = station.id;
-              this.selectedSocketsForm.value.sockets.forEach(
-                (socketId: number) => {
-                  this.stationSocketForm.patchValue({
-                    socketId: socketId,
-                    stationModelId: stationModel.id,
-                  });
-                  this.stationSocketService
-                    .createStationSocket(this.stationSocketForm.value)
-                    .subscribe({
-                      next: (stationSocket) => {
-                        console.log(stationSocket);
-                      },
-                      error: (err) => {
-                        console.log(err);
-                      },
-                    });
-                }
-              );
-            },
-          });
-        },
-      });
+    this.submitted = true;
+    if (this.stationForm.invalid) {
+      console.log(this.stationForm.value);
+      this.toastr.error('Station creation failed!');
+      return;
+    } else {
+      this.stationModelService
+        .createStationModel(this.stationModelForm.value)
+        .subscribe({
+          next: (stationModel) => {
+            this.stationForm.patchValue({ stationModelId: stationModel.id });
+            console.log(this.stationForm.value);
+            // conver lat and lng to string
+            this.stationForm.value.latitude =
+              this.stationForm.value.latitude.toString();
+            this.stationForm.value.longitude =
+              this.stationForm.value.longitude.toString();
+            this.stationService
+              .createStation(this.stationForm.value)
+              .subscribe({
+                next: (station) => {
+                  this.toastr.success('Station created successfully!');
+                  this.stationId = station.id;
+                  this.selectedSocketsForm.value.sockets.forEach(
+                    (socketId: number) => {
+                      this.stationSocketForm.patchValue({
+                        socketId: socketId,
+                        stationModelId: stationModel.id,
+                      });
+                      this.stationSocketService
+                        .createStationSocket(this.stationSocketForm.value)
+                        .subscribe({
+                          next: (stationSocket) => {
+                            console.log(stationSocket);
+                          },
+                          error: (err) => {
+                            console.log(err);
+                          },
+                        });
+                    }
+                  );
+                },
+                error: (err) => {
+                  console.log(err);
+                  this.toastr.error('Station creation failed!');
+                },
+              });
+          },
+        });
+    }
+  }
+
+  submitForm() {
+    this.onFormSubmit();
+    console.log(this.stationForm.value, 'submit form');
+  }
+
+  onFormSubmit() {
+    const addressData = {
+      address: this.stationForm.value.address,
+      lat: this.stationForm.value.latitude,
+      lng: this.stationForm.value.longitude,
+    };
+    this.formAddressData.emit(addressData);
+    console.log(addressData, 'addressData');
   }
 }

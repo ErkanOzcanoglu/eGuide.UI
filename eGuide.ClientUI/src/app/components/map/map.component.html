@@ -4,9 +4,23 @@
   class="w-full border-none min-h-[500px] h-full absolute top-0 bottom-0"
 >
   <!-- Map Buttons -->
+  <div class="absolute top-36 left-[3vw] shadow shadow-black rounded-xl">
+    <app-search (searchType)="search($event)"></app-search>
+  </div>
   <div
     class="absolute z-20 top-36 right-[2.5vw] flex flex-col gap-y-2 w-12 h-12"
   >
+    <!-- <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      (click)="zoomIn()"
+    >
+      <img
+        src="../../../assets/zoom-in.svg"
+        alt="zoom-in"
+        class="w-full h-full object-cover"
+      />
+    </button> -->
+
     <!-- ! ZoomIn button -->
     <button
       class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"

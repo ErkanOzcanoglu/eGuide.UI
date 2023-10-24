@@ -1,5 +1,6 @@
 <form [formGroup]="stationForm" action="" class="w-full h-full">
   <div class="w-full h-full flex flex-col">
+    <!-- ! address and lat -->
     <div class="flex justify-between">
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
@@ -28,6 +29,7 @@
           formControlName="address"
           placeholder="Enter Address"
           [value]="mapClickedData?.address"
+          [class.is-invalid]="submitted && stationForm.get('address')?.errors"
         />
         <input
           *ngIf="!switchStatus"
@@ -37,9 +39,11 @@
           formControlName="latitude"
           placeholder="Enter Latitude"
           [value]="mapClickedData?.lat"
+          [class.is-invalid]="submitted && stationForm.get('latitude')?.errors"
         />
       </div>
     </div>
+    <!-- ! lng -->
     <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
         <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
@@ -53,8 +57,10 @@
         formControlName="longitude"
         placeholder="Enter Longitude"
         [value]="mapClickedData?.lng"
+        [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
       />
     </div>
+    <!-- ! station model name -->
     <form action="" [formGroup]="stationModelForm">
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
@@ -74,6 +80,7 @@
         />
       </div>
     </form>
+    <!-- ! station name -->
     <div class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
         <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
@@ -86,8 +93,10 @@
         type="text"
         formControlName="name"
         placeholder="Enter Name"
+        [class.is-invalid]="submitted && stationForm.get('name')?.errors"
       />
     </div>
+    <!-- ! station sockets -->
     <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
         <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
@@ -110,10 +119,15 @@
         <form [formGroup]="selectedSocketsForm">
           <mat-form-field color="warn">
             <mat-label>Toppings</mat-label>
-            <mat-select formControlName="sockets" multiple>
-              <mat-option *ngFor="let socket of sockets" [value]="socket.id">{{
-                socket.type
-              }}</mat-option>
+            <mat-select required="true" formControlName="sockets" multiple>
+              <mat-option
+                [class.is-invalid]="
+                  submitted && selectedSocketsForm.get('sockets')?.errors
+                "
+                *ngFor="let socket of sockets"
+                [value]="socket.id"
+                >{{ socket.type }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </form>
@@ -127,6 +141,13 @@
         (click)="onSubmit()"
       >
         Submit
+      </button>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+        (click)="submitForm()"
+      >
+        Check
       </button>
     </div>
   </div>

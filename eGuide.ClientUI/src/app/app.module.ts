@@ -18,6 +18,7 @@ import { VehicleComponent } from './components/profile-settings/vehicle/vehicle.
 import { PasswordSettingsComponent } from './components/profile-settings/password-settings/password-settings.component';
 import { UserSettingsComponent } from './components/profile-settings/user-settings/user-settings.component';
 import { FavouritesComponent } from './components/profile-settings/favourites/favourites.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { FavouritesComponent } from './components/profile-settings/favourites/fa
     FavouritesComponent,
     PasswordSettingsComponent,
     UserSettingsComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
