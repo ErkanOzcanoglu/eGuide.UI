@@ -146,6 +146,9 @@ export class MapComponent implements OnInit {
           container: 'viewDiv',
         });
 
+        this.mapView = view;
+        view.ui.remove('zoom');
+
         const search = new Search({
           view: view,
         });

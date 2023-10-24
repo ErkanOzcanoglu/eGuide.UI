@@ -33,7 +33,10 @@ export class MapComponent implements OnInit {
     }
   }
 
-  constructor(private stationService: StationService, private formBuilder: FormBuilder) {
+  constructor(
+    private stationService: StationService,
+    private formBuilder: FormBuilder
+  ) {
     // data for the basemap gallery
     this.basemapss = [
       {
@@ -72,7 +75,7 @@ export class MapComponent implements OnInit {
       text: [''],
     });
   }
-  
+
   ngOnChanges(): void {
     console.log(this.searchType);
   }
@@ -127,9 +130,6 @@ export class MapComponent implements OnInit {
 
       // show station points
       this.getStations();
-
-      if (this.searchType === 'station') {
-        this.stationService.getStationByName
     });
   }
 
@@ -183,6 +183,8 @@ export class MapComponent implements OnInit {
           },
 
           popupTemplate: {
+            // add style: 'width: 300px' to the popupTemplate
+
             title: '{name}',
             content: [
               {
@@ -207,6 +209,7 @@ export class MapComponent implements OnInit {
                 ],
               },
             ],
+            showAttachments: false,
           },
         };
 

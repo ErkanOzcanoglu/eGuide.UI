@@ -2,14 +2,14 @@
   <table>
     <thead>
       <tr>
-        <th>Address</th>
-        <th>Latitude</th>
+        <th class="w-[300px] bg-black">Address</th>
+        <th class="">Latitude</th>
         <th>Longtitude</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let station of stations">
-        <td>{{ station.address }}</td>
+      <tr class="border-b-1 gap-y-2" *ngFor="let station of stations">
+        <td class="">{{ station.address }}</td>
         <td>{{ station.latitude }}</td>
         <td>{{ station.longitude }}</td>
         <td>
