@@ -26,14 +26,12 @@
     color: #000;
   }
 
- 
   .grid-container {
-    display: flex; 
-    gap: 20px; 
-    align-items: stretch; 
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
   }
 
- 
   .user-profile,
   .custom-panel {
     flex: 1;
@@ -41,7 +39,6 @@
     flex-direction: column;
   }
 
-  
   .custom-panel,
   .custom-panel {
     align-items: stretch;
@@ -52,7 +49,7 @@
   }
 
   .label-password {
-    color: #4e4d4d; 
+    color: #4e4d4d;
   }
 
   .input-text {
@@ -60,12 +57,12 @@
   }
 
   .field-label {
-  margin-bottom: 10px; 
-}
+    margin-bottom: 10px;
+  }
 
-.input-text {
-  margin-bottom: 10px; /* Input alanları arasında 10 piksel boşluk bırakır */
-}
+  .input-text {
+    margin-bottom: 10px; /* Input alanları arasında 10 piksel boşluk bırakır */
+  }
 </style>
 
 <div class="bg-gray-100">
@@ -91,7 +88,7 @@
               Edit
             </button>
             <button
-             *ngIf="editMode"
+              *ngIf="editMode"
               (click)="onCancelClick()"
               class="bg-red-400 text-white px-2 py-1 rounded hover-red-600 focus:outline-none"
             >
@@ -100,7 +97,7 @@
           </div>
           <div class="mt-4" *ngIf="user">
             <p>
-              <span class=" field-label text-xl">Name: </span>
+              <span class="field-label text-xl">Name: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -110,7 +107,7 @@
               />
             </p>
             <p>
-              <span class=" field-label text-xl">Surname: </span>
+              <span class="field-label text-xl">Surname: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -120,7 +117,7 @@
               />
             </p>
             <p>
-              <span class=" field-label text-xl">E-mail: </span>
+              <span class="field-label text-xl">E-mail: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -130,17 +127,29 @@
               />
             </p>
           </div>
+          <div class="mt-20 w-50 flex">
+            <span>
+              Forgot your password?
+              <a
+                routerLink="/email-confirm"
+                class="text-blue-600 hover:text-blue-800 hover:underline"
+                >Change Password</a
+              >
+            </span>
+          </div>
         </div>
       </div>
       <!-- second person profile -->
       <div class="bg-white custom-panel rounded-lg shadow p-4">
         <div class="flex items-center justify-between">
-          <h1 class="text-3xl font-semibold text">Change Password</h1>
+          <h1 class="text-3xl font-semibold text">Burasi kaldirilacak</h1>
         </div>
         <!-- Şifre Sıfırlama Formu -->
         <form (ngSubmit)="resetPassword()">
           <div class="mt-4">
-            <label for="password" class="label-password text-xl">New Password</label>
+            <label for="password" class="label-password text-xl"
+              >New Password</label
+            >
             <!-- Rengi değiştirilen etiket -->
             <input
               type="password"
@@ -152,7 +161,8 @@
             />
           </div>
           <div class="mt-4">
-            <label for="confirmPassword" class="label-password text-xl">Confirm Password</label
+            <label for="confirmPassword" class="label-password text-xl"
+              >Confirm Password</label
             >
             <!-- Rengi değiştirilen etiket -->
             <input

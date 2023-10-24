@@ -3,8 +3,6 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
-import { UserVehicle } from 'src/app/models/user-vehicle';
-import { Vehicle } from 'src/app/models/vehicle';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,7 +13,6 @@ import { UserService } from 'src/app/services/user.service';
 export class UserSettingsComponent implements OnInit {
   user: User = new User();
   resetPasswordModel: ResetPassword = new ResetPassword();
-  onSelectVehicle = false;
   editMode = false;
   userId = '';
 
@@ -24,7 +21,6 @@ export class UserSettingsComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -48,8 +44,8 @@ export class UserSettingsComponent implements OnInit {
   }
 
   onCancelClick() {
-    // Değişiklikleri iptal etmek için gerekli kod
-    this.editMode = false; // Edit modunu iptal et
+   
+    this.editMode = false; 
   }
 
   onSaveClick() {
