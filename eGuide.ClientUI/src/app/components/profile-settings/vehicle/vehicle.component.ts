@@ -12,7 +12,6 @@ import { VehiclesService } from 'src/app/services/vehicles.service';
   styleUrls: ['./vehicle.component.css'],
 })
 export class VehicleComponent implements OnInit {
- 
   vehicle: Vehicle = new Vehicle();
   vehicleList: Vehicle[] = [];
   uservehicle: UserVehicle = new UserVehicle();
@@ -27,7 +26,7 @@ export class VehicleComponent implements OnInit {
   selectedModel = '';
   primaryKey = '';
   vehicleMode = false;
-  vehicleMode2=false;
+  vehicleMode2 = false;
 
   editModeVehicle = false;
 
@@ -45,6 +44,10 @@ export class VehicleComponent implements OnInit {
 
   onModeChangeVehicle() {
     this.editModeVehicle = !this.editModeVehicle;
+  }
+
+  cancelVehicleEdit() {
+    this.editModeVehicle = false;   
   }
 
   getBrands() {
@@ -152,19 +155,21 @@ export class VehicleComponent implements OnInit {
 
   deleteVehicle() {
     const vehicleId = localStorage.getItem('vehicleId');
-    const userId =localStorage.getItem('authToken');
+    const userId = localStorage.getItem('authToken');
 
     console.log(vehicleId);
     console.log(userId);
-    if (vehicleId!==null && userId!==null) {
-      this.userVehicleService.deleteUserVehicleByVehicleId(userId,vehicleId).subscribe(
-        () => {
-          console.log('Araç başarıyla silindi.');
-        },
-        (error) => {
-          console.error('Araç silme hatası:', error);
-        }
-      );
+    if (vehicleId !== null && userId !== null) {
+      this.userVehicleService
+        .deleteUserVehicleByVehicleId(userId, vehicleId)
+        .subscribe(
+          () => {
+            console.log('Araç başarıyla silindi.');
+          },
+          (error) => {
+            console.error('Araç silme hatası:', error);
+          }
+        );
     } else {
       console.error('vehicleId eksik.');
     }
@@ -182,7 +187,6 @@ export class VehicleComponent implements OnInit {
     } else {
       this.primaryKey = 'xxx';
     }
-    
   }
 
   updateUserVehicle() {

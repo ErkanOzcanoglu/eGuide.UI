@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { User } from '../models/user';
 import { ResetPassword } from '../models/resetPassword';
+import { environment } from '../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -50,5 +50,18 @@ export class UserService {
     );
   }
 
-  
+  forgotPasswordScreen(userEmail: string): Observable<any> {
+    const encodedEmail = userEmail.replace('@', '%40');
+    return this.http.post<any>(
+      `${environment.apiUrl}/${this.url}/forgot-password/${encodedEmail}`,
+      encodedEmail
+    );
+  }
+
+  resetPasswordScreen(resetInfo:ResetPassword,token:string):Observable<any>
+  {
+    return this.http.post<any>(
+    `${environment.apiUrl}/${this.url}/reset-password-screen?token=${token}`,resetInfo);
+  }
+
 }

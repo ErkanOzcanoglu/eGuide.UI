@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
-import { UserVehicle } from 'src/app/models/user-vehicle';
-import { Vehicle } from 'src/app/models/vehicle';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -13,22 +12,15 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserSettingsComponent implements OnInit {
   user: User = new User();
-  vehicle: Vehicle = new Vehicle();
-  vehicleList: Vehicle[] = [];
-  uservehicle: UserVehicle = new UserVehicle();
-
-  onSelectVehicle = false;
-
-  brands: string[] = [];
-  models: string[] = [];
-  vehicles: string[] = [];
+  resetPasswordModel: ResetPassword = new ResetPassword();
   editMode = false;
-  primaryKey = '';
+  userId = '';
+
+  showForgotPasswordButton = true;
 
   constructor(
     private router: Router,
     private userService: UserService,
-    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -44,9 +36,16 @@ export class UserSettingsComponent implements OnInit {
         }
       );
     }
+
+    this.userId = localStorage.getItem('authToken') || '';
   }
   onModeChange() {
     this.editMode = !this.editMode;
+  }
+
+  onCancelClick() {
+   
+    this.editMode = false; 
   }
 
   onSaveClick() {
@@ -59,5 +58,36 @@ export class UserSettingsComponent implements OnInit {
         this.editMode = false;
       });
     }
+    this.editMode = false;
+  }
+
+  resetPassword(): void {
+    this.userService
+      .resetPassword(this.resetPasswordModel, this.userId)
+      .subscribe(
+        (response: string) => {
+          console.log(response);
+
+          localStorage.removeItem('authToken');
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    this.showForgotPasswordButton = true;
+  }
+
+  forgotPassword() {
+    this.userService.forgotPassword(this.userId).subscribe(
+      (response) => {
+        // Başarılı yanıt işlemleri
+      },
+      (error) => {
+        // Hata işlemleri
+      }
+    );
+
+    this.showForgotPasswordButton = false;
   }
 }
