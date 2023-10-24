@@ -1,13 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { loadModules } from 'esri-loader';
-import MapView from '@arcgis/core/views/MapView';
-import Map from '@arcgis/core/Map';
-import Graphic from '@arcgis/core/Graphic';
-import Point from '@arcgis/core/geometry/Point';
-import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
-import Basemap from '@arcgis/core/Basemap';
-import TileLayer from '@arcgis/core/layers/TileLayer';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import { Station } from 'src/app/models/station';
+import { StationService } from 'src/app/services/station.service';
 
 @Component({
   selector: 'app-map',
@@ -15,158 +10,245 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements OnInit {
-  @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
+  searchType: any;
+  searchForm: FormGroup = new FormGroup({});
 
-  public lat: any;
-  public lng: any;
-  public coord: any;
-  public mapView: any;
-  public points: any[] = [];
+  public map: any;
+  public view: any;
+  public locate: any;
+  public isLocated = false;
+  public stations: Station[] = [];
+  public basemapss: any[] = [];
+  public currentBasemapIndex: number;
 
-  constructor() {}
+  search(enevt: any) {
+    // get searchType from search component
+    this.searchType = enevt;
+    console.log(this.searchType);
+  }
 
-  ngOnInit() {
-    loadModules(['esri/Map', 'esri/views/MapView'])
-      .then(([EsriMap, EsriMapView]) => {
-        const map = new Map({
-          basemap: 'streets-navigation-vector',
-        });
+  onKeyDown(event: KeyboardEvent, basemap: any) {
+    if (event.key === 'Enter') {
+      this.changeLayer(basemap);
+    }
+  }
 
-        const view = new MapView({
-          container: this.mapViewEl.nativeElement,
-          map: map,
-          center: [32.722838, 39.815434],
-          zoom: 15,
-        });
+  constructor(
+    private stationService: StationService,
+    private formBuilder: FormBuilder
+  ) {
+    // data for the basemap gallery
+    this.basemapss = [
+      {
+        id: 0,
+        name: 'arcgis-navigation',
+        title: 'Navigation',
+      },
+      {
+        id: 1,
+        name: 'arcgis-streets',
+        title: 'Streets',
+      },
+      {
+        id: 2,
+        name: 'arcgis-topographic',
+        title: 'Topographic',
+      },
+      {
+        id: 3,
+        name: 'arcgis-dark-gray',
+        title: 'Dark Gray',
+      },
+    ];
 
-        // Tıklama olayını ekle
-        view.on('click', this.addPointOnClick.bind(this));
+    this.currentBasemapIndex = 0;
+  }
 
-        this.mapView = view;
+  ngOnInit(): void {
+    this.initializeMap();
+    this.initializeForm();
+  }
 
-        const pointsfromDatabase = [
-          {
-            latitude: 39.815434,
-            longitude: 32.722838,
-          },
-          {
-            latitude: 40.815434,
-            longitude: 32.722838,
-          },
-          {
-            latitude: 23.815434,
-            longitude: 42.722838,
-          },
-        ];
+  initializeForm() {
+    this.searchForm = this.formBuilder.group({
+      searchType: [''],
+      text: [''],
+    });
+  }
 
-        this.addPointsFromDatabase(pointsfromDatabase);
-      })
-      .catch((err) => {
-        console.error(err);
+  ngOnChanges(): void {
+    console.log(this.searchType);
+  }
+
+  searchTypeChanged(event: Event) {
+    const selectedOption = (event.target as HTMLSelectElement).value;
+    console.log(`Selected option in search: ${selectedOption}`);
+    this.searchType.emit(selectedOption);
+  }
+
+  initializeMap() {
+    loadModules(
+      [
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/config',
+        'esri/widgets/Locate',
+        'esri/widgets/Zoom',
+      ],
+      {
+        css: true,
+      }
+    ).then(([Map, MapView, esriConfig, Locate, Zoom]) => {
+      esriConfig.apiKey =
+        'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
+
+      this.map = new Map({
+        basemap: 'arcgis-navigation',
       });
-  }
 
-  addPointsFromDatabase(points: any[]) {
-    points.forEach((point) => {
-      const lat = point.latitude.toFixed(6);
-      const lng = point.longitude.toFixed(6);
-
-      const markerSymbol = new SimpleMarkerSymbol({
-        color: [226, 119, 40],
-        outline: {
-          color: [255, 255, 255],
-          width: 1,
-        },
-        size: 12,
+      this.view = new MapView({
+        map: this.map,
+        center: [35.243322, 38.963745],
+        zoom: 5,
+        container: 'viewDiv',
       });
 
-      const graphic = new Graphic({
-        geometry: new Point({
-          latitude: point.latitude,
-          longitude: point.longitude,
-        }),
-        symbol: markerSymbol,
-        attributes: {
-          lat: lat,
-          lng: lng,
-        },
-        popupTemplate: {
-          title: 'Coordinates',
-          content: `Lat: {lat}<br>Long: {lng}`,
+      this.locate = new Locate({
+        view: this.view,
+        useHeadingEnabled: false,
+        goToOverride: function (
+          view: { goTo: (arg0: { scale: number }) => void },
+          options: { target: { scale: number } }
+        ) {
+          options.target.scale = 1500;
+          return view.goTo(options.target);
         },
       });
 
-      this.mapView.graphics.add(graphic);
+      // remove zoom buttons
+      this.view.ui.remove('zoom');
+
+      // show station points
+      this.getStations();
     });
   }
 
-  addPointOnClick(event: any) {
-    const point = this.mapView.toMap({ x: event.x, y: event.y });
-    const lat = point.latitude.toFixed(6);
-    const lng = point.longitude.toFixed(6);
+  zoomIn(): void {
+    this.view.goTo({ zoom: this.view.zoom + 1 });
+  }
 
-    const markerSymbol = new SimpleMarkerSymbol({
-      color: [226, 119, 40],
-      outline: {
-        color: [255, 255, 255],
-        width: 1,
-      },
-      size: 12,
-    });
+  zoomOut(): void {
+    this.view.goTo({ zoom: this.view.zoom - 1 });
+  }
 
-    const graphic = new Graphic({
-      geometry: point,
-      symbol: markerSymbol,
-      attributes: {
-        lat: lat,
-        lng: lng,
-      },
-      popupTemplate: {
-        title: 'Coordinates',
-        content: `Lat: {lat}<br>Long: {lng}`,
-      },
-    });
+  changeLayer(basemap: any): void {
+    this.map.basemap = basemap.name;
+    this.currentBasemapIndex = basemap.id;
+    this.displayLayerName(basemap.title);
+  }
 
-    this.mapView.graphics.add(graphic);
+  locateS(): void {
+    this.locate.locate();
+    this.isLocated = true;
+  }
 
-    // Noktayı saklayın
-    this.points.push({
-      graphic: graphic,
-      lat: lat,
-      lng: lng,
+  getStations(): void {
+    this.stationService.getStations().subscribe((data) => {
+      this.stations = data;
+
+      this.stations.forEach((element) => {
+        const point = {
+          type: 'point',
+          longitude: element.longitude,
+          latitude: element.latitude,
+        };
+
+        const pinSymbol = {
+          type: 'picture-marker',
+          url: '../../assets/charging.svg',
+          width: '50px',
+          height: '50px',
+        };
+
+        const pointGraphic = {
+          geometry: point,
+          symbol: pinSymbol,
+
+          attributes: {
+            name: element.name,
+            id: element.id,
+            address: element.address,
+            latitude: element.latitude,
+            longitude: element.longitude,
+          },
+
+          popupTemplate: {
+            // add style: 'width: 300px' to the popupTemplate
+
+            title: '{name}',
+            content: [
+              {
+                type: 'fields',
+                fieldInfos: [
+                  {
+                    fieldName: 'address',
+                    label: 'Address',
+                  },
+                  {
+                    fieldName: 'name',
+                    label: 'Name',
+                  },
+                  // {
+                  //   fieldName: 'latitude',
+                  //   label: 'Latitude',
+                  // },
+                  // {
+                  //   fieldName: 'longitude',
+                  //   label: 'Longitude',
+                  // },
+                ],
+              },
+            ],
+            showAttachments: false,
+          },
+        };
+
+        this.view.graphics.add(pointGraphic);
+      });
     });
   }
 
-  // Noktayı kaldırmak için bir fonksiyon oluşturun
-  removePoint(index: number) {
-    const point = this.points[index];
-    this.mapView.graphics.remove(point.graphic);
-    this.points.splice(index, 1);
+  onButtonClick() {
+    console.log('Button clicked!');
   }
 
-  addPointToMap(point: any) {
-    const markerSymbol = new SimpleMarkerSymbol({
-      color: [226, 119, 40],
-      outline: {
-        color: [255, 255, 255],
-        width: 1,
-      },
-      size: 12,
-    });
+  showStationInfo(station: Station): void {
+    const modal = document.getElementById('myModal');
+    const modalContentElement = document.getElementById('modalContent');
 
-    const graphic = new Graphic({
-      geometry: point,
-      symbol: markerSymbol,
-      attributes: {
-        lat: point.latitude,
-        lng: point.longitude,
-      },
-      popupTemplate: {
-        title: 'Koordinatlar',
-        content: `Lat: {lat}<br>Long: {lng}`,
-      },
-    });
+    if (modal && modalContentElement) {
+      modalContentElement.innerText = `Name: ${station.name}\nAddress: ${station.address}`;
+      modal.style.display = 'block';
 
-    this.mapView.graphics.add(graphic);
+      const closeBtn = document.getElementsByClassName('close')[0];
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    }
+  }
+
+  displayLayerName(layerName: string) {
+    const modal = document.getElementById('myModal');
+    const modalContent = document.getElementById('modalContent');
+
+    if (modal && modalContent) {
+      modalContent.innerText = `Layer Name: ${layerName}`;
+      modal.style.display = 'block';
+
+      const closeBtn = document.getElementsByClassName('close')[0];
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    }
   }
 }

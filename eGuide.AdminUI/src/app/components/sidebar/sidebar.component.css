@@ -1,0 +1,110 @@
+.sidenav {
+  background-color: rgb(42, 44, 175);
+}
+
+.logo-con {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 4rem;
+  padding-right: 1rem;
+  align-items: center;
+  height: 120px;
+}
+
+.logo-con span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  cursor: pointer;
+}
+
+.profile-con {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 4rem;
+  height: 100px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.menu-con {
+  height: calc(100vh - 288px);
+}
+
+.menu-con a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 5px 10px 10px 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.menu-cons a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 5px 10px 10px 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.menu-con-logout {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  align-items: start;
+  transition: 0.5s;
+}
+
+.menu-con a span {
+  margin-left: 10px;
+}
+
+.submenu-list {
+  margin-left: 2rem;
+}
+
+.menu-con::-webkit-scrollbar {
+  width: 1px;
+}
+
+.menu-con {
+  overflow-x: hidden;
+}
+
+.menu-con::-webkit-scrollbar-track {
+  background-color: rgb(42, 44, 175);
+}
+
+.menu-con::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.menu-con::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

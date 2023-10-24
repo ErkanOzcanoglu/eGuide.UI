@@ -1,14 +1,91 @@
-<!-- FILEPATH: d:\Yeni klasör\eGuide.UI\eGuide.ClientUI\src\app\components\map\map.component.html -->
+<!-- ! Map -->
+<div
+  id="viewDiv"
+  class="w-full border-none min-h-[500px] h-full absolute top-0 bottom-0"
+>
+  <!-- Map Buttons -->
+  <div class="absolute top-36 left-[3vw] shadow shadow-black rounded-xl">
+    <app-search (searchType)="search($event)"></app-search>
+  </div>
+  <div
+    class="absolute z-20 top-36 right-[2.5vw] flex flex-col gap-y-2 w-12 h-12"
+  >
+    <!-- <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      (click)="zoomIn()"
+    >
+      <img
+        src="../../../assets/zoom-in.svg"
+        alt="zoom-in"
+        class="w-full h-full object-cover"
+      />
+    </button> -->
 
-<div class="h-screen flex flex-col">
-  <div class="flex-1">
-    <div #mapViewNode class="relative h-full">
-      <div>
-        <div *ngFor="let point of points; let i = index">
-          Latitude: {{ point.lat }}, Longitude: {{ point.lng }}
-          <button (click)="removePoint(i)">Kaldır</button>
-        </div>
-      </div>
-    </div>
+    <!-- ! ZoomIn button -->
+    <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      (click)="zoomIn()"
+    >
+      <img
+        src="../../../assets/zoom-in.svg"
+        alt="zoom-in"
+        class="w-full h-full object-cover"
+      />
+    </button>
+
+    <!-- ! ZoomOut button -->
+    <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      (click)="zoomOut()"
+    >
+      <img
+        src="../../../assets/zoom-out.svg"
+        alt="zoom-out"
+        class="w-full h-full object-cover"
+      />
+    </button>
+
+    <!-- ! Locate button -->
+    <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      (click)="locateS()"
+    >
+      <img
+        src="../../../assets/target.svg"
+        alt="target"
+        class="w-full h-full object-cover"
+      />
+    </button>
+
+    <!-- ! Change Layer button -->
+    <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+    >
+      <img
+        src="../../../assets/layer.svg"
+        alt="target"
+        class="w-full h-full object-cover"
+      />
+      <ul class="absolute right-12 gap-y-2 flex top-36 flex-col h-[242px] px-1">
+        <button
+          class="asd rounded-xl border-black border bg-white p-2 h-full gap-y-2 bcd"
+        >
+          <li
+            *ngFor="let basemap of basemapss; let i = index"
+            (click)="changeLayer(basemap)"
+            (keydown)="onKeyDown($event, basemap)"
+            [class.active]="i === currentBasemapIndex"
+            class="btn flex flex-col bg-white hover:bg-white mb-2 text-black"
+            tabindex="0"
+          >
+            {{ basemap.title }}
+          </li>
+
+          <!-- <li class="btn bg-white hover:bg-white text-black mt-2">Street</li>
+          <li class="btn bg-white hover:bg-white text-black mt-2">Street</li>
+          <li class="btn bg-white hover:bg-white text-black mt-2">Street</li> -->
+        </button>
+      </ul>
+    </button>
   </div>
 </div>

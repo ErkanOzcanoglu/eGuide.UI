@@ -1,0 +1,96 @@
+.station-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.station {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.station-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.station-info {
+  text-align: center;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.asd {
+  display: none;
+}
+
+button:hover .asd {
+  display: block;
+}
+
+.bcd::-webkit-scrollbar {
+  width: 0px;
+}
+
+.bcd {
+  overflow-x: hidden;
+}
+
+.bcd::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.bcd::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+.active {
+  background-color: #ff0000; /* Örnek olarak kırmızı arka plan rengi */
+}
+.popup-button {
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  padding: 8px 16px; /* Padding around the button text */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Add pointer cursor on hover */
+}
+.custom-popup {
+  background-color: #fff;
+  border: 2px solid #000;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 300px;
+  font-family: Arial, sans-serif;
+}

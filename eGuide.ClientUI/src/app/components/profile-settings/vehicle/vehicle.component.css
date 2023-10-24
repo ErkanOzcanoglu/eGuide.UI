@@ -1,0 +1,13 @@
+/* styles.css veya styles.scss gibi bir stil dosyasında */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 1px; /* Kaydırma çubuğunun genişliği */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: grey; /* Kaydırma çubuğu rengini burada belirleyin */
+  border-radius: 6px; /* Kaydırma çubuğu yuvarlatılmış köşeleri */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: whitesmoke; /* Kaydırma çubuğu arka plan rengini burada belirleyin */
+}

@@ -1,0 +1,22 @@
+<div class="h-full min-h-[450px]">
+  <table>
+    <thead>
+      <tr>
+        <th class="w-[300px] bg-black">Address</th>
+        <th class="">Latitude</th>
+        <th>Longtitude</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b-1 gap-y-2" *ngFor="let station of stations">
+        <td class="">{{ station.address }}</td>
+        <td>{{ station.latitude }}</td>
+        <td>{{ station.longitude }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary">Edit</button>
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

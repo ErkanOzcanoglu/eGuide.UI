@@ -1,0 +1,38 @@
+<div class="w-full min-h-screen flex justify-center flex-col p-10">
+  <div class="bg-slate-800 h-full flex flex-col p-5">
+    <div
+      class="border-b mx-5 flex justify-between text-slate-300 border-slate-300 pb-2 text-3xl font-bold w-full"
+    >
+      <h1 class="">Station</h1>
+      <button (click)="setScreenType()" class="btn mr-10">
+        {{ !screenType ? "Add station" : "List station" }}
+      </button>
+    </div>
+    <div
+      *ngIf="screenType"
+      class="flex lg:flex-row flex-col mt-[10vh] lg:justify-between justify-center px-5 w-full h-full"
+    >
+      <div class="z-40 min-w-[15vw]">
+        <app-station-form
+          [mapClickedData]="mapClickedData"
+          (formAddressData)="onFormSubmit($event)"
+        ></app-station-form>
+      </div>
+
+      <div class="min-w-[40vw] w-full h-[70vh] lg:ml-20">
+        <app-map
+          (mapClick)="onMapClick($event)"
+          [mapFormAddressData]="mapFormAddressData"
+        ></app-map>
+      </div>
+    </div>
+    <div
+      *ngIf="!screenType"
+      class="flex lg:flex-row flex-col mt-[10vh] lg:justify-between justify-center px-5 w-full h-full"
+    >
+      <div class="z-40 min-w-[15vw] h-full">
+        <app-station-list></app-station-list>
+      </div>
+    </div>
+  </div>
+</div>
