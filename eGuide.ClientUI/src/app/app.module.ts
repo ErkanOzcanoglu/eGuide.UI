@@ -18,6 +18,8 @@ import { VehicleComponent } from './components/profile-settings/vehicle/vehicle.
 import { PasswordSettingsComponent } from './components/profile-settings/password-settings/password-settings.component';
 import { UserSettingsComponent } from './components/profile-settings/user-settings/user-settings.component';
 import { FavouritesComponent } from './components/profile-settings/favourites/favourites.component';
+import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
+import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
@@ -33,6 +35,8 @@ import { SearchComponent } from './components/search/search.component';
     FavouritesComponent,
     PasswordSettingsComponent,
     UserSettingsComponent,
+    ForgotUserPasswordComponent,
+    EmailLinkConfirmComponent,
     SearchComponent,
   ],
   imports: [
