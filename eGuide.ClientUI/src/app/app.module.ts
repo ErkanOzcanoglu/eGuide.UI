@@ -21,6 +21,7 @@ import { FavouritesComponent } from './components/profile-settings/favourites/fa
 import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { SearchComponent } from './components/search/search.component';
+import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SearchComponent } from './components/search/search.component';
     ForgotUserPasswordComponent,
     EmailLinkConfirmComponent,
     SearchComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,

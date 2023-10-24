@@ -8,6 +8,7 @@ import { SettingsComponent } from './screens/settings/settings/settings.componen
 import { PasswordSettingsComponent } from './screens/password-settings/password-settings.component';
 import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
+import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: 'password-change', component: PasswordSettingsComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'email-confirm', component: EmailLinkConfirmComponent },
   { path: '', component: HomeComponent },
   { path: 'station/:name', component: HomeComponent },
+  { path: 'verify-email/:token', component: VerifyEmailComponent },
   {
     path: 'settings',
     component: SettingsComponent,
