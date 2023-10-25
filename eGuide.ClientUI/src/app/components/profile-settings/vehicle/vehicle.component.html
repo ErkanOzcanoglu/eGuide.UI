@@ -29,19 +29,22 @@
     .input-text {
       color: rgb(96, 96, 96);
     }
-    
   }
 </style>
-<div class="bg-gray-100  h-screen flex justify-center items-center">
+<div class="bg-gray-100 h-screen flex justify-center items-center">
   <div class="w-4/6 p-4 mx-auto">
     <div class="mb-4">
       <div class="bg-white custom-panel rounded-lg shadow p-4 h-96 flex">
         <div class="w-1/2">
           <h1 class="text-3xl font-semibold mb-5 text">VEHICLE</h1>
           <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold mb-3 field-label ml-5">Vehicles</h2>
+            <h2 class="text-xl font-semibold mb-3 field-label ml-5">
+              Vehicles
+            </h2>
           </div>
-          <div class="mt-4 overflow-auto mr-20 custom-scrollbar h-[160px] ml-20">
+          <div
+            class="mt-4 overflow-auto mr-20 custom-scrollbar h-[160px] ml-20"
+          >
             <ng-container *ngFor="let vehicle of vehicleList; let i = index">
               <p
                 (click)="selectVehicle(vehicle)"
@@ -71,7 +74,11 @@
                         (vehicleMode ? "default" : "Please select a brand")
                     }}
                   </option>
-                  <option *ngFor="let brand of brands" [value]="brand">
+                  <option
+                    *ngFor="let brand of brands"
+                    [value]="brand"
+                    [hidden]="selectedBrand === brand"
+                  >
                     {{ brand }}
                   </option>
                 </select>
@@ -89,7 +96,11 @@
                         (vehicleMode2 ? "default" : "Please select a model")
                     }}
                   </option>
-                  <option *ngFor="let model of models" [value]="model">
+                  <option
+                    *ngFor="let model of models"
+                    [value]="model"
+                    [hidden]="selectedModel === model"
+                  >
                     {{ model }}
                   </option>
                 </select>
@@ -123,9 +134,9 @@
                   type="submit"
                   class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
                   *ngIf="editModeVehicle"
-                  (click)="updateUserVehicle()"
+                  (click)="isUpdate ? updateVehicle() : saveUpdate()"
                 >
-                  Update
+                  {{ isUpdate ? "Update" : "Save" }}
                 </button>
                 <button
                   type="button"
@@ -143,4 +154,3 @@
     </div>
   </div>
 </div>
-
