@@ -1,4 +1,6 @@
-import { StationService } from 'src/app/services/station.service';
+import { Socket } from './../../models/socket';
+import { Model } from 'src/app/models/model';
+import { StationService } from '../../services/station.service';
 import { Station } from './../../models/station';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,6 +11,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StationListComponent implements OnInit {
   stations: Station[] = [];
+  public statiobns: any;
+  asd: JSON = JSON;
+  models: Model[] = [];
+  // json olan bir değişken tanımla
+  myModel = new Model();
+  socket = '';
+  socketa = '';
 
   constructor(private stationService: StationService) {}
 
@@ -17,8 +26,17 @@ export class StationListComponent implements OnInit {
   }
 
   getStations(): void {
-    this.stationService.getStations().subscribe((stations) => {
-      this.stations = stations;
+    this.stationService.getAllStaiton().subscribe((res) => {
+      this.models = res;
+
+      // this.models.forEach((item) => {
+      //   const asd = JSON.parse(item.socket[0]);
+      //   if (Array.isArray(socketArray) && socketArray.length > 0) {
+      //     const voltageValues = socketArray[0].VoltageValues;
+      //     console.log(voltageValues);
+      //   }
+      // });
+     
     });
   }
 }
