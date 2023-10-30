@@ -58,10 +58,18 @@ export class UserService {
     );
   }
 
-  resetPasswordScreen(resetInfo:ResetPassword,token:string):Observable<any>
-  {
+  resetPasswordScreen(
+    resetInfo: ResetPassword,
+    token: string
+  ): Observable<any> {
     return this.http.post<any>(
-    `${environment.apiUrl}/${this.url}/reset-password-screen?token=${token}`,resetInfo);
+      `${environment.apiUrl}/${this.url}/reset-password-screen?token=${token}`,
+      resetInfo
+    );
   }
 
+  confirmAccount(token: string) {
+    const url = `${environment.apiUrl}/${this.url}/confirm?token=${token}`;
+    return this.http.get(url);
+  }
 }
