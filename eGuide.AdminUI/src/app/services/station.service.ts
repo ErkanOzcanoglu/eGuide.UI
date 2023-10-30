@@ -7,7 +7,6 @@ import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-  
 export class StationService {
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -21,5 +20,13 @@ export class StationService {
     return this.http.post<Station>(`${environment.apiUrl}/Station`, station, {
       responseType: 'json',
     });
+  }
+
+  deleteStation(id: string) {
+    return this.http.delete(`${environment.apiUrl}/Station/${id}`);
+  }
+
+  hardDeleteStation(id: string) {
+    return this.http.patch(`${environment.apiUrl}/Station/${id}`, null);
   }
 }
