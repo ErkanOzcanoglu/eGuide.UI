@@ -21,6 +21,10 @@ import { FavouritesComponent } from './components/profile-settings/favourites/fa
 import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { SearchComponent } from './components/search/search.component';
+import { PopupComponent } from './components/popup/popup.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -38,6 +42,7 @@ import { SearchComponent } from './components/search/search.component';
     ForgotUserPasswordComponent,
     EmailLinkConfirmComponent,
     SearchComponent,
+    PopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +51,8 @@ import { SearchComponent } from './components/search/search.component';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

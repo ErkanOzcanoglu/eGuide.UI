@@ -16,11 +16,37 @@ export class StationSocketService {
     );
   }
 
+  getStationSocketWithStationId(stationId: number) {
+    return this.http.get<StationSocket[]>(
+      `${environment.apiUrl}/StationSocket?stationId=${stationId}`
+    );
+  }
+
   createStationSocket(stationSocket: StationSocket) {
     return this.http.post<StationSocket>(
       `${environment.apiUrl}/StationSocket`,
       stationSocket,
       { responseType: 'json' }
+    );
+  }
+
+  deleteStationSocket(id: number) {
+    return this.http.delete(`${environment.apiUrl}/StationSocket/${id}`);
+  }
+
+  hardDeleteStationSocket(id: number) {
+    return this.http.patch(`${environment.apiUrl}/StationSocket/${id}`, null);
+  }
+
+  getStationInformationByStationModelId(stationModelId: string) {
+    return this.http.get<StationSocket[]>(
+      `${environment.apiUrl}/StationSocket/${stationModelId}`
+    );
+  }
+
+  getAllStationInformation() {
+    return this.http.get<StationSocket[]>(
+      `${environment.apiUrl}/StationSocket/GetAllStationProfile`
     );
   }
 }

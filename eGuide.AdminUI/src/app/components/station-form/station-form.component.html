@@ -25,6 +25,7 @@
           *ngIf="switchStatus"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
           id="address"
+          required
           type="text"
           formControlName="address"
           placeholder="Enter Address"
@@ -35,6 +36,7 @@
           *ngIf="!switchStatus"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
           id="latitude"
+          required
           type="text"
           formControlName="latitude"
           placeholder="Enter Latitude"
@@ -53,11 +55,29 @@
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
         id="longitude"
+        required
         type="text"
         formControlName="longitude"
         placeholder="Enter Longitude"
         [value]="mapClickedData?.lng"
         [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
+      />
+    </div>
+    <!-- ! station name -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Station Name
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="name"
+        required
+        type="text"
+        formControlName="name"
+        placeholder="Enter Name"
+        [class.is-invalid]="submitted && stationForm.get('name')?.errors"
       />
     </div>
     <!-- ! station model name -->
@@ -74,30 +94,15 @@
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
           id="name"
+          required
           type="text"
           formControlName="name"
           placeholder="Enter Station Model Name"
         />
       </div>
     </form>
-    <!-- ! station name -->
-    <div class="mb-4 w-full justify-between">
-      <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
-          Station Name
-        </label>
-      </div>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="name"
-        type="text"
-        formControlName="name"
-        placeholder="Enter Name"
-        [class.is-invalid]="submitted && stationForm.get('name')?.errors"
-      />
-    </div>
     <!-- ! station sockets -->
-    <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
+    <div class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
         <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
           Sockets
@@ -117,9 +122,18 @@
       </div> -->
       <div>
         <form [formGroup]="selectedSocketsForm">
-          <mat-form-field color="warn">
+          <mat-form-field
+            class="appearance-none w-full text-white leading-tight focus:outline-none focus:shadow-outline"
+            color="primary"
+            appearance="fill"
+          >
             <mat-label>Toppings</mat-label>
-            <mat-select required="true" formControlName="sockets" multiple>
+            <mat-select
+              class="rounded-3xl"
+              required="true"
+              formControlName="sockets"
+              multiple
+            >
               <mat-option
                 [class.is-invalid]="
                   submitted && selectedSocketsForm.get('sockets')?.errors
@@ -134,7 +148,7 @@
       </div>
     </div>
     <!-- submit button -->
-    <div class="flex justify-end">
+    <div class="flex justify-end gap-x-2">
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"

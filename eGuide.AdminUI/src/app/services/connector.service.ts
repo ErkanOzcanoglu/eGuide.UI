@@ -22,4 +22,12 @@ export class ConnectorService {
       { responseType: 'json' }
     );
   }
+
+  hardDeleteConnector(id: string) {
+    return this.http.delete(`${environment.apiUrl}/Connector/${id}`);
+  }
+
+  deleteConnector(id: string) {
+    return this.http.patch(`${environment.apiUrl}/Connector/${id}`, null);
+  }
 }

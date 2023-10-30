@@ -1,8 +1,13 @@
+import PopupTemplate from '@arcgis/core/PopupTemplate';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
+import { PopupComponent } from '../popup/popup.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
+import Popup from '@arcgis/core/widgets/Popup.js';
 
 @Component({
   selector: 'app-map',
@@ -16,6 +21,9 @@ export class MapComponent implements OnInit {
   public map: any;
   public view: any;
   public locate: any;
+  public graphicsLayer: any;
+  public pop: any;
+  public stationInformation: any;
   public isLocated = false;
   public stations: Station[] = [];
   public basemapss: any[] = [];
@@ -35,7 +43,8 @@ export class MapComponent implements OnInit {
 
   constructor(
     private stationService: StationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) {
     // data for the basemap gallery
     this.basemapss = [
@@ -94,11 +103,13 @@ export class MapComponent implements OnInit {
         'esri/config',
         'esri/widgets/Locate',
         'esri/widgets/Zoom',
+        // popup
+        'esri/PopupTemplate',
       ],
       {
         css: true,
       }
-    ).then(([Map, MapView, esriConfig, Locate, Zoom]) => {
+    ).then(([Map, MapView, esriConfig, Locate, Zoom, PopupTemplate]) => {
       esriConfig.apiKey =
         'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
 
@@ -173,7 +184,6 @@ export class MapComponent implements OnInit {
         const pointGraphic = {
           geometry: point,
           symbol: pinSymbol,
-
           attributes: {
             name: element.name,
             id: element.id,
@@ -181,60 +191,79 @@ export class MapComponent implements OnInit {
             latitude: element.latitude,
             longitude: element.longitude,
           },
-
-          popupTemplate: {
-            // add style: 'width: 300px' to the popupTemplate
-
-            title: '{name}',
-            content: [
-              {
-                type: 'fields',
-                fieldInfos: [
-                  {
-                    fieldName: 'address',
-                    label: 'Address',
-                  },
-                  {
-                    fieldName: 'name',
-                    label: 'Name',
-                  },
-                  // {
-                  //   fieldName: 'latitude',
-                  //   label: 'Latitude',
-                  // },
-                  // {
-                  //   fieldName: 'longitude',
-                  //   label: 'Longitude',
-                  // },
-                ],
-              },
-            ],
-            showAttachments: false,
-          },
         };
+
+        pointGraphic.attributes = element;
+        // on click event for each station point on the map view to show station info in a modal window when clicked on the point on the map view
+        this.view.on('click', (event: any) => {
+          this.view.hitTest(event).then((response: any) => {
+            if (response.results.length > 0) {
+              // console.log(response.results[0].graphic.attributes);
+              const graphic = response.results[0].graphic;
+              this.graphicsLayer = graphic;
+              // this.showStationInfo(graphic.attributes);
+              console.log(graphic.attributes, 'graphic');
+              // write html for the popup
+              const stationInfo = `
+                <div class="station-info">
+                  <h3>Station Information</h3>
+                  <ul>
+                    <li>Name: ${graphic.attributes.name}</li>
+                    <li>Address: ${graphic.attributes.address}</li>
+                    <li>Latitude: ${graphic.attributes.latitude}</li>
+                    <li>Longitude: ${graphic.attributes.longitude}</li>
+                  </ul>asdasd
+                </div>
+              `;
+
+              // Cannot read properties of undefined (reading 'shouldFocus')
+
+              const popup = new PopupTemplate({
+                content: stationInfo,
+              });
+
+              this.view.popup.open({
+                title: graphic.attributes.name,
+                location: graphic.geometry,
+                content: popup,
+              });
+            }
+          });
+        });
 
         this.view.graphics.add(pointGraphic);
       });
     });
   }
 
-  onButtonClick() {
-    console.log('Button clicked!');
+  onButtonClick(event: any) {
+    console.log('button clicked');
+    console.log(event, 'event');
+    this.stationInformation = event;
   }
 
   showStationInfo(station: Station): void {
-    const modal = document.getElementById('myModal');
-    const modalContentElement = document.getElementById('modalContent');
+    // open popup
+    this.onButtonClick(station);
 
-    if (modal && modalContentElement) {
-      modalContentElement.innerText = `Name: ${station.name}\nAddress: ${station.address}`;
-      modal.style.display = 'block';
+    const dialogRef = this.dialog.open(PopupComponent, {
+      data: {
+        stationInformation: station,
+      },
+    });
 
-      const closeBtn = document.getElementsByClassName('close')[0];
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    }
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '500px';
+    dialogConfig.height = '500px';
+
+    // dialogRef.afterClosed().subscribe(() => {
+    //   console.log('Dialog closed');
+    // });
+
+    // send station info to popup component
+    dialogRef.componentInstance.stationInformation = station;
   }
 
   displayLayerName(layerName: string) {
