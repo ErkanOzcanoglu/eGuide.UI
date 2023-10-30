@@ -1,9 +1,9 @@
-import MapView from '@arcgis/core/views/MapView';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
+import Search from '@arcgis/core/widgets/Search';
 
 interface Center {
   latitude: any;
@@ -44,8 +44,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     private stationService: StationService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private formBuilder: FormBuilder
   ) {
     // data for the basemap gallery
     this.basemapss = [
@@ -80,11 +79,17 @@ export class MapComponent implements OnInit {
 
   initializeMap() {
     loadModules(
-      ['esri/Map', 'esri/views/MapView', 'esri/config', 'esri/widgets/Locate'],
+      [
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/config',
+        'esri/widgets/Locate',
+        'esri/widgets/Search',
+      ],
       {
         css: true,
       }
-    ).then(([Map, MapView, esriConfig, Locate]) => {
+    ).then(([Map, MapView, esriConfig, Locate, Search]) => {
       esriConfig.apiKey =
         'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
 
@@ -178,66 +183,34 @@ export class MapComponent implements OnInit {
             latitude: element.latitude,
             longitude: element.longitude,
           },
+
+          // open popup when graphic is clicked
+          popupTemplate: {
+            title: '{name}',
+            content: [
+              {
+                type: 'fields',
+                fieldInfos: [
+                  {
+                    fieldName: 'name',
+                    label: 'Name',
+                  },
+                  {
+                    fieldName: 'address',
+                    label: 'Address',
+                  },
+                ],
+              },
+            ],
+          },
         };
-
-        pointGraphic.attributes = element;
-        // on click event for each station point on the map view to show station info in a modal window when clicked on the point on the map view
-        this.view.on('click', (event: any) => {
-          this.view.hitTest(event).then((response: any) => {
-            if (response.results.length > 0) {
-              // console.log(response.results[0].graphic.attributes);
-              const graphic = response.results[0].graphic;
-              this.graphicsLayer = graphic;
-              // this.showStationInfo(graphic.attributes);
-              console.log(graphic.attributes, 'graphic');
-              // write html for the popup
-              const stationInfo = `
-                <div class="station-info">
-                  <h3>Station Information</h3>
-                  <ul>
-                    <li>Name: ${graphic.attributes.name}</li>
-                    <li>Address: ${graphic.attributes.address}</li>
-                    <li>Latitude: ${graphic.attributes.latitude}</li>
-                    <li>Longitude: ${graphic.attributes.longitude}</li>
-                  </ul>asdasd
-                </div>
-              `;
-
-              // Cannot read properties of undefined (reading 'shouldFocus')
-
-              const popup = new PopupTemplate({
-                content: stationInfo,
-              });
-
-              this.view.popup.open({
-                title: graphic.attributes.name,
-                location: graphic.geometry,
-                content: popup,
-              });
-            }
-          });
-        });
 
         this.view.graphics.add(pointGraphic); // add graphic to the view
       });
     });
   }
 
-  displayLayerName(layerName: string) {
-    const modal = document.getElementById('myModal');
-    const modalContent = document.getElementById('modalContent');
-
-    if (modal && modalContent) {
-      modalContent.innerText = `Layer Name: ${layerName}`;
-      modal.style.display = 'block';
-
-      const closeBtn = document.getElementsByClassName('close')[0];
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    }
-  }
-
+  // get selected station from station list component
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
