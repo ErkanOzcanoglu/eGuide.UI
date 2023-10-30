@@ -1,80 +1,63 @@
-<!-- <div class="h-full min-h-[450px]">
+<div class="h-full min-h-[450px]">
   <table>
     <thead>
-<div class="h-full w-full min-h-[500px]">
-  <table class="table">
-    <thead class="w-full">
-      <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <th>Station</th>
-        <th>Station Type</th>
-        <th>Socket</th>
-        <th>Connectors</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="" *ngFor="let stationInfo of stationInfo">
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-12 h-12">
-                <img
-                  src="https://i.pravatar.cc/60"
-                  alt="Avatar Tailwind CSS Component"
-                />
+      <div class="h-full w-full min-h-[500px]">
+        <table class="table">
+          <thead class="w-full">
+            <tr>
+              <th>
+                <label>
+                  <input type="checkbox" class="checkbox" />
+                </label>
+              </th>
+              <th>Station</th>
+              <th>Station Type</th>
+              <th>Socket</th>
+              <th>Connectors</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="" *ngFor="let item of models">
+              <th>
+                <label>
+                  <input type="checkbox" class="checkbox" />
+                </label>
+              </th>
+              <td>
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <div class="mask mask-squircle w-12 h-12">
+                      <img
+                        src="https://i.pravatar.cc/60"
+                        alt="Avatar Tailwind CSS Component"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="font-bold">{{ item.StationName }}</div>
+                    <div class="text-sm opacity-50">United States</div>
+                  </div>
+                </div>
+              </td>
+              <div *ngFor="let socketItem of item.socket">
+                <td>
+                  {{ socketItem.SocketName }}
+                </td>
+                <td>
+                  {{ socketItem.SocketType }}
+                </td>
+                <td *ngFor="let connector of socketItem.connector">
+                  {{ connector.ConnectorType }}
+                </td>
+                <th>
+                  <button class="btn btn-ghost btn-xs">details</button>
+                </th>
               </div>
-            </div>
-            <div>
-              <div class="font-bold">{{ stationInfo.name }}</div>
-              <div class="text-sm opacity-50">United States</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          {{ stationInfo.socketType }}
-        </td>
-        <td>
-          {{ stationInfo.connectorType }}
-        </td>
-        <td>{{ stationInfo.connectorType }}</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-    </tbody>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </thead>
   </table>
-</div> -->
-<div *ngFor="let item of models">
-  <h3>{{ item.StationName }}</h3>
-  <ul>
-    <li *ngFor="let socketItem of item.socket">
-      <p>SocketName: {{ socketItem.SocketName }}</p>
-      <p>SocketType: {{ socketItem.SocketType }}</p>
-      <p>Voltage: {{ socketItem.Voltage }}</p>
-      <p>Power: {{ socketItem.Power}}</p>
-      <p>Current: {{ socketItem.Current}}</p>
-      <ul>
-        <li *ngFor="let connector of socketItem.connector">
-          <p>Connector Type: {{ connector.ConnectorType }}</p>
-          <p>Connector ID: {{ connector.Id }}</p>
-          <p>Connector Icon: {{ connector.Icon }}</p>
-        </li>
-      </ul>
-    </li>
-  </ul>
 </div>
-
-
-
-
-

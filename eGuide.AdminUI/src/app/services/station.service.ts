@@ -30,6 +30,8 @@ export class StationService {
         responseType: 'json',
       }
     );
+  }
+
   deleteStation(id: string) {
     return this.http.delete(`${environment.apiUrl}/Station/${id}`);
   }
