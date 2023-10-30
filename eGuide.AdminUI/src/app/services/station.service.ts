@@ -30,5 +30,11 @@ export class StationService {
         responseType: 'json',
       }
     );
+  deleteStation(id: string) {
+    return this.http.delete(`${environment.apiUrl}/Station/${id}`);
+  }
+
+  hardDeleteStation(id: string) {
+    return this.http.patch(`${environment.apiUrl}/Station/${id}`, null);
   }
 }

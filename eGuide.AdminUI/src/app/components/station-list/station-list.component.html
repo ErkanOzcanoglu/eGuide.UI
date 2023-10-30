@@ -1,21 +1,55 @@
 <!-- <div class="h-full min-h-[450px]">
   <table>
     <thead>
+<div class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
       <tr>
-        <th class="w-[300px] bg-black">Address</th>
-        <th class="">Latitude</th>
-        <th>Longtitude</th>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>Station</th>
+        <th>Station Type</th>
+        <th>Socket</th>
+        <th>Connectors</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr class="border-b-1 gap-y-2" *ngFor="let station of stations">
-        <td class="">{{ station.address }}</td>
-        <td>{{ station.latitude }}</td>
-        <td>{{ station.longitude }}</td>
+      <tr class="" *ngFor="let stationInfo of stationInfo">
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
         <td>
-          <button class="btn btn-sm btn-primary">Edit</button>
-          <button class="btn btn-sm btn-danger">Delete</button>
+          <div class="flex items-center space-x-3">
+            <div class="avatar">
+              <div class="mask mask-squircle w-12 h-12">
+                <img
+                  src="https://i.pravatar.cc/60"
+                  alt="Avatar Tailwind CSS Component"
+                />
+              </div>
+            </div>
+            <div>
+              <div class="font-bold">{{ stationInfo.name }}</div>
+              <div class="text-sm opacity-50">United States</div>
+            </div>
+          </div>
         </td>
+        <td>
+          {{ stationInfo.socketType }}
+        </td>
+        <td>
+          {{ stationInfo.connectorType }}
+        </td>
+        <td>{{ stationInfo.connectorType }}</td>
+        <th>
+          <button class="btn btn-ghost btn-xs">details</button>
+        </th>
       </tr>
     </tbody>
   </table>

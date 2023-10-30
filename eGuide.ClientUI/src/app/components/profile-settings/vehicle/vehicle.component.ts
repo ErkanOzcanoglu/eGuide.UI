@@ -29,6 +29,7 @@ export class VehicleComponent implements OnInit {
   vehicleMode2 = false;
 
   editModeVehicle = false;
+  isUpdate = true;
 
   constructor(
     private router: Router,
@@ -47,7 +48,7 @@ export class VehicleComponent implements OnInit {
   }
 
   cancelVehicleEdit() {
-    this.editModeVehicle = false;   
+    this.editModeVehicle = false;
   }
 
   getBrands() {
@@ -58,7 +59,15 @@ export class VehicleComponent implements OnInit {
   }
 
   onBrandSelected(event: any) {
+    console.log(event.target.value);
     const selectedBrand = event.target.value;
+    this.loadModelsByBrand(selectedBrand);
+    localStorage.setItem('brand', selectedBrand);
+  }
+
+  onCarSelected(event: any) {
+    console.log(event);
+    const selectedBrand = event;
     this.loadModelsByBrand(selectedBrand);
     localStorage.setItem('brand', selectedBrand);
   }
@@ -82,8 +91,8 @@ export class VehicleComponent implements OnInit {
       this.vehicleService.getModelsByBrand(selectedBrand).subscribe(
         (models) => {
           console.log('Ait modeller:', models);
+
           this.models = models;
-          this.selectedModel = 'default';
         },
         (error) => {
           console.error('Modelleri alma hatası:', error);
@@ -175,9 +184,9 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  selectVehicle(selectedVehicle: Vehicle) {
-    console.log('Seçilen Araç:', selectedVehicle.brand, selectedVehicle.model);
+  selectVehicle(selectedVehicle: any) {
     localStorage.setItem('brand', selectedVehicle.brand);
+    this.onCarSelected(selectedVehicle.brand);
 
     this.selectedBrand = selectedVehicle.brand;
     this.selectedModel = selectedVehicle.model;
@@ -189,13 +198,23 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  updateUserVehicle() {
-    const userId = localStorage.getItem('authToken');
-    const vehicleId = localStorage.getItem('vehicleToUpdatedId');
-    const idNew = localStorage.getItem('vehicleId');
+  updateVehicle() {
+    const vehicleId = localStorage.getItem('vehicleId');
+    const oldId = vehicleId;
 
-    if (userId !== null && vehicleId !== null && idNew !== null) {
-      this.userVehicleService.updateVehicle(userId, vehicleId, idNew).subscribe(
+    if (oldId != null) {
+      localStorage.setItem('oldId', oldId);
+    }
+    this.isUpdate = false;
+  }
+
+  saveUpdate() {
+    const userId = localStorage.getItem('authToken');
+    const vehicleId = localStorage.getItem('vehicleId');
+    const oldId = localStorage.getItem('oldId');
+
+    if (vehicleId != null && oldId !== null && userId != null) {
+      this.userVehicleService.updateVehicle(userId, oldId, vehicleId).subscribe(
         (response) => {
           console.log('Araç güncelleme başarılı:', response);
         },
@@ -204,5 +223,9 @@ export class VehicleComponent implements OnInit {
         }
       );
     }
+    
+    this.isUpdate = true;
+    localStorage.removeItem('vehicleId');
+    localStorage.removeItem('oldId');
   }
 }
