@@ -1,3 +1,4 @@
+import MapView from '@arcgis/core/views/MapView';
 import PopupTemplate from '@arcgis/core/PopupTemplate';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -9,6 +10,10 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import Popup from '@arcgis/core/widgets/Popup.js';
 
+interface Center {
+  latitude: any;
+  longitude: any;
+}
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -89,12 +94,6 @@ export class MapComponent implements OnInit {
     console.log(this.searchType);
   }
 
-  searchTypeChanged(event: Event) {
-    const selectedOption = (event.target as HTMLSelectElement).value;
-    console.log(`Selected option in search: ${selectedOption}`);
-    this.searchType.emit(selectedOption);
-  }
-
   initializeMap() {
     loadModules(
       [
@@ -119,7 +118,7 @@ export class MapComponent implements OnInit {
 
       this.view = new MapView({
         map: this.map,
-        center: [35.243322, 38.963745],
+        center: [35.2433, 38.9637],
         zoom: 5,
         container: 'viewDiv',
       });
@@ -279,5 +278,10 @@ export class MapComponent implements OnInit {
         modal.style.display = 'none';
       });
     }
+  }
+
+  onStationSelected(selectedStation: Center) {
+    this.view.center = [selectedStation.longitude, selectedStation.latitude];
+    this.view.zoom = 12;
   }
 }
