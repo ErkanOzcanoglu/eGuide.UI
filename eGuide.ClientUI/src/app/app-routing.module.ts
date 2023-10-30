@@ -32,8 +32,6 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
-
-  { path: 'modal', component: PopupComponent },
 ];
 
 @NgModule({

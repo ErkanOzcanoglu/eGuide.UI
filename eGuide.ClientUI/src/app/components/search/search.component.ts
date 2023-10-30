@@ -12,7 +12,6 @@ export class SearchComponent implements OnInit {
   isClicked = false;
   stations: Station[] = [];
   @Output() searchTexts = new EventEmitter<string>();
-  @Output() searchType = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
 
   constructor(private stationService: StationService) {}
@@ -24,21 +23,13 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.getStations();
   }
-
-  onOptionSelect(event: Event) {
-    const selectedOption = (event.target as HTMLSelectElement).value;
-    console.log(`Selected option in search: ${selectedOption}`);
-    this.searchType.emit(selectedOption);
-  }
-
-  search(event: any) {
-    // get searchType from search component
-    this.searchType = event;
-    console.log(this.searchType);
-  }
-
   onClick() {
     this.isClicked = true;
+  }
+
+  aramaYap(text: string) {
+    this.searchTexts.emit(text);
+    console.log(text, 'text in the search component');
   }
 
   closeSearch() {

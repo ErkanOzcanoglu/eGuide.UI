@@ -56,7 +56,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     SearchComponent,
     VerifyEmailComponent,
     FilterPipe,
-    PopupComponent,
   ],
   imports: [
     BrowserModule,
