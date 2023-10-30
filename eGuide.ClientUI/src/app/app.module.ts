@@ -32,6 +32,10 @@ import { SettingsComponent } from './screens/settings/settings/settings.componen
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { SearchComponent } from './components/search/search.component';
+import { PopupComponent } from './components/popup/popup.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,7 @@ import { SearchComponent } from './components/search/search.component';
     EmailLinkConfirmComponent,
     SearchComponent,
     FilterPipe,
+    PopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,8 @@ import { SearchComponent } from './components/search/search.component';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
