@@ -65,8 +65,8 @@
   }
 </style>
 
-<div class="bg-gray-100">
-  <div class="w-4/6 p-4 mx-auto">
+<div class="bg-gray-100 h-screen flex justify-center items-center">
+  <div class="w-4/6">
     <div class="grid-container">
       <!-- first person profile -->
       <div class="user-profile">
@@ -127,7 +127,7 @@
               />
             </p>
           </div>
-          <div class="mt-20 w-50 flex">
+          <div class="mt-4 w-50 flex">
             <span>
               Forgot your password?
               <a
@@ -139,64 +139,7 @@
           </div>
         </div>
       </div>
-      <!-- second person profile -->
-      <div class="bg-white custom-panel rounded-lg shadow p-4">
-        <div class="flex items-center justify-between">
-          <h1 class="text-3xl font-semibold text">Burasi kaldirilacak</h1>
-        </div>
-        <!-- Şifre Sıfırlama Formu -->
-        <form (ngSubmit)="resetPassword()">
-          <div class="mt-4">
-            <label for="password" class="label-password text-xl"
-              >New Password</label
-            >
-            <!-- Rengi değiştirilen etiket -->
-            <input
-              type="password"
-              id="password"
-              name="password"
-              [(ngModel)]="resetPasswordModel.password"
-              class="w-80 border p-2 rounded bg-slate-100 ml-10 input-text"
-              required
-            />
-          </div>
-          <div class="mt-4">
-            <label for="confirmPassword" class="label-password text-xl"
-              >Confirm Password</label
-            >
-            <!-- Rengi değiştirilen etiket -->
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              [(ngModel)]="resetPasswordModel.confirmPassword"
-              class="w-80 border p-2 rounded bg-slate-100 ml-4 input-text"
-              required
-            />
-          </div>
-          <div class="mt-4">
-            <button
-              type="submit"
-              class="bg-slate-400 text-white px-4 py-1 rounded hover-bg-blue-600 focus:outline-none custom-button"
-              *ngIf="!showForgotPasswordButton"
-              (click)="resetPassword()"
-            >
-              Reset
-            </button>
-            <button
-              type="button"
-              class="bg-slate-400 text-white px-4 py-1 rounded hover-bg-blue-600 focus:outline-none custom-button ml-60"
-              *ngIf="showForgotPasswordButton"
-              (click)="forgotPassword()"
-            >
-              Forgot
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
   </div>
 </div>
 
-<!-- </body>
-</html> -->

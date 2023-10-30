@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       .subscribe((token: string) => {
         token = token.replace(/^"(.*)"$/, '$1');
         localStorage.setItem('authToken', token);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       });
   }
 }

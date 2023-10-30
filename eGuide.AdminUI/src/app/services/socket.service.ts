@@ -22,4 +22,18 @@ export class SocketService {
       responseType: 'json',
     });
   }
+
+  getSocket(id: string): Observable<Socket> {
+    return this.http.get<Socket>(`${environment.apiUrl}/Socket/${id}`, {
+      responseType: 'json',
+    });
+  }
+
+  deleteSocket(id: string) {
+    return this.http.delete(`${environment.apiUrl}/Socket/${id}`);
+  }
+
+  hardDeleteSocket(id: string) {
+    return this.http.patch(`${environment.apiUrl}/Socket/${id}`, null);
+  }
 }
