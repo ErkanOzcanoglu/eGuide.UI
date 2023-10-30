@@ -1,9 +1,14 @@
+import MapView from '@arcgis/core/views/MapView';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
 
+interface Center {
+  latitude: any;
+  longitude: any;
+}
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -80,25 +85,13 @@ export class MapComponent implements OnInit {
     console.log(this.searchType);
   }
 
-  searchTypeChanged(event: Event) {
-    const selectedOption = (event.target as HTMLSelectElement).value;
-    console.log(`Selected option in search: ${selectedOption}`);
-    this.searchType.emit(selectedOption);
-  }
-
   initializeMap() {
     loadModules(
-      [
-        'esri/Map',
-        'esri/views/MapView',
-        'esri/config',
-        'esri/widgets/Locate',
-        'esri/widgets/Zoom',
-      ],
+      ['esri/Map', 'esri/views/MapView', 'esri/config', 'esri/widgets/Locate'],
       {
         css: true,
       }
-    ).then(([Map, MapView, esriConfig, Locate, Zoom]) => {
+    ).then(([Map, MapView, esriConfig, Locate]) => {
       esriConfig.apiKey =
         'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
 
@@ -108,7 +101,7 @@ export class MapComponent implements OnInit {
 
       this.view = new MapView({
         map: this.map,
-        center: [35.243322, 38.963745],
+        center: [35.2433, 38.9637],
         zoom: 5,
         container: 'viewDiv',
       });
@@ -218,25 +211,6 @@ export class MapComponent implements OnInit {
     });
   }
 
-  onButtonClick() {
-    console.log('Button clicked!');
-  }
-
-  showStationInfo(station: Station): void {
-    const modal = document.getElementById('myModal');
-    const modalContentElement = document.getElementById('modalContent');
-
-    if (modal && modalContentElement) {
-      modalContentElement.innerText = `Name: ${station.name}\nAddress: ${station.address}`;
-      modal.style.display = 'block';
-
-      const closeBtn = document.getElementsByClassName('close')[0];
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    }
-  }
-
   displayLayerName(layerName: string) {
     const modal = document.getElementById('myModal');
     const modalContent = document.getElementById('modalContent');
@@ -250,5 +224,10 @@ export class MapComponent implements OnInit {
         modal.style.display = 'none';
       });
     }
+  }
+
+  onStationSelected(selectedStation: Center) {
+    this.view.center = [selectedStation.longitude, selectedStation.latitude];
+    this.view.zoom = 12;
   }
 }
