@@ -43,3 +43,4 @@ export class NavbarComponent {
     this.showUserMenu = !this.showUserMenu;
   }
 }
+export class NavbarComponent {}

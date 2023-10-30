@@ -11,7 +11,7 @@ interface Point {
 })
 export class StationsComponent {
   switchStatus = false;
-  screenType = true;
+  screenType = false;
   mapClickedData: any;
   mapFormAddressData: any;
 
