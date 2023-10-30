@@ -26,6 +26,7 @@ import { StationListComponent } from './components/station-list/station-list.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { SocketListComponent } from './components/socket-list/socket-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { ToastrModule } from 'ngx-toastr';
     SocketFormComponent,
     StationSocketsComponent,
     StationListComponent,
+    SocketListComponent,
   ],
   imports: [
     BrowserModule,
