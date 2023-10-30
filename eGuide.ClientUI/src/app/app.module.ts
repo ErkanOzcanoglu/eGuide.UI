@@ -32,6 +32,7 @@ import { SettingsComponent } from './screens/settings/settings/settings.componen
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { SearchComponent } from './components/search/search.component';
+import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -53,6 +54,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ForgotUserPasswordComponent,
     EmailLinkConfirmComponent,
     SearchComponent,
+    VerifyEmailComponent,
     FilterPipe,
     PopupComponent,
   ],
