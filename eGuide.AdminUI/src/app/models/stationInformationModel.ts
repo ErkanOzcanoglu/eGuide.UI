@@ -2,6 +2,7 @@ export class Model {
   StationModelId='';
   Id='';
   StationName='';
+  
   Latitude='';
   Longitude='';
   Address='';
