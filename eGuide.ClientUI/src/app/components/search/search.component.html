@@ -1,21 +1,25 @@
 <div class="">
-  <div class="flex">
+  <div class="flex justify-center items-center">
     <button class="form-group" (click)="onClick()">
       <input
         type="text"
         aria-describedby="search-text"
         placeholder="Search"
         [(ngModel)]="searchText"
-        class="bg-white w-52 h-10 p-2 pr-0 rounded-l-xl outline-none"
+        class="bg-white w-64 h-10 p-2 pr-0 rounded-xl outline-none"
       />
+      <!-- search button -->
+      <button
+        class="bg-white w-10 h-10 rounded-xl"
+        (click)="aramaYap(searchText)"
+      >
+        <img
+          src="../../../assets/search.svg"
+          alt="search"
+          class="w-full h-full object-cover"
+        />
+      </button>
     </button>
-    <select
-      class="bg-white w-24 h-10 p-2 rounded-r-xl border"
-      (change)="onOptionSelect($event)"
-    >
-      <option value="station">Station</option>
-      <option value="location">Location</option>
-    </select>
   </div>
   <!-- is is clicked h-10 else h-20 -->
   <div
