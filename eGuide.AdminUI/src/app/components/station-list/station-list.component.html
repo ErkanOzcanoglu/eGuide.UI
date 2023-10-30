@@ -1,3 +1,6 @@
+<!-- <div class="h-full min-h-[450px]">
+  <table>
+    <thead>
 <div class="h-full w-full min-h-[500px]">
   <table class="table">
     <thead class="w-full">
@@ -50,4 +53,28 @@
       </tr>
     </tbody>
   </table>
+</div> -->
+<div *ngFor="let item of models">
+  <h3>{{ item.StationName }}</h3>
+  <ul>
+    <li *ngFor="let socketItem of item.socket">
+      <p>SocketName: {{ socketItem.SocketName }}</p>
+      <p>SocketType: {{ socketItem.SocketType }}</p>
+      <p>Voltage: {{ socketItem.Voltage }}</p>
+      <p>Power: {{ socketItem.Power}}</p>
+      <p>Current: {{ socketItem.Current}}</p>
+      <ul>
+        <li *ngFor="let connector of socketItem.connector">
+          <p>Connector Type: {{ connector.ConnectorType }}</p>
+          <p>Connector ID: {{ connector.Id }}</p>
+          <p>Connector Icon: {{ connector.Icon }}</p>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </div>
+
+
+
+
+

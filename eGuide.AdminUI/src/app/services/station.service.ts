@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Station } from '../models/station';
 import { environment } from '../environments/environment';
+import { Model } from '../models/stationInformationModel';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,13 @@ export class StationService {
     });
   }
 
+  getAllStaiton() {
+    return this.http.get<Model[]>(
+      `${environment.apiUrl}/Station/GetAllStationProfile`,
+      {
+        responseType: 'json',
+      }
+    );
   deleteStation(id: string) {
     return this.http.delete(`${environment.apiUrl}/Station/${id}`);
   }
