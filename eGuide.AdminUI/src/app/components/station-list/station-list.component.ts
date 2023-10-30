@@ -1,5 +1,5 @@
-import { Socket } from './../../models/socket';
-import { Model } from 'src/app/models/model';
+import { Socket } from 'src/app/models/socket';
+import { Model } from 'src/app/models/stationInformationModel';
 import { StationService } from '../../services/station.service';
 import { Station } from './../../models/station';
 import { Component, OnInit } from '@angular/core';
@@ -10,14 +10,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./station-list.component.css'],
 })
 export class StationListComponent implements OnInit {
-  stations: Station[] = [];
-  public statiobns: any;
-  asd: JSON = JSON;
   models: Model[] = [];
-  // json olan bir değişken tanımla
-  myModel = new Model();
   socket = '';
-  socketa = '';
+  socketArray: any;
 
   constructor(private stationService: StationService) {}
 
@@ -29,14 +24,13 @@ export class StationListComponent implements OnInit {
     this.stationService.getAllStaiton().subscribe((res) => {
       this.models = res;
 
-      // this.models.forEach((item) => {
-      //   const asd = JSON.parse(item.socket[0]);
-      //   if (Array.isArray(socketArray) && socketArray.length > 0) {
-      //     const voltageValues = socketArray[0].VoltageValues;
-      //     console.log(voltageValues);
-      //   }
-      // });
-     
+      this.models.forEach((item) => {
+        // If item.socket is a string, convert it to JSON data.
+        if (typeof item.socket === 'string') {
+          item.socket = JSON.parse(item.socket);
+          console.log(item);
+        }
+      });
     });
   }
 }

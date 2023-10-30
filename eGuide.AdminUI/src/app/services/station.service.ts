@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Station } from '../models/station';
 import { environment } from '../environments/environment';
-import { Model } from '../models/model';
+import { Model } from '../models/stationInformationModel';
 
 @Injectable({
   providedIn: 'root',
