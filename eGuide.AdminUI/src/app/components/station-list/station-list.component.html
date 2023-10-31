@@ -1,63 +1,101 @@
-<div class="h-full min-h-[450px]">
-  <table>
-    <thead>
-      <div class="h-full w-full min-h-[500px]">
-        <table class="table">
-          <thead class="w-full">
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
-              <th>Station</th>
-              <th>Station Type</th>
-              <th>Socket</th>
-              <th>Connectors</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="" *ngFor="let item of models">
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
-                      <img
-                        src="https://i.pravatar.cc/60"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div class="font-bold">{{ item.StationName }}</div>
-                    <div class="text-sm opacity-50">United States</div>
-                  </div>
-                </div>
-              </td>
-              <div *ngFor="let socketItem of item.socket">
-                <td>
-                  {{ socketItem.SocketName }}
-                </td>
-                <td>
-                  {{ socketItem.SocketType }}
-                </td>
-                <td *ngFor="let connector of socketItem.connector">
-                  {{ connector.ConnectorType }}
-                </td>
-                <th>
-                  <button class="btn btn-ghost btn-xs">details</button>
-                </th>
-              </div>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<!-- <div class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th class="w-1/5">Station</th>
+        <th class="w-1/5">Station Type</th>
+        <th class="w-1/5">Socket</th>
+        <th class="w-1/5">Connectors</th>
+        <th class="w-1/5"></th>
+      </tr>
     </thead>
+    <tbody class="w-full">
+      <tr class="w-full" *ngFor="let item of models">
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center space-x-3">
+            <div class="avatar">
+              <div class="mask mask-squircle w-12 h-12">
+                <img
+                  src="https://i.pravatar.cc/60"
+                  alt="Avatar Tailwind CSS Component"
+                />
+              </div>
+            </div>
+            <div>
+              <div class="font-bold">{{ item.StationName }}</div>
+              <div class="text-sm opacity-50">United States</div>
+            </div>
+          </div>
+        </td>
+        <div class="w-full" *ngFor="let socketItem of item.socket">
+          <td class="w-1/5">
+            {{ socketItem.SocketName }}
+          </td>
+          <td class="">
+            {{ socketItem.SocketType }}
+          </td>
+          <td class="" *ngFor="let connector of socketItem.connector">
+            {{ connector.ConnectorType }}
+          </td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+<div class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th class="w-1/5">Station</th>
+        <th class="w-1/5">Station Type</th>
+        <th class="w-1/5">Socket</th>
+        <th class="w-1/5">Connectors</th>
+        <th class="w-1/5"></th>
+      </tr>
+    </thead>
+    <tbody class="w-full" *ngFor="let item of models">
+      <tr *ngFor="let socketItem of item.socket">
+        <td>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </td>
+        <td>
+          <button>{{ item.stationName }}</button>
+        </td>
+        <td>
+          <button>{{ socketItem.SocketName }}</button>
+        </td>
+        <td>
+          <button>{{ socketItem.SocketType }}</button>
+        </td>
+        <td *ngFor="let connector of socketItem.connector">
+          <button>{{ connector.ConnectorType }}</button>
+        </td>
+        <td class="gap-x-1 flex">
+          <button class="btn btn--primary">Edit</button>
+          <button class="btn btn--danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
