@@ -1,14 +1,9 @@
-import MapView from '@arcgis/core/views/MapView';
-import PopupTemplate from '@arcgis/core/PopupTemplate';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
-import { PopupComponent } from '../popup/popup.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import Popup from '@arcgis/core/widgets/Popup.js';
+import Search from '@arcgis/core/widgets/Search';
 
 interface Center {
   latitude: any;
@@ -20,8 +15,9 @@ interface Center {
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements OnInit {
-  searchType: any;
+  searchType = '';
   searchForm: FormGroup = new FormGroup({});
+  @Input() searchText = '';
 
   public map: any;
   public view: any;
@@ -34,11 +30,11 @@ export class MapComponent implements OnInit {
   public basemapss: any[] = [];
   public currentBasemapIndex: number;
 
-  search(enevt: any) {
-    // get searchType from search component
-    this.searchType = enevt;
-    console.log(this.searchType);
-  }
+  // search(enevt: any) {
+  //   // get searchType from search component
+  //   this.searchType = enevt;
+  //   console.log(this.searchType);
+  // }
 
   onKeyDown(event: KeyboardEvent, basemap: any) {
     if (event.key === 'Enter') {
@@ -48,8 +44,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     private stationService: StationService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private formBuilder: FormBuilder
   ) {
     // data for the basemap gallery
     this.basemapss = [
@@ -79,19 +74,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeMap();
-    this.initializeForm();
-  }
-
-  initializeForm() {
-    this.searchForm = this.formBuilder.group({
-      searchType: [''],
-      text: [''],
-    });
-  }
-
-  ngOnChanges(): void {
-    console.log(this.searchType);
+    this.initializeMap(); // initialize map/
   }
 
   initializeMap() {
@@ -101,21 +84,21 @@ export class MapComponent implements OnInit {
         'esri/views/MapView',
         'esri/config',
         'esri/widgets/Locate',
-        'esri/widgets/Zoom',
-        // popup
-        'esri/PopupTemplate',
+        'esri/widgets/Search',
       ],
       {
         css: true,
       }
-    ).then(([Map, MapView, esriConfig, Locate, Zoom, PopupTemplate]) => {
+    ).then(([Map, MapView, esriConfig, Locate, Search]) => {
       esriConfig.apiKey =
         'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
 
+      // initialize map
       this.map = new Map({
         basemap: 'arcgis-navigation',
       });
 
+      // initialize the map view
       this.view = new MapView({
         map: this.map,
         center: [35.2433, 38.9637],
@@ -123,6 +106,7 @@ export class MapComponent implements OnInit {
         container: 'viewDiv',
       });
 
+      // add locate widget
       this.locate = new Locate({
         view: this.view,
         useHeadingEnabled: false,
@@ -143,37 +127,45 @@ export class MapComponent implements OnInit {
     });
   }
 
+  // zoom in function
   zoomIn(): void {
-    this.view.goTo({ zoom: this.view.zoom + 1 });
+    this.view.goTo({ zoom: this.view.zoom + 1 }); // zoom in
   }
 
+  // zoom out function
   zoomOut(): void {
-    this.view.goTo({ zoom: this.view.zoom - 1 });
+    this.view.goTo({ zoom: this.view.zoom - 1 }); // zoom out
   }
 
-  changeLayer(basemap: any): void {
-    this.map.basemap = basemap.name;
-    this.currentBasemapIndex = basemap.id;
-    this.displayLayerName(basemap.title);
+  // change basemap
+  changeLayer(basemap: { name: string; id: number; title: string }): void {
+    this.map.basemap = basemap.name; // change basemap
+    this.currentBasemapIndex = basemap.id; // change current basemap index
   }
 
+  // locate user
   locateS(): void {
-    this.locate.locate();
-    this.isLocated = true;
+    this.locate.locate(); // locate user
+    this.isLocated = true; // change isLocated to true
   }
 
+  // get stations from api
   getStations(): void {
     this.stationService.getStations().subscribe((data) => {
-      this.stations = data;
+      // get stations from api
+      this.stations = data; // assign stations to stations array
 
       this.stations.forEach((element) => {
+        // loop through stations array
         const point = {
+          // create point
           type: 'point',
           longitude: element.longitude,
           latitude: element.latitude,
         };
 
         const pinSymbol = {
+          // create symbol
           type: 'picture-marker',
           url: '../../assets/charging.svg',
           width: '50px',
@@ -181,6 +173,7 @@ export class MapComponent implements OnInit {
         };
 
         const pointGraphic = {
+          // create graphic
           geometry: point,
           symbol: pinSymbol,
           attributes: {
@@ -190,98 +183,58 @@ export class MapComponent implements OnInit {
             latitude: element.latitude,
             longitude: element.longitude,
           },
+
+          // open popup when graphic is clicked
+          popupTemplate: {
+            title: '{name}',
+            content: [
+              {
+                type: 'fields',
+                fieldInfos: [
+                  {
+                    fieldName: 'name',
+                    label: 'Name',
+                  },
+                  {
+                    fieldName: 'address',
+                    label: 'Address',
+                  },
+                ],
+              },
+            ],
+          },
         };
 
-        pointGraphic.attributes = element;
-        // on click event for each station point on the map view to show station info in a modal window when clicked on the point on the map view
-        this.view.on('click', (event: any) => {
-          this.view.hitTest(event).then((response: any) => {
-            if (response.results.length > 0) {
-              // console.log(response.results[0].graphic.attributes);
-              const graphic = response.results[0].graphic;
-              this.graphicsLayer = graphic;
-              // this.showStationInfo(graphic.attributes);
-              console.log(graphic.attributes, 'graphic');
-              // write html for the popup
-              const stationInfo = `
-                <div class="station-info">
-                  <h3>Station Information</h3>
-                  <ul>
-                    <li>Name: ${graphic.attributes.name}</li>
-                    <li>Address: ${graphic.attributes.address}</li>
-                    <li>Latitude: ${graphic.attributes.latitude}</li>
-                    <li>Longitude: ${graphic.attributes.longitude}</li>
-                  </ul>asdasd
-                </div>
-              `;
-
-              // Cannot read properties of undefined (reading 'shouldFocus')
-
-              const popup = new PopupTemplate({
-                content: stationInfo,
-              });
-
-              this.view.popup.open({
-                title: graphic.attributes.name,
-                location: graphic.geometry,
-                content: popup,
-              });
-            }
-          });
-        });
-
-        this.view.graphics.add(pointGraphic);
+        this.view.graphics.add(pointGraphic); // add graphic to the view
       });
     });
   }
 
-  onButtonClick(event: any) {
-    console.log('button clicked');
-    console.log(event, 'event');
-    this.stationInformation = event;
-  }
-
-  showStationInfo(station: Station): void {
-    // open popup
-    this.onButtonClick(station);
-
-    const dialogRef = this.dialog.open(PopupComponent, {
-      data: {
-        stationInformation: station,
-      },
-    });
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '500px';
-    dialogConfig.height = '500px';
-
-    // dialogRef.afterClosed().subscribe(() => {
-    //   console.log('Dialog closed');
-    // });
-
-    // send station info to popup component
-    dialogRef.componentInstance.stationInformation = station;
-  }
-
-  displayLayerName(layerName: string) {
-    const modal = document.getElementById('myModal');
-    const modalContent = document.getElementById('modalContent');
-
-    if (modal && modalContent) {
-      modalContent.innerText = `Layer Name: ${layerName}`;
-      modal.style.display = 'block';
-
-      const closeBtn = document.getElementsByClassName('close')[0];
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    }
-  }
-
+  // get selected station from station list component
   onStationSelected(selectedStation: Center) {
-    this.view.center = [selectedStation.longitude, selectedStation.latitude];
-    this.view.zoom = 12;
+    this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
+    this.view.zoom = 12; // zoom in to the selected station
+  }
+
+  search(enevt: any) {
+    this.searchType = enevt;
+    console.log(this.searchType, 'search type in the map component');
+    // search in the map component
+
+    // add search
+    const search = new Search({
+      view: this.view,
+    });
+
+    // search.on('search-complete', (event: { results: any[] }) => {
+    //   // get search text from search component and search for it
+    //   const searchTexts = this.searchText;
+    //   search.search(searchTexts);
+    //   console.log(searchTexts, 'search text in the map component');
+
+    // get search text from search component and search for it
+    // const searchTexts = this.searchText;
+    search.search(this.searchType);
+    console.log(this.searchType, 'search text in the map component 2');
   }
 }

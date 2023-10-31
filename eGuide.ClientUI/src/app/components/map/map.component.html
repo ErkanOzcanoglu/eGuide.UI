@@ -6,11 +6,10 @@
   <!-- ! Search -->
   <div class="absolute top-36 left-[3vw] rounded-xl">
     <app-search
-      (searchType)="search($event)"
+      (searchTexts)="search($event)"
       (stationSelected)="onStationSelected($event)"
     ></app-search>
   </div>
-
   <div
     class="absolute z-20 top-36 right-[2.5vw] flex flex-col gap-y-2 w-12 h-12"
   >
@@ -59,7 +58,7 @@
         alt="target"
         class="w-full h-full object-cover"
       />
-      <ul class="absolute right-12 gap-y-2 flex top-36 flex-col h-[242px] px-1">
+      <ul class="absolute right-12 gap-y-2 flex top-36 flex-col px-1">
         <button
           class="asd rounded-xl border-black border bg-white p-2 h-full gap-y-2 bcd"
         >
