@@ -55,7 +55,7 @@ export class StationListComponent implements OnInit {
           // If item.socket is a string, convert it to JSON data.
           if (typeof item.socket === 'string') {
             item.socket = JSON.parse(item.socket);
-            console.log(item);
+            console.log(item.stationName, 'asdsad');
           }
         });
         this.stationService.getStations().subscribe({
