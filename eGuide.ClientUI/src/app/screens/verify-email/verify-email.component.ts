@@ -17,14 +17,12 @@ export class VerifyEmailComponent {
 
   ngOnInit() {
     this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
- // Token'i konsola yazdırabilirsiniz
   }
 
   navigateToHome() {
-    this.router.navigate(['/home']); // "home" sayfasına yönlendirme yapar
+    this.router.navigate(['/']); 
   }
 
-  
   confirmAccount() {
      console.log(this.token);
     this.userService.confirmAccount(this.token).subscribe(
@@ -34,7 +32,7 @@ export class VerifyEmailComponent {
       },
       (error) => {
         console.error('Hesap onayı başarısız.', error);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       }
     );
   }

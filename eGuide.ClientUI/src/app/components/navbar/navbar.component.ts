@@ -31,8 +31,6 @@ export class NavbarComponent {
     localStorage.removeItem('authToken');
     localStorage.removeItem('brand');
     localStorage.removeItem('vehicleId');
-    this.router.navigate(['/login']); 
-    
   }
 
   navigateToSettings(): void {

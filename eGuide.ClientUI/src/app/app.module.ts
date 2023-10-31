@@ -1,3 +1,4 @@
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -22,6 +23,11 @@ import { ForgotUserPasswordComponent } from './components/password-change/forgot
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+
+
+
 
 @NgModule({
   declarations: [
@@ -48,6 +54,10 @@ import { VerifyEmailComponent } from './screens/verify-email/verify-email.compon
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserModule,
+    BrowserAnimationsModule,
+    FontAwesomeModule
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
