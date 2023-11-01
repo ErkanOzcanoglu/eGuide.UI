@@ -1,14 +1,50 @@
 <div class="">
-  <input
-    type="text"
-    placeholder="Search"
-    class="bg-white w-52 h-10 p-2 pr-0 rounded-l-xl outline-none"
-  />
-  <select
-    class="bg-white w-24 h-10 p-2 rounded-r-xl border"
-    (change)="onOptionSelect($event)"
+  <div class="flex justify-center items-center">
+    <button class="form-group" (click)="onClick()">
+      <input
+        type="text"
+        aria-describedby="search-text"
+        placeholder="Search"
+        [(ngModel)]="searchText"
+        class="bg-white w-64 h-10 p-2 pr-0 rounded-xl outline-none"
+      />
+      <!-- ! search button -->
+      <!-- <button
+        class="bg-white w-10 h-10 rounded-xl"
+        (click)="aramaYap(searchText)"
+      >
+        <img
+          src="../../../assets/search.svg"
+          alt="search"
+          class="w-full h-full object-cover"
+        />
+      </button> -->
+    </button>
+  </div>
+  <!-- is is clicked h-10 else h-20 -->
+  <div
+    class="mt-2 pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto"
+    [ngClass]="{
+      'h-20 bg-transparent overflow-hidden': !isClicked,
+      'h-[400px] bg-white overflow-visible': isClicked
+    }"
   >
-    <option value="station">Station</option>
-    <option value="location">Location</option>
-  </select>
+    <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
+      <li
+        class="list-group-item text-black p-3 pb-0 border-b"
+        *ngFor="let c of stations | appFilter : searchText"
+        value="{{ c.id }}"
+        (click)="onSelect(c)"
+      >
+        {{ c.name }}
+      </li>
+    </ul>
+    <button
+      class="w-full text-black items-end absolute bottom-0 cursor-pointer justify-center flex text-center"
+      [ngClass]="{ hidden: !isClicked }"
+      (click)="closeSearch()"
+    >
+      kapat
+    </button>
+  </div>
 </div>

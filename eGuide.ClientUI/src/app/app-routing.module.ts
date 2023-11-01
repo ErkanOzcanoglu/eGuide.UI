@@ -9,6 +9,9 @@ import { PasswordSettingsComponent } from './screens/password-settings/password-
 import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
+import { PreventLoginGuardService } from './services/prevent-login-guard.service';
+
+
 
 const routes: Routes = [
   { path: 'password-change', component: PasswordSettingsComponent },
@@ -29,6 +32,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [PreventLoginGuardService]
   },
 ];
 

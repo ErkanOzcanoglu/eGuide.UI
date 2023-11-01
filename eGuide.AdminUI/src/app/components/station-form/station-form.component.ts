@@ -98,8 +98,13 @@ export class StationFormComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.stationForm.invalid) {
-      console.log(this.stationForm.value);
+    if (
+      this.stationForm.invalid &&
+      this.stationModelForm.invalid &&
+      this.selectedSocketsForm.invalid &&
+      this.stationSocketForm.invalid
+    ) {
+      console.log('invalid form');
       this.toastr.error('Station creation failed!');
       return;
     } else {
@@ -122,10 +127,15 @@ export class StationFormComponent implements OnInit {
                   this.stationId = station.id;
                   this.selectedSocketsForm.value.sockets.forEach(
                     (socketId: number) => {
+                      console.log(stationModel.id, 'stationModelId');
                       this.stationSocketForm.patchValue({
                         socketId: socketId,
                         stationModelId: stationModel.id,
                       });
+                      console.log(
+                        this.stationSocketForm.value,
+                        'stationSocketForm'
+                      );
                       this.stationSocketService
                         .createStationSocket(this.stationSocketForm.value)
                         .subscribe({
@@ -134,6 +144,21 @@ export class StationFormComponent implements OnInit {
                           },
                           error: (err) => {
                             console.log(err);
+                            this.toastr.error(
+                              'Station Socket creation failed!'
+                            );
+                            // this.stationModelService
+                            //   .hardDeleteStationModel(
+                            //     this.stationForm.value.stationModelId
+                            //   )
+                            //   .subscribe({
+                            //     next: (res) => {
+                            //       console.log(res);
+                            //     },
+                            //     error: (err) => {
+                            //       console.log(err);
+                            //     },
+                            //   });
                           },
                         });
                     }
@@ -144,6 +169,10 @@ export class StationFormComponent implements OnInit {
                   this.toastr.error('Station creation failed!');
                 },
               });
+          },
+          error: (err) => {
+            console.log(err);
+            this.toastr.error('Station Model creation failed!');
           },
         });
     }
