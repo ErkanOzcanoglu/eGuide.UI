@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-=======
-// Modules
->>>>>>> 19c337c51ce51e6d2e12181c86b92745d2719e3e
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -37,17 +33,9 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
-<<<<<<< HEAD
 import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-
-
-
-=======
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatDialogModule } from '@angular/material/dialog';
->>>>>>> 19c337c51ce51e6d2e12181c86b92745d2719e3e
 
 @NgModule({
   declarations: [
@@ -78,7 +66,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ToastrModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

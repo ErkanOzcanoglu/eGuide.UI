@@ -1,19 +1,21 @@
 <div class="flex bg-white min-h-screen h-full">
-  <div class="bg-white w-1/5 p-4">
-    <ul class="space-y-2 mt-40">
+  <div class="bg-slate-400 w-1/5 p-4 border-r-2 border-r-sky-900">
+    <ul class=" mt-40">
       <li>
         <a
           (click)="showPage('user-settings')"
-          class="block text-white hover:text-blue-200 transition duration-300 py-2 px-4 rounded-xl text-center bg-blue-600 hover:bg-blue-700"
-        >
+          class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4  text-center bg-slate-400 hover:border hover:border-gray-300"
+         tabindex="0"(keydown.enter)="showPage('user-settings')"
+          >
           User Profile
         </a>
       </li>
       <li>
         <a
           (click)="showPage('vehicle')"
-          class="block text-white hover:text-blue-200 transition duration-300 py-2 px-4 rounded-xl text-center bg-blue-600 hover:bg-blue-700"
-        >
+          class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4  text-center bg-slate-400 hover:border hover:border-gray-300"
+         tabindex="0"(keydown.enter)="showPage('vehicle')"
+          >
           Vehicles
         </a>
       </li>
@@ -25,12 +27,6 @@
     </div>
     <div *ngIf="currentPage === 'vehicle'">
       <app-vehicle></app-vehicle>
-    </div>
-    <div *ngIf="currentPage === 'favourites'">
-      <app-favourites></app-favourites>
-    </div>
-    <div *ngIf="currentPage === 'password-settings'">
-      <app-password-settings></app-password-settings>
     </div>
   </div>
 </div>

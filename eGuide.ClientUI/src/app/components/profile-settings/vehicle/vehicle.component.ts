@@ -32,10 +32,8 @@ export class VehicleComponent implements OnInit {
   isUpdate = true;
 
   constructor(
-    private router: Router,
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
-    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -131,7 +129,8 @@ export class VehicleComponent implements OnInit {
 
       this.userVehicleService.saveVehicle(userVehicle).subscribe(
         (response) => {
-          console.log('UserVehicle başarıyla kaydedildi:', response);
+          console.log('UserVehicle başarıyla kaydedildi:', response)
+           this.getBrands();
         },
         (error) => {
           console.error('UserVehicle kaydetme hatası:', error);

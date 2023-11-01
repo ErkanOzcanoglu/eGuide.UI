@@ -12,6 +12,7 @@ export class NavbarComponent {
   user: User = new User();
   isLoggedIn = false;
   showUserMenu = false;
+  hamburgerMenu=false;
 
   constructor(private router: Router, private userService: UserService) {}
 
@@ -31,6 +32,7 @@ export class NavbarComponent {
     localStorage.removeItem('authToken');
     localStorage.removeItem('brand');
     localStorage.removeItem('vehicleId');
+    location.reload();
   }
 
   navigateToSettings(): void {
@@ -40,4 +42,10 @@ export class NavbarComponent {
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;
   }
+
+  toggleHamburgerMenu() {
+   this.hamburgerMenu = !this.hamburgerMenu;
+   console.log(this.hamburgerMenu);
+}
+  
 }

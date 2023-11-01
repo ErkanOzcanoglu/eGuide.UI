@@ -47,8 +47,9 @@ export class LoginComponent implements OnInit {
         if (token === 'wrong email' || token === 'wrong password') {
           this.toastr.error('Incorrect login information, please try again..');
           localStorage.removeItem('authToken');
-        } else {
+        } else {       
           this.router.navigate(['/']);
+           location.reload();  
         }
       },
       (error) => {
