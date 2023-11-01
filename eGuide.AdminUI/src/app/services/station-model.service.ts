@@ -20,4 +20,12 @@ export class StationModelService {
       }
     );
   }
+
+  deleteStationModel(id: string) {
+    return this.http.delete(`${environment.apiUrl}/StationModel/${id}`);
+  }
+
+  hardDeleteStationModel(id: string) {
+    return this.http.patch(`${environment.apiUrl}/StationModel/${id}`, null);
+  }
 }
