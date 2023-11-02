@@ -29,6 +29,16 @@ export class SocketService {
     });
   }
 
+  updateSocket(id: string, socket: Socket): Observable<Socket> {
+    return this.http.put<Socket>(
+      `${environment.apiUrl}/Socket?id=${id}`,
+      socket,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   deleteSocket(id: string) {
     return this.http.delete(`${environment.apiUrl}/Socket/${id}`);
   }

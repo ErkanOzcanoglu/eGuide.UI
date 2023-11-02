@@ -1,61 +1,3 @@
-<!-- <div class="h-full w-full min-h-[500px]">
-  <table class="table">
-    <thead class="w-full">
-      <tr>
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <th class="w-1/5">Station</th>
-        <th class="w-1/5">Station Type</th>
-        <th class="w-1/5">Socket</th>
-        <th class="w-1/5">Connectors</th>
-        <th class="w-1/5"></th>
-      </tr>
-    </thead>
-    <tbody class="w-full">
-      <tr class="w-full" *ngFor="let item of models">
-        <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-12 h-12">
-                <img
-                  src="https://i.pravatar.cc/60"
-                  alt="Avatar Tailwind CSS Component"
-                />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">{{ item.StationName }}</div>
-              <div class="text-sm opacity-50">United States</div>
-            </div>
-          </div>
-        </td>
-        <div class="w-full" *ngFor="let socketItem of item.socket">
-          <td class="w-1/5">
-            {{ socketItem.SocketName }}
-          </td>
-          <td class="">
-            {{ socketItem.SocketType }}
-          </td>
-          <td class="" *ngFor="let connector of socketItem.connector">
-            {{ connector.ConnectorType }}
-          </td>
-          <th>
-            <button class="btn btn-ghost btn-xs">details</button>
-          </th>
-        </div>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
 <div class="h-full w-full min-h-[500px]">
   <table class="table">
     <thead class="w-full">
@@ -66,34 +8,72 @@
           </label>
         </th>
         <th class="w-1/5">Station</th>
-        <th class="w-1/5">Station Type</th>
+        <th class="w-1/5 bg-[#202c3f]">Station Model</th>
         <th class="w-1/5">Socket</th>
-        <th class="w-1/5">Connectors</th>
+        <!-- <th class="w-1/5 bg-[#202c3f]">Connectors</th> -->
+        <th></th>
         <th class="w-1/5"></th>
       </tr>
     </thead>
     <tbody class="w-full" *ngFor="let item of models">
-      <tr *ngFor="let socketItem of item.socket">
-        <td>
+      <tr>
+        <td class="">
           <label>
             <input type="checkbox" class="checkbox" />
           </label>
         </td>
-        <td>
-          <button>{{ item.stationName }}</button>
+        <td class="bg-[#1E293B]">
+          <div class="font-bold">{{ item.stationName }}</div>
+          <div class="text-sm opacity-50">
+            {{ item.address | getFirstTwoParts }}
+          </div>
         </td>
-        <td>
-          <button>{{ socketItem.SocketName }}</button>
+        <td class="bg-[#202c3f]">
+          {{ item.stationModelName }}
         </td>
-        <td>
-          <button>{{ socketItem.SocketType }}</button>
+        <td class="bg-[#1E293B]">
+          <button
+            (click)="toggleList()"
+            class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
+          >
+            <!-- <span *ngIf="!showList">List of sockets</span> -->
+            <ul class="flex flex-col justify-start text-xs">
+              <li
+                *ngFor="let socketItem of item.socket"
+                class="flex justify-start mt-1"
+              >
+                {{ socketItem.socketName }}
+              </li>
+            </ul>
+          </button>
         </td>
-        <td *ngFor="let connector of socketItem.connector">
-          <button>{{ connector.ConnectorType }}</button>
-        </td>
-        <td class="gap-x-1 flex">
-          <button class="btn btn--primary">Edit</button>
-          <button class="btn btn--danger">Delete</button>
+        <td></td>
+        <!-- <td class="bg-[#202c3f]">
+          <button
+            (click)="toggleList()"
+            class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
+          >
+            <ul class="">
+              <li
+                *ngFor="let socketItem of item.socket"
+                class="flex justify-start mt-1"
+              >
+                {{ socketItem.socketType }}
+              </li>
+            </ul>
+          </button>
+        </td> -->
+
+        <td class="gap-x-2 flex">
+          <!-- <app-station-information-modal
+            [editedData]="editData"
+          ></app-station-information-modal> -->
+          <button class="btn btn-ghost" (click)="editStation(item)">
+            Edit
+          </button>
+          <button class="btn btn-ghost" (click)="deleteStation(item.id)">
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>

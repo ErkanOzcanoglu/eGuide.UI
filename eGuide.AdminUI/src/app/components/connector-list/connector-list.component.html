@@ -1,0 +1,85 @@
+<form [formGroup]="connectorForm" class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>Icon</th>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let connector of connectorList">
+      <tr class="">
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <td>
+          <p
+            class="w-full p-2 input input-ghost"
+            *ngIf="!connector.editingMode"
+          >
+            {{ connector.icon }}
+          </p>
+          <input
+            *ngIf="connector.editingMode"
+            type="text"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="icon"
+            [ngModel]="connector.icon"
+          />
+        </td>
+        <td>
+          <p
+            class="w-full p-2 input input-ghost"
+            *ngIf="!connector.editingMode"
+          >
+            {{ connector.type }}
+          </p>
+          <input
+            *ngIf="connector.editingMode"
+            type="text"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="type"
+            [ngModel]="connector.type"
+          />
+        </td>
+        <th></th>
+        <th></th>
+        <th></th>
+        <td class="flex justify-center mt-2 items-center">
+          <div class="flex">
+            <button
+              (click)="updateConnector(connector.id)"
+              *ngIf="connector.editingMode"
+              class="material-icons hover:bg-slate-700 p-2 rounded-xl"
+            >
+              done
+            </button>
+            <button
+              (click)="closeEdit(connector)"
+              *ngIf="connector.editingMode"
+              class="material-icons hover:bg-slate-700 p-2 rounded-xl"
+            >
+              close
+            </button>
+            <button
+              (click)="toggleEdit(connector)"
+              *ngIf="!connector.editingMode"
+              class="btn btn-ghost btn-sm"
+            >
+              Edit
+            </button>
+          </div>
+          <button class="btn btn-ghost btn-sm">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

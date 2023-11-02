@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -14,5 +14,13 @@ export class AppComponent {
 
   closeSideNav(event: SideNavToggle) {
     this.isSideNavCollapsed = event.collapseSideNav;
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isSideNavCollapsed = window.innerWidth < 1450;
+  }
+
+  constructor() {
+    this.isSideNavCollapsed = window.innerWidth < 1450;
   }
 }
