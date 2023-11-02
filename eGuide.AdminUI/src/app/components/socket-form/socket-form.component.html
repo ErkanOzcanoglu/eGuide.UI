@@ -1,101 +1,113 @@
-<div>
+<div class="w-full">
   <form [formGroup]="socketForm" (ngSubmit)="addSocket()">
-    <!--! power -->
-    <div class="mb-4 w-full justify-between">
-      <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
-          Power
-        </label>
+    <div class="flex gap-5">
+      <!--! power -->
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            for="addres"
+          >
+            Power
+          </label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="power"
+          formControlName="power"
+          type="text"
+          placeholder="Enter Power"
+        />
       </div>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="power"
-        formControlName="power"
-        type="text"
-        placeholder="Enter Power"
-      />
-    </div>
-
-    <!--! voltage  -->
-    <div class="mb-4 w-full justify-between">
-      <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
-          Voltage
-        </label>
+      <!--! voltage  -->
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            for="addres"
+          >
+            Voltage
+          </label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="voltage"
+          formControlName="voltage"
+          type="text"
+          placeholder="Enter Voltage"
+        />
       </div>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="voltage"
-        formControlName="voltage"
-        type="text"
-        placeholder="Enter Voltage"
-      />
     </div>
 
-    <!--! current -->
-    <div class="mb-4 w-full justify-between">
-      <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
-          Current
-        </label>
+    <div class="w-full flex gap-5">
+      <!--! current -->
+      <div class="mb-4 w-full">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            for="addres"
+          >
+            Current
+          </label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="current"
+          formControlName="current"
+          type="text"
+          placeholder="Enter Current"
+        />
       </div>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="current"
-        formControlName="current"
-        type="text"
-        placeholder="Enter Current"
-      />
+      <!--! type -->
+      <div class="mb-4 w-full">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
+          Type
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="type"
+          formControlName="type"
+          type="text"
+          placeholder="Enter Type"
+        />
+      </div>
     </div>
 
-    <!--! type -->
-    <div class="mb-4">
-      <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
-        Type
-      </label>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="type"
-        formControlName="type"
-        type="text"
-        placeholder="Enter Type"
-      />
-    </div>
-
-    <!--! name -->
-    <div class="mb-4">
-      <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
-        Name
-      </label>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="type"
-        formControlName="name"
-        type="name"
-        placeholder="Enter Name"
-      />
-    </div>
-
-    <!--! connector -->
-    <div class="mb-4">
-      <div class="flex w-full justify-between">
-        <label
-          class="block text-gray-200 text-sm font-bold mb-2"
-          for="facilities"
+    <div class="w-full flex gap-5">
+      <!--! name -->
+      <div class="mb-4 w-full">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="icon">
+          Name
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="type"
+          formControlName="name"
+          type="name"
+          placeholder="Enter Name"
+        />
+      </div>
+      <!--! connector -->
+      <div class="mb-4 w-full">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            for="facilities"
+          >
+            Connector
+          </label>
+        </div>
+        <select
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="connector"
+          formControlName="connectorId"
         >
-          Connector
-        </label>
+          <option value="" disabled selected>Select Connector</option>
+          <option *ngFor="let con of connectors" [value]="con.id">
+            {{ con.type }}
+          </option>
+        </select>
       </div>
-      <select
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-        id="connector"
-        formControlName="connectorId"
-      >
-        <option value="" disabled selected>Select Connector</option>
-        <option *ngFor="let con of connectors" [value]="con.id">
-          {{ con.type }}
-        </option>
-      </select>
     </div>
 
     <button

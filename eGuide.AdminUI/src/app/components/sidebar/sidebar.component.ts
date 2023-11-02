@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, Output, HostListener } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 
 interface SideNavToggle {
@@ -11,7 +11,18 @@ interface SideNavToggle {
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
+  isScreenWidthBelow756 = false;
+
   @Output() closeSidenav = new EventEmitter<SideNavToggle>();
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.collapseSideNav = window.innerWidth < 1450;
+  }
+
+  constructor() {
+    this.collapseSideNav = window.innerWidth < 1450;
+  }
+
   handleKeyup(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.collapseSideNav = true;
@@ -32,6 +43,8 @@ export class SidebarComponent {
 
   setSideNav() {
     this.collapseSideNav = !this.collapseSideNav;
+    this.collapseManagement = false;
+    this.collapseCustomization = false;
 
     const screenWidth = window.innerWidth;
     this.closeSidenav.emit({

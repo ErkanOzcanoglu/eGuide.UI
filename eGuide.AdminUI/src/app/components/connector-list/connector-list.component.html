@@ -1,0 +1,49 @@
+<div class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>Icon</th>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let connector of connectors">
+      <tr class="">
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>
+          <input
+            type="text"
+            class="input input-bordered input-sm w-full bg-transparent border-none ring-0"
+            placeholder="Search..."
+            [ngModel]="connector.icon"
+          />
+        </th>
+        <th>{{ connector.type }}</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>
+          <button
+            class="btn btn-ghost btn-sm"
+            (click)="editConnector(connector.id)"
+          >
+            Edit
+          </button>
+        </th>
+        <th>
+          <button class="btn btn-ghost btn-sm">Delete</button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>

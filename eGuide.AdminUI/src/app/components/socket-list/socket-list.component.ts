@@ -9,6 +9,7 @@ import { SocketService } from 'src/app/services/socket.service';
 })
 export class SocketListComponent implements OnInit {
   socketList: Socket[] = [];
+  isDisable = true;
   constructor(private socketService: SocketService) {}
 
   ngOnInit(): void {
@@ -25,5 +26,9 @@ export class SocketListComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  toggleEdit(socket: Socket) {
+    socket.editingMode = !socket.editingMode;
   }
 }

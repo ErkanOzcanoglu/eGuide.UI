@@ -1,18 +1,19 @@
 <div class="h-full w-full min-h-[500px]">
   <table class="table">
     <thead class="w-full">
-      <tr>
+      <tr class="text-sm">
         <th>
           <label>
             <input type="checkbox" class="checkbox" />
           </label>
         </th>
-        <th>Name</th>
-        <th>Power</th>
-        <th>Current</th>
-        <th>Type</th>
-        <th>Voltage</th>
-        <th></th>
+        <th><div class="pl-4">Name</div></th>
+        <th>
+          <div class="pl-4">Power</div>
+        </th>
+        <th><div class="pl-4">Connector</div></th>
+        <th><div class="pl-4">Type</div></th>
+        <th><div class="pl-4">Voltage</div></th>
       </tr>
     </thead>
     <tbody>
@@ -25,20 +26,62 @@
         <td>
           <div class="flex items-center space-x-3">
             <div>
-              <div class="font-bold">{{ socketList.name }}</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  class="input input-bordered bg-transparent w-full max-w-xs"
+                  [disabled]="!socketList.editingMode"
+                  [value]="socketList.name"
+                />
+              </div>
             </div>
           </div>
         </td>
         <td>
-          {{ socketList.power }}
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered bg-transparent w-full max-w-xs"
+            [disabled]="!socketList.editingMode"
+            [value]="socketList.power"
+          />
         </td>
         <td>
-          {{ socketList.current }}
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered bg-transparent w-full max-w-xs"
+            [disabled]="!socketList.editingMode"
+            [value]="socketList.current"
+          />
         </td>
-        <td>{{ socketList.type }}</td>
-        <td>{{ socketList.voltage }}</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
+        <td>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered border bg-slate-800 w-full max-w-xs"
+            [disabled]="!socketList.editingMode"
+            [value]="socketList.type"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered bg-transparent w-full max-w-xs"
+            [disabled]="!socketList.editingMode"
+            [value]="socketList.voltage"
+          />
+        </td>
+        <th class="flex justify-center mt-2 items-center">
+          <button class="btn btn-ghost btn-sm" (click)="toggleEdit(socketList)">
+            <span *ngIf="socketList.editingMode" class="material-icons"
+              >done</span
+            >
+            <span *ngIf="!socketList.editingMode" class="">Edit</span>
+          </button>
+          <button class="btn btn-ghost btn-sm">Delete</button>
         </th>
       </tr>
     </tbody>
