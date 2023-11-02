@@ -27,6 +27,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
 import { SocketListComponent } from './components/socket-list/socket-list.component';
+
+// pipes
+import { GetFirstTwoPartsPipe } from './pipes/address.pipe';
+import { StationInformationModalComponent } from './modals/station-information-modal/station-information-modal.component';
+import { ConnectorListComponent } from './components/connector-list/connector-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +46,9 @@ import { SocketListComponent } from './components/socket-list/socket-list.compon
     StationSocketsComponent,
     StationListComponent,
     SocketListComponent,
+    GetFirstTwoPartsPipe,
+    StationInformationModalComponent,
+    ConnectorListComponent,
   ],
   imports: [
     BrowserModule,
