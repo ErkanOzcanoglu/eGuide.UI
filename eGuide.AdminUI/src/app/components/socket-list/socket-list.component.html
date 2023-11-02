@@ -1,89 +1,119 @@
-<div class="h-full w-full min-h-[500px]">
+<form [formGroup]="socketUpdteForm" class="h-full w-full min-h-[500px]">
   <table class="table">
-    <thead class="w-full">
-      <tr class="text-sm">
+    <thead class="text-lg">
+      <tr class="">
+        <th></th>
         <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
+          <p class="pl-2">Name</p>
         </th>
-        <th><div class="pl-4">Name</div></th>
         <th>
-          <div class="pl-4">Power</div>
+          <p class="pl-2">Power</p>
         </th>
-        <th><div class="pl-4">Connector</div></th>
-        <th><div class="pl-4">Type</div></th>
-        <th><div class="pl-4">Voltage</div></th>
+        <th>
+          <p class="pl-2">Current</p>
+        </th>
+        <th>
+          <p class="pl-2">Type</p>
+        </th>
+        <th>
+          <p class="pl-2">Voltage</p>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr class="" *ngFor="let socketList of socketList">
-        <th>
+      <tr *ngFor="let socket of socketList" class="text-start">
+        <td>
           <label>
             <input type="checkbox" class="checkbox" />
           </label>
-        </th>
-        <td>
-          <div class="flex items-center space-x-3">
-            <div>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  class="input input-bordered bg-transparent w-full max-w-xs"
-                  [disabled]="!socketList.editingMode"
-                  [value]="socketList.name"
-                />
-              </div>
-            </div>
-          </div>
         </td>
         <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.name }}
+          </p>
           <input
+            *ngIf="socket.editingMode"
             type="text"
-            placeholder="Type here"
-            class="input input-bordered bg-transparent w-full max-w-xs"
-            [disabled]="!socketList.editingMode"
-            [value]="socketList.power"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="name"
+            [ngModel]="socket.name"
           />
         </td>
         <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.type }}
+          </p>
           <input
+            *ngIf="socket.editingMode"
             type="text"
-            placeholder="Type here"
-            class="input input-bordered bg-transparent w-full max-w-xs"
-            [disabled]="!socketList.editingMode"
-            [value]="socketList.current"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="type"
+            [ngModel]="socket.type"
           />
         </td>
         <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.power }}
+          </p>
           <input
+            *ngIf="socket.editingMode"
             type="text"
-            placeholder="Type here"
-            class="input input-bordered border bg-slate-800 w-full max-w-xs"
-            [disabled]="!socketList.editingMode"
-            [value]="socketList.type"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="power"
+            [ngModel]="socket.power"
           />
         </td>
         <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.current }}
+          </p>
           <input
+            *ngIf="socket.editingMode"
             type="text"
-            placeholder="Type here"
-            class="input input-bordered bg-transparent w-full max-w-xs"
-            [disabled]="!socketList.editingMode"
-            [value]="socketList.voltage"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="current"
+            [ngModel]="socket.current"
           />
         </td>
-        <th class="flex justify-center mt-2 items-center">
-          <button class="btn btn-ghost btn-sm" (click)="toggleEdit(socketList)">
-            <span *ngIf="socketList.editingMode" class="material-icons"
-              >done</span
+        <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.voltage }}
+          </p>
+          <input
+            *ngIf="socket.editingMode"
+            type="text"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="voltage"
+            [ngModel]="socket.voltage"
+          />
+        </td>
+        <td class="flex justify-center mt-2 items-center">
+          <div class="flex">
+            <button
+              (click)="updateSocket(socket.id)"
+              *ngIf="socket.editingMode"
+              class="material-icons hover:bg-slate-700 p-2 rounded-xl"
             >
-            <span *ngIf="!socketList.editingMode" class="">Edit</span>
-          </button>
+              done
+            </button>
+            <button
+              (click)="closeEdit(socket)"
+              *ngIf="socket.editingMode"
+              class="material-icons hover:bg-slate-700 p-2 rounded-xl"
+            >
+              close
+            </button>
+            <button
+              (click)="toggleEdit(socket)"
+              *ngIf="!socket.editingMode"
+              class="btn btn-ghost btn-sm"
+            >
+              Edit
+            </button>
+          </div>
           <button class="btn btn-ghost btn-sm">Delete</button>
-        </th>
+        </td>
       </tr>
     </tbody>
   </table>
-</div>
+</form>

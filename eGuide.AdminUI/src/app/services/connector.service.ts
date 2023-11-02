@@ -23,6 +23,16 @@ export class ConnectorService {
     );
   }
 
+  updateConnector(id: string, socket: Connector): Observable<Connector> {
+    return this.http.put<Connector>(
+      `${environment.apiUrl}/Connector?id=${id}`,
+      socket,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   hardDeleteConnector(id: string) {
     return this.http.delete(`${environment.apiUrl}/Connector/${id}`);
   }
