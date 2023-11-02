@@ -63,12 +63,20 @@
   .input-text {
     margin-bottom: 10px; /* Input alanları arasında 10 piksel boşluk bırakır */
   }
+
+  @media (max-width: 1280px) {
+  #customPanel {
+    width: 83.33%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
+  }
+  .text-3xl {
+    font-size: 1.5rem; /* Dar ekranlarda 1.5rem boyutunda */
+  }
+}
 </style>
 
 <div class="bg-gray-100 h-screen flex justify-center items-center">
-  <div class="w-4/6">
+  <div id=customPanel class="w-4/6">
     <div class="grid-container">
-      <!-- first person profile -->
       <div class="user-profile">
         <div class="custom-panel bg-white rounded-lg shadow p-4">
           <div class="flex items-center justify-between">

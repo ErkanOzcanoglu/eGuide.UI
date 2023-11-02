@@ -1,6 +1,16 @@
+<style>
+   @media (max-width: 1280px) {
+    #loginForm {
+      width: 85%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
+    }
+  }
+</style>
+
+
+
 <form [formGroup]="loginForm" class="mt-40">
   <div class="relative flex flex-col justify-center overflow-hidden">
-    <div
+    <div id= loginForm
       class="w-2/5 p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-center text-gray-700">LOGIN</h1>
       <div form="space-y-4">

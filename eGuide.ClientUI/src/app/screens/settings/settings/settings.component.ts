@@ -6,10 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./settings.component.css'],
 })
 export class SettingsComponent {
-  
-  currentPage: string = 'user-settings'; // Varsayılan olarak kullanıcı ayarları sayfasını göster
+  currentPage= 'user-settings';
 
   showPage(page: string) {
     this.currentPage = page;
+  }
+
+  isSidebarOpen = true; 
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }
