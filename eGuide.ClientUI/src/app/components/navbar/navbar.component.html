@@ -1,0 +1,59 @@
+<div class="flex justify-center sticky top-5 z-20">
+  <div
+    class="navbar h-[80px] bg-[#ffffff] rounded-full w-[95vw] flex justify-between px-10"
+  >
+    <div>
+      <a
+        href="/"
+        class="text-xl text-black hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        >eGuide</a
+      >
+    </div>
+    <div id="userMenu">
+      <a
+        href="/"
+        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >Home</a
+      >
+      <ng-container *ngIf="isLoggedIn; else loginRegister">
+        <div class="relative group" (click)="showUserMenu = !showUserMenu">
+          <a
+            class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+          >
+            {{ user.name }}
+          </a>
+          <div
+            *ngIf="showUserMenu"
+            class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+          >
+            <a
+              (click)="logout()"
+              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+              >Logout</a
+            >
+            <a
+              (click)="navigateToSettings()"
+              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+              >Settings</a
+            >
+          </div>
+        </div>
+      </ng-container>
+      <!-- <input type="checkbox" class="toggle" checked /> -->
+    </div>
+  </div>
+</div>
+
+<ng-template #loginRegister>
+  <!-- Kullanıcı oturum açmadığında "Login" ve "Register" bağlantılarını görüntüleyin -->
+  <a
+    routerLink="/login"
+    class="text-lg text-black font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
+    >Login</a
+  >
+  <a
+    routerLink="/register"
+    class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+    >Register</a
+  >
+</ng-template>

@@ -1,0 +1,46 @@
+<div class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>Name</th>
+        <th>Power</th>
+        <th>Current</th>
+        <th>Type</th>
+        <th>Voltage</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="" *ngFor="let socketList of socketList">
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center space-x-3">
+            <div>
+              <div class="font-bold">{{ socketList.name }}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          {{ socketList.power }}
+        </td>
+        <td>
+          {{ socketList.current }}
+        </td>
+        <td>{{ socketList.type }}</td>
+        <td>{{ socketList.voltage }}</td>
+        <th>
+          <button class="btn btn-ghost btn-xs">details</button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,168 @@
+<form [formGroup]="stationForm" action="" class="w-full h-full">
+  <div class="w-full h-full flex flex-col">
+    <!-- ! address and lat -->
+    <div class="flex justify-between">
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            *ngIf="switchStatus"
+            for=""
+            >Address</label
+          >
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            *ngIf="!switchStatus"
+            for=""
+            >Latitude</label
+          >
+          <label class="switch">
+            <input (click)="setSwitch()" type="checkbox" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <input
+          *ngIf="switchStatus"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="address"
+          required
+          type="text"
+          formControlName="address"
+          placeholder="Enter Address"
+          [value]="mapClickedData?.address"
+          [class.is-invalid]="submitted && stationForm.get('address')?.errors"
+        />
+        <input
+          *ngIf="!switchStatus"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="latitude"
+          required
+          type="text"
+          formControlName="latitude"
+          placeholder="Enter Latitude"
+          [value]="mapClickedData?.lat"
+          [class.is-invalid]="submitted && stationForm.get('latitude')?.errors"
+        />
+      </div>
+    </div>
+    <!-- ! lng -->
+    <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Lng
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="longitude"
+        required
+        type="text"
+        formControlName="longitude"
+        placeholder="Enter Longitude"
+        [value]="mapClickedData?.lng"
+        [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
+      />
+    </div>
+    <!-- ! station name -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Station Name
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="name"
+        required
+        type="text"
+        formControlName="name"
+        placeholder="Enter Name"
+        [class.is-invalid]="submitted && stationForm.get('name')?.errors"
+      />
+    </div>
+    <!-- ! station model name -->
+    <form action="" [formGroup]="stationModelForm">
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm font-bold mb-2"
+            for="addres"
+          >
+            Station Model Name
+          </label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          required
+          type="text"
+          formControlName="name"
+          placeholder="Enter Station Model Name"
+        />
+      </div>
+    </form>
+    <!-- ! station sockets -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+          Sockets
+        </label>
+      </div>
+      <!-- <div>
+        <select multiple name="" id="">
+          <option
+            value=""
+            formControlName="socketss"
+            *ngFor="let socket of sockets"
+            [value]="socket.id"
+          >
+            {{ socket.type }}
+          </option>
+        </select>
+      </div> -->
+      <div>
+        <form [formGroup]="selectedSocketsForm">
+          <mat-form-field
+            class="appearance-none w-full text-white leading-tight focus:outline-none focus:shadow-outline"
+            color="primary"
+            appearance="fill"
+          >
+            <mat-label>Toppings</mat-label>
+            <mat-select
+              class="rounded-3xl"
+              required="true"
+              formControlName="sockets"
+              multiple
+            >
+              <mat-option
+                [class.is-invalid]="
+                  submitted && selectedSocketsForm.get('sockets')?.errors
+                "
+                *ngFor="let socket of sockets"
+                [value]="socket.id"
+                >{{ socket.type }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+    <!-- submit button -->
+    <div class="flex justify-end gap-x-2">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+        (click)="submitForm()"
+      >
+        Check
+      </button>
+    </div>
+  </div>
+</form>
