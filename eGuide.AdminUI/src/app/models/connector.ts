@@ -4,4 +4,5 @@ export class Connector {
   icon = '';
   createdDate = '';
   updatedDate = '';
+  editingMode = false;
 }

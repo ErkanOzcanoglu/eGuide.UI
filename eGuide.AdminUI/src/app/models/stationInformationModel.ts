@@ -1,24 +1,25 @@
 export class Model {
   StationModelId = '';
-  Id = '';
+  id = '';
   stationName = '';
   Latitude = '';
   Longitude = '';
-  Address = '';
+  address = '';
   CreateDate = '';
+  stationModelName = '';
   socket: Sockets[] = [
     {
-      Id: '',
-      SocketName: '',
-      SocketType: '',
-      Current: '',
-      Power: '',
-      Voltage: '',
+      id: '',
+      socketName: '',
+      socketType: '',
+      current: '',
+      power: '',
+      voltage: '',
       connector: [
         {
-          Id: '',
-          Icon: '',
-          ConnectorType: '',
+          connectorId: '',
+          icon: '',
+          connectorType: '',
         },
       ],
     },
@@ -26,17 +27,17 @@ export class Model {
 }
 
 interface Sockets {
-  Id: string;
-  SocketName: string;
-  SocketType: string;
-  Current: string;
-  Power: string;
-  Voltage: string;
+  id: string;
+  socketName: string;
+  socketType: string;
+  current: string;
+  power: string;
+  voltage: string;
   connector: Connectors[];
 }
 
 interface Connectors {
-  Id: string;
-  Icon: string;
-  ConnectorType: string;
+  connectorId: string;
+  icon: string;
+  connectorType: string;
 }
