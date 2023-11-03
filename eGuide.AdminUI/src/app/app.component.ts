@@ -1,4 +1,6 @@
 import { Component, HostListener } from '@angular/core';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './models/auth-guard';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -20,7 +22,8 @@ export class AppComponent {
     this.isSideNavCollapsed = window.innerWidth < 1450;
   }
 
-  constructor() {
+  constructor(public auth: AuthService) {
     this.isSideNavCollapsed = window.innerWidth < 1450;
   }
+
 }
