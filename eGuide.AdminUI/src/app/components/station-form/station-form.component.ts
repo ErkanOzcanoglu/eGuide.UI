@@ -31,6 +31,7 @@ export class StationFormComponent implements OnInit {
   submitted = false;
 
   @Input() mapClickedData: any;
+  @Input() editDatas: any;
   @Output() formAddressData = new EventEmitter<Point>();
 
   constructor(
@@ -55,6 +56,9 @@ export class StationFormComponent implements OnInit {
         latitude: this.mapClickedData.lat,
         longitude: this.mapClickedData.lng,
       });
+    }
+    if (this.editDatas) {
+      console.log(this.editDatas, 'editData');
     }
   }
 

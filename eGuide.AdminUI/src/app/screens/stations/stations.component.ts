@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 interface Point {
   lat: number;
@@ -14,6 +14,8 @@ export class StationsComponent {
   screenType = true;
   mapClickedData: any;
   mapFormAddressData: any;
+
+  editData: any;
 
   setScreenType() {
     this.screenType = !this.screenType;

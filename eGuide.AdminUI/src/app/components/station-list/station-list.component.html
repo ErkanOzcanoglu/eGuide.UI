@@ -10,8 +10,7 @@
         <th class="w-1/5">Station</th>
         <th class="w-1/5 bg-[#202c3f]">Station Model</th>
         <th class="w-1/5">Socket</th>
-        <!-- <th class="w-1/5 bg-[#202c3f]">Connectors</th> -->
-        <th></th>
+        <th class="w-1/5 bg-[#202c3f]">Connectors</th>
         <th class="w-1/5"></th>
       </tr>
     </thead>
@@ -47,12 +46,12 @@
             </ul>
           </button>
         </td>
-        <td></td>
-        <!-- <td class="bg-[#202c3f]">
+        <td class="bg-[#202c3f]">
           <button
             (click)="toggleList()"
             class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
           >
+            <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="">
               <li
                 *ngFor="let socketItem of item.socket"
@@ -62,12 +61,9 @@
               </li>
             </ul>
           </button>
-        </td> -->
+        </td>
 
         <td class="gap-x-2 flex">
-          <!-- <app-station-information-modal
-            [editedData]="editData"
-          ></app-station-information-modal> -->
           <button class="btn btn-ghost" (click)="editStation(item)">
             Edit
           </button>

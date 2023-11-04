@@ -90,12 +90,8 @@ export class StationListComponent implements OnInit {
     console.log(id);
   }
 
-  editStation(event: Model): void {
-    this.editData.emit(event);
-    console.log(event);
-  }
-
-  sendEditData(id: string): void {
-    console.log(id);
+  editStation(model: Model): void {
+    this.editData.emit(model);
+    console.log(model);
   }
 }
