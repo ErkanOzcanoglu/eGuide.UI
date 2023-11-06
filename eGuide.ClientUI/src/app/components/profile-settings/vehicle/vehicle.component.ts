@@ -19,7 +19,7 @@ export class VehicleComponent implements OnInit {
 
   brands: string[] = [];
   models: string[] = [];
-  vehicles: string[] = [];
+  vehicles: Vehicle[] = [];
 
   selectedBrand = '';
   selectedModel = '';
@@ -32,7 +32,7 @@ export class VehicleComponent implements OnInit {
 
   constructor(
     private userVehicleService: UserVehicleService,
-    private vehicleService: VehiclesService,
+    private vehicleService: VehiclesService
   ) {}
 
   ngOnInit(): void {
@@ -130,7 +130,6 @@ export class VehicleComponent implements OnInit {
         (response) => {
           console.log('UserVehicle başarıyla kaydedildi:', response);
           this.getVehicleById();
-          
         },
         (error) => {
           console.error('UserVehicle kaydetme hatası:', error);
@@ -146,7 +145,7 @@ export class VehicleComponent implements OnInit {
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
-          this.vehicles = data;
+  
           this.vehicleList = data;
 
           const combinedVehicles = this.vehicleList.map((vehicle) => {
@@ -193,7 +192,6 @@ export class VehicleComponent implements OnInit {
 
     if (this.selectedBrand && this.selectedModel) {
       this.updatePrimaryKey(this.selectedBrand, this.selectedModel);
-      
     } else {
       this.primaryKey = 'xxx';
     }
@@ -218,7 +216,7 @@ export class VehicleComponent implements OnInit {
       this.userVehicleService.updateVehicle(userId, oldId, vehicleId).subscribe(
         (response) => {
           console.log('Araç güncelleme başarılı:', response);
-           this.getVehicleById();
+          this.getVehicleById();
         },
         (error) => {
           console.error('Araç güncelleme hatası:', error);

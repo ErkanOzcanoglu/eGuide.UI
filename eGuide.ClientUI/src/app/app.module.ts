@@ -35,6 +35,7 @@ import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
