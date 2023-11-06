@@ -1,9 +1,7 @@
-import { Socket } from 'src/app/models/socket';
 import { Model } from 'src/app/models/stationInformationModel';
 import { StationService } from '../../services/station.service';
 import { Station } from './../../models/station';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ConnectorService } from 'src/app/services/connector.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 // improt toast
@@ -33,6 +31,7 @@ export class StationListComponent implements OnInit {
     this.selectedItem = socketItem.socketName;
     this.showList = false;
   }
+
   constructor(
     private stationService: StationService,
     private socketService: SocketService,
@@ -46,10 +45,10 @@ export class StationListComponent implements OnInit {
   }
 
   getStaInfo() {
-    this.stationService.getAllStaiton().subscribe({
+    this.stationService.getStations().subscribe({
       next: (stations) => {
         console.log(stations);
-        this.stationInfo = stations;
+        this.stations = stations;
       },
     });
   }
@@ -90,7 +89,7 @@ export class StationListComponent implements OnInit {
     console.log(id);
   }
 
-  editStation(model: Model): void {
+  editStation(model: Station): void {
     this.editData.emit(model);
     console.log(model);
   }

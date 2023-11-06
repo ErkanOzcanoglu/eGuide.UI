@@ -32,6 +32,7 @@ import { SocketListComponent } from './components/socket-list/socket-list.compon
 import { GetFirstTwoPartsPipe } from './pipes/address.pipe';
 import { StationInformationModalComponent } from './modals/station-information-modal/station-information-modal.component';
 import { ConnectorListComponent } from './components/connector-list/connector-list.component';
+import { StoreModule } from '@ngrx/store';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +63,7 @@ import { ConnectorListComponent } from './components/connector-list/connector-li
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
+    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent],
