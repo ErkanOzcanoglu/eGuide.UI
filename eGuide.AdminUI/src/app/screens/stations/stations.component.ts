@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { getFormAddressData } from 'src/app/state/map-click-data/map-click-data.selector';
+import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 
 interface Point {
   lat: number;
@@ -15,6 +18,17 @@ export class StationsComponent {
   mapClickedData: any;
   mapFormAddressData: any;
 
+  editData: any;
+
+  constructor(private store: Store<{ stationEditData: any }>) {
+    this.store.pipe(select(getStationEditData)).subscribe((stationEditData) => {
+      if (stationEditData) {
+        this.editData = stationEditData;
+        this.screenType = true;
+      }
+    });
+  }
+
   setScreenType() {
     this.screenType = !this.screenType;
   }
@@ -25,11 +39,9 @@ export class StationsComponent {
 
   onMapClick(event: any) {
     this.mapClickedData = event;
-    console.log(this.mapClickedData, 'mapClickedData');
   }
 
   onFormSubmit(event: Point) {
     this.mapFormAddressData = event;
-    console.log(this.mapFormAddressData, 'mapFormAddressData');
   }
 }

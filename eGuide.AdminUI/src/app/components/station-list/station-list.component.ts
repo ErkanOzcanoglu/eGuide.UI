@@ -1,13 +1,13 @@
-import { Socket } from 'src/app/models/socket';
 import { Model } from 'src/app/models/stationInformationModel';
 import { StationService } from '../../services/station.service';
 import { Station } from './../../models/station';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ConnectorService } from 'src/app/services/connector.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 // improt toast
 import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
 
 @Component({
   selector: 'app-station-list',
@@ -26,18 +26,19 @@ export class StationListComponent implements OnInit {
 
   toggleList() {
     this.showList = !this.showList;
-    console.log(this.showList);
   }
 
   selectItem(socketItem: any) {
     this.selectedItem = socketItem.socketName;
     this.showList = false;
   }
+
   constructor(
     private stationService: StationService,
     private socketService: SocketService,
     private stationSocketService: StationSocketService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store<{ stationEditData: any }>
   ) {}
 
   ngOnInit(): void {
@@ -46,10 +47,10 @@ export class StationListComponent implements OnInit {
   }
 
   getStaInfo() {
-    this.stationService.getAllStaiton().subscribe({
+    this.stationService.getStations().subscribe({
       next: (stations) => {
-        console.log(stations);
-        this.stationInfo = stations;
+        stations;
+        this.stations = stations;
       },
     });
   }
@@ -63,7 +64,6 @@ export class StationListComponent implements OnInit {
           // If item.socket is a string, convert it to JSON data.
           if (typeof item.socket === 'string') {
             item.socket = JSON.parse(item.socket);
-            console.log(item.stationName, 'asdsad');
           }
         });
         this.stationService.getStations().subscribe({
@@ -87,15 +87,9 @@ export class StationListComponent implements OnInit {
       },
       error: (err) => this.toastr.error(err, 'Error'),
     });
-    console.log(id);
   }
 
-  editStation(event: Model): void {
-    this.editData.emit(event);
-    console.log(event);
-  }
-
-  sendEditData(id: string): void {
-    console.log(id);
+  editStation(model: Station): void {
+    this.store.dispatch(setStationEditData({ stationEditData: model }));
   }
 }

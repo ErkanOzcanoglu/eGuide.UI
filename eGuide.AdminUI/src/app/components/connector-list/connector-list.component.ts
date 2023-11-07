@@ -34,16 +34,13 @@ export class ConnectorListComponent implements OnInit {
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
-      console.log(this.connectorList);
     });
   }
 
   updateConnector(id: string) {
     this.connectorService
       .updateConnector(id, this.connectorForm.value)
-      .subscribe((data) => {
-        console.log(data);
-      });
+      .subscribe();
     setTimeout(() => {
       this.getConnector();
     }, 100);

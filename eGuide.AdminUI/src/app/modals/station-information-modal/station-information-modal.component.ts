@@ -7,8 +7,4 @@ import { Component, Input } from '@angular/core';
 })
 export class StationInformationModalComponent {
   @Input() editedData: any;
-
-  ngOnChanges(): void {
-    console.log(this.editedData, 'editedData');
-  }
 }
