@@ -39,6 +39,9 @@ import { SocketListComponent } from './components/socket-components/socket-list/
 import { ConnectorListComponent } from './components/connector-components/connector-list/connector-list.component';
 import { AdminSettingsComponent } from './components/admin-components/admin-settings/admin-settings.component';
 import { SiteSettingsComponent } from './components/admin-components/site-settings/site-settings.component';
+import { LoginComponent } from './components/admin-components/login/login.component';
+import { AddAdminComponent } from './components/admin-components/add-admin/add-admin.component';
+import { SignComponent } from './screens/sign/sign.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +63,9 @@ import { SiteSettingsComponent } from './components/admin-components/site-settin
     AdminSettingsComponent,
     SiteSettingsComponent,
     SettingsComponent,
+    LoginComponent,
+    AddAdminComponent,
+    SignComponent,
   ],
   imports: [
     BrowserModule,
