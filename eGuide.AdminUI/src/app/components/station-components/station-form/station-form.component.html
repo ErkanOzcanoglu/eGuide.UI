@@ -121,11 +121,13 @@
             appearance="fill"
           >
             <mat-label>Sockets</mat-label>
+            <!-- display only the selected name -->
             <mat-select
               class="rounded-3xl w-full"
               required="true"
               formControlName="sockets"
               multiple
+              (selectionChange)="onSelectionChange($event)"
             >
               <mat-option disabled="" class="table">
                 <thead class="w-full">
@@ -146,6 +148,7 @@
                 "
                 *ngFor="let socket of sockets"
                 [value]="socket.id"
+                aria-selected="false"
               >
                 <table class="table">
                   <td class="w-[120px]">
