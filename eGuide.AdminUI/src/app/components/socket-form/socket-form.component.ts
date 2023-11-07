@@ -38,9 +38,7 @@ export class SocketFormComponent implements OnInit {
 
   addSocket() {
     if (this.socketForm.valid) {
-      this.socketService.addSocket(this.socketForm.value).subscribe((asd) => {
-        console.log(asd);
-      });
+      this.socketService.addSocket(this.socketForm.value).subscribe();
     } else {
       console.log('Form is not valid');
     }

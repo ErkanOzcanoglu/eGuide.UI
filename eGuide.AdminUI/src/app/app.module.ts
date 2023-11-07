@@ -1,3 +1,4 @@
+import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,6 +34,8 @@ import { GetFirstTwoPartsPipe } from './pipes/address.pipe';
 import { StationInformationModalComponent } from './modals/station-information-modal/station-information-modal.component';
 import { ConnectorListComponent } from './components/connector-list/connector-list.component';
 import { StoreModule } from '@ngrx/store';
+import { stationEditDataReducer } from './state/station-edit-data/station-edit-data.reducer';
+import { HomeComponent } from './screens/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +53,7 @@ import { StoreModule } from '@ngrx/store';
     GetFirstTwoPartsPipe,
     StationInformationModalComponent,
     ConnectorListComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,10 @@ import { StoreModule } from '@ngrx/store';
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({
+      map: mapReducer,
+      stationEditData: stationEditDataReducer,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

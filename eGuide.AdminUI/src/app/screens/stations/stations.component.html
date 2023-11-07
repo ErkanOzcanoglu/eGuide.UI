@@ -10,18 +10,11 @@
     </div>
     <div *ngIf="screenType" class="flex flex-col justify-center px-5 mt-10">
       <div class="z-40 min-w-[15vw]">
-        <app-station-form
-          [mapClickedData]="mapClickedData"
-          [editDatas]="editData"
-          (formAddressData)="onFormSubmit($event)"
-        ></app-station-form>
+        <app-station-form></app-station-form>
       </div>
 
       <div class="min-w-[40vw] w-full h-[70vh]">
-        <app-map
-          (mapClick)="onMapClick($event)"
-          [mapFormAddressData]="mapFormAddressData"
-        ></app-map>
+        <app-map></app-map>
       </div>
     </div>
     <div
@@ -29,7 +22,7 @@
       class="flex lg:flex-row flex-col mt-[10vh] lg:justify-between justify-center px-5 w-full h-full"
     >
       <div class="z-40 w-full h-full">
-        <app-station-list (editData)="(editData)"></app-station-list>
+        <app-station-list></app-station-list>
       </div>
     </div>
   </div>

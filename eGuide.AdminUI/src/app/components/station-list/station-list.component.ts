@@ -6,6 +6,8 @@ import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 // improt toast
 import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
 
 @Component({
   selector: 'app-station-list',
@@ -24,7 +26,6 @@ export class StationListComponent implements OnInit {
 
   toggleList() {
     this.showList = !this.showList;
-    console.log(this.showList);
   }
 
   selectItem(socketItem: any) {
@@ -36,7 +37,8 @@ export class StationListComponent implements OnInit {
     private stationService: StationService,
     private socketService: SocketService,
     private stationSocketService: StationSocketService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store<{ stationEditData: any }>
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class StationListComponent implements OnInit {
   getStaInfo() {
     this.stationService.getStations().subscribe({
       next: (stations) => {
-        console.log(stations);
+        stations;
         this.stations = stations;
       },
     });
@@ -62,7 +64,6 @@ export class StationListComponent implements OnInit {
           // If item.socket is a string, convert it to JSON data.
           if (typeof item.socket === 'string') {
             item.socket = JSON.parse(item.socket);
-            console.log(item.stationName, 'asdsad');
           }
         });
         this.stationService.getStations().subscribe({
@@ -86,11 +87,9 @@ export class StationListComponent implements OnInit {
       },
       error: (err) => this.toastr.error(err, 'Error'),
     });
-    console.log(id);
   }
 
   editStation(model: Station): void {
-    this.editData.emit(model);
-    console.log(model);
+    this.store.dispatch(setStationEditData({ stationEditData: model }));
   }
 }

@@ -6,6 +6,17 @@ import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
 import { ToastrService } from 'ngx-toastr';
+import { Store, select } from '@ngrx/store';
+import {
+  getClickedData,
+  getFormAddressData,
+} from 'src/app/state/map-click-data/map-click-data.selector';
+import {
+  MapState,
+  setFormAddressData,
+} from 'src/app/state/map-click-data/map-click-data.action';
+import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
+import { Station } from 'src/app/models/station';
 
 interface Point {
   lat: number;
@@ -30,9 +41,10 @@ export class StationFormComponent implements OnInit {
   apiLoginErrorMessages: string[] = [];
   submitted = false;
 
-  @Input() mapClickedData: any;
-  @Input() editDatas: any;
-  @Output() formAddressData = new EventEmitter<Point>();
+  // @Input() mapClickedData: any;
+  mapClickedData: any;
+  // @Input() editDatas: any;
+  editDatas?: Station;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,8 +52,12 @@ export class StationFormComponent implements OnInit {
     private stationService: StationService,
     private stationModelService: StationModelService,
     private stationSocketService: StationSocketService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store<MapState>,
+    private store2: Store<{ stationEditData: any }>
   ) {
+    this.store.pipe(select(getFormAddressData)).subscribe();
+
     this.stationForm = this.formBuilder.group({
       address: ['', Validators.required],
       latitude: ['', Validators.required],
@@ -49,22 +65,40 @@ export class StationFormComponent implements OnInit {
       stationModelId: ['', Validators.required],
     });
   }
-  ngOnChanges() {
-    if (this.mapClickedData) {
-      this.stationForm.patchValue({
-        address: this.mapClickedData.address,
-        latitude: this.mapClickedData.lat,
-        longitude: this.mapClickedData.lng,
-      });
-    }
-    if (this.editDatas) {
-      console.log(this.editDatas, 'editData');
-    }
-  }
 
   ngOnInit(): void {
     this.getSockets();
     this.initializeForm();
+
+    this.store.pipe(select(getClickedData)).subscribe((clickedData) => {
+      if (clickedData) {
+        this.stationForm.patchValue({
+          address: clickedData.address,
+          latitude: clickedData.lat,
+          longitude: clickedData.lng,
+        });
+      }
+    });
+    this.store2
+      .pipe(select(getStationEditData))
+      .subscribe((stationEditData) => {
+        console.log(stationEditData.stationEditData, 'stationEditData');
+        if (stationEditData) {
+          this.stationForm.patchValue({
+            address: stationEditData.stationEditData?.address,
+            latitude: stationEditData.stationEditData?.latitude,
+            longitude: stationEditData.stationEditData?.longitude,
+            name: stationEditData.stationEditData?.name,
+          });
+
+          this.editDatas = stationEditData.stationEditData;
+
+          console.log(this.editDatas?.stationModel?.id, 'stationModelId');
+          this.stationModelForm.patchValue({
+            name: this.editDatas?.stationModel?.name,
+          });
+        }
+      });
   }
 
   setSwitch(): void {
@@ -136,16 +170,10 @@ export class StationFormComponent implements OnInit {
                         socketId: socketId,
                         stationModelId: stationModel.id,
                       });
-                      console.log(
-                        this.stationSocketForm.value,
-                        'stationSocketForm'
-                      );
+
                       this.stationSocketService
                         .createStationSocket(this.stationSocketForm.value)
                         .subscribe({
-                          next: (stationSocket) => {
-                            console.log(stationSocket);
-                          },
                           error: (err) => {
                             console.log(err);
                             this.toastr.error(
@@ -184,7 +212,6 @@ export class StationFormComponent implements OnInit {
 
   submitForm() {
     this.onFormSubmit();
-    console.log(this.stationForm.value, 'submit form');
   }
 
   onFormSubmit() {
@@ -193,7 +220,6 @@ export class StationFormComponent implements OnInit {
       lat: this.stationForm.value.latitude,
       lng: this.stationForm.value.longitude,
     };
-    this.formAddressData.emit(addressData);
-    console.log(addressData, 'addressData');
+    this.store.dispatch(setFormAddressData({ formAddressData: addressData }));
   }
 }
