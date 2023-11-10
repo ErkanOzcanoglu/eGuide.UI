@@ -24,12 +24,9 @@ export class StationService {
   }
 
   getAllStaiton() {
-    return this.http.get<Model[]>(
-      `${environment.apiUrl}/Station/GetAllStationProfile`,
-      {
-        responseType: 'json',
-      }
-    );
+    return this.http.get<Model[]>(`${environment.apiUrl}/Station`, {
+      responseType: 'json',
+    });
   }
 
   getStationById(id: string) {

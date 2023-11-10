@@ -27,7 +27,6 @@ export class SocketListComponent implements OnInit {
     this.socketService.getSockets().subscribe({
       next: (data) => {
         this.socketList = data;
-        console.log(data, 'sadşlsadşl');
       },
       error: (error) => {
         console.log(error);
@@ -58,7 +57,6 @@ export class SocketListComponent implements OnInit {
   }
 
   updateSocket(id: string) {
-    console.log(this.socketUpdteForm.value);
     this.socketService.updateSocket(id, this.socketUpdteForm.value).subscribe({
       next: (data) => {
         console.log(data);

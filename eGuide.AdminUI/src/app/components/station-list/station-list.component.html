@@ -10,12 +10,11 @@
         <th class="w-1/5">Station</th>
         <th class="w-1/5 bg-[#202c3f]">Station Model</th>
         <th class="w-1/5">Socket</th>
-        <!-- <th class="w-1/5 bg-[#202c3f]">Connectors</th> -->
-        <th></th>
+        <th class="w-1/5 bg-[#202c3f]">Connectors</th>
         <th class="w-1/5"></th>
       </tr>
     </thead>
-    <tbody class="w-full" *ngFor="let item of models">
+    <tbody class="w-full" *ngFor="let item of stations">
       <tr>
         <td class="">
           <label>
@@ -23,13 +22,13 @@
           </label>
         </td>
         <td class="bg-[#1E293B]">
-          <div class="font-bold">{{ item.stationName }}</div>
+          <div class="font-bold">{{ item.name }}</div>
           <div class="text-sm opacity-50">
             {{ item.address | getFirstTwoParts }}
           </div>
         </td>
         <td class="bg-[#202c3f]">
-          {{ item.stationModelName }}
+          {{ item.stationModel?.name }}
         </td>
         <td class="bg-[#1E293B]">
           <button
@@ -39,35 +38,32 @@
             <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="flex flex-col justify-start text-xs">
               <li
-                *ngFor="let socketItem of item.socket"
+                *ngFor="let socketItem of item.stationModel?.stationSockets"
                 class="flex justify-start mt-1"
               >
-                {{ socketItem.socketName }}
+                {{ socketItem.socket?.name }}
               </li>
             </ul>
           </button>
         </td>
-        <td></td>
-        <!-- <td class="bg-[#202c3f]">
+        <td class="bg-[#202c3f]">
           <button
             (click)="toggleList()"
             class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
           >
+            <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="">
               <li
-                *ngFor="let socketItem of item.socket"
+                *ngFor="let socketItem of item.stationModel?.stationSockets"
                 class="flex justify-start mt-1"
               >
-                {{ socketItem.socketType }}
+                {{ socketItem.socket?.connector?.type }}
               </li>
             </ul>
           </button>
-        </td> -->
+        </td>
 
         <td class="gap-x-2 flex">
-          <!-- <app-station-information-modal
-            [editedData]="editData"
-          ></app-station-information-modal> -->
           <button class="btn btn-ghost" (click)="editStation(item)">
             Edit
           </button>

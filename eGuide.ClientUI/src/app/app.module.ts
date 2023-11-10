@@ -36,7 +36,8 @@ import { VerifyEmailComponent } from './screens/verify-email/verify-email.compon
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { StoreModule } from '@ngrx/store';
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    MatDialogModule,
     StoreModule.forRoot({}, {}),
   ],
   providers: [AuthGuard, AuthService],

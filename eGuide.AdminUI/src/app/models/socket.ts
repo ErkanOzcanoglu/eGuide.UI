@@ -1,3 +1,5 @@
+import { Connector } from './connector';
+
 export class Socket {
   id = '';
   power = 0;
@@ -7,4 +9,5 @@ export class Socket {
   name = '';
   connectorId = 0;
   editingMode = false;
+  connector?: Connector;
 }
