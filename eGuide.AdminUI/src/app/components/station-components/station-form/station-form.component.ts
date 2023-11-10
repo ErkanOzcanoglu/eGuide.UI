@@ -1,4 +1,3 @@
-import { SocketService } from './../../services/socket.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Socket } from 'src/app/models/socket';
@@ -17,6 +16,7 @@ import {
 } from 'src/app/state/map-click-data/map-click-data.action';
 import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
+import { SocketService } from 'src/app/services/socket.service';
 
 interface Point {
   lat: number;
@@ -29,9 +29,11 @@ interface Point {
 })
 export class StationFormComponent implements OnInit {
   switchStatus = false;
+  isEdited = false;
 
   sockets: Socket[] = [];
   stationId = '';
+  selectedSockets: any[] = [];
 
   stationForm: FormGroup = new FormGroup({});
   stationModelForm: FormGroup = new FormGroup({});
@@ -83,6 +85,7 @@ export class StationFormComponent implements OnInit {
       .pipe(select(getStationEditData))
       .subscribe((stationEditData) => {
         console.log(stationEditData.stationEditData, 'stationEditData');
+        this.isEdited = true;
         if (stationEditData) {
           this.stationForm.patchValue({
             address: stationEditData.stationEditData?.address,
@@ -97,8 +100,25 @@ export class StationFormComponent implements OnInit {
           this.stationModelForm.patchValue({
             name: this.editDatas?.stationModel?.name,
           });
+
+          this.stationSocketForm.patchValue({
+            stationModelId: this.editDatas?.stationModel?.id,
+          });
+
+          this.selectedSocketsForm.patchValue({
+            sockets: this.editDatas?.stationModel?.stationSockets?.map(
+              (stationSocket) => stationSocket.socketId
+            ),
+          });
         }
       });
+  }
+
+  onSelectionChange(event: any) {
+    this.selectedSockets = event.value.map((socketId: string) => {
+      return this.sockets.find((socket) => socket.id === socketId)?.name;
+    });
+    console.log(this.selectedSockets, 'selectedSockets');
   }
 
   setSwitch(): void {

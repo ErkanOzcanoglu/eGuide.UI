@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Admin } from '../models/admin';
@@ -9,6 +10,10 @@ import { ResetPassword } from '../models/resetPassword';
   providedIn: 'root',
 })
 export class AdminService {
+  constructor(private httpClient: HttpClient) {}
+
+  getAdminInfo(adminId: string) {
+    return this.httpClient.get(`${environment.apiUrl}/Admin/${adminId}`);
   admin: Admin = new Admin();
   private url = 'Admin';
 

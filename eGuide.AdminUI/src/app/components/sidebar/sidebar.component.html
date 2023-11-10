@@ -39,6 +39,7 @@
 
     <!--! Profile Div -->
     <div
+      *ngIf="adminInfo"
       [ngClass]="collapseSideNav ? 'justify-center' : 'pl-[60px]'"
       class="h-28 duration-300 shadow shadow-black flex w-full items-center gap-10"
     >
@@ -51,8 +52,8 @@
         [ngClass]="collapseSideNav ? 'hidden' : 'flex flex-col'"
         class="duration-300 profile-name-con"
       >
-        <p class="profile-name">John Doe</p>
-        <p class="profile-email">gmail@gmail.com</p>
+        <p class="profile-name">{{ adminInfo.name }} {{ adminInfo.surname }}</p>
+        <p class="profile-email">{{ adminInfo.email }}</p>
       </div>
     </div>
 
@@ -209,7 +210,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a class="cursor-pointer">
+          <a routerLink="settings" class="cursor-pointer">
             <i class="fas fa-cog"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Settings</span>
           </a>

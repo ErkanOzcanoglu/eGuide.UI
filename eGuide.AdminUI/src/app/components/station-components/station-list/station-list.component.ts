@@ -1,6 +1,4 @@
 import { Model } from 'src/app/models/stationInformationModel';
-import { StationService } from '../../services/station.service';
-import { Station } from './../../models/station';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -8,6 +6,8 @@ import { StationSocketService } from 'src/app/services/station-socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
+import { StationService } from 'src/app/services/station.service';
+import { Station } from 'src/app/models/station';
 
 @Component({
   selector: 'app-station-list',
