@@ -101,7 +101,7 @@
             *ngIf="collapseManagement"
           >
             <li class="submenu-list">
-              <a href="/station">
+              <a routerLink="station">
                 <i class="fa fa-charging-station"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''">Station</span>
               </a>
@@ -122,7 +122,7 @@
               </a>
             </li>
             <li class="submenu-list">
-              <a href="/socket">
+              <a routerLink="socket">
                 <i class="fas fa-subway"></i>
                 <span [ngClass]="collapseSideNav ? 'hidden' : ''">Socket</span>
               </a>
@@ -218,10 +218,6 @@
     </div>
 
     <!--! Logout Div -->
-    <!-- <ul
-      class="menu-con-logout w-full"
-      [ngClass]="collapseSideNav ? 'justify-center flex ml-4' : 'pl-[70px]'"
-    > -->
     <div
       [ngClass]="collapseSideNav ? 'items-center' : 'items-start pl-14'"
       class="flex duration-300 flex-col mt-[15px] menu-cons w-full"

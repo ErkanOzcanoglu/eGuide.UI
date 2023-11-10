@@ -1,11 +1,13 @@
-import { Socket } from 'src/app/models/socket';
 import { Model } from 'src/app/models/stationInformationModel';
 import { StationService } from '../../services/station.service';
 import { Station } from './../../models/station';
-import { Component, OnInit } from '@angular/core';
-import { ConnectorService } from 'src/app/services/connector.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
+// improt toast
+import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
 
 @Component({
   selector: 'app-station-list',
@@ -13,23 +15,30 @@ import { StationSocketService } from 'src/app/services/station-socket.service';
   styleUrls: ['./station-list.component.css'],
 })
 export class StationListComponent implements OnInit {
+  @Output() editData = new EventEmitter<any>();
   models: Model[] = [];
   socket = '';
   socketArray: any;
   stations: Station[] = [];
   stationInfo: any;
-  displayedColumns: string[] = [
-    'name',
-    'longitude',
-    'latitude',
-    'altitude',
-    'actions',
-  ];
+  showList: any;
+  selectedItem: any;
+
+  toggleList() {
+    this.showList = !this.showList;
+  }
+
+  selectItem(socketItem: any) {
+    this.selectedItem = socketItem.socketName;
+    this.showList = false;
+  }
 
   constructor(
     private stationService: StationService,
     private socketService: SocketService,
-    private stationSocketService: StationSocketService
+    private stationSocketService: StationSocketService,
+    private toastr: ToastrService,
+    private store: Store<{ stationEditData: any }>
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +47,10 @@ export class StationListComponent implements OnInit {
   }
 
   getStaInfo() {
-    this.stationService.getAllStaiton().subscribe({
+    this.stationService.getStations().subscribe({
       next: (stations) => {
-        console.log(stations);
-        this.stationInfo = stations;
+        stations;
+        this.stations = stations;
       },
     });
   }
@@ -55,7 +64,6 @@ export class StationListComponent implements OnInit {
           // If item.socket is a string, convert it to JSON data.
           if (typeof item.socket === 'string') {
             item.socket = JSON.parse(item.socket);
-            console.log(item.stationName, 'asdsad');
           }
         });
         this.stationService.getStations().subscribe({
@@ -69,5 +77,19 @@ export class StationListComponent implements OnInit {
       },
       (err) => console.error(err)
     );
+  }
+
+  deleteStation(id: string): void {
+    this.stationService.deleteStation(id).subscribe({
+      next: () => {
+        this.toastr.success('Deleted successfully');
+        this.getStations();
+      },
+      error: (err) => this.toastr.error(err, 'Error'),
+    });
+  }
+
+  editStation(model: Station): void {
+    this.store.dispatch(setStationEditData({ stationEditData: model }));
   }
 }

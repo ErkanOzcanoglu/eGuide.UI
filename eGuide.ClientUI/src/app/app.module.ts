@@ -36,6 +36,7 @@ import { VerifyEmailComponent } from './screens/verify-email/verify-email.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

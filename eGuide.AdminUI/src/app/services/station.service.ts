@@ -24,8 +24,21 @@ export class StationService {
   }
 
   getAllStaiton() {
-    return this.http.get<Model[]>(
-      `${environment.apiUrl}/Station/GetAllStationProfile`,
+    return this.http.get<Model[]>(`${environment.apiUrl}/Station`, {
+      responseType: 'json',
+    });
+  }
+
+  getStationById(id: string) {
+    return this.http.get<Station>(`${environment.apiUrl}/Station/${id}`, {
+      responseType: 'json',
+    });
+  }
+
+  updateStation(id: string, station: Station) {
+    return this.http.put<Station>(
+      `${environment.apiUrl}/Station/${id}`,
+      station,
       {
         responseType: 'json',
       }
@@ -33,7 +46,7 @@ export class StationService {
   }
 
   deleteStation(id: string) {
-    return this.http.delete(`${environment.apiUrl}/Station/${id}`);
+    return this.http.delete(`${environment.apiUrl}/Station?id=${id}`);
   }
 
   hardDeleteStation(id: string) {
