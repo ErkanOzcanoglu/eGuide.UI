@@ -3,38 +3,46 @@
     <div class="flex justify-between items-center mb-10">
       <h1 class="text-2xl font-bold">Profile</h1>
       <button
+        (click)="editProfile()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Edit Profile
       </button>
     </div>
-    <div class="grid grid-cols-2 gap-10">
-      <div>
-        <img
-          src="https://i.pravatar.cc/150"
-          alt="Profile Picture"
-          class="rounded-full w-48 h-48 object-cover object-center mb-4"
-        />
-        <h2 class="text-lg font-bold">John Doe</h2>
-        <p class="text-gray-500 mb-4">Software Developer</p>
-        <p class="text-gray-500 mb-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
-          nisl vel bibendum bibendum, elit elit bibendum.
-        </p>
+    <div [formGroup]="profileForm" *ngIf="adminInfo" class="">
+      <div *ngIf="isEdited">
+        <!-- display name and surname with pipe -->
+        {{ adminInfo.name | titlecase }} {{ adminInfo.surname | titlecase }}
       </div>
-      <div>
-        <h2 class="text-lg font-bold mb-4">Contact Information</h2>
-        <ul class="list-disc list-inside">
-          <li class="mb-2">
-            <span class="font-bold">Email:</span> john.doe@example.com
-          </li>
-          <li class="mb-2">
-            <span class="font-bold">Phone:</span> (123) 456-7890
-          </li>
-          <li class="mb-2">
-            <span class="font-bold">Address:</span> 123 Main St, Anytown USA
-          </li>
-        </ul>
+      <div class="flex items-center justify-between gap-5" *ngIf="!isEdited">
+        <div class="w-full">
+          <label for="name" class="block text-sm font-medium text-gray-400"
+            >Name</label
+          >
+          <input
+            type="text"
+            name="name"
+            id="name"
+            autocomplete="given-name"
+            class="input input-bordered w-full max-w-lg mt-1 text-sm border-gray-300 rounded-md"
+            formControlName="name"
+            [value]="adminInfo.name"
+          />
+        </div>
+        <div class="w-full">
+          <label for="name" class="block text-sm font-medium text-gray-400"
+            >Surname</label
+          >
+          <input
+            type="text"
+            name="name"
+            id="name"
+            autocomplete="given-name"
+            class="input input-bordered w-full max-w-lg mt-1 text-sm border-gray-300 rounded-md"
+            formControlName="surname"
+            [value]="adminInfo.surname"
+          />
+        </div>
       </div>
     </div>
   </div>

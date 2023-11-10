@@ -11,9 +11,9 @@ import { Admin } from '../models/admin';
 export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  public login(user: Admin): Observable<string> {
-    return this.http.post(`${environment.apiUrl}/Admin/login`, user, {
-      responseType: 'text',
+  public login(user: Admin): Observable<Admin> {
+    return this.http.post<Admin>(`${environment.apiUrl}/Admin/login`, user, {
+      responseType: 'json',
     });
   }
 }

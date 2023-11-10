@@ -1,5 +1,7 @@
-import { Component, Output, HostListener } from '@angular/core';
+import { Component, Output, HostListener, OnInit } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Admin } from 'src/app/models/admin';
+import { AdminService } from 'src/app/services/admin.service';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -10,16 +12,39 @@ interface SideNavToggle {
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   isScreenWidthBelow756 = false;
+  collapseManagement = false;
+  collapseCustomization = false;
+  collapseSideNav = false;
+
+  adminInfo?: Admin;
 
   @Output() closeSidenav = new EventEmitter<SideNavToggle>();
   @HostListener('window:resize', ['$event'])
+  ngOnInit() {
+    this.getAdminInfo();
+  }
+
+  getAdminInfo() {
+    const adminId = localStorage.getItem('token');
+    if (adminId != null) {
+      this.adminService.getAdminInfo(adminId).subscribe(
+        (res) => {
+          this.adminInfo = res;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
   onResize() {
     this.collapseSideNav = window.innerWidth < 1450;
   }
 
-  constructor() {
+  constructor(private adminService: AdminService) {
     this.collapseSideNav = window.innerWidth < 1450;
   }
 
@@ -28,10 +53,6 @@ export class SidebarComponent {
       this.collapseSideNav = true;
     }
   }
-
-  collapseManagement = false;
-  collapseCustomization = false;
-  collapseSideNav = false;
 
   hideManagement() {
     this.collapseManagement = !this.collapseManagement;
