@@ -1,7 +1,15 @@
+<style>
+  @media (max-width: 1280px) {
+    #registerFrom {
+      width: 85%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
+    }
+  }
+</style>
+
 <form [formGroup]="registerForm" class="mt-36">
   <div class="relative flex flex-col justify-center overflow-hidden">
-    <div
-      class="w-full p-2 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-xl"
+    <div id="registerFrom"
+      class="w-2/5 p-2 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-xl"
     >
       <h1 class="text-3xl font-semibold text-center text-gray-700">DaisyUI</h1>
       <div form="space-y-4">
@@ -62,7 +70,7 @@
           />
         </div>
          <div>
-          <button class="btn w-full mt-3 bg-white" (click)="register()">Login</button>
+          <button class="btn w-full mt-3 bg-white" (click)="register()">Register</button>
         </div>
         <span>
           Already have an account?

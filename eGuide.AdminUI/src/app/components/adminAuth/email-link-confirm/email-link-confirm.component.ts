@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+
+
 import { ToastrService } from 'ngx-toastr';
+import { Admin } from 'src/app/models/admin';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-email-link-confirm',
@@ -11,12 +13,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./email-link-confirm.component.css'],
 })
 export class EmailLinkConfirmComponent {
-  user: User = new User();
+  admin: Admin = new Admin();
   confirmEmailForm: FormGroup = new FormGroup({});
 
   constructor(
     private router: Router,
-    private userService: UserService,
+    private adminService: AdminService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) {}
@@ -32,7 +34,7 @@ export class EmailLinkConfirmComponent {
   }
 
   confirmEmail() {
-    this.userService
+    this.adminService
       .forgotPasswordScreen(this.confirmEmailForm.value.email)
       .subscribe({
         next: (response) => {

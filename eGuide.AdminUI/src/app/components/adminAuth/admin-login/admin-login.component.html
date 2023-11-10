@@ -6,8 +6,6 @@
   }
 </style>
 
-
-
 <form [formGroup]="loginForm" class="mt-40">
   <div class="relative flex flex-col justify-center overflow-hidden">
     <div id= loginForm
@@ -40,14 +38,6 @@
           <button class="btn w-full mt-3 bg-white" (click)="login()">Login</button>
         </div>
         <div class="mt-3 w-full flex justify-between">
-         <span>
-         Create an account
-          <a
-            routerLink="/register"
-            class="text-blue-600 hover:text-blue-800 hover:underline"
-            >Register</a
-          >
-        </span>
            <a
             routerLink="/email-confirm"
             class="text-blue-600 hover:text-blue-800 hover:underline"
@@ -81,4 +71,5 @@
     </div>
   </div>
 </form>
+
 

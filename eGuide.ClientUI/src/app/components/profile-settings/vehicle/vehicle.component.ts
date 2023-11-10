@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { VehiclesService } from 'src/app/services/vehicles.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle',
@@ -20,7 +19,7 @@ export class VehicleComponent implements OnInit {
 
   brands: string[] = [];
   models: string[] = [];
-  vehicles: string[] = [];
+  vehicles: Vehicle[] = [];
 
   selectedBrand = '';
   selectedModel = '';
@@ -32,10 +31,8 @@ export class VehicleComponent implements OnInit {
   isUpdate = true;
 
   constructor(
-    private router: Router,
     private userVehicleService: UserVehicleService,
-    private vehicleService: VehiclesService,
-    private formBuilder: FormBuilder
+    private vehicleService: VehiclesService
   ) {}
 
   ngOnInit(): void {
@@ -132,6 +129,7 @@ export class VehicleComponent implements OnInit {
       this.userVehicleService.saveVehicle(userVehicle).subscribe(
         (response) => {
           console.log('UserVehicle başarıyla kaydedildi:', response);
+          this.getVehicleById();
         },
         (error) => {
           console.error('UserVehicle kaydetme hatası:', error);
@@ -147,7 +145,7 @@ export class VehicleComponent implements OnInit {
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
-          this.vehicles = data;
+  
           this.vehicleList = data;
 
           const combinedVehicles = this.vehicleList.map((vehicle) => {
@@ -174,6 +172,7 @@ export class VehicleComponent implements OnInit {
         .subscribe(
           () => {
             console.log('Araç başarıyla silindi.');
+            this.getVehicleById();
           },
           (error) => {
             console.error('Araç silme hatası:', error);
@@ -217,13 +216,14 @@ export class VehicleComponent implements OnInit {
       this.userVehicleService.updateVehicle(userId, oldId, vehicleId).subscribe(
         (response) => {
           console.log('Araç güncelleme başarılı:', response);
+          this.getVehicleById();
         },
         (error) => {
           console.error('Araç güncelleme hatası:', error);
         }
       );
     }
-    
+
     this.isUpdate = true;
     localStorage.removeItem('vehicleId');
     localStorage.removeItem('oldId');

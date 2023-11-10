@@ -1,5 +1,5 @@
 <div class="flex relative">
-  <div class="flex z-20 fixed">
+  <div class="flex z-20 fixed" *ngIf="auth.isAuthenticated()">
     <app-sidebar (closeSidenav)="closeSideNav($event)"></app-sidebar>
   </div>
   <div
