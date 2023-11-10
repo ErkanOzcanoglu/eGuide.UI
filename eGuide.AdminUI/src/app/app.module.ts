@@ -2,7 +2,7 @@ import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,6 +42,21 @@ import { SiteSettingsComponent } from './components/admin-components/site-settin
 import { AddAdminComponent } from './components/admin-components/add-admin/add-admin.component';
 import { SignComponent } from './screens/sign/sign.component';
 import { LoginComponent } from './components/auth-components/login/login.component';
+import { ConnectorListComponent } from './components/connector-list/connector-list.component';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminLoginComponent } from './components/adminAuth/admin-login/admin-login.component';
+import { EmailConfirmComponent } from './components/adminAuth/email-confirm/email-confirm.component';
+import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admin-password/forgot-admin-password.component';
+import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
+import { AuthGuard } from './models/auth-guard';
+import { AuthService } from './services/auth.service';
+
+
+import { StoreModule } from '@ngrx/store';
+import { stationEditDataReducer } from './state/station-edit-data/station-edit-data.reducer';
+import { HomeComponent } from './screens/home/home.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +73,11 @@ import { LoginComponent } from './components/auth-components/login/login.compone
     SocketListComponent,
     GetFirstTwoPartsPipe,
     StationInformationModalComponent,
+    AdminLoginComponent,
     ConnectorListComponent,
+    EmailConfirmComponent,
+    ForgotAdminPasswordComponent,
+    EmailLinkConfirmComponent,
     HomeComponent,
     AdminSettingsComponent,
     SiteSettingsComponent,
@@ -84,7 +103,7 @@ import { LoginComponent } from './components/auth-components/login/login.compone
       stationEditData: stationEditDataReducer,
     }),
   ],
-  providers: [],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

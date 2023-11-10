@@ -1,30 +1,30 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
-  selector: 'app-verify-email',
-  templateUrl: './verify-email.component.html',
-  styleUrls: ['./verify-email.component.css'],
+  selector: 'app-email-confirm',
+  templateUrl: './email-confirm.component.html',
+  styleUrls: ['./email-confirm.component.css'],
 })
-export class VerifyEmailComponent {
+export class EmailConfirmComponent {
   constructor(
     private router: Router,
-    private userService: UserService,
+    private userService: AdminService,
     private route: ActivatedRoute
   ) {}
   token = '';
 
   ngOnInit() {
-    this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
+    this.token = this.route.snapshot.params['token']; 
   }
 
   navigateToHome() {
-    this.router.navigate(['/']); 
+    this.router.navigate(['/']);
   }
 
   confirmAccount() {
-     console.log(this.token);
+    console.log(this.token);
     this.userService.confirmAccount(this.token).subscribe(
       (response) => {
         console.log('Hesap onaylandı.', response);

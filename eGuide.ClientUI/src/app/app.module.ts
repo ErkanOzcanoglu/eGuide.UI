@@ -1,4 +1,4 @@
-// Modules
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,8 +33,9 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { StoreModule } from '@ngrx/store';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 
@@ -64,7 +65,10 @@ import { StoreModule } from '@ngrx/store';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserModule,
     BrowserAnimationsModule,
+    FontAwesomeModule,
     MatDialogModule,
     StoreModule.forRoot({}, {}),
   ],
