@@ -32,7 +32,6 @@ export const AuthGuard: CanActivateFn = () => {
     window.location.href = '/sign-in';
     return false;
   } else {
-    // window.location.href = '/station';
     return true;
   }
 };

@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
-    "@arcgis/core": "^4.27.6",
+    "@arcgis/core": "^4.28.9",
     "@fortawesome/angular-fontawesome": "^0.13.0",
     "@ng-icons/core": "^25.3.1",
     "@ng-icons/heroicons": "^25.3.1",

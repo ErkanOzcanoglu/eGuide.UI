@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-connector-modal',
@@ -15,7 +16,8 @@ export class ConnectorModalComponent implements OnInit {
 
   constructor(
     private connectorService: ConnectorService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit() {
@@ -24,16 +26,27 @@ export class ConnectorModalComponent implements OnInit {
 
   initializeForm() {
     this.connectorForm = this.formBuilder.group({
-      type: ['', [Validators.required]],
-      icon: ['', [Validators.required]],
+      type: ['', Validators.required],
+      icon: ['', Validators.required],
     });
   }
 
   addConnector() {
-    this.connectorService.createConnector(this.connectorForm.value).subscribe({
-      next: (data) => {
-        this.connector = data;
-      },
-    });
+    if (this.connectorForm.valid) {
+      this.connectorService
+        .createConnector(this.connectorForm.value)
+        .subscribe({
+          next: (data) => {
+            this.connector = data;
+            this.connectorForm.reset();
+            this.toaster.success('Connector added');
+          },
+          error: (err) => {
+            this.toaster.error('Error while adding connector');
+          },
+        });
+    } else {
+      this.toaster.error('Form is not valid');
+    }
   }
 }

@@ -52,7 +52,9 @@
         [ngClass]="collapseSideNav ? 'hidden' : 'flex flex-col'"
         class="duration-300 profile-name-con"
       >
-        <p class="profile-name">{{ adminInfo.name }} {{ adminInfo.surname }}</p>
+        <p class="profile-name">
+          {{ adminInfo.name | titlecase }} {{ adminInfo.surname | titlecase }}
+        </p>
         <p class="profile-email">{{ adminInfo.email }}</p>
       </div>
     </div>
@@ -229,7 +231,7 @@
           [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a class="cursor-pointer" class="active gap-5">
+          <a (click)="logout()" class="cursor-pointer" class="active gap-5">
             <i class="fa fa-sign-out-alt"></i>
             <span [ngClass]="collapseSideNav ? 'hidden' : ''">Logout</span>
           </a>
