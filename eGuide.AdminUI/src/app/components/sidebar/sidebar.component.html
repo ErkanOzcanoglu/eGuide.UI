@@ -43,11 +43,20 @@
       [ngClass]="collapseSideNav ? 'justify-center' : 'pl-[60px]'"
       class="h-28 duration-300 shadow shadow-black flex w-full items-center gap-10"
     >
-      <img
+      <!-- <img
         src="https://i.pravatar.cc/60"
         alt="profile-img"
         class="rounded-full w-16 h-16"
-      />
+      /> -->
+      <div
+        class="rounded-full cursor-pointer w-16 h-16 bg-[#44528b] flex items-center justify-center"
+      >
+        <!-- random background color -->
+        <a routerLink="settings" class="text-white text-xl font-bold">
+          {{ adminInfo.name?.charAt(0) | uppercase
+          }}{{ adminInfo.surname?.charAt(0) | uppercase }}
+        </a>
+      </div>
       <div
         [ngClass]="collapseSideNav ? 'hidden' : 'flex flex-col'"
         class="duration-300 profile-name-con"

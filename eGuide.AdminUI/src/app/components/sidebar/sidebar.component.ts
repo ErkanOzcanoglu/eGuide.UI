@@ -62,12 +62,11 @@ export class SidebarComponent implements OnInit {
   }
 
   getAdminInfo() {
-    const adminId = localStorage.getItem('token');
+    const adminId = localStorage.getItem('authToken');
     if (adminId != null) {
       this.adminService.getAdminInfo(adminId).subscribe(
         (res) => {
           this.adminInfo = res;
-          console.log(this.adminInfo);
         },
         (err) => {
           console.log(err);

@@ -24,12 +24,11 @@ export class AdminSettingsComponent implements OnInit {
   }
 
   getAdminInfo() {
-    const adminId = localStorage.getItem('token');
+    const adminId = localStorage.getItem('authToken');
     if (adminId != null) {
       this.adminService.getAdminInfo(adminId).subscribe({
         next: (response) => {
           this.adminInfo = response;
-          console.log(this.adminInfo);
         },
         error: (error) => {
           console.log(error);
