@@ -19,7 +19,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'station', component: StationsComponent },
-      { path: 'socket', component: SocketComponent },
+      { path: 'charging-unit', component: SocketComponent },
       { path: 'map', component: MapComponent },
       { path: 'settings', component: SettingsComponent },
     ],

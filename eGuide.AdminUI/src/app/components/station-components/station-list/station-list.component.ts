@@ -1,12 +1,12 @@
 import { Model } from 'src/app/models/stationInformationModel';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
 import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
+import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 
 @Component({
   selector: 'app-station-list',
@@ -34,7 +34,7 @@ export class StationListComponent implements OnInit {
 
   constructor(
     private stationService: StationService,
-    private socketService: SocketService,
+    private chargingUnitService: ChargingUnitService,
     private stationSocketService: StationSocketService,
     private toastr: ToastrService,
     private store: Store<{ stationEditData: any }>
@@ -67,7 +67,7 @@ export class StationListComponent implements OnInit {
         this.stationService.getStations().subscribe({
           next: (stations) => {
             this.stations = stations;
-            this.socketService.getSockets().subscribe({
+            this.chargingUnitService.getChargingUnits().subscribe({
               error: (err) => console.error(err),
             });
           },
