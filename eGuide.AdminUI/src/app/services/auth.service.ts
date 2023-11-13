@@ -1,11 +1,9 @@
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../environments/environment';
+import { Observable } from 'rxjs';
 import { Admin } from '../models/admin';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +15,18 @@ export class AuthService {
     return this.http.post<Admin>(`${environment.apiUrl}/Admin/login`, user, {
       responseType: 'json',
     });
+  }
+
+  public logout() {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
+  }
+
   loggedIn = false;
 
-  constructor(private router: Router) {
-    this.checkLoginStatus();
-  }
+  // constructor(private router: Router) {
+  //   this.checkLoginStatus();
+  // }
 
   isAuthenticated() {
     return this.loggedIn;

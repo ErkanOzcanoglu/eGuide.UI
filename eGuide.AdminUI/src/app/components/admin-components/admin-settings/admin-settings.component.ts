@@ -24,47 +24,26 @@ export class AdminSettingsComponent implements OnInit {
   }
 
   getAdminInfo() {
-    const adminId = localStorage.getItem('token');
+    const adminId = localStorage.getItem('authToken');
     if (adminId != null) {
-      this.adminService.getAdminInfo(adminId).subscribe(
-        (res) => {
-          this.adminInfo = res;
+      this.adminService.getAdminInfo(adminId).subscribe({
+        next: (response) => {
+          this.adminInfo = response;
         },
-        (err) => {
-          console.log(err);
-        }
-      );
+        error: (error) => {
+          console.log(error);
+        },
+      });
     }
   }
 
   initializeForm() {
     this.profileForm = this.formBuilder.group({
-      firstName: [
-        '',
-        Validators.required,
-        Validators.maxLength(20),
-        Validators.minLength(3),
-      ],
-      lastName: [
-        '',
-        Validators.required,
-        Validators.maxLength(20),
-        Validators.minLength(3),
-      ],
+      name: [''],
+      surname: [''],
       email: ['', Validators.required, Validators.email],
-      phone: [
-        '',
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-        Validators.maxLength(10),
-        Validators.minLength(10),
-      ],
-      address: [
-        '',
-        Validators.required,
-        Validators.maxLength(100),
-        Validators.minLength(3),
-      ],
+      phone: [''],
+      address: [''],
     });
   }
 

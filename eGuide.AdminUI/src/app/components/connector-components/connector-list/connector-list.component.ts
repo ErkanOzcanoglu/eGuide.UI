@@ -51,7 +51,6 @@ export class ConnectorListComponent implements OnInit {
   }
 
   toggleEdit(connector: Connector) {
-    // other sockets should be disabled
     this.connectorList.forEach((element) => {
       element.editingMode = false;
     });
@@ -60,5 +59,12 @@ export class ConnectorListComponent implements OnInit {
 
   closeEdit(connector: Connector) {
     connector.editingMode = false;
+  }
+
+  deleteConnector(id: string) {
+    this.connectorService.deleteConnector(id).subscribe();
+    setTimeout(() => {
+      this.getConnector();
+    }, 100);
   }
 }

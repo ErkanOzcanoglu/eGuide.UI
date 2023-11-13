@@ -35,7 +35,6 @@ import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 

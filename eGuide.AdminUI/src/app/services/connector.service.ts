@@ -38,6 +38,6 @@ export class ConnectorService {
   }
 
   deleteConnector(id: string) {
-    return this.http.patch(`${environment.apiUrl}/Connector/${id}`, null);
+    return this.http.delete(`${environment.apiUrl}/Connector/${id}`);
   }
 }

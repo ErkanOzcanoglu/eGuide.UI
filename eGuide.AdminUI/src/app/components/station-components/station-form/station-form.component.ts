@@ -43,9 +43,7 @@ export class StationFormComponent implements OnInit {
   apiLoginErrorMessages: string[] = [];
   submitted = false;
 
-  // @Input() mapClickedData: any;
   mapClickedData: any;
-  // @Input() editDatas: any;
   editDatas?: Station;
 
   constructor(
@@ -215,6 +213,11 @@ export class StationFormComponent implements OnInit {
                         });
                     }
                   );
+
+                  this.stationModelForm.reset();
+                  this.stationForm.reset();
+                  this.selectedSocketsForm.reset();
+                  this.stationSocketForm.reset();
                 },
                 error: (err) => {
                   console.log(err);

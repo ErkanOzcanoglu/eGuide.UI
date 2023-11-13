@@ -14,32 +14,11 @@ interface SideNavToggle {
 })
 export class SidebarComponent implements OnInit {
   isScreenWidthBelow756 = false;
-  collapseManagement = false;
-  collapseCustomization = false;
-  collapseSideNav = false;
-
   adminInfo?: Admin;
+  isEdited?: boolean = false;
 
   @Output() closeSidenav = new EventEmitter<SideNavToggle>();
   @HostListener('window:resize', ['$event'])
-  ngOnInit() {
-    this.getAdminInfo();
-  }
-
-  getAdminInfo() {
-    const adminId = localStorage.getItem('token');
-    if (adminId != null) {
-      this.adminService.getAdminInfo(adminId).subscribe(
-        (res) => {
-          this.adminInfo = res;
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
-  }
-
   onResize() {
     this.collapseSideNav = window.innerWidth < 1450;
   }
@@ -53,6 +32,10 @@ export class SidebarComponent implements OnInit {
       this.collapseSideNav = true;
     }
   }
+
+  collapseManagement = false;
+  collapseCustomization = false;
+  collapseSideNav = false;
 
   hideManagement() {
     this.collapseManagement = !this.collapseManagement;
@@ -72,5 +55,28 @@ export class SidebarComponent implements OnInit {
       screenWidth,
       collapseSideNav: this.collapseSideNav,
     });
+  }
+
+  ngOnInit() {
+    this.getAdminInfo();
+  }
+
+  getAdminInfo() {
+    const adminId = localStorage.getItem('authToken');
+    if (adminId != null) {
+      this.adminService.getAdminInfo(adminId).subscribe(
+        (res) => {
+          this.adminInfo = res;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.reload();
   }
 }
