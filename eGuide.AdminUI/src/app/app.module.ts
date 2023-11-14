@@ -48,6 +48,9 @@ import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admi
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
+import { VehicleComponent } from './screens/vehicle/vehicle.component';
+import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
+import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +80,9 @@ import { AuthService } from './services/auth.service';
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    VehicleComponent,
+    VehicleFormComponent,
+    VehicleListComponent
   ],
   imports: [
     BrowserModule,

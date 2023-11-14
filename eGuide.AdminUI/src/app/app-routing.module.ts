@@ -10,6 +10,7 @@ import { HomeComponent } from './screens/home/home.component';
 import { EmailConfirmComponent } from './components/adminAuth/email-confirm/email-confirm.component';
 import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admin-password/forgot-admin-password.component';
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
+import { VehicleComponent } from './screens/vehicle/vehicle.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'socket', component: SocketComponent },
       { path: 'map', component: MapComponent },
       { path: 'settings', component: SettingsComponent },
+      { path: 'vehicle', component: VehicleComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },
