@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,8 +40,6 @@ import { AdminSettingsComponent } from './components/admin-components/admin-sett
 import { SiteSettingsComponent } from './components/admin-components/site-settings/site-settings.component';
 import { AddAdminComponent } from './components/admin-components/add-admin/add-admin.component';
 import { SignComponent } from './screens/sign/sign.component';
-import { LoginComponent } from './components/auth-components/login/login.component';
-import { ConnectorListComponent } from './components/connector-list/connector-list.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLoginComponent } from './components/adminAuth/admin-login/admin-login.component';
@@ -51,11 +48,6 @@ import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admi
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
-
-
-import { StoreModule } from '@ngrx/store';
-import { stationEditDataReducer } from './state/station-edit-data/station-edit-data.reducer';
-import { HomeComponent } from './screens/home/home.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +74,7 @@ import { HomeComponent } from './screens/home/home.component';
     AdminSettingsComponent,
     SiteSettingsComponent,
     SettingsComponent,
-    LoginComponent,
+    AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
   ],

@@ -23,10 +23,10 @@
   </div>
   <!-- is is clicked h-10 else h-20 -->
   <div
-    class="mt-2 pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto"
+    class="mt-2 pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
     [ngClass]="{
       'h-20 bg-transparent overflow-hidden': !isClicked,
-      'min-h-[400px] h-full bg-white overflow-visible': isClicked
+      'min-h-[400px] max-h-[400px] h-full bg-white overflow-scroll': isClicked
     }"
   >
     <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">

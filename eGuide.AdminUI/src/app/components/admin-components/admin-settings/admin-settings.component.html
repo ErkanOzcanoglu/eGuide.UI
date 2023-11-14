@@ -3,46 +3,53 @@
     <div class="flex justify-between items-center mb-10">
       <h1 class="text-2xl font-bold">Profile</h1>
       <button
+        *ngIf="!isEdited"
         (click)="editProfile()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Edit Profile
       </button>
+      <button
+        *ngIf="isEdited"
+        (click)="editProfile()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Confirm
+      </button>
     </div>
-    <div [formGroup]="profileForm" *ngIf="adminInfo" class="">
-      <div *ngIf="isEdited">
-        <!-- display name and surname with pipe -->
-        {{ adminInfo.name | titlecase }} {{ adminInfo.surname | titlecase }}
+    <div *ngIf="adminInfo" class="">
+      <div class="flex justify-between items-center mb-5">
+        <h2 class="input input-ghost text-xl font-bold">Name</h2>
+        <p *ngIf="!isEdited">{{ adminInfo.name | titlecase }}</p>
+        <input
+          *ngIf="isEdited"
+          [(ngModel)]="adminInfo.name"
+          class="input input-bordered w-full max-w-lg"
+          type="text"
+          placeholder="Name"
+        />
       </div>
-      <div class="flex items-center justify-between gap-5" *ngIf="!isEdited">
-        <div class="w-full">
-          <label for="name" class="block text-sm font-medium text-gray-400"
-            >Name</label
-          >
-          <input
-            type="text"
-            name="name"
-            id="name"
-            autocomplete="given-name"
-            class="input input-bordered w-full max-w-lg mt-1 text-sm border-gray-300 rounded-md"
-            formControlName="name"
-            [value]="adminInfo.name"
-          />
-        </div>
-        <div class="w-full">
-          <label for="name" class="block text-sm font-medium text-gray-400"
-            >Surname</label
-          >
-          <input
-            type="text"
-            name="name"
-            id="name"
-            autocomplete="given-name"
-            class="input input-bordered w-full max-w-lg mt-1 text-sm border-gray-300 rounded-md"
-            formControlName="surname"
-            [value]="adminInfo.surname"
-          />
-        </div>
+      <div class="flex justify-between items-center mb-5">
+        <h2 class="input input-ghost text-xl font-bold">Surname</h2>
+        <p *ngIf="!isEdited">{{ adminInfo.surname | titlecase }}</p>
+        <input
+          *ngIf="isEdited"
+          [(ngModel)]="adminInfo.surname"
+          class="input input-bordered w-full max-w-lg"
+          type="text"
+          placeholder="Surname"
+        />
+      </div>
+      <div class="flex justify-between items-center mb-5">
+        <h2 class="input input-ghost text-xl font-bold">Email</h2>
+        <p *ngIf="!isEdited">{{ adminInfo.email }}</p>
+        <input
+          *ngIf="isEdited"
+          [(ngModel)]="adminInfo.email"
+          class="input input-bordered w-full max-w-lg"
+          type="text"
+          placeholder="Email"
+        />
       </div>
     </div>
   </div>

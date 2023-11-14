@@ -26,13 +26,12 @@ import { CanActivateFn } from '@angular/router';
 //   }
 // }
 export const AuthGuard: CanActivateFn = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('authToken');
   //  if token is not set, direct to login page else direct to station
   if (!token) {
     window.location.href = '/sign-in';
     return false;
   } else {
-    // window.location.href = '/station';
     return true;
   }
 };

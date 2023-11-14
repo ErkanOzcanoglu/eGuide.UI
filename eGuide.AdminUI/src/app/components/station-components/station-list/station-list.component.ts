@@ -2,7 +2,6 @@ import { Model } from 'src/app/models/stationInformationModel';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
-// improt toast
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
@@ -61,7 +60,6 @@ export class StationListComponent implements OnInit {
         this.models = res;
 
         this.models.forEach((item) => {
-          // If item.socket is a string, convert it to JSON data.
           if (typeof item.socket === 'string') {
             item.socket = JSON.parse(item.socket);
           }

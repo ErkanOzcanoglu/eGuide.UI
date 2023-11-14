@@ -23,8 +23,8 @@ export class ForgotAdminPasswordComponent {
 
   ngOnInit() {
     this.initializeForm();
-    this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
-    console.log(this.token); // Token'i konsola yazdırabilirsiniz
+    this.token = this.route.snapshot.params['token'];
+    console.log(this.token);
   }
 
   initializeForm() {

@@ -77,7 +77,12 @@
               Edit
             </button>
           </div>
-          <button class="btn btn-ghost btn-sm">Delete</button>
+          <button
+            (click)="deleteConnector(connector.id)"
+            class="btn btn-ghost btn-sm"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>
