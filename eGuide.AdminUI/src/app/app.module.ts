@@ -48,6 +48,8 @@ import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admi
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
+import { ChangePasswordComponent } from './modals/change-password/change-password.component';
+import { CloudinaryModule } from '@cloudinary/ng';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { AuthService } from './services/auth.service';
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +90,7 @@ import { AuthService } from './services/auth.service';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    CloudinaryModule,
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),

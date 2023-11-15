@@ -9,7 +9,6 @@
     ></label>
     <ul class="menu z-100 p-4 w-80 min-h-full bg-base-200 text-base-content">
       <form [formGroup]="connectorForm" (ngSubmit)="addConnector()">
-        <!--! type -->
         <div class="mb-4 w-full justify-between">
           <div class="flex w-full justify-between">
             <label
@@ -27,23 +26,14 @@
             placeholder="Enter Type"
           />
         </div>
-
-        <!--! icon  -->
+        <img *ngIf="imageData" src="{{ imageData }}" alt="" />
         <div class="mb-4 w-full justify-between">
-          <div class="flex w-full justify-between">
-            <label
-              class="block text-gray-200 text-sm font-bold mb-2"
-              for="icon"
-            >
-              Icon
-            </label>
-          </div>
           <input
+            (change)="onFileSelect($event)"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-            id="icon"
-            formControlName="icon"
-            type="text"
-            placeholder="Enter Icon"
+            id="image"
+            type="file"
+            placeholder="Enter Image"
           />
         </div>
 
@@ -57,3 +47,5 @@
     </ul>
   </div>
 </div>
+
+<!-- image-upload.component.html -->

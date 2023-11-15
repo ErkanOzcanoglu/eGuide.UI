@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Admin } from 'src/app/models/admin';
 import { AdminService } from 'src/app/services/admin.service';
 
@@ -11,11 +12,13 @@ import { AdminService } from 'src/app/services/admin.service';
 export class AdminSettingsComponent implements OnInit {
   adminInfo?: Admin;
   profileForm: FormGroup = new FormGroup({});
+  updateProfile: FormGroup = new FormGroup({});
   isEdited?: boolean = false;
 
   constructor(
     private adminService: AdminService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit() {
@@ -29,6 +32,7 @@ export class AdminSettingsComponent implements OnInit {
       this.adminService.getAdminInfo(adminId).subscribe({
         next: (response) => {
           this.adminInfo = response;
+          console.log(this.adminInfo);
         },
         error: (error) => {
           console.log(error);
@@ -45,9 +49,34 @@ export class AdminSettingsComponent implements OnInit {
       phone: [''],
       address: [''],
     });
+
+    this.updateProfile = this.formBuilder.group({
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+    });
+  }
+  toggleEdit() {
+    this.isEdited = !this.isEdited;
   }
 
-  editProfile() {
+  editProfile(adminId: any) {
     this.isEdited = !this.isEdited;
+    if (this.isEdited) {
+      console.log('edit profile');
+    } else {
+      console.log('save profile');
+      if (this.updateProfile.valid) {
+        this.adminService
+          .updateAdminInformation(adminId, this.updateProfile.value)
+          .subscribe({
+            next: (response) => {
+              this.toaster.success(`${response.name} updated successfully`);
+            },
+            error: (error) => {
+              this.toaster.error('Error updating profile');
+            },
+          });
+      }
+    }
   }
 }

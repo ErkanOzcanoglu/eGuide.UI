@@ -26,14 +26,16 @@ export class ConnectorListComponent implements OnInit {
 
   initializeForm() {
     this.connectorForm = this.formBuilder.group({
-      icon: [''],
       type: [''],
+      imageData: [''],
+      imageName: [''],
     });
   }
 
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
+      console.log(this.connectorList);
     });
   }
 

@@ -7,8 +7,8 @@
             <input type="checkbox" class="checkbox" />
           </label>
         </th>
-        <th>Icon</th>
         <th>Name</th>
+        <th>Image</th>
         <th></th>
         <th></th>
       </tr>
@@ -25,21 +25,6 @@
             class="w-full p-2 input input-ghost"
             *ngIf="!connector.editingMode"
           >
-            {{ connector.icon }}
-          </p>
-          <input
-            *ngIf="connector.editingMode"
-            type="text"
-            class="w-full input input-bordered bg-transparent"
-            formControlName="icon"
-            [ngModel]="connector.icon"
-          />
-        </td>
-        <td>
-          <p
-            class="w-full p-2 input input-ghost"
-            *ngIf="!connector.editingMode"
-          >
             {{ connector.type }}
           </p>
           <input
@@ -50,7 +35,22 @@
             [ngModel]="connector.type"
           />
         </td>
-        <th></th>
+        <td>
+          <!-- <p
+            class="w-full p-2 input input-ghost"
+            *ngIf="!connector.editingMode"
+          >
+            {{ connector.imageData }}
+          </p> -->
+          <img class="w-10 h-10" src="{{ connector.imageData }}" alt="" />
+          <input
+            *ngIf="connector.editingMode"
+            type="text"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="type"
+            [ngModel]="connector.imageData"
+          />
+        </td>
         <th></th>
         <th></th>
         <td class="flex justify-center mt-2 items-center">
