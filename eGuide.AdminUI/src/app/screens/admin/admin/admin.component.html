@@ -1,0 +1,61 @@
+<div class="relative">
+  <div
+    class="overflow-x-auto pt-16 mx-10 border-b border-white flex justify-between"
+  >
+    <div class="font-bold text-2xl">Admin Settings</div>
+    <button (click)="openForm()" class="btn btn-pr">
+      {{ isOpen ? "Close" : "Add Admin" }}
+    </button>
+  </div>
+  <div class="">
+    <app-add-admin></app-add-admin>
+  </div>
+  <div
+    class="p-10 absolute w-full h-full z-10 bg-base-100 duration-500 ease-in-out transition-all"
+    [ngClass]="isOpen ? 'top-[300px]' : 'top-[150px]'"
+  >
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr class="w-full">
+          <th class="pl-5">Name Surname</th>
+          <th class="pl-4">Email</th>
+          <th class="pl-4">Role</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr *ngFor="let adminInfo of adminInfo">
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div
+                  class="mask mask-squircle p-2 flex justify-center items-center bg-black"
+                >
+                  <p
+                    class="text-white text-xl flex justify-center items-center font-bold"
+                  >
+                    {{ adminInfo.name?.charAt(0)
+                    }}{{ adminInfo.surname?.charAt(0) }}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{ adminInfo.name }}</div>
+                <div class="text-sm opacity-50">{{ adminInfo.surname }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="">{{ adminInfo.email }}</span>
+          </td>
+          <td>Admin Master</td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

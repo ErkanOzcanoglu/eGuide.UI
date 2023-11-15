@@ -9,10 +9,25 @@ import { ResetPassword } from '../models/resetPassword';
   providedIn: 'root',
 })
 export class AdminService {
-  admin: Admin = new Admin();
   private url = 'Admin';
 
   constructor(private http: HttpClient) {}
+
+  adminRegister(admin: Admin): Observable<Admin> {
+    return this.http.post<Admin>(
+      `${environment.apiUrl}/${this.url}/registerAdmin`,
+      admin,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  getAdmins(): Observable<Admin[]> {
+    return this.http.get<Admin[]>(`${environment.apiUrl}/${this.url}`, {
+      responseType: 'json',
+    });
+  }
 
   public login(admin: Admin): Observable<string> {
     return this.http.post<string>(

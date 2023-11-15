@@ -11,6 +11,7 @@ import { EmailConfirmComponent } from './components/adminAuth/email-confirm/emai
 import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admin-password/forgot-admin-password.component';
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
+import { AdminComponent } from './screens/admin/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'map', component: MapComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'admin-list', component: AdminComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },

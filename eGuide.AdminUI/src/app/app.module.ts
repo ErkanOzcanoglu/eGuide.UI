@@ -50,6 +50,7 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { CloudinaryModule } from '@cloudinary/ng';
+import { AdminComponent } from './screens/admin/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { CloudinaryModule } from '@cloudinary/ng';
     AddAdminComponent,
     SignComponent,
     ChangePasswordComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +99,7 @@ import { CloudinaryModule } from '@cloudinary/ng';
     StoreModule.forRoot({
       map: mapReducer,
       stationEditData: stationEditDataReducer,
+      refresh: stationEditDataReducer,
     }),
   ],
   providers: [AuthGuard, AuthService],

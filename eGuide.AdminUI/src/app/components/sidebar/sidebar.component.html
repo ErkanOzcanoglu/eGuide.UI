@@ -80,7 +80,9 @@
         >
           <a class="active cursor-pointer" href="/dashboard">
             <i class="fa fa-chart-line"></i>
-            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Dashboard</span>
+            <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+              >Dashboard</span
+            >
           </a>
         </li>
 
@@ -96,7 +98,7 @@
             <a class="cursor-pointer">
               <!-- list-check icon -->
               <i class="fas fa-list"></i>
-              <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+              <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                 >Management</span
               >
             </a>
@@ -115,14 +117,24 @@
             <li class="submenu-list">
               <a routerLink="station">
                 <i class="fa fa-charging-station"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Station</span>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Station</span
+                >
               </a>
             </li>
             <li class="submenu-list">
               <a class="cursor-pointer">
                 <i class="fa fa-hippo"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Facility</span
+                >
+              </a>
+            </li>
+            <li class="submenu-list">
+              <a class="cursor-pointer" routerLink="admin-list">
+                <i class="fa fa-user"></i>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Admin</span
                 >
               </a>
             </li>
@@ -130,19 +142,23 @@
             <li class="submenu-list">
               <a class="cursor-pointer">
                 <i class="fa fa-user"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Car</span>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Car</span
+                >
               </a>
             </li>
             <li class="submenu-list">
               <a routerLink="charging-unit">
                 <i class="fas fa-subway"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Socket</span>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Charing Unit</span
+                >
               </a>
             </li>
             <li class="submenu-list">
               <a class="cursor-pointer">
                 <i class="fas fa-building"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Social Media</span
                 >
               </a>
@@ -156,7 +172,9 @@
         >
           <a class="cursor-pointer">
             <i class="fas fa-user"></i>
-            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Services</span>
+            <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+              >Services</span
+            >
           </a>
         </li>
 
@@ -173,7 +191,7 @@
           >
             <a class="cursor-pointer">
               <i class="fas fa-cog"></i>
-              <span [ngClass]="collapseSideNav ? 'hidden' : ''"
+              <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                 >Customization</span
               >
             </a>
@@ -189,19 +207,25 @@
             <li class="submenu-list">
               <a class="cursor-pointer">
                 <i class="fas fa-car"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Navbar</span>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Navbar</span
+                >
               </a>
             </li>
             <li class="submenu-list">
               <a class="cursor-pointer">
                 <i class="fas fa-subway"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Footer</span>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Footer</span
+                >
               </a>
             </li>
             <li class="submenu-list">
               <a class="cursor-pointer">
                 <i class="fas fa-building"></i>
-                <span [ngClass]="collapseSideNav ? 'hidden' : ''">Color</span>
+                <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+                  >Color</span
+                >
               </a>
             </li>
           </ul>
@@ -213,7 +237,9 @@
         >
           <a class="cursor-pointer">
             <i class="fas fa-comments"></i>
-            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Chat</span>
+            <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+              >Chat</span
+            >
           </a>
         </li>
 
@@ -223,7 +249,9 @@
         >
           <a routerLink="settings" class="cursor-pointer">
             <i class="fas fa-cog"></i>
-            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Settings</span>
+            <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+              >Settings</span
+            >
           </a>
         </li>
       </ul>
@@ -238,11 +266,19 @@
         <!--? Dashboard -->
         <li
           [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
-          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+          class="menu-list hover:bg-blue-600 cursor-pointer hover:rounded-2xl items-center flex"
         >
-          <a (click)="logout()" class="cursor-pointer" class="active gap-5">
+          <a
+            (keydown)="handleKeyup($event)"
+            tabindex="0"
+            (click)="logout()"
+            class="cursor-pointer"
+            class="active gap-5"
+          >
             <i class="fa fa-sign-out-alt"></i>
-            <span [ngClass]="collapseSideNav ? 'hidden' : ''">Logout</span>
+            <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
+              >Logout</span
+            >
           </a>
         </li>
       </ul>

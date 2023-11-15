@@ -1,1 +1,46 @@
-<p>add-admin works!</p>
+<form [formGroup]="adminForm" class="pt-16 mx-10 flex justify-between border-b">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="flex items-center gap-3">
+            <input
+              formControlName="name"
+              type="text"
+              class="input input-bordered"
+            />
+          </div>
+        </td>
+        <td>
+          <div class="flex items-center gap-3">
+            <input
+              formControlName="surname"
+              type="text"
+              class="input input-bordered"
+            />
+          </div>
+        </td>
+        <td>
+          <div class="flex items-center gap-3">
+            <input
+              formControlName="email"
+              type="text"
+              class="input input-bordered"
+            />
+          </div>
+        </td>
+        <th>
+          <button (click)="onSubmit()" class="btn btn-success">Save</button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</form>
