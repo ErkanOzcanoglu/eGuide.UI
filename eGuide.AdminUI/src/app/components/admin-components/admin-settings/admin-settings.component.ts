@@ -55,6 +55,7 @@ export class AdminSettingsComponent implements OnInit {
       surname: ['', Validators.required],
     });
   }
+
   toggleEdit() {
     this.isEdited = !this.isEdited;
   }
@@ -78,5 +79,16 @@ export class AdminSettingsComponent implements OnInit {
           });
       }
     }
+  }
+
+  createResetToken() {
+    this.adminService.adminForgotPassword(this.adminInfo?.id).subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

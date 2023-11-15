@@ -24,7 +24,7 @@ export class AdminService {
     );
   }
 
-  getAdminInfo(adminId: string) {
+  getAdminInfo(adminId: any): Observable<Admin> {
     return this.http.get(`${environment.apiUrl}/Admin/getbyId?id=${adminId}`, {
       responseType: 'json',
     });
@@ -57,6 +57,13 @@ export class AdminService {
     return this.http.put<Admin>(
       `${environment.apiUrl}/Admin/${adminId}`,
       admin
+    );
+  }
+
+  adminForgotPassword(adminId: any): Observable<Admin> {
+    return this.http.post<Admin>(
+      `${environment.apiUrl}/Admin/forgot-password?userId=${adminId}`,
+      adminId
     );
   }
 }

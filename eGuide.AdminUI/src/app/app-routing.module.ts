@@ -10,6 +10,7 @@ import { HomeComponent } from './screens/home/home.component';
 import { EmailConfirmComponent } from './components/adminAuth/email-confirm/email-confirm.component';
 import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admin-password/forgot-admin-password.component';
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
+import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'charging-unit', component: SocketComponent },
       { path: 'map', component: MapComponent },
       { path: 'settings', component: SettingsComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },
