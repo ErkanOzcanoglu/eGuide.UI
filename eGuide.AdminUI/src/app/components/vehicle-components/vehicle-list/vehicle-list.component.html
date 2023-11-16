@@ -1,4 +1,11 @@
 <div class="h-full w-full min-h-[500px]">
+  <!-- <input
+    type="text"
+    class="form-control transparent-input"
+    [(ngModel)]="searchTerm"
+    placeholder="Search by brand or model"
+  /> -->
+
   <table class="table">
     <thead class="w-full">
       <tr>
@@ -7,14 +14,33 @@
             <input type="checkbox" class="checkbox" />
           </label>
         </th>
-        <th class="w-2/5">Vehicle</th>
+        <th class="w-2/5">
+          <div class="search-container">
+            <div class="title-and-search">
+              <span class="search-icon-container" (click)="toggleSearch()">
+                <i class="fas fa-search search-icon"></i>
+              </span>
+              Vehicle
+              <input
+                *ngIf="showSearch"
+                type="text"
+                class="form-control transparent-input"
+                [(ngModel)]="searchTerm"
+                placeholder="Search by brand or model"
+              />
+            </div>
+          </div>
+        </th>
         <th class="w-2/5 bg-[#202c3f]">Vehicle Brand</th>
         <th class="w-1/5">Vehicle Model</th>
         <th class="w-1/5"></th>
       </tr>
     </thead>
-    <tbody class="w-full" *ngFor="let item of vehicles">
-      <tr>
+    <tbody class="w-full">
+      <tr
+        *ngFor="let item of vehicles | searchFilter : searchTerm"
+        (click)="toggleSelection(item)"
+      >
         <td>
           <label>
             <input type="checkbox" class="checkbox" />
@@ -26,25 +52,28 @@
         <td class="bg-[#202c3f]">
           <div class="font-bold">{{ item.brand }}</div>
         </td>
-        <td *ngIf="editMode">
-          <input type="text" class="form-control transparent-input" [(ngModel)]="item.model" />
+        <td class="bg-[#1E293B]">
+          <input
+            class="bg-transparent border-none outline-none font-bold"
+            type="text"
+            [value]="item.model"
+            [(ngModel)]="item.model"
+            [disabled]="!editMode"
+          />
         </td>
         <td class="gap-x-2 flex">
           <button
-            *ngIf="!editMode"
             class="btn btn-ghost"
-            (click)="onModeChange()"
+            (click)="onSave(item)"
+            [disabled]="editMode && !item.isSelected"
           >
-            Edit
+            {{ editMode && item.isSelected ? "Save" : "Edit" }}
           </button>
           <button
-            *ngIf="editMode"
             class="btn btn-ghost"
-            (click)="onUpdate(item.id, item.model)"
+            (click)="deleteVehicle(item.id)"
+            [disabled]="!item.isSelected"
           >
-            Save
-          </button>
-          <button class="btn btn-ghost" (click)="deleteVehicle(item.id)">
             Delete
           </button>
         </td>

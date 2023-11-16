@@ -49,11 +49,11 @@ import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-con
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
-import { CloudinaryModule } from '@cloudinary/ng';
 import { AdminComponent } from './screens/admin/admin/admin.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
+import { SearchFilterPipe } from './pipes/vehicle.pipe';
 
 @NgModule({
   declarations: [
@@ -87,7 +87,8 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
     AdminComponent,
     VehicleComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    SearchFilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -98,7 +99,6 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    CloudinaryModule,
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),

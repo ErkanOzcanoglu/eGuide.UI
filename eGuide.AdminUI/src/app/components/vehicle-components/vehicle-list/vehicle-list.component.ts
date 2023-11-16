@@ -15,6 +15,9 @@ export class VehicleListComponent {
   vehicles: Vehicle[] = [];
   editMode = false;
   editForm: FormGroup;
+  updatedModel: string | undefined;
+  searchTerm: any;
+  showSearch:any;
 
   constructor(
     private router: Router,
@@ -59,24 +62,40 @@ export class VehicleListComponent {
     }
   }
 
-  onUpdate(id?: string, model?: string): void {
+  onUpdate(vehicleId: any, model: any): void {
     console.log(model);
-    console.log(id);
-    if (id && model !== undefined) {
-      // item.id tanımlı ve item.model varsa update işlemi yap
-      this.vehicleService.updateVehicle(id, model).subscribe(
-        (data) => {
-          this.toastr.success('Vehicle updated successfully');
-          this.getVehicleInfo(); // Yeniden yükleyerek güncel verileri al
-        },
-        (error) => {
-          console.error('Error updating vehicle:', error);
-          this.toastr.error('Error updating vehicle');
-        }
-      );
+    console.log(vehicleId);
+    if (vehicleId !== null && model !== null) {
+      console.log(vehicleId, model, 'asdds');
+      // item.id ve item.model tanımlı ise update işlemi yap
+      this.vehicleService.updateVehicle(vehicleId, model).subscribe((res) => {
+        console.log('asdasd');
+      });
     } else {
-      // item.id tanımlı değilse veya item.model undefined ise geçersiz ID hatası göster
+      // id veya model undefined ise geçersiz ID hatası göster
       this.toastr.error('Invalid ID or Model for update', 'Error');
+    }
+  }
+
+  toggleSelection(item: Vehicle): void {
+    // Diğer tüm araçların seçimini kaldır
+    this.vehicles.forEach((v) => (v.isSelected = false));
+
+    // Şu anki aracın seçim durumunu tersine çevir
+    item.isSelected = !item.isSelected;
+  }
+
+  toggleSearch(): void {
+    this.showSearch = !this.showSearch;
+    
+  }
+
+  onSave(item: Vehicle): void {
+    if (item.isSelected) {
+      console.log(item);
+      this.onUpdate(item.id, item.model);
+    } else {
+      this.onModeChange();
     }
   }
 }
