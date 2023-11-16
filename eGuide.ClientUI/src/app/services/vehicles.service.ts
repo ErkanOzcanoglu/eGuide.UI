@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class VehiclesService {
-  private url = 'VehiclesControllerForUser';
+  private url = 'UserforVehicle';
   constructor(private http: HttpClient, private router: Router) {}
 
   public getAllVehicles(): Observable<Vehicle[]> {
@@ -21,19 +21,21 @@ export class VehiclesService {
   }
 
   public getModelsByBrand(brand: string): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.apiUrl}/${this.url}/models/${brand}`);
+    return this.http.get<string[]>(
+      `${environment.apiUrl}/${this.url}/models/${brand}`
+    );
   }
 
   public getPrimaryKeyByBrandAndModel(
     brand: string,
     model: string
   ): Observable<string> {
-
-    return this.http.get<string>(`${environment.apiUrl}/${this.url}/primarykey/${brand}/${model}`);
+    return this.http.get<string>(
+      `${environment.apiUrl}/${this.url}/primarykey/${brand}/${model}`
+    );
   }
 
-  public getAllBrands(): Observable<string[]> {   
+  public getAllBrands(): Observable<string[]> {
     return this.http.get<string[]>(`${environment.apiUrl}/${this.url}/brands`);
   }
-  
 }

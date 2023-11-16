@@ -1,3 +1,4 @@
+import { ConnectorComponent } from './../../../eGuide.AdminUI/src/app/components/connector-components/connector/connector.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,6 +24,7 @@ import { FavouritesComponent } from './components/profile-settings/favourites/fa
 import { ForgotUserPasswordComponent } from './components/password-change/forgot-user-password/forgot-user-password.component';
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { UserAuthComponent } from './components/user-auth/user-auth.component';
+
 
 // Secreens
 import { HomeComponent } from './screens/home/home.component';

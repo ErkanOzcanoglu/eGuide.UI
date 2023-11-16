@@ -86,7 +86,9 @@
           </h1>
           <div class="flex items-center justify-between">
             <div class="ml-5">
-              <h2 class="text-xl font-semibold mt-5 mb-3 field-label">Vehicle</h2>
+              <h2 class="text-xl font-semibold mt-5 mb-3 field-label">
+                Vehicle
+              </h2>
             </div>
           </div>
           <div
@@ -149,6 +151,29 @@
                   [hidden]="selectedModel === model"
                 >
                   {{ model }}
+                </option>
+              </select>
+            </div>
+            <div class="mt-4 field-label">
+              <label for="connector">Connector:</label>
+              <select
+                id="connector"
+                name="connector"
+                class="w-80 border p-2 rounded bg-white"
+                [(ngModel)]="selectedConnectorId"
+                (change)="onConnectorSelected($event)"
+              >
+                <option [value]="null" [selected]="vehicleMode3">
+                  {{ vehicleMode3 ? "default" : "Please select a Connector" }}
+                </option>
+                <option
+                  *ngFor="let connector of connectorList"
+                  [value]="connector.id"
+                  [hidden]="
+                    selectedConnector && selectedConnector.id === connector.id
+                  "
+                >
+                  {{ connector.type }}
                 </option>
               </select>
             </div>

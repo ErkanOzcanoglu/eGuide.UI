@@ -17,7 +17,13 @@
         <th class="w-2/5">
           <div class="search-container">
             <div class="title-and-search">
-              <span class="search-icon-container" (click)="toggleSearch()">
+              <span
+                class="search-icon-container"
+                (click)="toggleSearch()"
+                (keydown.enter)="toggleSearch()"
+                tabindex="0"
+                role="button"
+              >
                 <i class="fas fa-search search-icon"></i>
               </span>
               Vehicle
