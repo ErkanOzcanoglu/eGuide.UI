@@ -12,6 +12,7 @@ import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admi
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
+import { VehicleComponent } from './screens/vehicle/vehicle.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'settings', component: SettingsComponent },
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'admin-list', component: AdminComponent },
+      { path: 'vehicle', component: VehicleComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },

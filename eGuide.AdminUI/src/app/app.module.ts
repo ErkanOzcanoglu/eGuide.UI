@@ -51,6 +51,9 @@ import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { AdminComponent } from './screens/admin/admin/admin.component';
+import { VehicleComponent } from './screens/vehicle/vehicle.component';
+import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
+import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +85,9 @@ import { AdminComponent } from './screens/admin/admin/admin.component';
     SignComponent,
     ChangePasswordComponent,
     AdminComponent,
+    VehicleComponent,
+    VehicleFormComponent,
+    VehicleListComponent
   ],
   imports: [
     BrowserModule,
