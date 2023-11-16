@@ -1,6 +1,6 @@
 import { Connector } from './connector';
 
-export class Socket {
+export class ChargingUnit {
   id = '';
   power = 0;
   voltage = 0;

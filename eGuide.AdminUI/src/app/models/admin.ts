@@ -4,4 +4,5 @@ export class Admin {
   surname?: string;
   email?: string;
   username?: string;
+  passwordResetToken?: string;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Socket } from 'src/app/models/socket';
-import { SocketService } from 'src/app/services/socket.service';
+import { ChargingUnit } from 'src/app/models/charging-unit';
+import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 
 @Component({
   selector: 'app-socket-list',
@@ -9,12 +9,12 @@ import { SocketService } from 'src/app/services/socket.service';
   styleUrls: ['./socket-list.component.css'],
 })
 export class SocketListComponent implements OnInit {
-  socketList: Socket[] = [];
+  socketList: ChargingUnit[] = [];
   socketUpdteForm: FormGroup = new FormGroup({});
   socketUpdateControl = new FormControl('');
   isDisable = true;
   constructor(
-    private socketService: SocketService,
+    private chargingUnitService: ChargingUnitService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -24,7 +24,7 @@ export class SocketListComponent implements OnInit {
   }
 
   getStationList() {
-    this.socketService.getSockets().subscribe({
+    this.chargingUnitService.getChargingUnits().subscribe({
       next: (data) => {
         this.socketList = data;
       },
@@ -34,16 +34,16 @@ export class SocketListComponent implements OnInit {
     });
   }
 
-  toggleEdit(socket: Socket) {
+  toggleEdit(chargingUnit: ChargingUnit) {
     // other sockets should be disabled
     this.socketList.forEach((element) => {
       element.editingMode = false;
     });
-    socket.editingMode = !socket.editingMode;
+    chargingUnit.editingMode = !chargingUnit.editingMode;
   }
 
-  closeEdit(socket: Socket) {
-    socket.editingMode = false;
+  closeEdit(chargingUnit: ChargingUnit) {
+    chargingUnit.editingMode = false;
   }
 
   initializeForm() {
@@ -57,15 +57,17 @@ export class SocketListComponent implements OnInit {
   }
 
   updateSocket(id: string) {
-    this.socketService.updateSocket(id, this.socketUpdteForm.value).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.getStationList();
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.chargingUnitService
+      .updateChargingUnit(id, this.socketUpdteForm.value)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.getStationList();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
     // refresh the list
     this.getStationList();
   }

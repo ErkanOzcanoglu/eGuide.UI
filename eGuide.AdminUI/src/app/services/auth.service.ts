@@ -24,10 +24,6 @@ export class AuthService {
 
   loggedIn = false;
 
-  // constructor(private router: Router) {
-  //   this.checkLoginStatus();
-  // }
-
   isAuthenticated() {
     return this.loggedIn;
   }

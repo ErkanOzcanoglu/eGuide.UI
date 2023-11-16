@@ -1,7 +1,8 @@
 export class Connector {
   id = '';
   type = '';
-  icon = '';
+  imageName = '';
+  imageData = '';
   createdDate = '';
   updatedDate = '';
   editingMode = false;

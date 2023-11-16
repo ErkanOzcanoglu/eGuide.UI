@@ -9,20 +9,39 @@ import { ResetPassword } from '../models/resetPassword';
   providedIn: 'root',
 })
 export class AdminService {
-  admin: Admin = new Admin();
-
-  getAdminInfo(adminId: string) {
-    return this.http.get(`${environment.apiUrl}/Admin/getbyId?id=${adminId}`, {
-      responseType: 'json',
-    });
-  }
   private url = 'Admin';
 
   constructor(private http: HttpClient) {}
 
+  adminRegister(admin: Admin): Observable<Admin> {
+    return this.http.post<Admin>(
+      `${environment.apiUrl}/${this.url}/registerAdmin`,
+      admin,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  getAdmins(): Observable<Admin[]> {
+    return this.http.get<Admin[]>(`${environment.apiUrl}/${this.url}`, {
+      responseType: 'json',
+    });
+  }
+
   public login(admin: Admin): Observable<string> {
-    return this.http.post(`${environment.apiUrl}/${this.url}/login`, admin, {
-      responseType: 'text',
+    return this.http.post<string>(
+      `${environment.apiUrl}/${this.url}/login`,
+      admin,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  getAdminInfo(adminId: any): Observable<Admin> {
+    return this.http.get(`${environment.apiUrl}/Admin/getbyId?id=${adminId}`, {
+      responseType: 'json',
     });
   }
 
@@ -46,6 +65,20 @@ export class AdminService {
     return this.http.post<any>(
       `${environment.apiUrl}/${this.url}/forgot-password/${encodedEmail}`,
       encodedEmail
+    );
+  }
+
+  updateAdminInformation(adminId: string, admin: Admin): Observable<Admin> {
+    return this.http.put<Admin>(
+      `${environment.apiUrl}/Admin/${adminId}`,
+      admin
+    );
+  }
+
+  adminForgotPassword(adminId: any): Observable<Admin> {
+    return this.http.post<Admin>(
+      `${environment.apiUrl}/Admin/forgot-password?userId=${adminId}`,
+      adminId
     );
   }
 }

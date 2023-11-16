@@ -39,7 +39,7 @@ export class AdminLoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           this.loadingAfterLogin = true;
-          if (response?.id) localStorage.setItem('token', response?.id);
+          if (response?.id) localStorage.setItem('authToken', response?.id);
           this.toaster.success('Login successful');
           setTimeout(() => {
             this.router.navigate(['/station']);

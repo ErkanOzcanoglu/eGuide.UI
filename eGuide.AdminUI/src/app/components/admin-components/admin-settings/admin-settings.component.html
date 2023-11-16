@@ -1,56 +1,117 @@
-<div class="container w-full min-h-screen p-10 flex items-center">
-  <div class="bg-slate-800 rounded-xl w-full h-full p-10">
-    <div class="flex justify-between items-center mb-10">
-      <h1 class="text-2xl font-bold">Profile</h1>
-      <button
-        *ngIf="!isEdited"
-        (click)="editProfile()"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Edit Profile
-      </button>
-      <button
-        *ngIf="isEdited"
-        (click)="editProfile()"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Confirm
-      </button>
-    </div>
-    <div *ngIf="adminInfo" class="">
-      <div class="flex justify-between items-center mb-5">
-        <h2 class="input input-ghost text-xl font-bold">Name</h2>
-        <p *ngIf="!isEdited">{{ adminInfo.name | titlecase }}</p>
-        <input
-          *ngIf="isEdited"
-          [(ngModel)]="adminInfo.name"
-          class="input input-bordered w-full max-w-lg"
-          type="text"
-          placeholder="Name"
-        />
+<form [formGroup]="updateProfile" *ngIf="adminInfo">
+  <div class="mx-10">
+    <div class="m-8">
+      <div class="mb-8">
+        <!-- <h1 class="text-3xl font-semibold mb-4">User Profile</h1>
+      <div>
+        <div class="flex items-center space-x-4">
+          <div
+            class="rounded-full cursor-pointer w-16 h-16 bg-[#44528b] flex items-center justify-center"
+          >
+            <a routerLink="settings" class="text-white text-xl font-bold">
+              {{ adminInfo?.name?.charAt(0) | uppercase
+              }}{{ adminInfo?.surname?.charAt(0) | uppercase }}
+            </a>
+          </div>
+          <div>
+            <p class="text-xl font-bold">
+              {{ adminInfo?.name | titlecase }}
+              {{ adminInfo?.surname | titlecase }}
+            </p>
+            <p class="text-gray-600">{{ adminInfo?.email }}</p>
+          </div>
+        </div>
+      </div> -->
       </div>
-      <div class="flex justify-between items-center mb-5">
-        <h2 class="input input-ghost text-xl font-bold">Surname</h2>
-        <p *ngIf="!isEdited">{{ adminInfo.surname | titlecase }}</p>
-        <input
-          *ngIf="isEdited"
-          [(ngModel)]="adminInfo.surname"
-          class="input input-bordered w-full max-w-lg"
-          type="text"
-          placeholder="Surname"
-        />
+      <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Edit Profile</h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label
+              for="name"
+              class="block ml-2 text-sm font-medium text-gray-600"
+              >Name</label
+            >
+            <p
+              *ngIf="!isEdited"
+              class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+            >
+              {{ adminInfo.name }}
+            </p>
+            <input
+              *ngIf="isEdited"
+              type="text"
+              id="name"
+              name="name"
+              class="mt-1 p-2 w-full input input-bordered rounded-md"
+              formControlName="name"
+              [(ngModel)]="adminInfo.name"
+            />
+          </div>
+          <div>
+            <label
+              for="name"
+              class="block ml-2 text-sm font-medium text-gray-600"
+              >Surname</label
+            >
+            <p
+              *ngIf="!isEdited"
+              class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+            >
+              {{ adminInfo.surname }}
+            </p>
+            <input
+              *ngIf="isEdited"
+              type="text"
+              id="surname"
+              name="surname"
+              class="mt-1 p-2 w-full input input-bordered rounded-md"
+              formControlName="surname"
+              [(ngModel)]="adminInfo.surname"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label
+            for="email"
+            class="block ml-2 text-sm font-medium text-gray-600"
+            >Email</label
+          >
+          <p
+            class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+          >
+            {{ adminInfo.email }}
+          </p>
+          <!-- <input
+            type="email"
+            *ngIf="isEdited"
+            id="email"
+            name="email"
+            class="mt-1 p-2 w-full input input-bordered rounded-md"
+            formControlName="email"
+            [(ngModel)]="adminInfo.email"
+          /> -->
+        </div>
       </div>
-      <div class="flex justify-between items-center mb-5">
-        <h2 class="input input-ghost text-xl font-bold">Email</h2>
-        <p *ngIf="!isEdited">{{ adminInfo.email }}</p>
-        <input
-          *ngIf="isEdited"
-          [(ngModel)]="adminInfo.email"
-          class="input input-bordered w-full max-w-lg"
-          type="text"
-          placeholder="Email"
-        />
+      <div class="flex flex-col gap-y-5 max-w-[180px]">
+        <button
+          (click)="editProfile(adminInfo.id)"
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+        >
+          {{ isEdited ? "Update Profile" : "Edit Profile" }}
+        </button>
+        <button
+          (click)="createResetToken()"
+          class="btn bg-slate-700"
+          onclick="my_modal_5.showModal()"
+        >
+          Change Password
+        </button>
+        <button class="btn btn-error">Delete Account</button>
       </div>
     </div>
   </div>
-</div>
+</form>
+
+<app-change-password></app-change-password>
