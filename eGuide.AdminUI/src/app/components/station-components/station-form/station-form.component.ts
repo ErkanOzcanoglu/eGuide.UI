@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Socket } from 'src/app/models/socket';
+import { ChargingUnit } from 'src/app/models/charging-unit';
 import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
@@ -16,7 +16,7 @@ import {
 } from 'src/app/state/map-click-data/map-click-data.action';
 import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
-import { SocketService } from 'src/app/services/socket.service';
+import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 
 interface Point {
   lat: number;
@@ -31,7 +31,7 @@ export class StationFormComponent implements OnInit {
   switchStatus = false;
   isEdited = false;
 
-  sockets: Socket[] = [];
+  chargingUnit: ChargingUnit[] = [];
   stationId = '';
   selectedSockets: any[] = [];
 
@@ -48,7 +48,7 @@ export class StationFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private socketService: SocketService,
+    private chargingUnitService: ChargingUnitService,
     private stationService: StationService,
     private stationModelService: StationModelService,
     private stationSocketService: StationSocketService,
@@ -113,8 +113,10 @@ export class StationFormComponent implements OnInit {
   }
 
   onSelectionChange(event: any) {
-    this.selectedSockets = event.value.map((socketId: string) => {
-      return this.sockets.find((socket) => socket.id === socketId)?.name;
+    this.selectedSockets = event.value.map((chargingUnitId: string) => {
+      return this.chargingUnit.find(
+        (chargingUnit) => chargingUnit.id === chargingUnitId
+      )?.name;
     });
     console.log(this.selectedSockets, 'selectedSockets');
   }
@@ -124,8 +126,8 @@ export class StationFormComponent implements OnInit {
   }
 
   getSockets(): void {
-    this.socketService.getSockets().subscribe((sockets) => {
-      this.sockets = sockets;
+    this.chargingUnitService.getChargingUnits().subscribe((chargingUnit) => {
+      this.chargingUnit = chargingUnit;
     });
   }
 

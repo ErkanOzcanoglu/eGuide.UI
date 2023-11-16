@@ -48,6 +48,9 @@ import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admi
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
+import { ChangePasswordComponent } from './modals/change-password/change-password.component';
+import { CloudinaryModule } from '@cloudinary/ng';
+import { AdminComponent } from './screens/admin/admin/admin.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
@@ -80,6 +83,8 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    ChangePasswordComponent,
+    AdminComponent,
     VehicleComponent,
     VehicleFormComponent,
     VehicleListComponent
@@ -93,12 +98,14 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    CloudinaryModule,
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
     StoreModule.forRoot({
       map: mapReducer,
       stationEditData: stationEditDataReducer,
+      refresh: stationEditDataReducer,
     }),
   ],
   providers: [AuthGuard, AuthService],

@@ -41,7 +41,7 @@
                 *ngFor="let socketItem of item.stationModel?.stationSockets"
                 class="flex justify-start mt-1"
               >
-                {{ socketItem.socket?.name }}
+                {{ socketItem.chargingUnit?.name }}
               </li>
             </ul>
           </button>
@@ -57,7 +57,7 @@
                 *ngFor="let socketItem of item.stationModel?.stationSockets"
                 class="flex justify-start mt-1"
               >
-                {{ socketItem.socket?.connector?.type }}
+                {{ socketItem.chargingUnit?.connector?.type }}
               </li>
             </ul>
           </button>

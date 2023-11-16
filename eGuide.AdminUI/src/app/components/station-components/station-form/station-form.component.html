@@ -110,7 +110,7 @@
     <div class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
         <label class="block text-gray-200 text-sm font-bold mb-2" for="sockets">
-          Sockets
+          Charging Unit
         </label>
       </div>
       <div class="w-full">
@@ -120,7 +120,7 @@
             color="primary"
             appearance="fill"
           >
-            <mat-label>Sockets</mat-label>
+            <mat-label>Charging Units</mat-label>
             <!-- display only the selected name -->
             <mat-select
               class="rounded-3xl w-full"
@@ -146,7 +146,7 @@
                 [class.is-invalid]="
                   submitted && selectedSocketsForm.get('sockets')?.errors
                 "
-                *ngFor="let socket of sockets"
+                *ngFor="let socket of chargingUnit"
                 [value]="socket.id"
                 aria-selected="false"
               >

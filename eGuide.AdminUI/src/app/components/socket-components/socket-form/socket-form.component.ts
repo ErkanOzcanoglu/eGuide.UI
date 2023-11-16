@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
-import { SocketService } from 'src/app/services/socket.service';
+import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 
 @Component({
   selector: 'app-socket-form',
@@ -16,7 +16,7 @@ export class SocketFormComponent implements OnInit {
 
   constructor(
     private connectorService: ConnectorService,
-    private socketService: SocketService,
+    private chargingUnitService: ChargingUnitService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -38,7 +38,9 @@ export class SocketFormComponent implements OnInit {
 
   addSocket() {
     if (this.socketForm.valid) {
-      this.socketService.addSocket(this.socketForm.value).subscribe();
+      this.chargingUnitService
+        .addChargingUnit(this.socketForm.value)
+        .subscribe();
     } else {
       console.log('Form is not valid');
     }
