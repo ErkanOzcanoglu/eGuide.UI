@@ -13,6 +13,7 @@ import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-con
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
+import { ServiceComponent } from './screens/service/service.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'admin-list', component: AdminComponent },
       { path: 'vehicle', component: VehicleComponent },
+      { path: 'service', component: ServiceComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },

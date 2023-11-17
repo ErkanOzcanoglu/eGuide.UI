@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { getFormAddressData } from 'src/app/state/map-click-data/map-click-data.selector';
-import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
+import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 
 interface Point {
   lat: number;
@@ -21,12 +21,14 @@ export class StationsComponent {
   editData: any;
 
   constructor(private store: Store<{ stationEditData: any }>) {
-    this.store.pipe(select(getStationEditData)).subscribe((stationEditData) => {
-      if (stationEditData) {
-        this.editData = stationEditData;
-        this.screenType = true;
-      }
-    });
+    this.store
+      .pipe(select(selectStationEditData))
+      .subscribe((stationEditData) => {
+        if (stationEditData) {
+          this.editData = stationEditData;
+          this.screenType = true;
+        }
+      });
   }
 
   setScreenType() {

@@ -1,5 +1,5 @@
 import { Model } from 'src/app/models/stationInformationModel';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,6 @@ import { ChargingUnitService } from 'src/app/services/charging-unit.service';
   styleUrls: ['./station-list.component.css'],
 })
 export class StationListComponent implements OnInit {
-  @Output() editData = new EventEmitter<any>();
   models: Model[] = [];
   socket = '';
   socketArray: any;

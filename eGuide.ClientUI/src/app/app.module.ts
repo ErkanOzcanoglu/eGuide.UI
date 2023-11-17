@@ -37,6 +37,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
+import { ServiceListComponent } from './components/service-list/service-list.component';
+import { ServiceComponent } from './screens/service/service.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { StoreModule } from '@ngrx/store';
     SearchComponent,
     VerifyEmailComponent,
     FilterPipe,
+    ServiceListComponent,
+    ServiceComponent,
   ],
   imports: [
     BrowserModule,

@@ -38,7 +38,9 @@
             <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="flex flex-col justify-start text-xs">
               <li
-                *ngFor="let socketItem of item.stationModel?.stationSockets"
+                *ngFor="
+                  let socketItem of item.stationModel?.stationChargingUnits
+                "
                 class="flex justify-start mt-1"
               >
                 {{ socketItem.chargingUnit?.name }}
@@ -54,7 +56,9 @@
             <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="">
               <li
-                *ngFor="let socketItem of item.stationModel?.stationSockets"
+                *ngFor="
+                  let socketItem of item.stationModel?.stationChargingUnits
+                "
                 class="flex justify-start mt-1"
               >
                 {{ socketItem.chargingUnit?.connector?.type }}

@@ -14,7 +14,7 @@ import {
   MapState,
   setFormAddressData,
 } from 'src/app/state/map-click-data/map-click-data.action';
-import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
+import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 
@@ -33,12 +33,12 @@ export class StationFormComponent implements OnInit {
 
   chargingUnit: ChargingUnit[] = [];
   stationId = '';
-  selectedSockets: any[] = [];
+  selectedChargingUnits: any[] = [];
 
   stationForm: FormGroup = new FormGroup({});
   stationModelForm: FormGroup = new FormGroup({});
-  stationSocketForm: FormGroup = new FormGroup({});
-  selectedSocketsForm: FormGroup = new FormGroup({});
+  stationChargingUnitForm: FormGroup = new FormGroup({});
+  selectedChargingUnitForm: FormGroup = new FormGroup({});
 
   apiLoginErrorMessages: string[] = [];
   submitted = false;
@@ -80,7 +80,7 @@ export class StationFormComponent implements OnInit {
       }
     });
     this.store2
-      .pipe(select(getStationEditData))
+      .pipe(select(selectStationEditData))
       .subscribe((stationEditData) => {
         console.log(stationEditData.stationEditData, 'stationEditData');
         this.isEdited = true;
@@ -99,26 +99,27 @@ export class StationFormComponent implements OnInit {
             name: this.editDatas?.stationModel?.name,
           });
 
-          this.stationSocketForm.patchValue({
+          this.stationChargingUnitForm.patchValue({
             stationModelId: this.editDatas?.stationModel?.id,
           });
 
-          this.selectedSocketsForm.patchValue({
-            sockets: this.editDatas?.stationModel?.stationSockets?.map(
-              (stationSocket) => stationSocket.socketId
-            ),
+          this.selectedChargingUnitForm.patchValue({
+            chargingUnit:
+              this.editDatas?.stationModel?.stationChargingUnits?.map(
+                (stationSocket) => stationSocket.charginUnitId
+              ),
           });
         }
       });
   }
 
   onSelectionChange(event: any) {
-    this.selectedSockets = event.value.map((chargingUnitId: string) => {
+    this.selectedChargingUnits = event.value.map((chargingUnitId: string) => {
       return this.chargingUnit.find(
         (chargingUnit) => chargingUnit.id === chargingUnitId
       )?.name;
     });
-    console.log(this.selectedSockets, 'selectedSockets');
+    console.log(this.selectedChargingUnits, 'selectedSockets');
   }
 
   setSwitch(): void {
@@ -144,12 +145,12 @@ export class StationFormComponent implements OnInit {
       name: ['', Validators.required],
     });
 
-    this.selectedSocketsForm = this.formBuilder.group({
+    this.selectedChargingUnitForm = this.formBuilder.group({
       sockets: ['', Validators.required],
     });
 
-    this.stationSocketForm = this.formBuilder.group({
-      socketId: ['', Validators.required],
+    this.stationChargingUnitForm = this.formBuilder.group({
+      chargingUnitId: ['', Validators.required],
       stationModelId: [''],
     });
   }
@@ -159,8 +160,8 @@ export class StationFormComponent implements OnInit {
     if (
       this.stationForm.invalid &&
       this.stationModelForm.invalid &&
-      this.selectedSocketsForm.invalid &&
-      this.stationSocketForm.invalid
+      this.selectedChargingUnitForm.invalid &&
+      this.stationChargingUnitForm.invalid
     ) {
       console.log('invalid form');
       this.toastr.error('Station creation failed!');
@@ -183,16 +184,19 @@ export class StationFormComponent implements OnInit {
                 next: (station) => {
                   this.toastr.success('Station created successfully!');
                   this.stationId = station.id;
-                  this.selectedSocketsForm.value.sockets.forEach(
-                    (socketId: number) => {
+                  this.selectedChargingUnitForm.value.sockets.forEach(
+                    (chargingUnitId: number) => {
                       console.log(stationModel.id, 'stationModelId');
-                      this.stationSocketForm.patchValue({
-                        socketId: socketId,
+                      this.stationChargingUnitForm.patchValue({
+                        chargingUnitId: chargingUnitId,
                         stationModelId: stationModel.id,
                       });
-
+                      console.log(
+                        this.stationChargingUnitForm.value,
+                        'socketForm'
+                      );
                       this.stationSocketService
-                        .createStationSocket(this.stationSocketForm.value)
+                        .createStationSocket(this.stationChargingUnitForm.value)
                         .subscribe({
                           error: (err) => {
                             console.log(err);
@@ -218,8 +222,8 @@ export class StationFormComponent implements OnInit {
 
                   this.stationModelForm.reset();
                   this.stationForm.reset();
-                  this.selectedSocketsForm.reset();
-                  this.stationSocketForm.reset();
+                  this.selectedChargingUnitForm.reset();
+                  this.stationChargingUnitForm.reset();
                 },
                 error: (err) => {
                   console.log(err);
