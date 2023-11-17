@@ -40,6 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +59,7 @@ import { StoreModule } from '@ngrx/store';
     SearchComponent,
     VerifyEmailComponent,
     FilterPipe,
+
   ],
   imports: [
     BrowserModule,

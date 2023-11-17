@@ -39,7 +39,7 @@
       margin-top: 40px;
       flex-direction: column;
       overflow-x: hidden;
-      border: 2px solid #9e0404; /* Dar ekranlarda alt alta sıralama */
+      border: 2px solid #9e0404;
     }
 
     #vehiclePanel {
@@ -110,17 +110,17 @@
         <div class="w-full sm:w-1/2 mt-12 sm:mt-0">
           <h2 class="text-xl font-semibold field-label">Vehicle Options</h2>
           <form>
-            <div class="mt-4 field-label">
+            <div class="mt-4 ml-7 field-label">
               <label for="brand">Brand:</label>
               <select
                 id="brand"
                 class="w-80 border p-2 rounded bg-white"
                 (change)="onBrandSelected($event)"
               >
-                <option [value]="selectedBrand" [selected]="vehicleMode">
+                <option [value]="selectedBrand" [selected]="selectedBrand">
                   {{
                     selectedBrand ||
-                      (vehicleMode ? "default" : "Please select a brand")
+                      (selectedBrand ? "default" : "Please select a brand")
                   }}
                 </option>
                 <option
@@ -132,7 +132,7 @@
                 </option>
               </select>
             </div>
-            <div class="mt-4 field-label">
+            <div class="mt-4 ml-7 field-label">
               <label for="model">Model:</label>
               <select
                 id="model"
@@ -142,7 +142,7 @@
                 <option [value]="selectedModel" [selected]="vehicleMode2">
                   {{
                     selectedModel ||
-                      (vehicleMode2 ? "default" : "Please select a model")
+                      (selectedModel ? "default" : "Please select a model")
                   }}
                 </option>
                 <option
@@ -154,28 +154,42 @@
                 </option>
               </select>
             </div>
-            <div class="mt-4 field-label">
+            <div class="mt-4 flex field-label">
               <label for="connector">Connector:</label>
-              <select
-                id="connector"
-                name="connector"
+              <div
+                id="connectorList"
                 class="w-80 border p-2 rounded bg-white"
-                [(ngModel)]="selectedConnectorId"
-                (change)="onConnectorSelected($event)"
+                (click)="toggleDropdown()"
+                (keydown)="onDropdownKeyPress($event)"
+                tabindex="0"
               >
-                <option [value]="null" [selected]="vehicleMode3">
-                  {{ vehicleMode3 ? "default" : "Please select a Connector" }}
-                </option>
-                <option
-                  *ngFor="let connector of connectorList"
-                  [value]="connector.id"
-                  [hidden]="
-                    selectedConnector && selectedConnector.id === connector.id
-                  "
+                <div
+                  *ngIf="selectedConnector; else noConnector"
+                  class="selected-connector"
                 >
-                  {{ connector.type }}
-                </option>
-              </select>
+                  {{ selectedConnector.type }}
+                </div>
+                <ng-template #noConnector>
+                  <div class="default-message" >
+                    Please select a Connector <i class="fas fa-chevron-down" style="margin-left: 99px;  font-size: 11px;" ></i>
+                  </div>
+                </ng-template>
+                <div *ngIf="dropdownVisible" class="connector-options">
+                  <div
+                    *ngFor="
+                      let connector of connectorList.slice(0, maxVisibleItems)
+                    "
+                    (click)="onConnectorSelected(connector)"
+                    (keydown.enter)="onConnectorSelected(connector)"
+                    (keydown.space)="onConnectorSelected(connector)"
+                    class="connector-option"
+                    tabindex="0"
+                  >
+                    <img class="w-16 h-18" [src]="connector.imageData" alt="" />
+                    {{ connector.type }}
+                  </div>
+                </div>
+              </div>
             </div>
             <div id="buttonMenu">
               <button

@@ -6,6 +6,7 @@ import { VehiclesService } from 'src/app/services/vehicles.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vehicle',
@@ -41,7 +42,8 @@ export class VehicleComponent implements OnInit {
   constructor(
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
-    private connectorService: ConnectorService
+    private connectorService: ConnectorService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,9 @@ export class VehicleComponent implements OnInit {
     this.getVehicleById();
     this.getConnector();
   }
+
+  dropdownVisible = false;
+  maxVisibleItems = 3;
 
   onModeChangeVehicle() {
     this.editModeVehicle = !this.editModeVehicle;
@@ -67,17 +72,26 @@ export class VehicleComponent implements OnInit {
 
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
-      console.log(connectors);
       this.connectorList = connectors;
       console.log(this.connectorList);
     });
   }
 
-  onConnectorSelected(event: any) {
-    const selectedConnectorId = event.target.value;
-    this.selectedConnectorId = selectedConnectorId;
+  // onConnectorSelected(event: any) {
+  //   const selectedConnectorId = event.target.value;
+  //   this.selectedConnectorId = selectedConnectorId;
+  //   localStorage.setItem('connectorId', selectedConnectorId);
+  // }
+  onConnectorSelected(connector: any) {
+    this.selectedConnector = connector;
+    localStorage.setItem('connectorId', this.selectedConnector.id);
+    this.dropdownVisible = false;
+    this.toggleDropdown(); 
+   
+  }
 
-    localStorage.setItem('connectorId', selectedConnectorId);
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 
   onBrandSelected(event: any) {
@@ -86,11 +100,27 @@ export class VehicleComponent implements OnInit {
     this.loadModelsByBrand(selectedBrand);
     localStorage.setItem('brand', selectedBrand);
   }
+  selectVehicle(selectedVehicle: any) {
+    localStorage.setItem('brand', selectedVehicle.brand);
+    this.onCarSelected(selectedVehicle.brand, selectedVehicle.connector);
 
-  onCarSelected(event: any) {
-    console.log(event);
-    const selectedBrand = event;
+    this.selectedBrand = selectedVehicle.brand;
+    this.selectedModel = selectedVehicle.model;
+    this.selectedConnector = selectedVehicle.connector;
+
+    if (this.selectedBrand && this.selectedModel) {
+      this.updatePrimaryKey(this.selectedBrand, this.selectedModel);
+    } else {
+      this.primaryKey = 'xxx';
+    }
+  }
+
+  onCarSelected(brand: string, connector: string) {
+    console.log('araba secme tıklamas');
+    const selectedBrand = brand;
+    this.selectedConnector = connector;
     this.loadModelsByBrand(selectedBrand);
+    this.getConnector(); //buraya dikkat
     localStorage.setItem('brand', selectedBrand);
   }
 
@@ -209,20 +239,6 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  selectVehicle(selectedVehicle: any) {
-    localStorage.setItem('brand', selectedVehicle.brand);
-    this.onCarSelected(selectedVehicle.brand);
-
-    this.selectedBrand = selectedVehicle.brand;
-    this.selectedModel = selectedVehicle.model;
-
-    if (this.selectedBrand && this.selectedModel) {
-      this.updatePrimaryKey(this.selectedBrand, this.selectedModel);
-    } else {
-      this.primaryKey = 'xxx';
-    }
-  }
-
   updateVehicle() {
     const vehicleId = localStorage.getItem('vehicleId');
     const oldId = vehicleId;
@@ -237,21 +253,35 @@ export class VehicleComponent implements OnInit {
     const userId = localStorage.getItem('authToken');
     const vehicleId = localStorage.getItem('vehicleId');
     const oldId = localStorage.getItem('oldId');
+    const connectorId = localStorage.getItem('connectorId');
 
-    if (vehicleId != null && oldId !== null && userId != null) {
-      this.userVehicleService.updateVehicle(userId, oldId, vehicleId).subscribe(
-        (response) => {
-          console.log('Araç güncelleme başarılı:', response);
-          this.getVehicleById();
-        },
-        (error) => {
-          console.error('Araç güncelleme hatası:', error);
-        }
-      );
+    if (
+      vehicleId != null &&
+      oldId !== null &&
+      userId != null &&
+      connectorId != null
+    ) {
+      this.userVehicleService
+        .updateVehicle(userId, oldId, vehicleId, connectorId)
+        .subscribe(
+          (response) => {
+            console.log('Araç güncelleme başarılı:', response);
+            this.getVehicleById();
+          },
+          (error) => {
+            console.error('Araç güncelleme hatası:', error);
+          }
+        );
     }
 
     this.isUpdate = true;
     localStorage.removeItem('vehicleId');
     localStorage.removeItem('oldId');
+  }
+
+  onDropdownKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.toggleDropdown();
+    }
   }
 }
