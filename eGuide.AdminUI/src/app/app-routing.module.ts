@@ -13,14 +13,15 @@ import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-con
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
+import { DashboardComponent } from './screens/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-
     canActivate: [AuthGuard],
     children: [
+      { path: '', component: DashboardComponent },
       { path: 'station', component: StationsComponent },
       { path: 'charging-unit', component: SocketComponent },
       { path: 'map', component: MapComponent },

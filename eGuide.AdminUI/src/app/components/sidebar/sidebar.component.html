@@ -78,7 +78,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a class="active cursor-pointer" href="/dashboard">
+          <a routerLink="" class="active cursor-pointer">
             <i class="fa fa-chart-line"></i>
             <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
               >Dashboard</span
@@ -140,7 +140,7 @@
             </li>
 
             <li class="submenu-list">
-             <a routerLink="vehicle">
+              <a routerLink="vehicle">
                 <i class="fa fa-user"></i>
                 <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Car</span
@@ -171,7 +171,7 @@
         <li
           class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
         >
-          <a class="cursor-pointer">
+          <a routerLink="service" class="cursor-pointer">
             <i class="fas fa-user"></i>
             <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
               >Services</span

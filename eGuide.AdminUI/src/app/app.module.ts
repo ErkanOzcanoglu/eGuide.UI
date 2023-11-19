@@ -54,7 +54,12 @@ import { AdminComponent } from './screens/admin/admin/admin.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
-
+import { DashboardComponent } from './screens/dashboard/dashboard.component';
+import { FeedbackChartComponent } from './components/dashboard/feedback-chart/feedback-chart.component';
+import { FavoritesComponent } from './components/dashboard/favorites/favorites.component';
+import { LastFewTransactionComponent } from './components/dashboard/last-few-transaction/last-few-transaction.component';
+import { CounterComponent } from './components/dashboard/counter/counter.component';
+import { ChartModule } from 'angular-highcharts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,9 +92,15 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
     AdminComponent,
     VehicleComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    DashboardComponent,
+    FeedbackChartComponent,
+    FavoritesComponent,
+    LastFewTransactionComponent,
+    CounterComponent,
   ],
   imports: [
+    ChartModule,
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
