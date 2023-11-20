@@ -10,7 +10,7 @@ export class FeedbackChartComponent {
   chart = new Chart({
     chart: {
       type: 'column',
-      backgroundColor: '#1D232A',
+      backgroundColor: '#020817',
     },
     title: {
       text: 'Feedback',
