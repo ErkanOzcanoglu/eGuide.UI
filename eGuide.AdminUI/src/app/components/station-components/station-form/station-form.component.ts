@@ -14,7 +14,7 @@ import {
   MapState,
   setFormAddressData,
 } from 'src/app/state/map-click-data/map-click-data.action';
-import { getStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
+import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 
@@ -80,7 +80,7 @@ export class StationFormComponent implements OnInit {
       }
     });
     this.store2
-      .pipe(select(getStationEditData))
+      .pipe(select(selectStationEditData))
       .subscribe((stationEditData) => {
         console.log(stationEditData.stationEditData, 'stationEditData');
         this.isEdited = true;

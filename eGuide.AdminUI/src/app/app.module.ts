@@ -57,6 +57,10 @@ import { ServiceScreenComponent } from './screens/service-screen/service-screen.
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
+import { ServiceFormComponent } from './components/service-components/service-form/service-form.component';
+import { ServiceListComponent } from './components/service-components/service-list/service-list.component';
+import { ServiceComponent } from './screens/service/service.component';
+import { serviceEditDataReducer } from './state/service-edit-data/service-edit-data.reducer';
 
 @NgModule({
   declarations: [
@@ -93,7 +97,10 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
     ServiceScreenComponent,
     VehicleComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    ServiceFormComponent,
+    ServiceListComponent,
+    ServiceComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,6 +119,7 @@ import { VehicleListComponent } from './components/vehicle-components/vehicle-li
       map: mapReducer,
       stationEditData: stationEditDataReducer,
       refresh: stationEditDataReducer,
+      serviceEditData: serviceEditDataReducer,
     }),
   ],
   providers: [AuthGuard, AuthService],

@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './modals/change-password/change-passwor
 import { AdminComponent } from './screens/admin/admin/admin.component';
 import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
+import { ServiceComponent } from './screens/service/service.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'admin-list', component: AdminComponent },
       { path: 'services', component: ServiceScreenComponent },
       { path: 'vehicle', component: VehicleComponent },
+      { path: 'service', component: ServiceComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },

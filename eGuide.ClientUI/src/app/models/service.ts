@@ -1,8 +1,9 @@
 export type Service = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  image: string;
-  isSelected?: boolean;
   layout?: number;
+  image?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
