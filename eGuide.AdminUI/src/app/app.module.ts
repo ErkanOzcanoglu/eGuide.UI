@@ -60,6 +60,7 @@ import { FavoritesComponent } from './components/dashboard/favorites/favorites.c
 import { LastFewTransactionComponent } from './components/dashboard/last-few-transaction/last-few-transaction.component';
 import { CounterComponent } from './components/dashboard/counter/counter.component';
 import { ChartModule } from 'angular-highcharts';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +119,7 @@ import { ChartModule } from 'angular-highcharts';
       stationEditData: stationEditDataReducer,
       refresh: stationEditDataReducer,
     }),
+    MatTabsModule,
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
