@@ -10,7 +10,7 @@ import { Service } from 'src/app/models/service';
 export class AddServiceComponent implements OnInit {
   selectedLayout?: number;
   service: Service = {
-    id: 0,
+    id: '',
     name: '',
     description: '',
     image: '',
