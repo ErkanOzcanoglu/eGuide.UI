@@ -5,6 +5,9 @@ import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
 import Search from '@arcgis/core/widgets/Search';
 import * as reactiveUtils from '@arcgis/core/reactiveUtils';
+import { UserStationService } from 'src/app/services/user-station.service';
+import { UserStation } from 'src/app/models/user-station';
+import TextSymbol from '@arcgis/symbols/TextSymbol';
 
 interface Center {
   latitude: any;
@@ -42,9 +45,10 @@ export class MapComponent implements OnInit {
       this.changeLayer(basemap);
     }
   }
-
+  userStation: UserStation = new UserStation();
   constructor(
     private stationService: StationService,
+    private userStationService: UserStationService,
     private formBuilder: FormBuilder
   ) {
     // data for the basemap gallery
@@ -174,23 +178,21 @@ export class MapComponent implements OnInit {
           height: '50px',
         };
 
+       
         const goLocationAction = {
           id: 'go-location-action',
-          title: 'Go Location',
-          className: 'esri-icon-directions',
+          title: 'Add Favourites',
+          className: 'esri-icon-favorites',
         };
-
-        function goLocation() {
-          console.log('deneme');
-          // Burada yapılacak işlemleri ekleyin, örneğin belirtilen konuma gitmek için bir yönlendirme başlatın.
-        }
 
         reactiveUtils.on(
           () => this.view.popup,
           'trigger-action',
           (event: any) => {
             if (event.action.id === 'go-location-action') {
-              goLocation(); // Go Location butonuna tıklandığında goLocation fonksiyonunu çağırın
+              const userId = localStorage.getItem('authToken');
+              const stationId = element.id;
+              if (userId !== null) this.saveUserStation(stationId, userId);
             }
           }
         );
@@ -259,5 +261,25 @@ export class MapComponent implements OnInit {
     // const searchTexts = this.searchText;
     search.search(this.searchType);
     console.log(this.searchType, 'search text in the map component 2');
+  }
+
+  addFacorite() {
+    console.log('favor');
+  }
+
+  saveUserStation(elementId: string, userId: string): void {
+    this.userStation.userId = userId;
+    this.userStation.stationProfileId = elementId;
+
+    this.userStationService.saveUserStation(this.userStation).subscribe(
+      (response) => {
+        console.log('Save successful!', response);
+        // İsteğin başarılı bir şekilde tamamlandığında yapılacak işlemleri ekleyebilirsiniz.
+      },
+      (error) => {
+        console.error('Save failed!', error);
+        // İsteğin hata ile sonuçlandığında yapılacak işlemleri ekleyebilirsiniz.
+      }
+    );
   }
 }
