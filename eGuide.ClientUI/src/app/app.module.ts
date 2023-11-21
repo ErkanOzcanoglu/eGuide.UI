@@ -39,6 +39,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 import { ServiceListComponent } from './components/service-list/service-list.component';
 import { ServiceComponent } from './screens/service/service.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ServiceComponent } from './screens/service/service.component';
     FilterPipe,
     ServiceListComponent,
     ServiceComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

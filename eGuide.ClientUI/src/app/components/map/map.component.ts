@@ -12,7 +12,7 @@ interface Center {
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css'],
+  styleUrls: ['./map.component.css', './_Popup.scss'],
 })
 export class MapComponent implements OnInit {
   searchType = '';
@@ -204,7 +204,6 @@ export class MapComponent implements OnInit {
             ],
           },
         };
-
         this.view.graphics.add(pointGraphic); // add graphic to the view
       });
     });
