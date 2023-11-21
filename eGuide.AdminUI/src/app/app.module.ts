@@ -51,6 +51,9 @@ import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { AdminComponent } from './screens/admin/admin/admin.component';
+import { AddServiceComponent } from './components/service-components/add-service/add-service.component';
+import { ListServicesComponent } from './components/service-components/list-services/list-services.component';
+import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +85,9 @@ import { AdminComponent } from './screens/admin/admin/admin.component';
     SignComponent,
     ChangePasswordComponent,
     AdminComponent,
+    AddServiceComponent,
+    ListServicesComponent,
+    ServiceScreenComponent,
   ],
   imports: [
     BrowserModule,

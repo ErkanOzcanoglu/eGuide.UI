@@ -114,7 +114,7 @@
         </label>
       </div>
       <div class="w-full">
-        <form class="w-full" [formGroup]="selectedSocketsForm">
+        <form class="w-full" [formGroup]="selectedChargingUnitForm">
           <mat-form-field
             class="appearance-none w-full text-white leading-tight focus:outline-none focus:shadow-outline"
             color="primary"
@@ -144,7 +144,7 @@
               <mat-option
                 class="w-full"
                 [class.is-invalid]="
-                  submitted && selectedSocketsForm.get('sockets')?.errors
+                  submitted && selectedChargingUnitForm.get('sockets')?.errors
                 "
                 *ngFor="let socket of chargingUnit"
                 [value]="socket.id"
