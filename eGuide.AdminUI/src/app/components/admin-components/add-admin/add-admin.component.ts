@@ -38,9 +38,7 @@ export class AddAdminComponent implements OnInit {
     this.adminForm.get('confirmPassword')?.setValue(password);
     if (this.adminForm.valid) {
       this.admin = this.adminForm.value;
-      this.adminService.adminRegister(this.admin).subscribe((data) => {
-        console.log(data);
-      });
+      this.adminService.adminRegister(this.admin).subscribe();
     }
   }
 }

@@ -39,7 +39,6 @@ export class ChangePasswordComponent implements OnInit {
             this.resetToken
           );
         }
-        console.log(res);
       }),
         (err: any) => {
           console.log(err);
@@ -49,8 +48,6 @@ export class ChangePasswordComponent implements OnInit {
 
   getAdminToken() {
     const adminToken = localStorage.getItem('authToken');
-    this.adminService.getAdminInfo(adminToken).subscribe((res) => {
-      console.log(res);
-    });
+    this.adminService.getAdminInfo(adminToken).subscribe();
   }
 }

@@ -1,88 +1,57 @@
 <form [formGroup]="updateProfile" *ngIf="adminInfo">
   <div class="mx-10">
-    <div class="m-8">
-      <div class="mb-8">
-        <!-- <h1 class="text-3xl font-semibold mb-4">User Profile</h1>
-      <div>
-        <div class="flex items-center space-x-4">
-          <div
-            class="rounded-full cursor-pointer w-16 h-16 bg-[#44528b] flex items-center justify-center"
-          >
-            <a routerLink="settings" class="text-white text-xl font-bold">
-              {{ adminInfo?.name?.charAt(0) | uppercase
-              }}{{ adminInfo?.surname?.charAt(0) | uppercase }}
-            </a>
-          </div>
-          <div>
-            <p class="text-xl font-bold">
-              {{ adminInfo?.name | titlecase }}
-              {{ adminInfo?.surname | titlecase }}
-            </p>
-            <p class="text-gray-600">{{ adminInfo?.email }}</p>
-          </div>
-        </div>
-      </div> -->
-      </div>
-      <div class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4">Edit Profile</h2>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label
-              for="name"
-              class="block ml-2 text-sm font-medium text-gray-600"
-              >Name</label
-            >
-            <p
-              *ngIf="!isEdited"
-              class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
-            >
-              {{ adminInfo.name }}
-            </p>
-            <input
-              *ngIf="isEdited"
-              type="text"
-              id="name"
-              name="name"
-              class="mt-1 p-2 w-full input input-bordered rounded-md"
-              formControlName="name"
-              [(ngModel)]="adminInfo.name"
-            />
-          </div>
-          <div>
-            <label
-              for="name"
-              class="block ml-2 text-sm font-medium text-gray-600"
-              >Surname</label
-            >
-            <p
-              *ngIf="!isEdited"
-              class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
-            >
-              {{ adminInfo.surname }}
-            </p>
-            <input
-              *ngIf="isEdited"
-              type="text"
-              id="surname"
-              name="surname"
-              class="mt-1 p-2 w-full input input-bordered rounded-md"
-              formControlName="surname"
-              [(ngModel)]="adminInfo.surname"
-            />
-          </div>
-        </div>
-        <div class="mt-4">
-          <label
-            for="email"
-            class="block ml-2 text-sm font-medium text-gray-600"
-            >Email</label
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Edit Profile</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="name" class="block ml-2 text-sm font-medium text-gray-600"
+            >Name</label
           >
           <p
+            *ngIf="!isEdited"
             class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
           >
-            {{ adminInfo.email }}
+            {{ adminInfo.name }}
           </p>
-          <!-- <input
+          <input
+            *ngIf="isEdited"
+            type="text"
+            id="name"
+            name="name"
+            class="mt-1 p-2 w-full input input-bordered rounded-md"
+            formControlName="name"
+            [(ngModel)]="adminInfo.name"
+          />
+        </div>
+        <div>
+          <label for="name" class="block ml-2 text-sm font-medium text-gray-600"
+            >Surname</label
+          >
+          <p
+            *ngIf="!isEdited"
+            class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+          >
+            {{ adminInfo.surname }}
+          </p>
+          <input
+            *ngIf="isEdited"
+            type="text"
+            id="surname"
+            name="surname"
+            class="mt-1 p-2 w-full input input-bordered rounded-md"
+            formControlName="surname"
+            [(ngModel)]="adminInfo.surname"
+          />
+        </div>
+      </div>
+      <div class="mt-4">
+        <label for="email" class="block ml-2 text-sm font-medium text-gray-600"
+          >Email</label
+        >
+        <p class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled">
+          {{ adminInfo.email }}
+        </p>
+        <!-- <input
             type="email"
             *ngIf="isEdited"
             id="email"
@@ -91,25 +60,24 @@
             formControlName="email"
             [(ngModel)]="adminInfo.email"
           /> -->
-        </div>
       </div>
-      <div class="flex flex-col gap-y-5 max-w-[180px]">
-        <button
-          (click)="editProfile(adminInfo.id)"
-          type="submit"
-          class="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-        >
-          {{ isEdited ? "Update Profile" : "Edit Profile" }}
-        </button>
-        <button
-          (click)="createResetToken()"
-          class="btn bg-slate-700"
-          onclick="my_modal_5.showModal()"
-        >
-          Change Password
-        </button>
-        <button class="btn btn-error">Delete Account</button>
-      </div>
+    </div>
+    <div class="flex flex-col gap-y-5 max-w-[180px]">
+      <button
+        (click)="editProfile(adminInfo.id)"
+        type="submit"
+        class="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+      >
+        {{ isEdited ? "Update Profile" : "Edit Profile" }}
+      </button>
+      <button
+        (click)="createResetToken()"
+        class="btn bg-slate-700"
+        onclick="my_modal_5.showModal()"
+      >
+        Change Password
+      </button>
+      <button class="btn btn-error">Delete Account</button>
     </div>
   </div>
 </form>
