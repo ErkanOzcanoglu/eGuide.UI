@@ -25,15 +25,17 @@ export class UserVehicleService {
   updateVehicle(
     userId: string,
     vehicleId: string,
-    idNew: string
+    idNew: string,
+    connectorId:string
   ): Observable<any> {
     const data = {
       userId: userId,
       vehicleId: vehicleId,
       idNew: idNew,
+      connectorId:connectorId
     };
     return this.http.put(
-      `${environment.apiUrl}/${this.url}/update-vehicle?userid=${userId}&vehicleId=${vehicleId}&idNew=${idNew}`,
+      `${environment.apiUrl}/${this.url}/update-vehicle?userid=${userId}&vehicleId=${vehicleId}&idNew=${idNew}&connectorId=${connectorId}`,
       data
     );
   }

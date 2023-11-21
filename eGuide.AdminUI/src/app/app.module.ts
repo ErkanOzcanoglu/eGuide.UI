@@ -49,7 +49,6 @@ import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-con
 import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
-import { CloudinaryModule } from '@cloudinary/ng';
 import { AdminComponent } from './screens/admin/admin/admin.component';
 import { AddServiceComponent } from './components/service-components/add-service/add-service.component';
 import { ListServicesComponent } from './components/service-components/list-services/list-services.component';
@@ -57,6 +56,7 @@ import { ServiceScreenComponent } from './screens/service-screen/service-screen.
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
+import { SearchFilterPipe } from './pipes/vehicle.pipe';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { FeedbackChartComponent } from './components/dashboard/feedback-chart/feedback-chart.component';
 import { FavoritesComponent } from './components/dashboard/favorites/favorites.component';
@@ -104,6 +104,7 @@ import { serviceEditDataReducer } from './state/service-edit-data/service-edit-d
     VehicleComponent,
     VehicleFormComponent,
     VehicleListComponent,
+    SearchFilterPipe,
     DashboardComponent,
     FeedbackChartComponent,
     FavoritesComponent,
@@ -123,7 +124,6 @@ import { serviceEditDataReducer } from './state/service-edit-data/service-edit-d
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    CloudinaryModule,
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),

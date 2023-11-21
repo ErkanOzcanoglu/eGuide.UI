@@ -12,9 +12,11 @@ export class VehicleService {
   private url = 'Vehicle';
   constructor(private http: HttpClient, private router: Router) {}
 
-  public addVehicle(vehicle:Vehicle):Observable<Vehicle>
-  {
-    return this.http.post<Vehicle>(`${environment.apiUrl}/${this.url}`,vehicle);
+  public addVehicle(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(
+      `${environment.apiUrl}/${this.url}`,
+      vehicle
+    );
   }
 
   public getAllVehicles(): Observable<Vehicle[]> {
@@ -27,10 +29,7 @@ export class VehicleService {
     );
   }
 
-  public updateVehicle(
-    vehicleId: string,
-    model: string
-  ): Observable<Vehicle> {
+  public updateVehicle(vehicleId: any, model:string) {
     return this.http.put(
       `${environment.apiUrl}/${this.url}/${vehicleId}`,
       vehicleId
