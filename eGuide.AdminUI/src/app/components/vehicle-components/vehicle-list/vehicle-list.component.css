@@ -1,0 +1,6 @@
+.transparent-input {
+  background: transparent;
+  border: none; /* İsteğe bağlı olarak sınıra ihtiyacınıza bağlı olarak ayarlayabilirsiniz */
+  color: #ffffff; /* Giriş metni rengini ayarlayabilirsiniz */
+  /* Diğer stil özelliklerini ekleyebilirsiniz */
+}

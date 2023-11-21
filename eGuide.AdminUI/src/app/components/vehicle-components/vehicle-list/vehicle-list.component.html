@@ -1,0 +1,54 @@
+<div class="h-full w-full min-h-[500px]">
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th class="w-2/5">Vehicle</th>
+        <th class="w-2/5 bg-[#202c3f]">Vehicle Brand</th>
+        <th class="w-1/5">Vehicle Model</th>
+        <th class="w-1/5"></th>
+      </tr>
+    </thead>
+    <tbody class="w-full" *ngFor="let item of vehicles">
+      <tr>
+        <td>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </td>
+        <td class="bg-[#1E293B]">
+          <div class="font-bold">{{ item.brand + " " + item.model }}</div>
+        </td>
+        <td class="bg-[#202c3f]">
+          <div class="font-bold">{{ item.brand }}</div>
+        </td>
+        <td *ngIf="editMode">
+          <input type="text" class="form-control transparent-input" [(ngModel)]="item.model" />
+        </td>
+        <td class="gap-x-2 flex">
+          <button
+            *ngIf="!editMode"
+            class="btn btn-ghost"
+            (click)="onModeChange()"
+          >
+            Edit
+          </button>
+          <button
+            *ngIf="editMode"
+            class="btn btn-ghost"
+            (click)="onUpdate(item.id, item.model)"
+          >
+            Save
+          </button>
+          <button class="btn btn-ghost" (click)="deleteVehicle(item.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
