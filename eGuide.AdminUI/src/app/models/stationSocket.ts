@@ -1,8 +1,8 @@
 import { ChargingUnit } from './charging-unit';
 
-export class StationSocket {
+export class StationChargingUnit {
   id = '';
-  socketId = '';
+  charginUnitId = '';
   chargingUnit?: ChargingUnit;
   stationModelId = '';
 }
