@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-export const getStationEditData = createSelector(
+export const selectStationEditData = createSelector(
   (state: any) => state.stationEditData,
   (stationEditData) => stationEditData.stationEditData
 );

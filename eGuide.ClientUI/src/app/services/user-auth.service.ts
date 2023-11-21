@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { ResetPassword } from '../models/resetPassword';
+import { UserLog } from '../models/user-log';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,13 @@ export class UserAuthService {
     return this.http.post<string>(
       `${environment.apiUrl}/${this.url}//reset-password`,
       request
+    );
+  }
+
+  public login_Log(userLog: UserLog): Observable<UserLog> {
+    return this.http.post<UserLog>(
+      `${environment.apiUrl}/${this.url}/users-log`,
+      userLog
     );
   }
 }

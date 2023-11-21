@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
@@ -13,6 +13,7 @@ import { UserAuthService } from 'src/app/services/user-auth.service';
 export class LoginComponent implements OnInit {
   user: User = new User();
   loginForm: FormGroup = new FormGroup({});
+  logForm: FormGroup = new FormGroup({});
 
   constructor(
     private router: Router,
@@ -23,7 +24,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-
   }
 
   initializeForm() {
@@ -31,8 +31,12 @@ export class LoginComponent implements OnInit {
       email: [''],
       password: [''],
     });
+    this.logForm = this.formBuilder.group({
+      message: ['', Validators.required],
+      level: ['', Validators.required],
+      source: ['', Validators.required],
+    });
   }
-
 
   login(): void {
     //console.log(this.loginForm.value);
@@ -44,9 +48,23 @@ export class LoginComponent implements OnInit {
         if (token === 'wrong email' || token === 'wrong password') {
           this.toastr.error('Incorrect login information, please try again..');
           localStorage.removeItem('authToken');
-        } else {       
-          this.router.navigate(['/']);
-           location.reload();  
+        } else {
+          this.toastr.success('Login successful!');
+          this.logForm.patchValue({
+            message: `${
+              this.loginForm.value.email
+            } logged in at ${new Date().toLocaleString()}`,
+            level: 'info',
+            source: 'web',
+          });
+          this.userauthService
+            .login_Log(this.logForm.value)
+            .subscribe(() => console.log('oldu'));
+
+          setTimeout(() => {
+            this.router.navigate(['/']);
+            location.reload();
+          }, 1000);
         }
       },
       (error) => {

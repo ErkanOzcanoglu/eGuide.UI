@@ -50,11 +50,24 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
+import { AddServiceComponent } from './components/service-components/add-service/add-service.component';
+import { ListServicesComponent } from './components/service-components/list-services/list-services.component';
+import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
 import { SearchFilterPipe } from './pipes/vehicle.pipe';
-
+import { DashboardComponent } from './screens/dashboard/dashboard.component';
+import { FeedbackChartComponent } from './components/dashboard/feedback-chart/feedback-chart.component';
+import { FavoritesComponent } from './components/dashboard/favorites/favorites.component';
+import { LastFewTransactionComponent } from './components/dashboard/last-few-transaction/last-few-transaction.component';
+import { CounterComponent } from './components/dashboard/counter/counter.component';
+import { ChartModule } from 'angular-highcharts';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ServiceFormComponent } from './components/service-components/service-form/service-form.component';
+import { ServiceListComponent } from './components/service-components/service-list/service-list.component';
+import { ServiceComponent } from './screens/service/service.component';
+import { serviceEditDataReducer } from './state/service-edit-data/service-edit-data.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,12 +98,24 @@ import { SearchFilterPipe } from './pipes/vehicle.pipe';
     SignComponent,
     ChangePasswordComponent,
     AdminComponent,
+    AddServiceComponent,
+    ListServicesComponent,
+    ServiceScreenComponent,
     VehicleComponent,
     VehicleFormComponent,
     VehicleListComponent,
     SearchFilterPipe,
+    DashboardComponent,
+    FeedbackChartComponent,
+    FavoritesComponent,
+    LastFewTransactionComponent,
+    CounterComponent,
+    ServiceFormComponent,
+    ServiceListComponent,
+    ServiceComponent,
   ],
   imports: [
+    ChartModule,
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
@@ -106,7 +131,9 @@ import { SearchFilterPipe } from './pipes/vehicle.pipe';
       map: mapReducer,
       stationEditData: stationEditDataReducer,
       refresh: stationEditDataReducer,
+      serviceEditData: serviceEditDataReducer,
     }),
+    MatTabsModule,
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
