@@ -39,11 +39,6 @@ export class ConnectorModalComponent implements OnInit {
       imageName: [''],
     });
   }
-
-  onSelect(event: any) {
-    this.files.push(event.target.files[0]);
-  }
-
   addConnector() {
     if (this.connectorForm.valid && this.files[0]) {
       const file_data = this.files[0];

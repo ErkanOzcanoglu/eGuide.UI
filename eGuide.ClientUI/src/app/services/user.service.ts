@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { ResetPassword } from '../models/resetPassword';
 import { environment } from '../environments/environment.prod';
+import { UserLog } from '../models/user-log';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class UserService {
     );
   }
 
-  resetPassword(
+  public resetPassword(
     resetPasswordModel: ResetPassword,
     userId: string
   ): Observable<any> {
@@ -50,7 +51,7 @@ export class UserService {
     );
   }
 
-  forgotPasswordScreen(userEmail: string): Observable<any> {
+  public forgotPasswordScreen(userEmail: string): Observable<any> {
     const encodedEmail = userEmail.replace('@', '%40');
     return this.http.post<any>(
       `${environment.apiUrl}/${this.url}/forgot-password/${encodedEmail}`,
@@ -58,7 +59,7 @@ export class UserService {
     );
   }
 
-  resetPasswordScreen(
+  public resetPasswordScreen(
     resetInfo: ResetPassword,
     token: string
   ): Observable<any> {
@@ -68,7 +69,7 @@ export class UserService {
     );
   }
 
-  confirmAccount(token: string) {
+  public confirmAccount(token: string) {
     const url = `${environment.apiUrl}/${this.url}/confirm?token=${token}`;
     return this.http.get(url);
   }

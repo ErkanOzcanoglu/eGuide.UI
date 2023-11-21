@@ -12,8 +12,10 @@ import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admi
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
+import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
+import { ServiceComponent } from './screens/service/service.component';
 
 const routes: Routes = [
   {
@@ -28,7 +30,9 @@ const routes: Routes = [
       { path: 'settings', component: SettingsComponent },
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'admin-list', component: AdminComponent },
+      { path: 'services', component: ServiceScreenComponent },
       { path: 'vehicle', component: VehicleComponent },
+      { path: 'service', component: ServiceComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },
