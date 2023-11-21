@@ -4,7 +4,7 @@
 >
   <!-- your sidebar content here -->
   <div
-    class="flex sidenav justify-center flex-col w-full h-full"
+    class="flex sidenav bg-primary border-r border-secondary justify-center flex-col w-full h-full"
     [ngClass]="collapseSideNav ? 'items-center' : ' items-center'"
   >
     <!--! Logo Div -->
@@ -41,7 +41,7 @@
     <div
       *ngIf="adminInfo"
       [ngClass]="collapseSideNav ? 'justify-center' : 'pl-[60px]'"
-      class="h-28 duration-300 shadow shadow-black flex w-full items-center gap-10"
+      class="h-28 duration-300 border-t border-b border-opacity-50 border-secondary flex w-full items-center gap-10"
     >
       <!-- <img
         src="https://i.pravatar.cc/60"
@@ -76,9 +76,9 @@
       <ul class="menu-ul">
         <!--? Dashboard -->
         <li
-          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+          class="menu-list hover:bg-secondary hover:rounded-2xl items-center flex"
         >
-          <a class="active cursor-pointer" href="/dashboard">
+          <a routerLink="" class="active cursor-pointer">
             <i class="fa fa-chart-line"></i>
             <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
               >Dashboard</span
@@ -90,7 +90,7 @@
         <li class="menu-list items-center flex flex-col">
           <div
             [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
-            class="flex justify-between hover:bg-blue-600 hover:rounded-2xl"
+            class="flex justify-between hover:bg-secondary hover:rounded-2xl"
             (click)="hideManagement()"
             tabindex="0"
             (keyup)="handleKeyup($event)"
@@ -169,7 +169,7 @@
 
         <!--? Services -->
         <li
-          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+          class="menu-list hover:bg-secondary hover:rounded-2xl items-center flex"
         >
           <a routerLink="service" class="cursor-pointer">
             <i class="fas fa-user"></i>
@@ -188,7 +188,7 @@
         >
           <div
             [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
-            class="flex justify-between hover:bg-blue-600 hover:rounded-2xl"
+            class="flex justify-between hover:bg-secondary hover:rounded-2xl"
           >
             <a class="cursor-pointer">
               <i class="fas fa-cog"></i>
@@ -234,7 +234,7 @@
 
         <!--? Chat -->
         <li
-          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+          class="menu-list hover:bg-secondary hover:rounded-2xl items-center flex"
         >
           <a class="cursor-pointer">
             <i class="fas fa-comments"></i>
@@ -246,7 +246,7 @@
 
         <!--? Settings -->
         <li
-          class="menu-list hover:bg-blue-600 hover:rounded-2xl items-center flex"
+          class="menu-list hover:bg-secondary hover:rounded-2xl items-center flex"
         >
           <a routerLink="settings" class="cursor-pointer">
             <i class="fas fa-cog"></i>
@@ -267,7 +267,7 @@
         <!--? Dashboard -->
         <li
           [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
-          class="menu-list hover:bg-blue-600 cursor-pointer hover:rounded-2xl items-center flex"
+          class="menu-list hover:bg-secondary cursor-pointer hover:rounded-2xl items-center flex"
         >
           <a
             (keydown)="handleKeyup($event)"

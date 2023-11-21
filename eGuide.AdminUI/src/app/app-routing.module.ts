@@ -14,15 +14,16 @@ import { ChangePasswordComponent } from './modals/change-password/change-passwor
 import { AdminComponent } from './screens/admin/admin/admin.component';
 import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
+import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { ServiceComponent } from './screens/service/service.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-
     canActivate: [AuthGuard],
     children: [
+      { path: '', component: DashboardComponent },
       { path: 'station', component: StationsComponent },
       { path: 'charging-unit', component: SocketComponent },
       { path: 'map', component: MapComponent },
