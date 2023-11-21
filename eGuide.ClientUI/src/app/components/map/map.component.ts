@@ -4,6 +4,7 @@ import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
 import Search from '@arcgis/core/widgets/Search';
+import * as reactiveUtils from '@arcgis/core/reactiveUtils';
 
 interface Center {
   latitude: any;
@@ -29,7 +30,7 @@ export class MapComponent implements OnInit {
   public stations: Station[] = [];
   public basemapss: any[] = [];
   public currentBasemapIndex: number;
-
+  public reactive: any;
   // search(enevt: any) {
   //   // get searchType from search component
   //   this.searchType = enevt;
@@ -85,11 +86,12 @@ export class MapComponent implements OnInit {
         'esri/config',
         'esri/widgets/Locate',
         'esri/widgets/Search',
+        'esri/core/reactiveUtils',
       ],
       {
         css: true,
       }
-    ).then(([Map, MapView, esriConfig, Locate, Search]) => {
+    ).then(([Map, MapView, esriConfig, Locate, reactiveUtils]) => {
       esriConfig.apiKey =
         'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
 
@@ -172,6 +174,27 @@ export class MapComponent implements OnInit {
           height: '50px',
         };
 
+        const goLocationAction = {
+          id: 'go-location-action',
+          title: 'Go Location',
+          className: 'esri-icon-directions',
+        };
+
+        function goLocation() {
+          console.log('deneme');
+          // Burada yapılacak işlemleri ekleyin, örneğin belirtilen konuma gitmek için bir yönlendirme başlatın.
+        }
+
+        reactiveUtils.on(
+          () => this.view.popup,
+          'trigger-action',
+          (event: any) => {
+            if (event.action.id === 'go-location-action') {
+              goLocation(); // Go Location butonuna tıklandığında goLocation fonksiyonunu çağırın
+            }
+          }
+        );
+
         const pointGraphic = {
           // create graphic
           geometry: point,
@@ -202,6 +225,7 @@ export class MapComponent implements OnInit {
                 ],
               },
             ],
+            actions: [goLocationAction],
           },
         };
         this.view.graphics.add(pointGraphic); // add graphic to the view
