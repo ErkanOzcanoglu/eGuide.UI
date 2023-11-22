@@ -20,6 +20,12 @@ export class UserStationService {
     );
   }
 
+   deleteStationProfile(id: string): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.apiUrl}/${this.url}/DeleteStationProfile/${id}`
+    );
+  }
+
   getStationProfiles(userId: string): Observable<Station[]> {
     return this.http.get<Station[]>(
       `${environment.apiUrl}/${this.url}/GetStationProfile/${userId}`

@@ -1,6 +1,6 @@
 export class UserStation {
-  //id = '';
+  id?: '';
   userId = '';
   stationProfileId = '';
-
+  // isFavorite = false;
 }

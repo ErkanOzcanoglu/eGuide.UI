@@ -23,6 +23,7 @@ export class MapComponent implements OnInit {
   searchForm: FormGroup = new FormGroup({});
   @Input() searchText = '';
 
+  public userStation: UserStation = new UserStation();
   public map: any;
   public view: any;
   public locate: any;
@@ -45,7 +46,7 @@ export class MapComponent implements OnInit {
       this.changeLayer(basemap);
     }
   }
-  userStation: UserStation = new UserStation();
+
   constructor(
     private stationService: StationService,
     private userStationService: UserStationService,
@@ -156,85 +157,182 @@ export class MapComponent implements OnInit {
   }
 
   // get stations from api
+  // getStations(): void {
+  //   this.stationService.getStations().subscribe((data) => {
+  //     // get stations from api
+  //     this.stations = data; // assign stations to stations array
+
+  //     this.stations.forEach((element) => {
+
+  //       // loop through stations array
+  //       const point = {
+  //         // create point
+  //         type: 'point',
+  //         longitude: element.longitude,
+  //         latitude: element.latitude,
+  //       };
+
+  //       const pinSymbol = {
+  //         // create symbol
+  //         type: 'picture-marker',
+  //         url: '../../assets/charging.svg',
+  //         width: '50px',
+  //         height: '50px',
+  //       };
+
+  //       const goLocationAction = {
+  //         id: 'go-location-action',
+  //         title: 'Add Favourites',
+  //         className: 'esri-icon-favorites',
+  //       };
+
+  //       reactiveUtils.on(
+  //         () => this.view.popup,
+  //         'trigger-action',
+  //         (event: any) => {
+  //           if (event.action.id === 'go-location-action') {
+  //             const userId = localStorage.getItem('authToken');
+  //             const stationId = element.id;
+  //             if (userId !== null) this.saveUserStation(stationId, userId);
+  //           }
+  //         }
+  //       );
+
+  //       const pointGraphic = {
+  //         // create graphic
+  //         geometry: point,
+  //         symbol: pinSymbol,
+  //         attributes: {
+  //           name: element.name,
+  //           id: element.id,
+  //           address: element.address,
+  //           latitude: element.latitude,
+  //           longitude: element.longitude,
+  //         },
+
+  //         // open popup when graphic is clicked
+  //         popupTemplate: {
+  //           title: '{name}',
+  //           content: [
+  //             {
+  //               type: 'fields',
+  //               fieldInfos: [
+  //                 {
+  //                   fieldName: 'name',
+  //                   label: 'Name',
+  //                 },
+  //                 {
+  //                   fieldName: 'address',
+  //                   label: 'Address',
+  //                 },
+  //               ],
+  //             },
+  //           ],
+  //           actions: [goLocationAction],
+  //         },
+  //       };
+  //       this.view.graphics.add(pointGraphic); // add graphic to the view
+  //     });
+  //   });
+  // }
+
   getStations(): void {
     this.stationService.getStations().subscribe((data) => {
       // get stations from api
       this.stations = data; // assign stations to stations array
 
-      this.stations.forEach((element) => {
-        // loop through stations array
-        const point = {
-          // create point
-          type: 'point',
-          longitude: element.longitude,
-          latitude: element.latitude,
-        };
+      const userId = localStorage.getItem('authToken');
+      if (userId !== null)
+        // Favori istasyonları getir
+        this.userStationService.getStationProfiles(userId).subscribe(
+          (favoriteStations) => {
+            // Her bir istasyon için favori kontrolü yap
+            this.stations.forEach((element) => {
+              const isFavorite = favoriteStations.some(
+                (station) => station.id === element.id
+              );
 
-        const pinSymbol = {
-          // create symbol
-          type: 'picture-marker',
-          url: '../../assets/charging.svg',
-          width: '50px',
-          height: '50px',
-        };
+              const point = {
+                // create point
+                type: 'point',
+                longitude: element.longitude,
+                latitude: element.latitude,
+              };
 
-       
-        const goLocationAction = {
-          id: 'go-location-action',
-          title: 'Add Favourites',
-          className: 'esri-icon-favorites',
-        };
+              const pinSymbol = {
+                // create symbol
+                type: 'picture-marker',
+                url: '../../assets/charging.svg',
+                width: '50px',
+                height: '50px',
+              };
 
-        reactiveUtils.on(
-          () => this.view.popup,
-          'trigger-action',
-          (event: any) => {
-            if (event.action.id === 'go-location-action') {
-              const userId = localStorage.getItem('authToken');
-              const stationId = element.id;
-              if (userId !== null) this.saveUserStation(stationId, userId);
-            }
+              // Yıldız rengi için sınıf ataması yap
+              const starColorClass = isFavorite
+                ? 'esri-icon-favorites-favorite'
+                : 'esri-icon-favorites';
+
+              const goLocationAction = {
+                id: 'go-location-action',
+                title: 'Add Favourites',
+                className: starColorClass,
+              };
+
+              reactiveUtils.on(
+                () => this.view.popup,
+                'trigger-action',
+                (event: any) => {
+                  if (event.action.id === 'go-location-action') {
+                    this.getStations();
+                    if (userId !== null)
+                      this.saveUserStation(element.id, userId);
+                    this.getStations();
+                  }
+                }
+              );
+
+              const pointGraphic = {
+                // create graphic
+                geometry: point,
+                symbol: pinSymbol,
+                attributes: {
+                  name: element.name,
+                  id: element.id,
+                  address: element.address,
+                  latitude: element.latitude,
+                  longitude: element.longitude,
+                },
+
+                // open popup when graphic is clicked
+                popupTemplate: {
+                  title: '{name}',
+                  content: [
+                    {
+                      type: 'fields',
+                      fieldInfos: [
+                        {
+                          fieldName: 'name',
+                          label: 'Name',
+                        },
+                        {
+                          fieldName: 'address',
+                          label: 'Address',
+                        },
+                      ],
+                    },
+                  ],
+                  actions: [goLocationAction],
+                },
+              };
+              this.view.graphics.add(pointGraphic); // add graphic to the view
+            });
+          },
+          (error) => {
+            console.error('Error fetching favorite stations:', error);
           }
         );
-
-        const pointGraphic = {
-          // create graphic
-          geometry: point,
-          symbol: pinSymbol,
-          attributes: {
-            name: element.name,
-            id: element.id,
-            address: element.address,
-            latitude: element.latitude,
-            longitude: element.longitude,
-          },
-
-          // open popup when graphic is clicked
-          popupTemplate: {
-            title: '{name}',
-            content: [
-              {
-                type: 'fields',
-                fieldInfos: [
-                  {
-                    fieldName: 'name',
-                    label: 'Name',
-                  },
-                  {
-                    fieldName: 'address',
-                    label: 'Address',
-                  },
-                ],
-              },
-            ],
-            actions: [goLocationAction],
-          },
-        };
-        this.view.graphics.add(pointGraphic); // add graphic to the view
-      });
     });
   }
-
   // get selected station from station list component
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
