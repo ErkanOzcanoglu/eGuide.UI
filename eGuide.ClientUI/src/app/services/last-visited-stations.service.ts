@@ -26,4 +26,10 @@ export class LastVisitedStationsService {
       environment.apiUrl + '/LastVisitedStations/' + userId
     );
   }
+
+  removeLastVisitedStation(id: string): Observable<LastVisitedStations> {
+    return this.httpClient.delete<LastVisitedStations>(
+      environment.apiUrl + '/LastVisitedStations/' + id
+    );
+  }
 }

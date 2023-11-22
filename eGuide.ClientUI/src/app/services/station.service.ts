@@ -27,4 +27,10 @@ export class StationService {
       responseType: 'json',
     });
   }
+
+  getStationById(id: any) {
+    return this.http.get<Station>(`${environment.apiUrl}/Station/${id}`, {
+      responseType: 'json',
+    });
+  }
 }
