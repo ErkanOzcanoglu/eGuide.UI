@@ -5,13 +5,13 @@
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
           <label
-            class="block text-gray-200 text-sm font-bold mb-2"
+            class="block text-gray-200 text-sm mb-2"
             *ngIf="switchStatus"
             for=""
             >Address</label
           >
           <label
-            class="block text-gray-200 text-sm font-bold mb-2"
+            class="block text-gray-200 text-sm mb-2"
             *ngIf="!switchStatus"
             for=""
             >Latitude</label
@@ -48,7 +48,7 @@
     <!-- ! lng -->
     <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm font-bold mb-2" for="addres">
+        <label class="block text-gray-200 text-sm mb-2" for="addres">
           Lng
         </label>
       </div>
@@ -67,10 +67,7 @@
       <!-- ! station name -->
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
-          <label
-            class="block text-gray-200 text-sm font-bold mb-2"
-            for="addres"
-          >
+          <label class="block text-gray-200 text-sm mb-2" for="addres">
             Station Name
           </label>
         </div>
@@ -88,10 +85,7 @@
       <form action="" class="w-full" [formGroup]="stationModelForm">
         <div class="mb-4 w-full justify-between">
           <div class="flex w-full justify-between">
-            <label
-              class="block text-gray-200 text-sm font-bold mb-2"
-              for="addres"
-            >
+            <label class="block text-gray-200 text-sm mb-2" for="addres">
               Station Model Name
             </label>
           </div>
@@ -109,7 +103,7 @@
     <!-- ! station sockets -->
     <div class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm font-bold mb-2" for="sockets">
+        <label class="block text-gray-200 text-sm mb-2" for="sockets">
           Charging Unit
         </label>
       </div>
@@ -123,20 +117,23 @@
             <mat-label>Charging Units</mat-label>
             <!-- display only the selected name -->
             <mat-select
-              class="rounded-3xl w-full"
+              class="rounded-3xl w-full text-white"
               required="true"
               formControlName="sockets"
               multiple
               (selectionChange)="onSelectionChange($event)"
             >
-              <mat-option disabled="" class="table">
+              <mat-option
+                disabled=""
+                class="mat-mdc-option mdc-list-item w-full mat-mdc-option-multiple"
+              >
                 <thead class="w-full">
                   <tr>
-                    <th class="w-[120px]">Name</th>
-                    <th class="w-[120px]">Power</th>
-                    <th class="w-[120px]">Current</th>
-                    <th class="w-[120px]">Type</th>
-                    <th class="w-[120px]">Voltage</th>
+                    <th class="w-[120px] font-normal">Name</th>
+                    <th class="w-[120px] font-normal">Power</th>
+                    <th class="w-[120px] font-normal">Current</th>
+                    <th class="w-[120px] font-normal">Type</th>
+                    <th class="w-[120px] font-normal">Voltage</th>
                     <th class="w-[120px]"></th>
                   </tr>
                 </thead>
@@ -144,7 +141,8 @@
               <mat-option
                 class="w-full"
                 [class.is-invalid]="
-                  submitted && selectedChargingUnitForm.get('sockets')?.errors
+                  submitted &&
+                  selectedChargingUnitForm.get('chargingUnit')?.errors
                 "
                 *ngFor="let socket of chargingUnit"
                 [value]="socket.id"
@@ -154,35 +152,35 @@
                   <td class="w-[120px]">
                     <div class="w-full flex items-center">
                       <div>
-                        <div class="font-bold">{{ socket.name }}</div>
+                        <div class="">{{ socket.name }}</div>
                       </div>
                     </div>
                   </td>
                   <td class="w-[120px]">
                     <div class="w-full flex items-center">
                       <div>
-                        <div class="font-bold">{{ socket.power }}</div>
+                        <div class="">{{ socket.power }}</div>
                       </div>
                     </div>
                   </td>
                   <td class="w-[120px]">
                     <div class="w-full flex items-center">
                       <div>
-                        <div class="font-bold">{{ socket.current }}</div>
+                        <div class="">{{ socket.current }}</div>
                       </div>
                     </div>
                   </td>
                   <td class="w-[120px]">
                     <div class="w-full flex items-center">
                       <div>
-                        <div class="font-bold">{{ socket.type }}</div>
+                        <div class="">{{ socket.type }}</div>
                       </div>
                     </div>
                   </td>
                   <td class="w-[120px]">
                     <div class="w-full flex items-center">
                       <div>
-                        <div class="font-bold">{{ socket.voltage }}</div>
+                        <div class="">{{ socket.voltage }}</div>
                       </div>
                     </div>
                   </td>
@@ -196,14 +194,14 @@
     <!-- submit button -->
     <div class="flex justify-end gap-x-2">
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
         (click)="onSubmit()"
       >
         Submit
       </button>
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
         (click)="submitForm()"
       >

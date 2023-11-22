@@ -16,6 +16,7 @@ import { ServiceScreenComponent } from './screens/service-screen/service-screen.
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { ServiceComponent } from './screens/service/service.component';
+import { FacilityComponent } from './screens/facility/facility.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'services', component: ServiceScreenComponent },
       { path: 'vehicle', component: VehicleComponent },
       { path: 'service', component: ServiceComponent },
+      { path: 'facility', component: FacilityComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },

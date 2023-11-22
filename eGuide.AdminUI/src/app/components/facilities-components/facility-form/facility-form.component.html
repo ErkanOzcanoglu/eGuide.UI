@@ -1,0 +1,62 @@
+<!-- <div class="">
+  <form [formGroup]="nameForm">
+    <div formArrayName="facilities">
+      <div
+        *ngFor="let nameGroup of nameControls; let i = index"
+        [formGroupName]="i"
+      >
+        <label for="name">İsim:</label>
+        <input type="text" id="name" formControlName="name" />
+        <label for="name">type:</label>
+        <input type="text" id="type" formControlName="type" />
+        <label for="name">icon:</label>
+        <input type="text" id="icon" formControlName="icon" />
+        <button type="button" (click)="removeName(i)">İsmi Kaldır</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addName()">İsim Ekle</button>
+    <button type="submit" (click)="submitForm()">Formu Gönder</button>
+  </form>
+</div> -->
+
+<!-- <div class="border rounded-lg p-3">
+  <form [formGroup]="nameForm" class="">
+    <div>asd</div>
+  </form>
+</div> -->
+
+<tbody class="">
+  <tr>
+    <th></th>
+    <th>
+      <input
+        type="text"
+        class="input"
+        formControlName="type"
+        placeholder="Please Enter a type"
+      />
+    </th>
+    <th>
+      <input
+        type="text"
+        class="input"
+        formControlName="name"
+        placeholder="Please Enter a name"
+      />
+    </th>
+    <th>
+      <input
+        type="text"
+        class="input"
+        formControlName="icon"
+        placeholder="Please Enter a icon"
+      />
+    </th>
+    <th>
+      <button class="btn">
+        <i class="fas fa-plus"></i>
+      </button>
+    </th>
+  </tr>
+</tbody>
