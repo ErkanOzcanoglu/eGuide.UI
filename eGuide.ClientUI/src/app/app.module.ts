@@ -65,6 +65,7 @@ import { FooterComponent } from './components/footer/footer.component';
     ServiceListComponent,
     ServiceComponent,
     FooterComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -1,33 +1,81 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kullanıcı Profili</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-  </head> -->
-<div class="bg-gray-100">
-  <div class="w-4/6 p-4 mx-auto">
-    <div class="mb-4">
-      <div class="bg-white rounded-lg shadow p-4 h-72">
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-semibold">Favoriler</h1>
-          <button
-            class="bg-slate-400 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none"
-          >
-            Edit
-          </button>
-        </div>
-        <div class="mt-4">
-          <p><span class="font-semibold">Ad Soyad:</span> John Doe</p>
-          <p><span class="font-semibold">E-posta:</span> johndoe@example.com</p>
+<style>
+  /* Ekranın ortasına hizalamak için */
+  body,
+  html {
+    height: 100%;
+    margin: 0;
+  }
+  /* Favourites yazısının altında kalan boşluğu ayarlamak için */
+  .custom-panel {
+    margin-top: 1rem; /* Düzenleyebilirsiniz */
+  }
+</style>
+
+<div class="bg-gray-100 h-screen flex justify-center items-center">
+  <div id="customPanel" class="w-4/6">
+    <div class="grid-container">
+      <div class="user-profile">
+        <div class="custom-panel bg-white rounded-lg shadow p-4">
+          <h1 class="text-3xl font-semibold text">
+            FAVOURITES<i class="fas fa-star fa-2xs ml-5"></i>
+          </h1>
+          <div class="flex items-center justify-between overflow-x-auto">
+            <table class="table w-3/5 ml-20 mt-10 mb-10">
+              <!-- head -->
+              <thead>
+                <tr>
+                  <th class="text-xl font-bold text-green-500">Station Name</th>
+                  <th class="text-xl font-bold text-green-500">Address</th>
+                  <th class="text-xl font-bold text-green-500">Model</th>
+                  <th class="text-xl font-bold text-green-500">
+                    Charging unit
+                  </th>
+                  <th class="text-xl font-bold text-green-500">Connector</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- row 1 -->
+                <tr *ngFor="let station of stations; let i = index">
+                  <td class="text-xl">{{ station.name }}</td>
+                  <td class="text-xl">{{ station.address }}</td>
+                  <td class="text-xl">{{ station.stationModel?.name }}</td>
+                  <td class="text-xl">
+                    <div
+                      *ngFor="
+                        let unit of station.stationModel?.stationsChargingUnits;
+                        let i= index
+                      "
+                    >
+                      {{ unit?.chargingUnit?.name }}
+                    </div>
+                  </td>
+                  <td class="text-xl">
+                    <div
+                      *ngFor="
+                        let unit of station.stationModel?.stationsChargingUnits;
+                        let i = index
+                      "
+                    >
+                      {{ unit?.chargingUnit?.connector?.type }}
+                    </div>
+                  </td>
+                  <td>
+                    <!-- Delete Button -->
+                    <button
+                      class="bg-red-300 text-white px-4 py-2 rounded"
+                      (click)="
+                        onDeleteStationProfile(station.userStations[i]?.id)
+                      "
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- </body>
-</html> -->
