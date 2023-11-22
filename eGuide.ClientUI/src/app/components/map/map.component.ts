@@ -53,10 +53,10 @@ export class MapComponent implements OnInit {
   }
 
   constructor(
-    private stationService: StationService,
     private formBuilder: FormBuilder,
-    private lastVisitedStationsService: LastVisitedStationsService
-    private userStationService: UserStationService,
+    private stationService: StationService,
+    private lastVisitedStationsService: LastVisitedStationsService,
+    private userStationService: UserStationService
   ) {
     // data for the basemap gallery
     this.basemapss = [
@@ -247,40 +247,6 @@ export class MapComponent implements OnInit {
       // get stations from api
       this.stations = data; // assign stations to stations array
 
-      this.stations.forEach((element) => {
-        // loop through stations array
-        const point = {
-          // create point
-          type: 'point',
-          longitude: element.longitude,
-          latitude: element.latitude,
-        };
-
-        const pinSymbol = {
-          // create symbol
-          type: 'picture-marker',
-          url: '../../assets/charging.svg',
-          width: '50px',
-          height: '50px',
-        };
-
-        const goLocationAction = {
-          id: 'go-location-action',
-          title: 'Go Location',
-          className: 'esri-icon-directions',
-        };
-
-        reactiveUtils.on(
-          () => this.view.popup,
-          'trigger-action',
-          (event: any) => {
-            if (event.action.id === 'go-location-action') {
-              this.stationId = element.id;
-              // console.log(this.stationId, 'station id in the map component');
-              this.goLocation(this.stationId);
-            }
-          }
-        );
       const userId = localStorage.getItem('authToken');
       if (userId !== null)
         // Favori istasyonları getir
@@ -330,6 +296,19 @@ export class MapComponent implements OnInit {
                   }
                 }
               );
+
+              // reactiveUtils.on(
+              //   () => this.view.popup,
+              //   'trigger-action',
+              //   (event: any) => {
+              //     if (event.action.id === 'go-location-action') {
+              //       this.getStations();
+              //       if (userId !== null)
+              //         this.saveUserStation(element.id, userId);
+              //       this.getStations();
+              //     }
+              //   }
+              // );
 
               const pointGraphic = {
                 // create graphic
