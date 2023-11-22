@@ -68,6 +68,9 @@ import { ServiceFormComponent } from './components/service-components/service-fo
 import { ServiceListComponent } from './components/service-components/service-list/service-list.component';
 import { ServiceComponent } from './screens/service/service.component';
 import { serviceEditDataReducer } from './state/service-edit-data/service-edit-data.reducer';
+import { FacilityListComponent } from './components/facilities-components/facility-list/facility-list.component';
+import { FacilityFormComponent } from './components/facilities-components/facility-form/facility-form.component';
+import { FacilityComponent } from './screens/facility/facility.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,6 +116,9 @@ import { serviceEditDataReducer } from './state/service-edit-data/service-edit-d
     ServiceFormComponent,
     ServiceListComponent,
     ServiceComponent,
+    FacilityListComponent,
+    FacilityFormComponent,
+    FacilityComponent,
   ],
   imports: [
     ChartModule,

@@ -46,6 +46,7 @@ export class UserAuthComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error('Please fill out all the form information.');
+        console.log(error);
         console.error('Please fill out all the form information.');
       },
     });
