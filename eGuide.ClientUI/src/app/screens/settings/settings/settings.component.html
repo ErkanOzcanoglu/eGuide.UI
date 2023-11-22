@@ -43,6 +43,14 @@
       >
         Vehicle
       </li>
+       <li
+        (click)="showPage('favourites')"
+        class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        tabindex="0"
+        (keydown.enter)="showPage('favourites')"
+      >
+        Favourites
+      </li>
     </ul>
   </div>
   <div class="w-4/5">
@@ -51,6 +59,9 @@
     </div>
     <div *ngIf="currentPage === 'vehicle'">
       <app-vehicle></app-vehicle>
+    </div>
+    <div *ngIf="currentPage === 'favourites'">
+      <app-favourites></app-favourites>
     </div>
   </div>
 </div>
