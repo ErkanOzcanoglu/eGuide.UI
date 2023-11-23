@@ -163,88 +163,8 @@ export class MapComponent implements OnInit {
   }
 
   // get stations from api
-  // getStations(): void {
-  //   this.stationService.getStations().subscribe((data) => {
-  //     // get stations from api
-  //     this.stations = data; // assign stations to stations array
-
-  //     this.stations.forEach((element) => {
-
-  //       // loop through stations array
-  //       const point = {
-  //         // create point
-  //         type: 'point',
-  //         longitude: element.longitude,
-  //         latitude: element.latitude,
-  //       };
-
-  //       const pinSymbol = {
-  //         // create symbol
-  //         type: 'picture-marker',
-  //         url: '../../assets/charging.svg',
-  //         width: '50px',
-  //         height: '50px',
-  //       };
-
-  //       const goLocationAction = {
-  //         id: 'go-location-action',
-  //         title: 'Add Favourites',
-  //         className: 'esri-icon-favorites',
-  //       };
-
-  //       reactiveUtils.on(
-  //         () => this.view.popup,
-  //         'trigger-action',
-  //         (event: any) => {
-  //           if (event.action.id === 'go-location-action') {
-  //             const userId = localStorage.getItem('authToken');
-  //             const stationId = element.id;
-  //             if (userId !== null) this.saveUserStation(stationId, userId);
-  //           }
-  //         }
-  //       );
-
-  //       const pointGraphic = {
-  //         // create graphic
-  //         geometry: point,
-  //         symbol: pinSymbol,
-  //         attributes: {
-  //           name: element.name,
-  //           id: element.id,
-  //           address: element.address,
-  //           latitude: element.latitude,
-  //           longitude: element.longitude,
-  //         },
-
-  //         // open popup when graphic is clicked
-  //         popupTemplate: {
-  //           title: '{name}',
-  //           content: [
-  //             {
-  //               type: 'fields',
-  //               fieldInfos: [
-  //                 {
-  //                   fieldName: 'name',
-  //                   label: 'Name',
-  //                 },
-  //                 {
-  //                   fieldName: 'address',
-  //                   label: 'Address',
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //           actions: [goLocationAction],
-  //         },
-  //       };
-  //       this.view.graphics.add(pointGraphic); // add graphic to the view
-  //     });
-  //   });
-  // }
-
   getStations(): void {
     this.stationService.getStations().subscribe((data) => {
-      // get stations from api
       this.stations = data; // assign stations to stations array
 
       const userId = localStorage.getItem('authToken');
@@ -280,7 +200,11 @@ export class MapComponent implements OnInit {
 
               const goLocationAction = {
                 id: 'go-location-action',
-                title: 'Add Favourites',
+                className: 'esri-icon-locate-circled',
+              };
+
+              const addFavorite = {
+                id: 'add-favorite',
                 className: starColorClass,
               };
 
@@ -288,11 +212,13 @@ export class MapComponent implements OnInit {
                 () => this.view.popup,
                 'trigger-action',
                 (event: any) => {
-                  if (event.action.id === 'go-location-action') {
+                  if (event.action.id === 'add-favorite') {
                     this.getStations();
                     if (userId !== null)
                       this.saveUserStation(element.id, userId);
                     this.getStations();
+                  } else if (event.action.id === 'go-location-action') {
+                    this.goLocation(element.id);
                   }
                 }
               );
@@ -340,7 +266,7 @@ export class MapComponent implements OnInit {
                       ],
                     },
                   ],
-                  actions: [goLocationAction],
+                  actions: [goLocationAction, addFavorite],
                 },
               };
               this.view.graphics.add(pointGraphic); // add graphic to the view
