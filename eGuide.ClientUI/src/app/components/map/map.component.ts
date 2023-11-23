@@ -1,3 +1,4 @@
+import { LastVisitedStations } from './../../models/last-visited-stations';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { loadModules } from 'esri-loader';
@@ -5,6 +6,8 @@ import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
 import Search from '@arcgis/core/widgets/Search';
 import * as reactiveUtils from '@arcgis/core/reactiveUtils';
+import Swal from 'sweetalert2';
+import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
 import TextSymbol from '@arcgis/symbols/TextSymbol';
@@ -22,6 +25,7 @@ export class MapComponent implements OnInit {
   searchType = '';
   searchForm: FormGroup = new FormGroup({});
   @Input() searchText = '';
+  lastVisitedStations: LastVisitedStations = new LastVisitedStations();
 
   public userStation: UserStation = new UserStation();
   public map: any;
@@ -35,6 +39,7 @@ export class MapComponent implements OnInit {
   public basemapss: any[] = [];
   public currentBasemapIndex: number;
   public reactive: any;
+  public stationId: any;
   // search(enevt: any) {
   //   // get searchType from search component
   //   this.searchType = enevt;
@@ -48,9 +53,10 @@ export class MapComponent implements OnInit {
   }
 
   constructor(
+    private formBuilder: FormBuilder,
     private stationService: StationService,
-    private userStationService: UserStationService,
-    private formBuilder: FormBuilder
+    private lastVisitedStationsService: LastVisitedStationsService,
+    private userStationService: UserStationService
   ) {
     // data for the basemap gallery
     this.basemapss = [
@@ -157,88 +163,8 @@ export class MapComponent implements OnInit {
   }
 
   // get stations from api
-  // getStations(): void {
-  //   this.stationService.getStations().subscribe((data) => {
-  //     // get stations from api
-  //     this.stations = data; // assign stations to stations array
-
-  //     this.stations.forEach((element) => {
-
-  //       // loop through stations array
-  //       const point = {
-  //         // create point
-  //         type: 'point',
-  //         longitude: element.longitude,
-  //         latitude: element.latitude,
-  //       };
-
-  //       const pinSymbol = {
-  //         // create symbol
-  //         type: 'picture-marker',
-  //         url: '../../assets/charging.svg',
-  //         width: '50px',
-  //         height: '50px',
-  //       };
-
-  //       const goLocationAction = {
-  //         id: 'go-location-action',
-  //         title: 'Add Favourites',
-  //         className: 'esri-icon-favorites',
-  //       };
-
-  //       reactiveUtils.on(
-  //         () => this.view.popup,
-  //         'trigger-action',
-  //         (event: any) => {
-  //           if (event.action.id === 'go-location-action') {
-  //             const userId = localStorage.getItem('authToken');
-  //             const stationId = element.id;
-  //             if (userId !== null) this.saveUserStation(stationId, userId);
-  //           }
-  //         }
-  //       );
-
-  //       const pointGraphic = {
-  //         // create graphic
-  //         geometry: point,
-  //         symbol: pinSymbol,
-  //         attributes: {
-  //           name: element.name,
-  //           id: element.id,
-  //           address: element.address,
-  //           latitude: element.latitude,
-  //           longitude: element.longitude,
-  //         },
-
-  //         // open popup when graphic is clicked
-  //         popupTemplate: {
-  //           title: '{name}',
-  //           content: [
-  //             {
-  //               type: 'fields',
-  //               fieldInfos: [
-  //                 {
-  //                   fieldName: 'name',
-  //                   label: 'Name',
-  //                 },
-  //                 {
-  //                   fieldName: 'address',
-  //                   label: 'Address',
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //           actions: [goLocationAction],
-  //         },
-  //       };
-  //       this.view.graphics.add(pointGraphic); // add graphic to the view
-  //     });
-  //   });
-  // }
-
   getStations(): void {
     this.stationService.getStations().subscribe((data) => {
-      // get stations from api
       this.stations = data; // assign stations to stations array
 
       const userId = localStorage.getItem('authToken');
@@ -274,7 +200,11 @@ export class MapComponent implements OnInit {
 
               const goLocationAction = {
                 id: 'go-location-action',
-                title: 'Add Favourites',
+                className: 'esri-icon-locate-circled',
+              };
+
+              const addFavorite = {
+                id: 'add-favorite',
                 className: starColorClass,
               };
 
@@ -282,14 +212,29 @@ export class MapComponent implements OnInit {
                 () => this.view.popup,
                 'trigger-action',
                 (event: any) => {
-                  if (event.action.id === 'go-location-action') {
+                  if (event.action.id === 'add-favorite') {
                     this.getStations();
                     if (userId !== null)
                       this.saveUserStation(element.id, userId);
                     this.getStations();
+                  } else if (event.action.id === 'go-location-action') {
+                    this.goLocation(element.id);
                   }
                 }
               );
+
+              // reactiveUtils.on(
+              //   () => this.view.popup,
+              //   'trigger-action',
+              //   (event: any) => {
+              //     if (event.action.id === 'go-location-action') {
+              //       this.getStations();
+              //       if (userId !== null)
+              //         this.saveUserStation(element.id, userId);
+              //       this.getStations();
+              //     }
+              //   }
+              // );
 
               const pointGraphic = {
                 // create graphic
@@ -321,7 +266,7 @@ export class MapComponent implements OnInit {
                       ],
                     },
                   ],
-                  actions: [goLocationAction],
+                  actions: [goLocationAction, addFavorite],
                 },
               };
               this.view.graphics.add(pointGraphic); // add graphic to the view
@@ -337,6 +282,56 @@ export class MapComponent implements OnInit {
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
+  }
+
+  goLocation(stationId: any) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success m-1',
+        cancelButton: 'btn btn-danger m-1',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Are you sure?',
+        text: 'Gitmek istediğine emin misin!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Evet, Istiyorum!',
+        cancelButtonText: 'Hayır, Istemiyorum!',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          swalWithBootstrapButtons.fire({
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            icon: 'success',
+          });
+          const userId = localStorage.getItem('authToken');
+          if (userId != null) {
+            this.lastVisitedStations.userId = userId;
+            this.lastVisitedStations.stationId = stationId;
+
+            console.log(this.lastVisitedStations, 'last visited station');
+            this.lastVisitedStationsService
+              .createLastVisitedStation(this.lastVisitedStations)
+              .subscribe((data) => {
+                console.log(data);
+              });
+          }
+
+          console.log('go location');
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: 'Cancelled',
+            text: 'Your imaginary file is safe :)',
+            icon: 'error',
+          });
+        }
+      });
   }
 
   search(enevt: any) {

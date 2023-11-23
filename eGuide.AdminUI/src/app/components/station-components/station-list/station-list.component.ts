@@ -47,7 +47,6 @@ export class StationListComponent implements OnInit {
   getStaInfo() {
     this.stationService.getStations().subscribe({
       next: (stations) => {
-        stations;
         this.stations = stations;
       },
     });

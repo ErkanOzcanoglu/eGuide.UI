@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -30,6 +35,16 @@ interface Point {
 export class StationFormComponent implements OnInit {
   switchStatus = false;
   isEdited = false;
+
+  toppings = new FormControl('');
+  toppingList: string[] = [
+    'Extra cheese',
+    'Mushroom',
+    'Onion',
+    'Pepperoni',
+    'Sausage',
+    'Tomato',
+  ];
 
   chargingUnit: ChargingUnit[] = [];
   stationId = '';
@@ -105,7 +120,7 @@ export class StationFormComponent implements OnInit {
 
           this.selectedChargingUnitForm.patchValue({
             chargingUnit:
-              this.editDatas?.stationModel?.stationChargingUnits?.map(
+              this.editDatas?.stationModel?.stationsChargingUnits?.map(
                 (stationSocket) => stationSocket.charginUnitId
               ),
           });

@@ -1,0 +1,145 @@
+<div
+  class="border rounded-lg p-3 duration-700 ease-in-out"
+  [ngClass]="isOpen ? 'top-52' : 'top-5'"
+>
+  <form class="overflow-x-auto" [formGroup]="facilityForm">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Icon</th>
+          <th></th>
+          <th>
+            <div>
+              <button
+                (click)="openForm()"
+                class="border w-16 p-3 rounded-lg text-white border-secondary"
+              >
+                {{ isOpen ? "Close" : "Add" }}
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="" *ngIf="isOpen">
+        <tr>
+          <th></th>
+          <th>
+            <input
+              type="text"
+              class="input"
+              formControlName="type"
+              placeholder="Please Enter a type"
+            />
+          </th>
+          <th>
+            <input
+              type="text"
+              class="input"
+              formControlName="name"
+              placeholder="Please Enter a name"
+            />
+          </th>
+          <th>
+            <input
+              type="text"
+              class="input"
+              formControlName="icon"
+              placeholder="Please Enter a icon"
+            />
+          </th>
+          <th>
+            <button (click)="submitForm()" class="btn">
+              <i class="fas fa-plus"></i>
+            </button>
+          </th>
+        </tr>
+      </tbody>
+      <tbody class="w-full">
+        <!-- set index -->
+        <tr
+          [ngClass]="{ 'bg-base-100': i % 2 === 0 }"
+          *ngFor="let facility of facilities; let i = index"
+        >
+          <th class="w-1/7">{{ i + 1 }}</th>
+          <td class="w-1/3">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!facility.editingMode"
+            >
+              {{ facility.type }}
+            </p>
+            <input
+              *ngIf="facility.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="type"
+              [ngModel]="facility.type"
+            />
+          </td>
+          <td class="w-1/3">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!facility.editingMode"
+            >
+              {{ facility.name }}
+            </p>
+            <input
+              *ngIf="facility.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="name"
+              [ngModel]="facility.name"
+            />
+          </td>
+          <td class="w-1/3">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!facility.editingMode"
+            >
+              <i [ngClass]="facility.icon"></i>
+            </p>
+            <input
+              *ngIf="facility.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="icon"
+              [ngModel]="facility.icon"
+            />
+          </td>
+          <td>
+            <button
+              *ngIf="!facility.editingMode"
+              (click)="toggleEdit(facility)"
+              class="btn btn-warning"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+            <div class="flex gap-2" *ngIf="facility.editingMode">
+              <button
+                (click)="editFacility(facility)"
+                class="btn btn-sm btn-success"
+              >
+                <i class="fas fa-check"></i>
+              </button>
+              <button
+                (click)="closeEdit(facility)"
+                class="btn btn-sm btn-error"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </td>
+          <td>
+            <button (click)="deleteFacility(facility.id)" class="btn btn-error">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
