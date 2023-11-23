@@ -61,15 +61,13 @@
         placeholder="Enter Longitude"
         [value]="mapClickedData?.lng"
         [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
-      />
+      />     
     </div>
     <div class="w-full flex gap-2">
-      <!-- ! station name -->
+      <!-- Station Name Input -->
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
-          <label class="block text-gray-200 text-sm mb-2" for="addres">
-            Station Name
-          </label>
+          <label class="block text-gray-200 text-sm mb-2" for="addres">Station Name</label>
         </div>
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
@@ -81,13 +79,12 @@
           [class.is-invalid]="submitted && stationForm.get('name')?.errors"
         />
       </div>
-      <!-- ! station model name -->
+    
+      <!-- Station Model Name Input -->
       <form action="" class="w-full" [formGroup]="stationModelForm">
         <div class="mb-4 w-full justify-between">
           <div class="flex w-full justify-between">
-            <label class="block text-gray-200 text-sm mb-2" for="addres">
-              Station Model Name
-            </label>
+            <label class="block text-gray-200 text-sm mb-2" for="addres">Station Model Name</label>
           </div>
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
@@ -99,7 +96,23 @@
           />
         </div>
       </form>
+    
+      <!-- Station Status Input -->
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label class="block text-gray-200 text-sm mb-2" for="stationStatus">Station Status</label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="status"
+          required
+          type="text"
+          formControlName="stationStatus"
+          placeholder="Enter Station Status"
+        />
+      </div>
     </div>
+    
     <!-- ! station sockets -->
     <div class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
