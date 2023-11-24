@@ -26,6 +26,7 @@ export class ServiceFormComponent {
     layout: 0,
   };
   serviceForm: FormGroup = new FormGroup({});
+  isEdit = false;
 
   ngOnInit(): void {
     this.initializeForm();
@@ -73,6 +74,8 @@ export class ServiceFormComponent {
           image: data.image,
           layout: data.layout,
         });
+        if (this.serviceForm.value.id != '') this.isEdit = true;
+
         if (data.layout != '') this.selectedLayout = data.layout;
         this.image = data.image;
       }
@@ -92,9 +95,9 @@ export class ServiceFormComponent {
 
   onSubmit() {
     if (
-      this.serviceForm.value.layout === 1 &&
-      this.serviceForm.value.layout === 2 &&
-      this.serviceForm.value.layout === 3 &&
+      (this.serviceForm.value.layout === 1 ||
+        this.serviceForm.value.layout === 2 ||
+        this.serviceForm.value.layout === 3) &&
       this.serviceForm.valid &&
       this.files[0]
     ) {
@@ -107,12 +110,16 @@ export class ServiceFormComponent {
 
       this.imageService.uploadImage(data).subscribe((response) => {
         this.serviceForm.patchValue({
+          id: 'd449f754-20a7-453f-aedf-f33a6f1eba9e',
           image: response.secure_url,
         });
         this.serviceService
           .createService(this.serviceForm.value)
-          .subscribe((response) => {
-            console.log(response);
+          .subscribe(() => {
+            this.toastr.success('Service added successfully');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
           }),
           (error: any) => {
             this.toastr.error('Error while adding service');
@@ -130,8 +137,12 @@ export class ServiceFormComponent {
     if (this.serviceForm.valid) {
       this.serviceService
         .updateService(this.serviceForm.value.id, this.serviceForm.value)
-        .subscribe((response) => {
-          console.log(response);
+        .subscribe(() => {
+          this.toastr.success('Service updated successfully');
+          // timeout: 1000;
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
         }),
         (error: any) => {
           this.toastr.error('Error while updating service');

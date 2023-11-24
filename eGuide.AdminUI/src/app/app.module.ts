@@ -50,9 +50,6 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
-import { AddServiceComponent } from './components/service-components/add-service/add-service.component';
-import { ListServicesComponent } from './components/service-components/list-services/list-services.component';
-import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
@@ -104,9 +101,6 @@ import { SocialMediaComponent } from './screens/social-media/social-media.compon
     SignComponent,
     ChangePasswordComponent,
     AdminComponent,
-    AddServiceComponent,
-    ListServicesComponent,
-    ServiceScreenComponent,
     VehicleComponent,
     VehicleFormComponent,
     VehicleListComponent,

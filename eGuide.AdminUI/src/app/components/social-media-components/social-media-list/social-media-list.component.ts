@@ -51,7 +51,7 @@ export class SocialMediaListComponent {
         (response) => {
           this.socialMedias.push(response);
           this.isOpen = false;
-          // this.socialMediaForm.reset();
+          this.socialMediaForm.reset();
         },
         (error) => {
           console.log(error);

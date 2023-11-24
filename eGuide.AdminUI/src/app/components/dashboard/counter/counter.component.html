@@ -13,7 +13,7 @@
     class="btn bg-transparent hover:bg-primary border border-secondary hover:border-secondary min-h-[130px] min-w-[150px]"
   >
     <div class="flex flex-col justify-center items-center">
-      <span class="text-4xl font-bold text-white">250</span>
+      <span class="text-4xl font-bold text-white">{{ facilityCount }}</span>
       <span class="text-white text-lg normal-case font-bold">Facilities</span>
     </div>
   </button>
@@ -21,7 +21,7 @@
     class="btn bg-transparent hover:bg-primary border border-secondary hover:border-secondary min-h-[130px] min-w-[150px]"
   >
     <div class="flex flex-col justify-center items-center">
-      <span class="text-4xl font-bold text-white">5</span>
+      <span class="text-4xl font-bold text-white">{{ socialMediaCount }}</span>
       <span class="text-white text-lg normal-case font-bold">Social Media</span>
     </div>
   </button>
@@ -41,6 +41,14 @@
       <span class="text-white text-lg normal-case font-bold"
         >Charging Unit</span
       >
+    </div>
+  </button>
+  <button
+    class="btn bg-transparent hover:bg-primary border border-secondary hover:border-secondary min-h-[130px] min-w-[150px]"
+  >
+    <div class="flex flex-col justify-center items-center">
+      <span class="text-4xl font-bold text-white">{{ serviceCount }}</span>
+      <span class="text-white text-lg normal-case font-bold">Service</span>
     </div>
   </button>
 </div>
