@@ -1,4 +1,3 @@
-import { ConnectorComponent } from './../../../eGuide.AdminUI/src/app/components/connector-components/connector/connector.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,7 +24,6 @@ import { ForgotUserPasswordComponent } from './components/password-change/forgot
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { UserAuthComponent } from './components/user-auth/user-auth.component';
 
-
 // Secreens
 import { HomeComponent } from './screens/home/home.component';
 import { SettingsComponent } from './screens/settings/settings/settings.component';
@@ -43,7 +41,7 @@ import { ServiceListComponent } from './components/service-list/service-list.com
 import { ServiceComponent } from './screens/service/service.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
-
+import { ContactComponent } from './screens/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +65,7 @@ import { ContactFormComponent } from './components/contact-form/contact-form.com
     ServiceComponent,
     FooterComponent,
     ContactFormComponent,
-
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

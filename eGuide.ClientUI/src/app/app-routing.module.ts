@@ -11,6 +11,7 @@ import { EmailLinkConfirmComponent } from './components/password-change/email-li
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 import { PreventLoginGuardService } from './services/prevent-login-guard.service';
 import { ServiceComponent } from './screens/service/service.component';
+import { ContactComponent } from './screens/contact/contact.component';
 
 const routes: Routes = [
   { path: 'password-change', component: PasswordSettingsComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'station/:name', component: HomeComponent },
   { path: 'verify-email/:token', component: VerifyEmailComponent },
   { path: 'services', component: ServiceComponent },
+  { path: 'contact', component: ContactComponent },
   {
     path: 'settings',
     component: SettingsComponent,
