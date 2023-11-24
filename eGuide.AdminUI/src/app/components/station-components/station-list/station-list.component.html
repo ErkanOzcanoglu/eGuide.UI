@@ -2,11 +2,12 @@
   <table class="table">
     <thead class="w-full">
       <tr>
-        <th>
+        <!-- <th>
           <label>
             <input type="checkbox" class="checkbox" />
           </label>
-        </th>
+        </th> -->
+        <th class="w-1/5  bg-[#202c3f]">Station Status</th>
         <th class="w-1/5">Station</th>
         <th class="w-1/5 bg-[#202c3f]">Station Model</th>
         <th class="w-1/5">Socket</th>
@@ -16,10 +17,17 @@
     </thead>
     <tbody class="w-full" *ngFor="let item of stations">
       <tr>
-        <td class="">
+        <!-- <td class="">
           <label>
             <input type="checkbox" class="checkbox" />
           </label>
+        </td> -->
+        <td class="bg-[#1E293B]">
+          <div class="font-bold">
+            {{ item.stationStatus === 1 ? 'Active' : 'Off' }}
+          </div>
+          <div class="text-sm opacity-50">
+          </div>
         </td>
         <td class="bg-[#1E293B]">
           <div class="font-bold">{{ item.name }}</div>
