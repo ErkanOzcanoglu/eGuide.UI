@@ -46,6 +46,7 @@ export class StationFormComponent implements OnInit {
     'Tomato',
   ];
 
+  customButton:any
   chargingUnit: ChargingUnit[] = [];
   stationId = '';
   selectedChargingUnits: any[] = [];
@@ -78,6 +79,7 @@ export class StationFormComponent implements OnInit {
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
       stationModelId: ['', Validators.required],
+      stationStatus:['']
     });
   }
 
@@ -105,8 +107,10 @@ export class StationFormComponent implements OnInit {
             latitude: stationEditData.stationEditData?.latitude,
             longitude: stationEditData.stationEditData?.longitude,
             name: stationEditData.stationEditData?.name,
+            stationStatus:stationEditData.stationEditData?.stationStatus,
           });
-
+          this.setButtonColor(stationEditData.stationEditData?.stationStatus);
+          
           this.editDatas = stationEditData.stationEditData;
 
           console.log(this.editDatas?.stationModel?.id, 'stationModelId');
@@ -126,6 +130,14 @@ export class StationFormComponent implements OnInit {
           });
         }
       });
+  }
+  
+  setButtonColor(stationStatus: number | undefined): void {
+      this. customButton = document.getElementById('customButton');
+    if (this.customButton) {
+      this.customButton=stationStatus;
+      console.log(this.customButton,"rer");
+    }
   }
 
   onSelectionChange(event: any) {
@@ -154,6 +166,7 @@ export class StationFormComponent implements OnInit {
       latitude: [''],
       longitude: [''],
       stationModelId: [''],
+      stationStatus:['']
     });
 
     this.stationModelForm = this.formBuilder.group({
