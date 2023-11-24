@@ -1,4 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -9,8 +10,9 @@ interface SideNavToggle {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isSideNavCollapsed = false;
+  isLogged = false;
 
   closeSideNav(event: SideNavToggle) {
     this.isSideNavCollapsed = event.collapseSideNav;
@@ -20,7 +22,14 @@ export class AppComponent {
     this.isSideNavCollapsed = window.innerWidth < 1450;
   }
 
-  constructor() {
+  constructor(public auth: AuthService) {
     this.isSideNavCollapsed = window.innerWidth < 1450;
+  }
+
+  ngOnInit() {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken) {
+      this.isLogged = true;
+    }
   }
 }

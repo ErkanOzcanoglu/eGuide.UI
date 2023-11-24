@@ -25,3 +25,34 @@ button:hover .asd {
 .active {
   background-color: #ff0000; /* Örnek olarak kırmızı arka plan rengi */
 }
+
+/* ::ng-deep .esri-popup__header-container--button {
+  background-color: rgb(72, 255, 0) !important;
+}
+
+::ng-deep .esri-popup__main-container {
+  background-color: rgb(72, 255, 0) !important;
+  box-shadow: none;
+  border: none;
+  text-shadow: none;
+}
+
+::ng-deep .esri-feature__content-element {
+  background-color: rgb(72, 255, 0) !important;
+} */
+
+/* ::ng-deep.esri-icon-favorites::before {
+  color:rgb(255, 0, 162) !important; 
+  content: '\2605';
+ 
+} */
+::ng-deep.esri-icon-favorites::before {
+  color: rgb(107, 107, 107)!important;
+  content: "\2605"; /* Gri renk, isteğe bağlı olarak değiştirilebilir */
+}
+
+/* Renkli yıldız simgesi */
+::ng-deep.esri-icon-favorites-favorite::after {
+  color: rgb(255, 0, 162) !important;
+  content: "\2605"; /* Renkli, isteğe bağlı olarak değiştirilebilir */
+}

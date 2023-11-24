@@ -26,6 +26,6 @@ export class StationModelService {
   }
 
   hardDeleteStationModel(id: string) {
-    return this.http.patch(`${environment.apiUrl}/StationModel/${id}`, null);
+    return this.http.delete(`${environment.apiUrl}/StationModel/${id}`);
   }
 }

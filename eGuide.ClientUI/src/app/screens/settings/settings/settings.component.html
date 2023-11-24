@@ -1,21 +1,55 @@
+<style>
+  #sideBar {
+    width: 20%;
+  }
+
+  @media (max-width: 1280px) {
+    #sideBar {
+      margin: 0 auto;
+    }
+    #options {
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  a {
+    border-color: transparent;
+  }
+  a:hover {
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+</style>
+
 <div class="flex bg-white min-h-screen h-full">
-  <div class="bg-white w-1/5 p-4">
-    <ul class="space-y-2 mt-40">
-      <li>
-        <a
-          (click)="showPage('user-settings')"
-          class="block text-white hover:text-blue-200 transition duration-300 py-2 px-4 rounded-xl text-center bg-blue-600 hover:bg-blue-700"
-        >
-          User Profile
-        </a>
+  <div id="sideBar" class="bg-slate-400 w-1/5 p-4 border-r-2 border-r-sky-900">
+    <ul id="options" class="mt-40">
+      <li
+        class="block cursor-pointer text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        tabindex="0"
+        (keydown.enter)="showPage('user-settings')"
+        (click)="showPage('user-settings')"
+      >
+        User Profile
       </li>
-      <li>
-        <a
-          (click)="showPage('vehicle')"
-          class="block text-white hover:text-blue-200 transition duration-300 py-2 px-4 rounded-xl text-center bg-blue-600 hover:bg-blue-700"
-        >
-          Vehicles
-        </a>
+      <li
+        (click)="showPage('vehicle')"
+        class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        tabindex="0"
+        (keydown.enter)="showPage('vehicle')"
+      >
+        Vehicle
+      </li>
+       <li
+        (click)="showPage('favourites')"
+        class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        tabindex="0"
+        (keydown.enter)="showPage('favourites')"
+      >
+        Favourites
       </li>
     </ul>
   </div>
@@ -28,9 +62,6 @@
     </div>
     <div *ngIf="currentPage === 'favourites'">
       <app-favourites></app-favourites>
-    </div>
-    <div *ngIf="currentPage === 'password-settings'">
-      <app-password-settings></app-password-settings>
     </div>
   </div>
 </div>

@@ -1,0 +1,48 @@
+<!-- <div class="border border-secondary rounded-lg w-full h-full">
+  <div class="flex cursor-all-scroll border-secondary border-b">
+    <h1 class="p-5 rounded-tl-lg text-xl font-bold border-secondary border-r">
+      Favorite Stations
+    </h1>
+    <h1 class="p-5 rounded-tr-lg text-xl font-bold">Comments</h1>
+  </div>
+  <div class="min-h-[400px] p-5 flex justify-between">
+    <table class="w-full h-full">
+      <thead>
+        <tr>
+          <th class="p-2 text-left">Station</th>
+          <th class="p-2 text-right">Visit Number</th>
+        </tr>
+      </thead>
+      <tbody class="w-full h-full">
+        <tr>
+          <td class="p-2">Station 1</td>
+          <td class="p-2 flex justify-end h-full items-center">123</td>
+        </tr>
+        <tr>
+          <td class="p-2">Station 1</td>
+          <td class="p-2 flex justify-end items-center">123</td>
+        </tr>
+        <tr>
+          <td class="p-2">Station 1</td>
+          <td class="p-2 flex justify-end items-center">123</td>
+        </tr>
+        <tr>
+          <td class="p-2">Station 1</td>
+          <td class="p-2 flex justify-end items-center">123</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> -->
+
+<mat-tab-group
+  mat-stretch-tabs="true"
+  mat-align-tabs="start"
+  dynamicHeight="true"
+  class="w-full h-full min-h-[500px] min-w-[300px] border rounded-lg border-secondary bg-primary text-white text-xl font-bold flex flex-col"
+>
+  <mat-tab label="Favorite Stations">
+    <div class="p-6 pt-4">Favorite Stations</div>
+  </mat-tab>
+  <mat-tab label="Comments"> <div class="p-6 pt-4">Comments</div></mat-tab>
+</mat-tab-group>

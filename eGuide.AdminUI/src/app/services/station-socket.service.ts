@@ -1,8 +1,8 @@
 import { environment } from './../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { StationSocket } from './../models/stationSocket';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { StationChargingUnit } from '../models/stationSocket';
 
 @Injectable({
   providedIn: 'root',
@@ -11,42 +11,45 @@ export class StationSocketService {
   constructor(private http: HttpClient, private route: Router) {}
 
   getStationSockets() {
-    return this.http.get<StationSocket[]>(
-      `${environment.apiUrl}/StationSocket`
+    return this.http.get<StationChargingUnit[]>(
+      `${environment.apiUrl}/StationsChargingUnit`
     );
   }
 
   getStationSocketWithStationId(stationId: number) {
-    return this.http.get<StationSocket[]>(
-      `${environment.apiUrl}/StationSocket?stationId=${stationId}`
+    return this.http.get<StationChargingUnit[]>(
+      `${environment.apiUrl}/StationsChargingUnit?stationId=${stationId}`
     );
   }
 
-  createStationSocket(stationSocket: StationSocket) {
-    return this.http.post<StationSocket>(
-      `${environment.apiUrl}/StationSocket`,
+  createStationSocket(stationSocket: StationChargingUnit) {
+    return this.http.post<StationChargingUnit>(
+      `${environment.apiUrl}/StationsChargingUnit`,
       stationSocket,
       { responseType: 'json' }
     );
   }
 
   deleteStationSocket(id: number) {
-    return this.http.delete(`${environment.apiUrl}/StationSocket/${id}`);
+    return this.http.delete(`${environment.apiUrl}/StationsChargingUnit/${id}`);
   }
 
   hardDeleteStationSocket(id: number) {
-    return this.http.patch(`${environment.apiUrl}/StationSocket/${id}`, null);
+    return this.http.patch(
+      `${environment.apiUrl}/StationsChargingUnit/${id}`,
+      null
+    );
   }
 
   getStationInformationByStationModelId(stationModelId: string) {
-    return this.http.get<StationSocket[]>(
-      `${environment.apiUrl}/StationSocket/${stationModelId}`
+    return this.http.get<StationChargingUnit[]>(
+      `${environment.apiUrl}/StationsChargingUnit/${stationModelId}`
     );
   }
 
   getAllStationInformation() {
-    return this.http.get<StationSocket[]>(
-      `${environment.apiUrl}/StationSocket/GetAllStationProfile`
+    return this.http.get<StationChargingUnit[]>(
+      `${environment.apiUrl}/StationsChargingUnit/GetAllStationProfile`
     );
   }
 }

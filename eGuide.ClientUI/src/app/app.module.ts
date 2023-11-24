@@ -1,4 +1,5 @@
-// Modules
+import { ConnectorComponent } from './../../../eGuide.AdminUI/src/app/components/connector-components/connector/connector.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,6 +25,7 @@ import { ForgotUserPasswordComponent } from './components/password-change/forgot
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { UserAuthComponent } from './components/user-auth/user-auth.component';
 
+
 // Secreens
 import { HomeComponent } from './screens/home/home.component';
 import { SettingsComponent } from './screens/settings/settings/settings.component';
@@ -33,10 +35,14 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatDialogModule } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
+import { ServiceListComponent } from './components/service-list/service-list.component';
+import { ServiceComponent } from './screens/service/service.component';
+import { FooterComponent } from './components/footer/footer.component';
+
 
 @NgModule({
   declarations: [
@@ -56,6 +62,10 @@ import { StoreModule } from '@ngrx/store';
     SearchComponent,
     VerifyEmailComponent,
     FilterPipe,
+    ServiceListComponent,
+    ServiceComponent,
+    FooterComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -64,7 +74,10 @@ import { StoreModule } from '@ngrx/store';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserModule,
     BrowserAnimationsModule,
+    FontAwesomeModule,
     MatDialogModule,
     StoreModule.forRoot({}, {}),
   ],

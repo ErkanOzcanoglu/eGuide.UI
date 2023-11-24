@@ -1,0 +1,49 @@
+.transparent-input {
+  background: transparent;
+  border: none; /* İsteğe bağlı olarak sınıra ihtiyacınıza bağlı olarak ayarlayabilirsiniz */
+  color: #ffffff; /* Giriş metni rengini ayarlayabilirsiniz */
+  /* Diğer stil özelliklerini ekleyebilirsiniz */
+}
+
+.form-control {
+  width: 200px; /* Arama çubuğunun genişliği */
+  height: 40px;
+  padding: 10px;
+  border-radius: 15px; /* Kenarları ovalleştirme */
+  border: 2px solid #ccc; /* Kenar çizgisi */
+  outline: none; /* Odak çerçevesini kaldırma */
+  transition: border-color 0.3s; /* Geçiş efekti */
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+/* vehicle-list.component.css */
+
+.title-and-search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-icon-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.form-control {
+  margin-left: 10px; /* Arama kutucuğunu sağa kaydırma */
+  width: 300px; /* Arama kutucuğu genişliği */
+  height: 40px;
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #6cb2eb;
+}

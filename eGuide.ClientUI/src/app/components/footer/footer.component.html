@@ -1,0 +1,24 @@
+<footer
+  class="footer footer-center p-10 bg-[#232332] text-base-content rounded"
+>
+  <nav class="grid grid-flow-col gap-4">
+    <a class="link link-hover">About us</a>
+    <a class="link link-hover">Contact</a>
+    <a class="link link-hover">Jobs</a>
+    <a class="link link-hover">Press kit</a>
+  </nav>
+  <nav>
+    <div class="grid grid-flow-col gap-4">
+      <a
+        *ngFor="let socialMedia of socialMedias"
+        [href]="socialMedia.link"
+        target="_blank"
+      >
+        <i class="{{ socialMedia.icon }} fa-2xl"></i>
+      </a>
+    </div>
+  </nav>
+  <aside>
+    <p>Copyright © 2023 - All right reserved by eGuide</p>
+  </aside>
+</footer>

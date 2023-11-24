@@ -9,19 +9,23 @@
         >eGuide</a
       >
     </div>
-    <div id="userMenu">
+    <div id="userMenu" class="laptop:flex-row flex flex-col">
       <a
-        href="/"
+        routerLink=""
         class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
         >Home</a
+      >
+      <a
+        routerLink="services"
+        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >Services</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
         <div class="relative group" (click)="showUserMenu = !showUserMenu">
           <a
             class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            >{{ user.name }}</a
           >
-            {{ user.name }}
-          </a>
           <div
             *ngIf="showUserMenu"
             class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
@@ -39,13 +43,52 @@
           </div>
         </div>
       </ng-container>
-      <!-- <input type="checkbox" class="toggle" checked /> -->
+    </div>
+    <div
+      id="hamburgerIcon"
+      class="hidden relative group"
+      (click)="toggleHamburgerMenu()"
+    >
+      <i class="fas fa-bars"></i>
+      <div
+        *ngIf="hamburgerMenu"
+        class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+        (click)="$event.stopPropagation()"
+      >
+        <a
+          href="/"
+          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          >Home</a
+        >
+        <ng-container *ngIf="isLoggedIn; else loginRegister">
+          <div class="relative group" (click)="showUserMenu = !showUserMenu">
+            <a
+              class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+              >{{ user.name }}</a
+            >
+            <div
+              *ngIf="showUserMenu"
+              class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+            >
+              <a
+                (click)="logout()"
+                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+                >Logout</a
+              >
+              <a
+                (click)="navigateToSettings()"
+                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+                >Settings</a
+              >
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
 
 <ng-template #loginRegister>
-  <!-- Kullanıcı oturum açmadığında "Login" ve "Register" bağlantılarını görüntüleyin -->
   <a
     routerLink="/login"
     class="text-lg text-black font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
@@ -57,3 +100,13 @@
     >Register</a
   >
 </ng-template>
+<style>
+  @media (max-width: 1280px) {
+    #userMenu {
+      display: none;
+    }
+    #hamburgerIcon {
+      display: block;
+    }
+  }
+</style>

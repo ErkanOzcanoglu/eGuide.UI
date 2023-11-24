@@ -1,7 +1,7 @@
-import { StationSocket } from './stationSocket';
+import { StationChargingUnit } from './stationSocket';
 
 export class StationModel {
   id = '';
   name = '';
-  stationSockets?: StationSocket[] = [];
+  stationsChargingUnits?: StationChargingUnit[] = [];
 }

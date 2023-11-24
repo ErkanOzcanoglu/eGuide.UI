@@ -11,39 +11,89 @@
   </head> -->
 
 <style>
-  .custom-panel {
-    border: 2px solid #9e0404;
+  .text {
+    color: #4b4b4c;
+  }
 
-    .text {
-      color: #4b4b4c;
+  .vehicle-list-item {
+    color: rgb(117, 117, 117); /* Yazı rengi mavi */
+  }
+
+  .field-label {
+    color: #4e4d4d;
+  }
+
+  .input-text {
+    color: rgb(96, 96, 96);
+  }
+
+  #buttonMenu {
+    display: flex; /* Butonları yatayda sırala */
+    flex-wrap: wrap; /* Dar ekranlarda alt alta sırala */
+    justify-content: flex-end; /* İçeriği sola hizala */
+    margin-top: 10px; /* Butonlar arasındaki boşluk */
+  }
+
+  @media (max-width: 1280px) {
+    #vehicleMenu {
+      margin-top: 40px;
+      flex-direction: column;
+      overflow-x: hidden;
+      border: 2px solid #9e0404;
     }
 
-    .vehicle-list-item {
-      color: rgb(117, 117, 117); /* Yazı rengi mavi */
+    #vehiclePanel {
+      width: 85%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
     }
 
-    .field-label {
-      color: #4e4d4d;
+    select {
+      width: 100%; /* Genişlik yüzde 100, yani daraldığında otomatik olarak ayarlanır */
+      max-width: 320px; /* İstenilen maksimum genişlik değeri */
     }
 
-    .input-text {
-      color: rgb(96, 96, 96);
+    option {
+      width: 100%;
+      max-width: 320px; /* Seçeneklerin maksimum genişliği */
+      white-space: nowrap; /* Metni taşırken kesme yapma, yatay kaydırma yap */
+      overflow: hidden; /* Taşma metnini gizle */
+    }
+
+    #buttonMenu {
+      flex-direction: column; /* Dar ekranlarda alt alta sırala */
+      align-items: flex-start; /* İçeriği sola hizala */
+    }
+
+    .text-3xl {
+      font-size: 1.5rem; /* Dar ekranlarda 1.5rem boyutunda */
+    }
+
+    .text-2xl {
+      font-size: 1rem; /* Dar ekranlarda 1.5rem boyutunda */
     }
   }
 </style>
+
 <div class="bg-gray-100 h-screen flex justify-center items-center">
-  <div class="w-4/6 p-4 mx-auto">
+  <div id="vehiclePanel" class="w-4/6 p-4 mx-auto">
     <div class="mb-4">
-      <div class="bg-white custom-panel rounded-lg shadow p-4 h-96 flex">
-        <div class="w-1/2">
-          <h1 class="text-3xl font-semibold mb-5 text">VEHICLE</h1>
+      <div
+        id="vehicleMenu"
+        class="bg-white custom-panel rounded-lg shadow p-4 sm:flex laptop:flex-row flex flex-col"
+      >
+        <div class="w-full sm:w-1/2">
+          <h1 class="text-3xl font-semibold text">
+            VEHICLE<i class="fas fa-cars ml-5"></i>
+          </h1>
           <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold mb-3 field-label ml-5">
-              Vehicles
-            </h2>
+            <div class="ml-5">
+              <h2 class="text-xl font-semibold mt-5 mb-3 field-label">
+                Vehicle
+              </h2>
+            </div>
           </div>
           <div
-            class="mt-4 overflow-auto mr-20 custom-scrollbar h-[160px] ml-20"
+            class="mt-4 mr-16 overflow-auto custom-scrollbar"
+            style="max-height: 160px"
           >
             <ng-container *ngFor="let vehicle of vehicleList; let i = index">
               <p
@@ -57,98 +107,133 @@
             </ng-container>
           </div>
         </div>
-        <div class="w-1/2">
-          <div class="mt-12">
-            <h2 class="text-xl font-semibold field-label">Vehicle Options</h2>
-            <form>
-              <div class="mt-4 field-label">
-                <label for="brand">Brand:</label>
-                <select
-                  id="brand"
-                  class="w-80 border p-2 rounded bg-white"
-                  (change)="onBrandSelected($event)"
+        <div class="w-full sm:w-1/2 mt-12 sm:mt-0">
+          <h2 class="text-xl font-semibold field-label">Vehicle Options</h2>
+          <form>
+            <div class="mt-4 ml-7 field-label">
+              <label for="brand">Brand:</label>
+              <select
+                id="brand"
+                class="w-80 border p-2 rounded bg-white"
+                (change)="onBrandSelected($event)"
+              >
+                <option [value]="selectedBrand" [selected]="selectedBrand">
+                  {{
+                    selectedBrand ||
+                      (selectedBrand ? "default" : "Please select a brand")
+                  }}
+                </option>
+                <option
+                  *ngFor="let brand of brands"
+                  [value]="brand"
+                  [hidden]="selectedBrand === brand"
                 >
-                  <option [value]="selectedBrand" [selected]="vehicleMode">
-                    {{
-                      selectedBrand ||
-                        (vehicleMode ? "default" : "Please select a brand")
-                    }}
-                  </option>
-                  <option
-                    *ngFor="let brand of brands"
-                    [value]="brand"
-                    [hidden]="selectedBrand === brand"
+                  {{ brand }}
+                </option>
+              </select>
+            </div>
+            <div class="mt-4 ml-7 field-label">
+              <label for="model">Model:</label>
+              <select
+                id="model"
+                class="w-80 border p-2 rounded bg-white"
+                (change)="onModelSelected($event)"
+              >
+                <option [value]="selectedModel" [selected]="vehicleMode2">
+                  {{
+                    selectedModel ||
+                      (selectedModel ? "default" : "Please select a model")
+                  }}
+                </option>
+                <option
+                  *ngFor="let model of models"
+                  [value]="model"
+                  [hidden]="selectedModel === model"
+                >
+                  {{ model }}
+                </option>
+              </select>
+            </div>
+            <div class="mt-4 flex field-label">
+              <label for="connector">Connector:</label>
+              <div
+                id="connectorList"
+                class="w-80 border p-2 rounded bg-white"
+                (click)="toggleDropdown()"
+                (keydown)="onDropdownKeyPress($event)"
+                tabindex="0"
+              >
+                <div
+                  *ngIf="selectedConnector; else noConnector"
+                  class="selected-connector"
+                >
+                  {{ selectedConnector.type }}
+                </div>
+                <ng-template #noConnector>
+                  <div class="default-message" >
+                    Please select a Connector <i class="fas fa-chevron-down" style="margin-left: 99px;  font-size: 11px;" ></i>
+                  </div>
+                </ng-template>
+                <div *ngIf="dropdownVisible" class="connector-options">
+                  <div
+                    *ngFor="
+                      let connector of connectorList.slice(0, maxVisibleItems)
+                    "
+                    (click)="onConnectorSelected(connector)"
+                    (keydown.enter)="onConnectorSelected(connector)"
+                    (keydown.space)="onConnectorSelected(connector)"
+                    class="connector-option"
+                    tabindex="0"
                   >
-                    {{ brand }}
-                  </option>
-                </select>
+                    <img class="w-16 h-18" [src]="connector.imageData" alt="" />
+                    {{ connector.type }}
+                  </div>
+                </div>
               </div>
-              <div class="mt-4 field-label">
-                <label for="model">Model:</label>
-                <select
-                  id="model"
-                  class="w-80 border p-2 rounded bg-white"
-                  (change)="onModelSelected($event)"
-                >
-                  <option [value]="selectedModel" [selected]="vehicleMode2">
-                    {{
-                      selectedModel ||
-                        (vehicleMode2 ? "default" : "Please select a model")
-                    }}
-                  </option>
-                  <option
-                    *ngFor="let model of models"
-                    [value]="model"
-                    [hidden]="selectedModel === model"
-                  >
-                    {{ model }}
-                  </option>
-                </select>
-              </div>
-              <div class="mt-4 ml-60">
-                <button
-                  type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover:bg-blue-600 focus:outline-none"
-                  *ngIf="editModeVehicle"
-                  (click)="addVehicle()"
-                >
-                  Add
-                </button>
-                <button
-                  type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
-                  *ngIf="!editModeVehicle"
-                  (click)="onModeChangeVehicle()"
-                >
-                  Edit
-                </button>
-                <button
-                  type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
-                  *ngIf="editModeVehicle"
-                  (click)="deleteVehicle()"
-                >
-                  Delete
-                </button>
-                <button
-                  type="submit"
-                  class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
-                  *ngIf="editModeVehicle"
-                  (click)="isUpdate ? updateVehicle() : saveUpdate()"
-                >
-                  {{ isUpdate ? "Update" : "Save" }}
-                </button>
-                <button
-                  type="button"
-                  class="bg-red-400 text-white px-2 py-1 mx-2 rounded hover-red-600 focus:outline-none"
-                  *ngIf="editModeVehicle"
-                  (click)="cancelVehicleEdit()"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div id="buttonMenu">
+              <button
+                type="submit"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
+                *ngIf="!editModeVehicle"
+                (click)="onModeChangeVehicle()"
+              >
+                Edit
+              </button>
+              <button
+                type="submit"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover:bg-blue-600 focus:outline-none"
+                *ngIf="editModeVehicle"
+                (click)="addVehicle()"
+              >
+                Add
+              </button>
+              <button
+                type="submit"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
+                *ngIf="editModeVehicle"
+                (click)="deleteVehicle()"
+              >
+                Delete
+              </button>
+              <button
+                type="submit"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
+                *ngIf="editModeVehicle"
+                (click)="isUpdate ? updateVehicle() : saveUpdate()"
+              >
+                {{ isUpdate ? "Update" : "Save" }}
+              </button>
+              <button
+                type="button"
+                class="bg-red-400 text-white px-2 py-1 mx-2 rounded hover-red-600 focus:outline-none"
+                *ngIf="editModeVehicle"
+                (click)="cancelVehicleEdit()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

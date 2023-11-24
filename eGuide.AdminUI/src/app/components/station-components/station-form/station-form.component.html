@@ -1,0 +1,225 @@
+<form [formGroup]="stationForm" action="" class="w-full mb-5 h-full">
+  <div class="w-full h-full flex flex-col">
+    <!-- ! address and lat -->
+    <div class="flex justify-between">
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-gray-200 text-sm mb-2"
+            *ngIf="switchStatus"
+            for=""
+            >Address</label
+          >
+          <label
+            class="block text-gray-200 text-sm mb-2"
+            *ngIf="!switchStatus"
+            for=""
+            >Latitude</label
+          >
+          <label class="switch">
+            <input (click)="setSwitch()" type="checkbox" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <input
+          *ngIf="switchStatus"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="address"
+          required
+          type="text"
+          formControlName="address"
+          placeholder="Enter Address"
+          [value]="mapClickedData?.address"
+          [class.is-invalid]="submitted && stationForm.get('address')?.errors"
+        />
+        <input
+          *ngIf="!switchStatus"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="latitude"
+          required
+          type="text"
+          formControlName="latitude"
+          placeholder="Enter Latitude"
+          [value]="mapClickedData?.lat"
+          [class.is-invalid]="submitted && stationForm.get('latitude')?.errors"
+        />
+      </div>
+    </div>
+    <!-- ! lng -->
+    <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm mb-2" for="addres">
+          Lng
+        </label>
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        id="longitude"
+        required
+        type="text"
+        formControlName="longitude"
+        placeholder="Enter Longitude"
+        [value]="mapClickedData?.lng"
+        [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
+      />     
+    </div>
+    <div class="w-full flex gap-2">
+      <!-- Station Name Input -->
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label class="block text-gray-200 text-sm mb-2" for="addres">Station Name</label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          required
+          type="text"
+          formControlName="name"
+          placeholder="Enter Name"
+          [class.is-invalid]="submitted && stationForm.get('name')?.errors"
+        />
+      </div>
+    
+      <!-- Station Model Name Input -->
+      <form action="" class="w-full" [formGroup]="stationModelForm">
+        <div class="mb-4 w-full justify-between">
+          <div class="flex w-full justify-between">
+            <label class="block text-gray-200 text-sm mb-2" for="addres">Station Model Name</label>
+          </div>
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+            id="name"
+            required
+            type="text"
+            formControlName="name"
+            placeholder="Enter Station Model Name"
+          />
+        </div>
+      </form>
+    
+      <!-- Station Status Input -->
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label class="block text-gray-200 text-sm mb-2" for="stationStatus">Station Status</label>
+        </div>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          id="status"
+          required
+          type="text"
+          formControlName="stationStatus"
+          placeholder="Enter Station Status"
+        />
+      </div>
+    </div>
+    
+    <!-- ! station sockets -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label class="block text-gray-200 text-sm mb-2" for="sockets">
+          Charging Unit
+        </label>
+      </div>
+      <div class="w-full">
+        <form class="w-full" [formGroup]="selectedChargingUnitForm">
+          <mat-form-field
+            class="appearance-none w-full text-white leading-tight focus:outline-none focus:shadow-outline"
+            color="primary"
+            appearance="fill"
+          >
+            <mat-label>Charging Units</mat-label>
+            <!-- display only the selected name -->
+            <mat-select
+              class="rounded-3xl w-full text-white"
+              required="true"
+              formControlName="sockets"
+              multiple
+              (selectionChange)="onSelectionChange($event)"
+            >
+              <mat-option
+                disabled=""
+                class="mat-mdc-option mdc-list-item w-full mat-mdc-option-multiple"
+              >
+                <thead class="w-full">
+                  <tr>
+                    <th class="w-[120px] font-normal">Name</th>
+                    <th class="w-[120px] font-normal">Power</th>
+                    <th class="w-[120px] font-normal">Current</th>
+                    <th class="w-[120px] font-normal">Type</th>
+                    <th class="w-[120px] font-normal">Voltage</th>
+                    <th class="w-[120px]"></th>
+                  </tr>
+                </thead>
+              </mat-option>
+              <mat-option
+                class="w-full"
+                [class.is-invalid]="
+                  submitted &&
+                  selectedChargingUnitForm.get('chargingUnit')?.errors
+                "
+                *ngFor="let socket of chargingUnit"
+                [value]="socket.id"
+                aria-selected="false"
+              >
+                <table class="table">
+                  <td class="w-[120px]">
+                    <div class="w-full flex items-center">
+                      <div>
+                        <div class="">{{ socket.name }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="w-[120px]">
+                    <div class="w-full flex items-center">
+                      <div>
+                        <div class="">{{ socket.power }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="w-[120px]">
+                    <div class="w-full flex items-center">
+                      <div>
+                        <div class="">{{ socket.current }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="w-[120px]">
+                    <div class="w-full flex items-center">
+                      <div>
+                        <div class="">{{ socket.type }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="w-[120px]">
+                    <div class="w-full flex items-center">
+                      <div>
+                        <div class="">{{ socket.voltage }}</div>
+                      </div>
+                    </div>
+                  </td>
+                </table>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+    <!-- submit button -->
+    <div class="flex justify-end gap-x-2">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+        (click)="submitForm()"
+      >
+        Check
+      </button>
+    </div>
+  </div>
+</form>

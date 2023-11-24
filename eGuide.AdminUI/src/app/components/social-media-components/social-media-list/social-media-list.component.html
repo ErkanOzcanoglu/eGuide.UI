@@ -1,0 +1,172 @@
+<div
+  class="border rounded-lg p-3 duration-700 ease-in-out"
+  [ngClass]="isOpen ? 'top-52' : 'top-5'"
+>
+  <form class="overflow-x-auto" [formGroup]="socialMediaForm">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Link</th>
+          <th>Icon</th>
+          <th>Icon Alt</th>
+          <th></th>
+          <th>
+            <div>
+              <button
+                (click)="openForm()"
+                class="border w-16 p-3 rounded-lg text-white border-secondary"
+              >
+                {{ isOpen ? "Close" : "Add" }}
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="" *ngIf="isOpen">
+        <tr>
+          <th></th>
+          <th>
+            <input
+              type="text"
+              class="input w-full font-normal"
+              formControlName="name"
+              placeholder="Please Enter a Name"
+            />
+          </th>
+          <th>
+            <input
+              type="text"
+              class="input w-full font-normal"
+              formControlName="link"
+              placeholder="Please Enter a Link"
+            />
+          </th>
+          <th>
+            <input
+              type="text"
+              class="input w-full font-normal"
+              formControlName="icon"
+              placeholder="Please Enter a icon"
+            />
+          </th>
+          <th>
+            <input
+              type="text"
+              class="input w-full font-normal"
+              formControlName="iconAlt"
+              placeholder="Please Enter a Icon Alt"
+            />
+          </th>
+          <th>
+            <button (click)="submitForm()" class="btn">
+              <i class="fas fa-plus"></i>
+            </button>
+          </th>
+        </tr>
+      </tbody>
+      <tbody class="w-full">
+        <!-- set index -->
+        <tr
+          [ngClass]="{ 'bg-base-100': i % 2 === 0 }"
+          *ngFor="let socialMedia of socialMedias; let i = index"
+        >
+          <th class="w-1/7">{{ i + 1 }}</th>
+          <td class="">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!socialMedia.editingMode"
+            >
+              {{ socialMedia.name }}
+            </p>
+            <input
+              *ngIf="socialMedia.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="name"
+              [ngModel]="socialMedia.name"
+            />
+          </td>
+          <td class="">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!socialMedia.editingMode"
+            >
+              {{ socialMedia.link }}
+            </p>
+            <input
+              *ngIf="socialMedia.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="link"
+              [ngModel]="socialMedia.link"
+            />
+          </td>
+          <td class="">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!socialMedia.editingMode"
+            >
+              <i [ngClass]="socialMedia.icon"></i>
+            </p>
+            <input
+              *ngIf="socialMedia.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="icon"
+              [ngModel]="socialMedia.icon"
+            />
+          </td>
+          <td class="">
+            <p
+              class="w-full p-2 input input-ghost"
+              *ngIf="!socialMedia.editingMode"
+            >
+              {{ socialMedia.iconAlt }}
+            </p>
+            <input
+              *ngIf="socialMedia.editingMode"
+              type="text"
+              class="w-full input input-bordered bg-transparent"
+              formControlName="iconAlt"
+              [ngModel]="socialMedia.iconAlt"
+            />
+          </td>
+          <td>
+            <button
+              *ngIf="!socialMedia.editingMode"
+              (click)="toggleEdit(socialMedia)"
+              class="btn btn-warning"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+            <div class="flex gap-2" *ngIf="socialMedia.editingMode">
+              <button
+                (click)="editSocialMedia(socialMedia.id)"
+                class="btn btn-sm btn-success"
+              >
+                <i class="fas fa-check"></i>
+              </button>
+              <button
+                (click)="closeEdit(socialMedia)"
+                class="btn btn-sm btn-error"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </td>
+          <td>
+            <button
+              (click)="deleteSocialMedia(socialMedia.id)"
+              class="btn btn-error"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
