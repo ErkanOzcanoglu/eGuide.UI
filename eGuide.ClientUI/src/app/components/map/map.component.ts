@@ -1,6 +1,5 @@
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
@@ -10,7 +9,8 @@ import Swal from 'sweetalert2';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
-import TextSymbol from '@arcgis/symbols/TextSymbol';
+import { basemapss } from './map-data';
+import { MapHelper } from './map-helper';
 
 interface Center {
   latitude: any;
@@ -19,74 +19,34 @@ interface Center {
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css', './_Popup.scss'],
+  styleUrls: ['./map.component.css'],
+  providers: [MapHelper],
 })
 export class MapComponent implements OnInit {
   searchType = '';
-  searchForm: FormGroup = new FormGroup({});
-  @Input() searchText = '';
   lastVisitedStations: LastVisitedStations = new LastVisitedStations();
-
-  public userStation: UserStation = new UserStation();
-  public map: any;
-  public view: any;
-  public locate: any;
-  public graphicsLayer: any;
-  public pop: any;
-  public stationInformation: any;
-  public isLocated = false;
-  public stations: Station[] = [];
-  public basemapss: any[] = [];
-  public currentBasemapIndex: number;
-  public reactive: any;
-  public stationId: any;
-  // search(enevt: any) {
-  //   // get searchType from search component
-  //   this.searchType = enevt;
-  //   console.log(this.searchType);
-  // }
-
-  onKeyDown(event: KeyboardEvent, basemap: any) {
-    if (event.key === 'Enter') {
-      this.changeLayer(basemap);
-    }
-  }
+  nearestStations: Station[] = [];
+  userStation: UserStation = new UserStation();
+  currentBasemapIndex: number;
+  stations: Station[] = [];
+  map: any;
+  view: any;
+  locate: any;
+  nearLocate: any;
+  basemapss: any[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
     private stationService: StationService,
     private lastVisitedStationsService: LastVisitedStationsService,
-    private userStationService: UserStationService
+    private userStationService: UserStationService,
+    private mapHelper: MapHelper
   ) {
-    // data for the basemap gallery
-    this.basemapss = [
-      {
-        id: 0,
-        name: 'arcgis-navigation',
-        title: 'Navigation',
-      },
-      {
-        id: 1,
-        name: 'arcgis-streets',
-        title: 'Streets',
-      },
-      {
-        id: 2,
-        name: 'arcgis-topographic',
-        title: 'Topographic',
-      },
-      {
-        id: 3,
-        name: 'arcgis-dark-gray',
-        title: 'Dark Gray',
-      },
-    ];
-
+    this.basemapss = basemapss;
     this.currentBasemapIndex = 0;
   }
 
   ngOnInit(): void {
-    this.initializeMap(); // initialize map/
+    this.initializeMap(); // initialize map
   }
 
   initializeMap() {
@@ -102,15 +62,13 @@ export class MapComponent implements OnInit {
       {
         css: true,
       }
-    ).then(([Map, MapView, esriConfig, Locate, reactiveUtils]) => {
+    ).then(([Map, MapView, esriConfig, Locate]) => {
       esriConfig.apiKey =
         'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
-
       // initialize map
       this.map = new Map({
         basemap: 'arcgis-navigation',
       });
-
       // initialize the map view
       this.view = new MapView({
         map: this.map,
@@ -118,7 +76,6 @@ export class MapComponent implements OnInit {
         zoom: 5,
         container: 'viewDiv',
       });
-
       // add locate widget
       this.locate = new Locate({
         view: this.view,
@@ -131,128 +88,76 @@ export class MapComponent implements OnInit {
           return view.goTo(options.target);
         },
       });
-
-      // remove zoom buttons
-      this.view.ui.remove('zoom');
-
-      // show station points
-      this.getStations();
+      // find only user location do not zoom in
+      this.nearLocate = new Locate({
+        view: this.view,
+        useHeadingEnabled: false,
+      });
+      this.view.ui.remove('zoom'); // remove zoom buttons
+      this.getStations(); // show station points
     });
   }
 
-  // zoom in function
   zoomIn(): void {
-    this.view.goTo({ zoom: this.view.zoom + 1 }); // zoom in
+    this.mapHelper.zoomIn(this.view);
   }
 
-  // zoom out function
   zoomOut(): void {
-    this.view.goTo({ zoom: this.view.zoom - 1 }); // zoom out
+    this.mapHelper.zoomOut(this.view);
   }
 
-  // change basemap
+  locateS(): void {
+    this.mapHelper.locateS(this.locate);
+  }
+
+  findNearestStations(): void {
+    this.nearLocate.locate().then((userP: any) => {
+      this.calculateNearestStations(userP);
+    });
+  }
+
+  calculateNearestStations(userP: any): void {
+    this.mapHelper.calculateNearestStations(userP, this.stations, this.view);
+  }
+
+  calculateDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number {
+    return this.mapHelper.calculateDistance(lat1, lon1, lat2, lon2);
+  }
+
+  deg2rad(deg: number): number {
+    return this.mapHelper.deg2rad(deg);
+  }
+
   changeLayer(basemap: { name: string; id: number; title: string }): void {
     this.map.basemap = basemap.name; // change basemap
     this.currentBasemapIndex = basemap.id; // change current basemap index
   }
 
-  // locate user
-  locateS(): void {
-    this.locate.locate(); // locate user
-    this.isLocated = true; // change isLocated to true
-  }
-
   // get stations from api
-  // getStations(): void {
-  //   this.stationService.getStations().subscribe((data) => {
-  //     // get stations from api
-  //     this.stations = data; // assign stations to stations array
-
-  //     this.stations.forEach((element) => {
-
-  //       // loop through stations array
-  //       const point = {
-  //         // create point
-  //         type: 'point',
-  //         longitude: element.longitude,
-  //         latitude: element.latitude,
-  //       };
-
-  //       const pinSymbol = {
-  //         // create symbol
-  //         type: 'picture-marker',
-  //         url: '../../assets/charging.svg',
-  //         width: '50px',
-  //         height: '50px',
-  //       };
-
-  //       const goLocationAction = {
-  //         id: 'go-location-action',
-  //         title: 'Add Favourites',
-  //         className: 'esri-icon-favorites',
-  //       };
-
-  //       reactiveUtils.on(
-  //         () => this.view.popup,
-  //         'trigger-action',
-  //         (event: any) => {
-  //           if (event.action.id === 'go-location-action') {
-  //             const userId = localStorage.getItem('authToken');
-  //             const stationId = element.id;
-  //             if (userId !== null) this.saveUserStation(stationId, userId);
-  //           }
-  //         }
-  //       );
-
-  //       const pointGraphic = {
-  //         // create graphic
-  //         geometry: point,
-  //         symbol: pinSymbol,
-  //         attributes: {
-  //           name: element.name,
-  //           id: element.id,
-  //           address: element.address,
-  //           latitude: element.latitude,
-  //           longitude: element.longitude,
-  //         },
-
-  //         // open popup when graphic is clicked
-  //         popupTemplate: {
-  //           title: '{name}',
-  //           content: [
-  //             {
-  //               type: 'fields',
-  //               fieldInfos: [
-  //                 {
-  //                   fieldName: 'name',
-  //                   label: 'Name',
-  //                 },
-  //                 {
-  //                   fieldName: 'address',
-  //                   label: 'Address',
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //           actions: [goLocationAction],
-  //         },
-  //       };
-  //       this.view.graphics.add(pointGraphic); // add graphic to the view
-  //     });
-  //   });
-  // }
-
   getStations(): void {
     this.stationService.getStations().subscribe((data) => {
-      // get stations from api
       this.stations = data; // assign stations to stations array
-
       const userId = localStorage.getItem('authToken');
       if (userId !== null)
-        // Favori istasyonları getir
-        this.userStationService.getStationProfiles(userId).subscribe(
-          (favoriteStations) => {
-            // Her bir istasyon için favori kontrolü yap
+        this.userStationService
+          .getStationProfiles(userId)
+          .subscribe((favoriteStations) => {
+            reactiveUtils.on(
+              () => this.view.popup,
+              'trigger-action',
+              (event: any) => {
+                if (event.action.id === 'add-favorite') {
+                  this.saveUserStation(event.action.stationId, userId);
+                } else if (event.action.id === 'go-location-action') {
+                  this.goLocation(event.action.stationId);
+                }
+              }
+            );
             this.stations.forEach((element) => {
               const isFavorite = favoriteStations.some(
                 (station) => station.id === element.id
@@ -280,35 +185,15 @@ export class MapComponent implements OnInit {
 
               const goLocationAction = {
                 id: 'go-location-action',
-                title: 'Add Favourites',
-                className: starColorClass,
+                className: 'esri-icon-locate-circled',
+                stationId: element.id,
               };
 
-              reactiveUtils.on(
-                () => this.view.popup,
-                'trigger-action',
-                (event: any) => {
-                  if (event.action.id === 'go-location-action') {
-                    this.getStations();
-                    if (userId !== null)
-                      this.saveUserStation(element.id, userId);
-                    this.getStations();
-                  }
-                }
-              );
-
-              // reactiveUtils.on(
-              //   () => this.view.popup,
-              //   'trigger-action',
-              //   (event: any) => {
-              //     if (event.action.id === 'go-location-action') {
-              //       this.getStations();
-              //       if (userId !== null)
-              //         this.saveUserStation(element.id, userId);
-              //       this.getStations();
-              //     }
-              //   }
-              // );
+              const addFavorite = {
+                id: 'add-favorite',
+                className: starColorClass,
+                stationId: element.id,
+              };
 
               const pointGraphic = {
                 // create graphic
@@ -340,24 +225,22 @@ export class MapComponent implements OnInit {
                       ],
                     },
                   ],
-                  actions: [goLocationAction],
+                  actions: [goLocationAction, addFavorite],
                 },
               };
               this.view.graphics.add(pointGraphic); // add graphic to the view
             });
-          },
-          (error) => {
-            console.error('Error fetching favorite stations:', error);
-          }
-        );
+          });
     });
   }
+
   // get selected station from station list component
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
   }
 
+  // get search text from search component
   goLocation(stationId: any) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -366,7 +249,6 @@ export class MapComponent implements OnInit {
       },
       buttonsStyling: false,
     });
-
     swalWithBootstrapButtons
       .fire({
         title: 'Are you sure?',
@@ -388,16 +270,10 @@ export class MapComponent implements OnInit {
           if (userId != null) {
             this.lastVisitedStations.userId = userId;
             this.lastVisitedStations.stationId = stationId;
-
-            console.log(this.lastVisitedStations, 'last visited station');
             this.lastVisitedStationsService
               .createLastVisitedStation(this.lastVisitedStations)
-              .subscribe((data) => {
-                console.log(data);
-              });
+              .subscribe();
           }
-
-          console.log('go location');
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: 'Cancelled',
@@ -408,45 +284,19 @@ export class MapComponent implements OnInit {
       });
   }
 
+  // search function
   search(enevt: any) {
     this.searchType = enevt;
-    console.log(this.searchType, 'search type in the map component');
-    // search in the map component
-
-    // add search
     const search = new Search({
       view: this.view,
     });
-
-    // search.on('search-complete', (event: { results: any[] }) => {
-    //   // get search text from search component and search for it
-    //   const searchTexts = this.searchText;
-    //   search.search(searchTexts);
-    //   console.log(searchTexts, 'search text in the map component');
-
-    // get search text from search component and search for it
-    // const searchTexts = this.searchText;
     search.search(this.searchType);
-    console.log(this.searchType, 'search text in the map component 2');
-  }
-
-  addFacorite() {
-    console.log('favor');
   }
 
   saveUserStation(elementId: string, userId: string): void {
     this.userStation.userId = userId;
     this.userStation.stationProfileId = elementId;
-
-    this.userStationService.saveUserStation(this.userStation).subscribe(
-      (response) => {
-        console.log('Save successful!', response);
-        // İsteğin başarılı bir şekilde tamamlandığında yapılacak işlemleri ekleyebilirsiniz.
-      },
-      (error) => {
-        console.error('Save failed!', error);
-        // İsteğin hata ile sonuçlandığında yapılacak işlemleri ekleyebilirsiniz.
-      }
-    );
+    console.log(this.userStation);
+    this.userStationService.saveUserStation(this.userStation).subscribe();
   }
 }

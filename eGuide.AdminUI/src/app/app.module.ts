@@ -71,6 +71,9 @@ import { serviceEditDataReducer } from './state/service-edit-data/service-edit-d
 import { FacilityListComponent } from './components/facilities-components/facility-list/facility-list.component';
 import { FacilityFormComponent } from './components/facilities-components/facility-form/facility-form.component';
 import { FacilityComponent } from './screens/facility/facility.component';
+import { SocialMediaFormComponent } from './components/social-media-components/social-media-form/social-media-form.component';
+import { SocialMediaListComponent } from './components/social-media-components/social-media-list/social-media-list.component';
+import { SocialMediaComponent } from './screens/social-media/social-media.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -119,6 +122,9 @@ import { FacilityComponent } from './screens/facility/facility.component';
     FacilityListComponent,
     FacilityFormComponent,
     FacilityComponent,
+    SocialMediaFormComponent,
+    SocialMediaListComponent,
+    SocialMediaComponent,
   ],
   imports: [
     ChartModule,

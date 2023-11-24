@@ -18,6 +18,7 @@
       class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
       (click)="zoomIn()"
     >
+      <!-- on hover show text -->
       <img
         src="../../../assets/zoom-in.svg"
         alt="zoom-in"
@@ -48,6 +49,16 @@
         class="w-full h-full object-cover"
       />
     </button>
+    <button
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      (click)="findNearestStations()"
+    >
+      <img
+        src="../../../assets/target.svg"
+        alt="target"
+        class="w-full h-full object-cover"
+      />
+    </button>
 
     <!-- ! Change Layer button -->
     <button
@@ -58,14 +69,14 @@
         alt="target"
         class="w-full h-full object-cover"
       />
-      <ul class="absolute right-12 gap-y-2 flex top-36 flex-col px-1">
+      <ul class="absolute right-12 gap-y-2 flex top-48 flex-col px-1">
         <button
           class="asd rounded-xl border-black border bg-white p-2 h-full gap-y-2 bcd"
         >
           <li
             *ngFor="let basemap of basemapss; let i = index"
             (click)="changeLayer(basemap)"
-            (keydown)="onKeyDown($event, basemap)"
+            (keydown)="changeLayer(basemap)"
             [class.active]="i === currentBasemapIndex"
             class="btn flex flex-col bg-white hover:bg-white mb-2 text-black"
             tabindex="0"
