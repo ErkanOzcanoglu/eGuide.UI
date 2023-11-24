@@ -1,6 +1,7 @@
 import { ServiceService } from './../../../services/service.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import { Service } from 'src/app/models/service';
 import { setServiceEditData } from 'src/app/state/service-edit-data/service-edit-data.action';
 
@@ -11,10 +12,11 @@ import { setServiceEditData } from 'src/app/state/service-edit-data/service-edit
 })
 export class ServiceListComponent implements OnInit {
   services: Service[] = [];
-  serviceEditData$: any;
+  serviceEditData$: Service[] = [];
   constructor(
     private serviceService: ServiceService,
-    private store: Store<{ serviceEditData: any }>
+    private store: Store<{ serviceEditData: Service }>,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -24,19 +26,17 @@ export class ServiceListComponent implements OnInit {
   getService() {
     this.serviceService.getAllServiceList().subscribe((data) => {
       this.services = data;
-      console.log(data);
     });
   }
 
   deleteService(id: any) {
     this.serviceService.deleteService(id).subscribe((data) => {
-      console.log(data);
       this.getService();
+      this.toastr.success('Service deleted successfully');
     });
   }
 
   editService(service: Service) {
     this.store.dispatch(setServiceEditData({ serviceEditData: service }));
-    console.log(service, 'service');
   }
 }

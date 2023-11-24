@@ -271,13 +271,21 @@
   </div>
 
   <div class="w-full flex justify-end mt-5 gap-5">
-    <button (click)="onSubmit()" *ngIf="!image" class="btn btn-success">
+    <button
+      (click)="onSubmit()"
+      *ngIf="!image || !isEdit"
+      class="btn btn-success"
+    >
       Save
     </button>
-    <button (click)="onUpdate()" *ngIf="image" class="btn btn-success">
+    <button
+      (click)="onUpdate()"
+      *ngIf="image && isEdit"
+      class="btn btn-success"
+    >
       Update
     </button>
-    <button (click)="clearForm()" *ngIf="image" class="btn btn-error">
+    <button (click)="clearForm()" *ngIf="image && isEdit" class="btn btn-error">
       Cancel
     </button>
   </div>
