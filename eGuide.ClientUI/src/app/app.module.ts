@@ -42,6 +42,9 @@ import { StoreModule } from '@ngrx/store';
 import { ServiceListComponent } from './components/service-list/service-list.component';
 import { ServiceComponent } from './screens/service/service.component';
 import { FooterComponent } from './components/footer/footer.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 
 
 @NgModule({
@@ -80,6 +83,8 @@ import { FooterComponent } from './components/footer/footer.component';
     FontAwesomeModule,
     MatDialogModule,
     StoreModule.forRoot({}, {}),
+    MatExpansionModule,
+    
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

@@ -35,6 +35,9 @@ export class MapComponent implements OnInit {
   nearLocate: any;
   basemapss: any[] = [];
 
+  chargingUnitList: any[] = [];
+  connectorTypelist:any[] = [];
+
   constructor(
     private stationService: StationService,
     private lastVisitedStationsService: LastVisitedStationsService,
@@ -194,6 +197,23 @@ export class MapComponent implements OnInit {
                 className: starColorClass,
                 stationId: element.id,
               };
+              
+              if (element.stationModel?.stationsChargingUnits) {
+                const chargingUnits = element.stationModel.stationsChargingUnits.map(unit => ({
+                  name: unit.chargingUnit?.name,
+                
+                }));  
+                this.chargingUnitList = chargingUnits;  
+              }
+
+              if (element.stationModel?.stationsChargingUnits) {
+                const connectors = element.stationModel.stationsChargingUnits.map(unit => ({
+                  connector: unit.chargingUnit?.connector?.type,
+                
+                }));
+              
+                this.connectorTypelist = connectors;            
+              }
 
               const pointGraphic = {
                 // create graphic
@@ -205,6 +225,10 @@ export class MapComponent implements OnInit {
                   address: element.address,
                   latitude: element.latitude,
                   longitude: element.longitude,
+                  model:element.stationModel?.name,
+                  chargingUnit:this.chargingUnitList.map(chargingUnit => chargingUnit.name).join(', '),
+                  connector:this.connectorTypelist.map(chargingUnit => chargingUnit.connector).join(', '),
+                  
                 },
 
                 // open popup when graphic is clicked
@@ -222,12 +246,26 @@ export class MapComponent implements OnInit {
                           fieldName: 'address',
                           label: 'Address',
                         },
+                        {
+                          fieldName: 'model',
+                          label: 'Model',
+                        },
+                        {
+                          fieldName: 'chargingUnit',
+                          label: 'ChargingUnit',
+                        },
+                        {
+                          fieldName: 'connector',
+                          label: 'Connector Type',
+                        },
                       ],
-                    },
+                    },                 
+                   
                   ],
                   actions: [goLocationAction, addFavorite],
-                },
+                }
               };
+              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
               this.view.graphics.add(pointGraphic); // add graphic to the view
             });
           });
