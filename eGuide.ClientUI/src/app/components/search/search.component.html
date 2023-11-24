@@ -61,7 +61,7 @@
           (keyup)="onSelect(lvs.station)"
           tabindex="0"
         >
-          {{ lvs.station.name | titlecase | slice : 0 : 20 }}
+          {{ lvs.station.name | titlecase }}
         </p>
         <button (click)="removeLastVisitedStations(lvs.id)">Remove</button>
       </li>
@@ -71,7 +71,7 @@
       [ngClass]="{ hidden: !isClicked && !isFilterClicked }"
       (click)="closeSearch()"
     >
-      kapat
+      <i class="fa-solid fa-circle-xmark fa-2xl"></i>
     </button>
   </div>
 </div>

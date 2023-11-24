@@ -10,4 +10,5 @@ export class Station {
   stationModeId = '';
   stationModel?: StationModel;
   userStations: UserStation[] = [];
+  distance: number | undefined;
 }
