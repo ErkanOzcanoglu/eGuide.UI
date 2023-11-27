@@ -37,6 +37,7 @@ export class MapComponent implements OnInit {
 
   chargingUnitList: any[] = [];
   connectorTypelist:any[] = [];
+  facilityList:any[]=[];
 
   constructor(
     private stationService: StationService,
@@ -208,11 +209,18 @@ export class MapComponent implements OnInit {
 
               if (element.stationModel?.stationsChargingUnits) {
                 const connectors = element.stationModel.stationsChargingUnits.map(unit => ({
-                  connector: unit.chargingUnit?.connector?.type,
+                  type: unit.chargingUnit?.connector?.type,
                 
                 }));
               
                 this.connectorTypelist = connectors;            
+              }
+
+              if (element.stationFacilities) {
+                const facilityList = element.stationFacilities.map(unit => ({
+                  type: unit.facility?.type
+                }));  
+                this.facilityList = facilityList;  
               }
 
               const pointGraphic = {
@@ -227,8 +235,8 @@ export class MapComponent implements OnInit {
                   longitude: element.longitude,
                   model:element.stationModel?.name,
                   chargingUnit:this.chargingUnitList.map(chargingUnit => chargingUnit.name).join(', '),
-                  connector:this.connectorTypelist.map(chargingUnit => chargingUnit.connector).join(', '),
-                  
+                  connector:this.connectorTypelist.map(chargingUnit => chargingUnit.type).join(', '),
+                  stationFacilities:this.facilityList.map( stationFacilities=> stationFacilities.type).join(', '),
                 },
 
                 // open popup when graphic is clicked
@@ -257,6 +265,12 @@ export class MapComponent implements OnInit {
                         {
                           fieldName: 'connector',
                           label: 'Connector Type',
+                        },
+                        {
+                          
+                          fieldName: 'stationFacilities',
+                          label:'Facilities',
+                          
                         },
                       ],
                     },                 

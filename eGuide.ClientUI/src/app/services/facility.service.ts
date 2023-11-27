@@ -14,11 +14,10 @@ export class FacilityService {
   constructor(private http: HttpClient, private router: Router) { }
 
   public getFacilityById(facilityId: string): Observable<any> {
-    return this.http.get<Facility>(`${environment.apiUrl}/${this.url}/facility-by-facility-id/${facilityId}`
-    );
+    return this.http.get<Facility>(`${environment.apiUrl}/${this.url}/facility-by-facility-id/${facilityId}`);
   }
 
   public getFacilities(): Observable<Facility[]> {
-    return this.http.get<Facility[]>(this.url);
+    return this.http.get<Facility[]>(`${environment.apiUrl}/${this.url}`);
   }
 }

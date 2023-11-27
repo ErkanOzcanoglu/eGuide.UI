@@ -43,7 +43,7 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header">
         <mat-panel-title>
-          Connectorler
+          Connectors
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
@@ -56,6 +56,26 @@
           >
             <img class="w-16 h-18" [src]="connector.imageData" alt="" />
             {{ connector.type }}
+          </li>
+        </ul>
+      </mat-panel-description>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="accordion-header">
+        <mat-panel-title>
+          Facilities
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <ul>
+          <li 
+            *ngFor="let facility of facilities"
+            (click)="onSelectFacility(facility)"
+            (keyup.enter)="onSelectFacility(facility)"
+            tabindex="0"
+          >
+           <i [ngClass]="facility.icon"></i>
+            {{ facility.type }}
           </li>
         </ul>
       </mat-panel-description>

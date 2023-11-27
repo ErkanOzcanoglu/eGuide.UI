@@ -74,7 +74,7 @@ export class SearchComponent implements OnInit {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
     });
-    console.log(this.facilities);
+    console.log(this.facilities[0].name,"deneme");
   }
 
   toggleConnectors() {
@@ -99,7 +99,7 @@ export class SearchComponent implements OnInit {
   }
   //`${station.name} ${station.stationModel?.stationsChargingUnits[0].chargingUnit?.type}`;
   onSelectConnector(connector: Connector) {
-    this.searchText = connector.imageData;
+    this.searchText = connector.type;
     this.isClicked = false;
     console.log(this.searchText);
     this.connectorSelected.emit(connector);
@@ -107,13 +107,13 @@ export class SearchComponent implements OnInit {
   }
 
    onSelectFacility(facility: Facility) {
-    this.searchText = facility.icon;
+    this.searchText = facility.type;
     this.isClicked = false;
     console.log(this.searchText);
     this.facilitySelected.emit(facility);
     console.log('Seçilen Facility:', facility);
-  }
 
+  }
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
