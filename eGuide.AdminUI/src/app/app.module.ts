@@ -71,6 +71,11 @@ import { FacilityComponent } from './screens/facility/facility.component';
 import { SocialMediaFormComponent } from './components/social-media-components/social-media-form/social-media-form.component';
 import { SocialMediaListComponent } from './components/social-media-components/social-media-list/social-media-list.component';
 import { SocialMediaComponent } from './screens/social-media/social-media.component';
+import { CustomizationComponent } from './screens/customization/customization.component';
+import { NavbarCustomizationComponent } from './components/customization-components/navbar-customization/navbar-customization.component';
+import { FooterCustomizationComponent } from './components/customization-components/footer-customization/footer-customization.component';
+import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
+import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -119,6 +124,11 @@ import { SocialMediaComponent } from './screens/social-media/social-media.compon
     SocialMediaFormComponent,
     SocialMediaListComponent,
     SocialMediaComponent,
+    CustomizationComponent,
+    NavbarCustomizationComponent,
+    FooterCustomizationComponent,
+    ColorCustomizationComponent,
+    CompanyInformationComponent,
   ],
   imports: [
     ChartModule,

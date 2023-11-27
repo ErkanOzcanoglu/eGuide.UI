@@ -1,5 +1,9 @@
+import { Website } from './../../models/website';
 import { Component, OnInit } from '@angular/core';
-import { loadModules } from 'esri-loader';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { ContactFormService } from 'src/app/services/contact-form.service';
+import { WebsiteService } from 'src/app/services/website.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -7,54 +11,56 @@ import { loadModules } from 'esri-loader';
   styleUrls: ['./contact-form.component.css'],
 })
 export class ContactFormComponent implements OnInit {
-  isValid = false;
+  contactForm: FormGroup = new FormGroup({});
+  websites: Website[] = [];
+  isSending = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private contactFormService: ContactFormService,
+    private websiteService: WebsiteService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    this.initializeMap();
+    this.getWebsites();
+
+    this.contactForm = this.formBuilder.group({
+      name: [''],
+      email: [''],
+      message: [''],
+    });
   }
 
-  initializeMap() {
-    loadModules(['esri/Map', 'esri/views/MapView', 'esri/config'], {
-      css: true,
-    }).then(([Map, MapView, esriConfig]) => {
-      esriConfig.apiKey =
-        'AAPKf2b222eeb0964813810746eb8274b5ffQFWRQkUMcyYrjaV9mgAMp7J1_cDz8aru5Zy2Io4ngzM10qQreoyoKIR8tQsAuEWj';
-      const map = new Map({
-        basemap: 'arcgis-navigation',
-      });
+  onSubmit(): void {
+    this.isSending = true;
+    this.contactFormService.sendEmail(this.contactForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.toastrService.success('Email sent successfully');
+        this.reset();
+        this.isSending = false;
+      },
+      (error) => {
+        console.log(error);
+        this.toastrService.error('Email not sent');
+      }
+    );
+  }
 
-      const view = new MapView({
-        map: map,
-        container: 'viewDiv',
-        center: [32.72404000000006, 39.81562000000008], // longitude, latitude
-        zoom: 13,
-      });
+  getWebsites(): void {
+    this.websiteService.getWebsite().subscribe(
+      (response) => {
+        console.log(response);
+        this.websites = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
-      // add point
-      const point = {
-        type: 'point',
-        longitude: 32.72404000000006,
-        latitude: 39.81562000000008,
-      };
-
-      // display point
-      const simpleMarkerSymbol = {
-        type: 'simple-marker',
-        color: [226, 119, 40], // orange
-        outline: {
-          color: [255, 255, 255], // white
-          width: 1,
-        },
-      };
-
-      const pointGraphic = {
-        geometry: point,
-        symbol: simpleMarkerSymbol,
-      };
-
-      view.graphics.add(pointGraphic);
-
-      view.ui.add('contactForm', 'top-right');
-    });
+  reset(): void {
+    this.contactForm.reset();
   }
 }
