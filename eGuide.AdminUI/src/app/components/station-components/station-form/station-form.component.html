@@ -5,13 +5,13 @@
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
           <label
-            class="block text-gray-200 text-sm mb-2"
+            class="block text-white bg-primary border-secondary text-sm mb-2"
             *ngIf="switchStatus"
             for=""
             >Address</label
           >
           <label
-            class="block text-gray-200 text-sm mb-2"
+            class="block text-white bg-primary border-secondary text-sm mb-2"
             *ngIf="!switchStatus"
             for=""
             >Latitude</label
@@ -23,7 +23,7 @@
         </div>
         <input
           *ngIf="switchStatus"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
           id="address"
           required
           type="text"
@@ -34,7 +34,7 @@
         />
         <input
           *ngIf="!switchStatus"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
           id="latitude"
           required
           type="text"
@@ -48,12 +48,15 @@
     <!-- ! lng -->
     <div *ngIf="!switchStatus" class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm mb-2" for="addres">
+        <label
+          class="block text-white bg-primary border-secondary text-sm mb-2"
+          for="addres"
+        >
           Lng
         </label>
       </div>
       <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
         id="longitude"
         required
         type="text"
@@ -61,16 +64,20 @@
         placeholder="Enter Longitude"
         [value]="mapClickedData?.lng"
         [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
-      />     
+      />
     </div>
     <div class="w-full flex gap-2">
       <!-- Station Name Input -->
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
-          <label class="block text-gray-200 text-sm mb-2" for="addres">Station Name</label>
+          <label
+            class="block text-white bg-primary border-secondary text-sm mb-2"
+            for="addres"
+            >Station Name</label
+          >
         </div>
         <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
           id="name"
           required
           type="text"
@@ -79,15 +86,19 @@
           [class.is-invalid]="submitted && stationForm.get('name')?.errors"
         />
       </div>
-    
+
       <!-- Station Model Name Input -->
       <form action="" class="w-full" [formGroup]="stationModelForm">
         <div class="mb-4 w-full justify-between">
           <div class="flex w-full justify-between">
-            <label class="block text-gray-200 text-sm mb-2" for="addres">Station Model Name</label>
+            <label
+              class="block text-white bg-primary border-secondary text-sm mb-2"
+              for="addres"
+              >Station Model Name</label
+            >
           </div>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             required
             type="text"
@@ -96,14 +107,18 @@
           />
         </div>
       </form>
-    
+
       <!-- Station Status Input -->
       <div class="mb-4 w-full justify-between">
         <div class="flex w-full justify-between">
-          <label class="block text-gray-200 text-sm mb-2" for="stationStatus">Station Status</label>
+          <label
+            class="block text-white bg-primary border-secondary text-sm mb-2"
+            for="stationStatus"
+            >Station Status</label
+          >
         </div>
         <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
           id="status"
           required
           type="text"
@@ -112,25 +127,28 @@
         />
       </div>
     </div>
-    
+
     <!-- ! station sockets -->
     <div class="mb-4 w-full justify-between">
       <div class="flex w-full justify-between">
-        <label class="block text-gray-200 text-sm mb-2" for="sockets">
+        <label
+          class="block text-white bg-primary border-secondary text-sm mb-2"
+          for="sockets"
+        >
           Charging Unit
         </label>
       </div>
       <div class="w-full">
         <form class="w-full" [formGroup]="selectedChargingUnitForm">
           <mat-form-field
-            class="appearance-none w-full text-white leading-tight focus:outline-none focus:shadow-outline"
+            class="appearance-none w-full text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
             color="primary"
             appearance="fill"
           >
             <mat-label>Charging Units</mat-label>
             <!-- display only the selected name -->
             <mat-select
-              class="rounded-3xl w-full text-white"
+              class="rounded-3xl w-full text-white bg-primary border-secondary"
               required="true"
               formControlName="sockets"
               multiple
@@ -207,14 +225,14 @@
     <!-- submit button -->
     <div class="flex justify-end gap-x-2">
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
         (click)="onSubmit()"
       >
         Submit
       </button>
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
         (click)="submitForm()"
       >
