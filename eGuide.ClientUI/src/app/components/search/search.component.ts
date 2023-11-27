@@ -5,6 +5,8 @@ import { Station } from 'src/app/models/station';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { StationService } from 'src/app/services/station.service';
 import { ConnectorService } from 'src/app/services/connector.service';
+import { FacilityService } from 'src/app/services/facility.service';
+import { Facility } from 'src/app/models/facility';
 
 @Component({
   selector: 'app-search',
@@ -17,11 +19,13 @@ export class SearchComponent implements OnInit {
   isFilterClicked = false;
   stations: Station[] = [];
   connectors:Connector[]=[];
+  facilities:Facility[]=[];
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() connectorSelected = new EventEmitter<Connector>();
+  @Output() facilitySelected = new EventEmitter<Facility>();
 
   showConnectors= false;
 
@@ -29,7 +33,8 @@ export class SearchComponent implements OnInit {
   constructor(
     private stationService: StationService,
     private connectorService:ConnectorService,
-    private lastVisitedStationsService: LastVisitedStationsService
+    private lastVisitedStationsService: LastVisitedStationsService,
+    private facilityService: FacilityService
   ) {}
 
   searchT(event: any) {
@@ -38,7 +43,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStations();
-    this.getConnectors() ;
+    this.getConnectors();
+    this.getFacilities();
   }
 
   onClick() {
@@ -63,7 +69,14 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  
+  getFacilities()
+  {
+    this.facilityService.getFacilities().subscribe((facilities) => {
+      this.facilities = facilities;
+    });
+    console.log(this.facilities);
+  }
+
   toggleConnectors() {
     this.showConnectors = !this.showConnectors;
     
@@ -86,12 +99,21 @@ export class SearchComponent implements OnInit {
   }
   //`${station.name} ${station.stationModel?.stationsChargingUnits[0].chargingUnit?.type}`;
   onSelectConnector(connector: Connector) {
-    this.searchText = connector.type;
+    this.searchText = connector.imageData;
     this.isClicked = false;
     console.log(this.searchText);
     this.connectorSelected.emit(connector);
     console.log('Seçilen Connector:', connector);
   }
+
+   onSelectFacility(facility: Facility) {
+    this.searchText = facility.icon;
+    this.isClicked = false;
+    console.log(this.searchText);
+    this.facilitySelected.emit(facility);
+    console.log('Seçilen Facility:', facility);
+  }
+
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
@@ -142,4 +164,6 @@ export class SearchComponent implements OnInit {
         console.log('last visited station removed');
       });
   }
+
+  
 }

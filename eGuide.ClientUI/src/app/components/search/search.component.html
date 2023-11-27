@@ -21,11 +21,11 @@
 <div
   class="mt-2 pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
   [ngClass]="{
-    'h-20 bg-transparent overflow-hidden': !isClicked || !isFilterClicked,
+    'h-20 bg-transparent z- overflow-hidden': !isClicked || !isFilterClicked,
     'min-h-[400px] max-h-[400px] h-full bg-white overflow-scroll': isClicked || isFilterClicked,
   }"
 >
-  <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
+  <ul class="list-group cursor-pointer list-group-flush " *ngIf="isClicked">
     <li
       class="list-group-item text-black p-3 pb-0 border-b"
       *ngFor="let c of stations | appFilter : searchText"
@@ -41,7 +41,7 @@
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">
     <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="accordion-header">
         <mat-panel-title>
           Connectorler
         </mat-panel-title>
@@ -52,10 +52,11 @@
             *ngFor="let connector of connectors"
             (click)="onSelectConnector(connector)"
             (keyup.enter)="onSelectConnector(connector)"
-           tabindex="0"
->
-  {{ connector.type }}
-</li>
+            tabindex="0"
+          >
+            <img class="w-16 h-18" [src]="connector.imageData" alt="" />
+            {{ connector.type }}
+          </li>
         </ul>
       </mat-panel-description>
     </mat-expansion-panel>

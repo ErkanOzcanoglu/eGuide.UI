@@ -18,3 +18,9 @@
 .scroll::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+.accordion-header {
+  border-bottom: 1px solid #960606; /* Çizgi rengi ve stilini ayarlayabilirsiniz */
+  padding-bottom: 8px; /* Çizgi ile başlık arasındaki boşluğu ayarlayabilirsiniz */
+  margin-bottom: 0px; /* Çizgi ile altındaki içerik arasındaki boşluğu ayarlayabilirsiniz */
+}
