@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { RefreshState } from 'src/app/state/refresh-list/refresh-list.reducer';
+import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
 
 @Component({
   selector: 'app-socket-list',
@@ -10,20 +13,30 @@ import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 })
 export class SocketListComponent implements OnInit {
   socketList: ChargingUnit[] = [];
+  refData = false;
   socketUpdteForm: FormGroup = new FormGroup({});
   socketUpdateControl = new FormControl('');
   isDisable = true;
   constructor(
     private chargingUnitService: ChargingUnitService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private store: Store
+  ) {
+    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+      console.log(refresh);
+      if (refresh === true) {
+        console.log('refresh');
+        this.getChargingUnitList();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.getStationList();
+    this.getChargingUnitList();
     this.initializeForm();
   }
 
-  getStationList() {
+  getChargingUnitList() {
     this.chargingUnitService.getChargingUnits().subscribe({
       next: (data) => {
         this.socketList = data;
@@ -62,13 +75,25 @@ export class SocketListComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log(data);
-          this.getStationList();
+          this.getChargingUnitList();
         },
         error: (error) => {
           console.log(error);
         },
       });
     // refresh the list
-    this.getStationList();
+    this.getChargingUnitList();
+  }
+
+  deleteChargingUnit(id: string) {
+    this.chargingUnitService.deleteChargingUnit(id).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.getChargingUnitList();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

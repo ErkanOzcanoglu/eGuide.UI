@@ -1,16 +1,20 @@
 <style>
-   @media (max-width: 1280px) {
+  @media (max-width: 1280px) {
     #confirmEmailForm {
       width: 85%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
     }
   }
 </style>
 
-<form [formGroup]="confirmEmailForm" class="mt-40" >
+<form [formGroup]="confirmEmailForm" class="pt-40 bg-primary">
   <div class="relative flex flex-col justify-center overflow-hidden">
-    <div id="confirmEmailForm"
-      class="w-2/5 p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-xl">
-      <h1 class="text-3xl font-semibold text-center text-gray-700">Email Confirmation</h1>
+    <div
+      id="confirmEmailForm"
+      class="w-2/5 p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-xl"
+    >
+      <h1 class="text-3xl font-semibold text-center text-gray-700">
+        Email Confirmation
+      </h1>
       <div form="space-y-4">
         <div>
           <label for="email" class="label">
@@ -22,15 +26,15 @@
             class="w-full input input-bordered"
             formControlName="email"
           />
-        </div>        
+        </div>
 
         <div>
-          <button class="btn w-full mt-3 bg-white" (click)="confirmEmail()">Send Email</button>
+          <button class="btn w-full mt-3 bg-white" (click)="confirmEmail()">
+            Send Email
+          </button>
         </div>
         <div class="mt-3 w-full flex justify-between">
-         <span>
-         *Please check your email address       
-        </span>
+          <span> *Please check your email address </span>
         </div>
       </div>
     </div>

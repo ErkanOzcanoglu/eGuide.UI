@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { Store } from '@ngrx/store';
+import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
 
 @Component({
   selector: 'app-socket-form',
@@ -17,7 +19,8 @@ export class SocketFormComponent implements OnInit {
   constructor(
     private connectorService: ConnectorService,
     private chargingUnitService: ChargingUnitService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<{ refresh: boolean }>
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +47,9 @@ export class SocketFormComponent implements OnInit {
     } else {
       console.log('Form is not valid');
     }
+    setTimeout(() => {
+      this.store.dispatch(setRefresh(true));
+    }, 400);
     this.socketForm.reset();
   }
 

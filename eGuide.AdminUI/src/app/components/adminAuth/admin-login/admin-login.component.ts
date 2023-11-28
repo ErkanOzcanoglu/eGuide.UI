@@ -42,7 +42,7 @@ export class AdminLoginComponent implements OnInit {
           if (response?.id) localStorage.setItem('authToken', response?.id);
           this.toaster.success('Login successful');
           setTimeout(() => {
-            this.router.navigate(['/station']);
+            this.router.navigate(['']);
             this.loadingAfterLogin = false;
           }, 1000);
         },
