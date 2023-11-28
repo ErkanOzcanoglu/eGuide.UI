@@ -328,27 +328,16 @@ export class MapComponent implements OnInit {
         reverseButtons: true,
       })
       .then((result) => {
-        if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire({
-            title: 'Deleted!',
-            text: 'Your file has been deleted.',
-            icon: 'success',
-          });
+        if (result.isConfirmed) {        
+      
           const userId = localStorage.getItem('authToken');
           if (userId != null) {
             this.lastVisitedStations.userId = userId;
             this.lastVisitedStations.stationId = stationId;
-            this.lastVisitedStationsService
-              .createLastVisitedStation(this.lastVisitedStations)
-              .subscribe();
+            this.lastVisitedStationsService.createLastVisitedStation(this.lastVisitedStations).subscribe();
           }
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire({
-            title: 'Cancelled',
-            text: 'Your imaginary file is safe :)',
-            icon: 'error',
-          });
         }
+        // else bloğu kaldırıldı
       });
   }
 
