@@ -22,9 +22,12 @@ export class ChargingUnitService {
   }
 
   getChargingUnits(): Observable<ChargingUnit[]> {
-    return this.http.get<ChargingUnit[]>(`${environment.apiUrl}/ChargingUnit`, {
-      responseType: 'json',
-    });
+    return this.http.get<ChargingUnit[]>(
+      `${environment.apiUrl}/ChargingUnit/AllChargingUnits`,
+      {
+        responseType: 'json',
+      }
+    );
   }
 
   getChargingUnit(id: string): Observable<ChargingUnit> {
