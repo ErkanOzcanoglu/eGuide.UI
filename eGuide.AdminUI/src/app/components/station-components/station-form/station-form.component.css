@@ -64,8 +64,8 @@ input:checked + .slider:before {
   .mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled)
   .mat-mdc-text-field-wrapper {
   cursor: pointer;
-  background-color: #3b3b3b;
-  border: 1px solid white;
+  background-color: #030712;
+  border: 1px solid #282a3a;
   border-radius: 10px;
 }
 
@@ -78,8 +78,10 @@ input:checked + .slider:before {
 }
 
 ::ng-deep div.mat-mdc-select-panel {
-  background-color: #3b3b3b !important;
+  background-color: #030712 !important;
   color: white !important;
+  border: 1px solid #282a3a;
+  border-radius: 10px;
 }
 
 ::ng-deep .mat-mdc-option {

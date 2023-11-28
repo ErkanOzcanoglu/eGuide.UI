@@ -192,8 +192,7 @@
             [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
             class="flex justify-between hover:bg-secondary hover:rounded-2xl"
           >
-            <a class="cursor-pointer">
-              <!-- <i class="fas fa-cog"></i> -->
+            <a routerLink="/customization" class="cursor-pointer">
               <i class="fa-solid fa-sliders"></i>
               <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                 >Customization</span
@@ -209,7 +208,7 @@
           </div>
           <ul *ngIf="collapseCustomization" class="justify-start w-full">
             <li class="submenu-list">
-              <a class="cursor-pointer">
+              <a routerLink="/customization" class="cursor-pointer">
                 <!-- <i class="fas fa-car"></i> -->
                 <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Navbar</span
@@ -217,7 +216,7 @@
               </a>
             </li>
             <li class="submenu-list">
-              <a class="cursor-pointer">
+              <a routerLink="/customization" class="cursor-pointer">
                 <!-- <i class="fas fa-subway"></i> -->
                 <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Footer</span
@@ -225,7 +224,7 @@
               </a>
             </li>
             <li class="submenu-list">
-              <a class="cursor-pointer">
+              <a routerLink="/customization" class="cursor-pointer">
                 <!-- <i class="fas fa-building"></i> -->
                 <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Color</span
@@ -233,7 +232,7 @@
               </a>
             </li>
             <li class="submenu-list">
-              <a class="cursor-pointer">
+              <a routerLink="/customization" class="cursor-pointer">
                 <!-- <i class="fas fa-building"></i> -->
                 <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                   >Contact Information</span

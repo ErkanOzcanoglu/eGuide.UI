@@ -52,13 +52,18 @@
       <i class="fas fa-bars"></i>
       <div
         *ngIf="hamburgerMenu"
-        class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+        class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-auto"
         (click)="$event.stopPropagation()"
       >
         <a
           href="/"
           class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Home</a
+        >
+        <a
+          href="/services"
+          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          >Services</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
           <div class="relative group" (click)="showUserMenu = !showUserMenu">

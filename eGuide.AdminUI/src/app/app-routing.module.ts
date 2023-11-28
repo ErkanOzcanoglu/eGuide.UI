@@ -1,3 +1,4 @@
+import { CustomizationComponent } from './screens/customization/customization.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StationsComponent } from './screens/stations/stations.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
       { path: 'service', component: ServiceComponent },
       { path: 'facility', component: FacilityComponent },
       { path: 'social-media', component: SocialMediaComponent },
+      { path: 'customization', component: CustomizationComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },
