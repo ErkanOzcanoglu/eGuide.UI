@@ -27,6 +27,7 @@ export class AddAdminComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
+      isMasterAdmin: [false],
     });
   }
 
