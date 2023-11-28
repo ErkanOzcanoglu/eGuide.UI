@@ -35,7 +35,7 @@ export class StationService {
     });
   }
 
-  updateStation(id: string, station: Station) {
+  updateStation(id: any, station: Station) {
     return this.http.put<Station>(
       `${environment.apiUrl}/Station/${id}`,
       station,

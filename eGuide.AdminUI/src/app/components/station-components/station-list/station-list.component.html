@@ -74,13 +74,15 @@
           </button>
         </td>
 
-        <td class="gap-x-2 flex">
-          <button class="btn btn-ghost" (click)="editStation(item)">
-            Edit
-          </button>
-          <button class="btn btn-ghost" (click)="deleteStation(item.id)">
-            Delete
-          </button>
+        <td class="">
+          <div class="flex gap-x-2 items-center justify-center">
+            <button class="btn btn-ghost" (click)="editStation(item)">
+              Edit
+            </button>
+            <button class="btn btn-ghost" (click)="deleteStation(item.id)">
+              Delete
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>
