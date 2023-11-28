@@ -47,5 +47,7 @@ export class NavbarComponent {
    this.hamburgerMenu = !this.hamburgerMenu;
    console.log(this.hamburgerMenu);
 }
+
+
   
 }

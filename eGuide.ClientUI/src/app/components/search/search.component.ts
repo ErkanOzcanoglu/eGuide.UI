@@ -18,15 +18,20 @@ export class SearchComponent implements OnInit {
   isClicked = false;
   isFilterClicked = false;
   isFilteredForLastStations = false;
+  filteredStations: Station[] = [];
   stations: Station[] = [];
   connectors: Connector[] = [];
   facilities: Facility[] = [];
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
+
+
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
+  @Output() stationConnectorSelected = new EventEmitter<Station[]>();
   @Output() connectorSelected = new EventEmitter<Connector>();
   @Output() facilitySelected = new EventEmitter<Facility>();
+  
 
   showConnectors = false;
 
@@ -100,7 +105,14 @@ export class SearchComponent implements OnInit {
     this.isClicked = false;
     console.log(this.searchText);
     this.connectorSelected.emit(connector);
-    console.log('Seçilen Connector:', connector);
+    this.filteredStations = this.stations.filter(station =>
+      station.stationModel?.stationsChargingUnits.some(unit =>
+        unit.chargingUnit?.connector?.type === connector.type
+      )
+    );
+        this.stationConnectorSelected.emit( this.filteredStations);
+        console.log('Seçilen Connector:', connector);
+        console.log('Seçilen İstasyonlar:', this.filteredStations);
   }
 
   onSelectFacility(facility: Facility) {
