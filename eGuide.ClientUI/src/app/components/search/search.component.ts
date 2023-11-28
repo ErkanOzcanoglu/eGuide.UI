@@ -17,9 +17,10 @@ export class SearchComponent implements OnInit {
   searchText = '';
   isClicked = false;
   isFilterClicked = false;
+  isFilteredForLastStations = false;
   stations: Station[] = [];
-  connectors:Connector[]=[];
-  facilities:Facility[]=[];
+  connectors: Connector[] = [];
+  facilities: Facility[] = [];
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
   @Output() searchTexts = new EventEmitter<string>();
@@ -27,12 +28,11 @@ export class SearchComponent implements OnInit {
   @Output() connectorSelected = new EventEmitter<Connector>();
   @Output() facilitySelected = new EventEmitter<Facility>();
 
-  showConnectors= false;
-
+  showConnectors = false;
 
   constructor(
     private stationService: StationService,
-    private connectorService:ConnectorService,
+    private connectorService: ConnectorService,
     private lastVisitedStationsService: LastVisitedStationsService,
     private facilityService: FacilityService
   ) {}
@@ -69,24 +69,23 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  getFacilities()
-  {
+  getFacilities() {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
     });
-    console.log(this.facilities[0].name,"deneme");
+    console.log(this.facilities[0].name, 'deneme');
   }
 
   toggleConnectors() {
     this.showConnectors = !this.showConnectors;
-    
+
     if (this.showConnectors) {
       this.getConnectors();
     }
   }
 
   getConnectors() {
-    this.connectorService. getConnectors().subscribe((connectors) => {
+    this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectors = connectors;
     });
   }
@@ -106,19 +105,18 @@ export class SearchComponent implements OnInit {
     console.log('Seçilen Connector:', connector);
   }
 
-   onSelectFacility(facility: Facility) {
+  onSelectFacility(facility: Facility) {
     this.searchText = facility.type;
     this.isClicked = false;
     console.log(this.searchText);
     this.facilitySelected.emit(facility);
     console.log('Seçilen Facility:', facility);
-
   }
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
-    this.getLastVisitedStations();
-    console.log(this.isFilterClicked);
+    if (this.isFilteredForLastStations === false) this.getLastVisitedStations();
+    this.isFilteredForLastStations = true;
   }
 
   getLastVisitedStations() {
@@ -164,6 +162,4 @@ export class SearchComponent implements OnInit {
         console.log('last visited station removed');
       });
   }
-
-  
 }
