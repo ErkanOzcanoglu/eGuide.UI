@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Admin } from 'src/app/models/admin';
 import { AdminService } from 'src/app/services/admin.service';
+import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
 
 @Component({
   selector: 'app-add-admin',
@@ -13,7 +15,8 @@ export class AddAdminComponent implements OnInit {
   adminForm: FormGroup = new FormGroup({});
   constructor(
     private adminService: AdminService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<{ refresh: boolean }>
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +42,11 @@ export class AddAdminComponent implements OnInit {
     this.adminForm.get('confirmPassword')?.setValue(password);
     if (this.adminForm.valid) {
       this.admin = this.adminForm.value;
+      this.admin.isMasterAdmin = false;
       this.adminService.adminRegister(this.admin).subscribe();
+      setTimeout(() => {
+        this.store.dispatch(setRefresh(true));
+      }, 400);
     }
   }
 }

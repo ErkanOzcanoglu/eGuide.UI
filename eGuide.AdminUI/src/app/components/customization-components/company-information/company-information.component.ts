@@ -60,6 +60,7 @@ export class CompanyInformationComponent implements OnInit {
         next: () => {
           this.toast.success('Website updated successfully');
           this.getWebsite();
+          this.isEdit = false;
         },
         error: () => {
           this.toast.error('There was an error!');

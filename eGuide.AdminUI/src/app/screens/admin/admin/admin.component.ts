@@ -1,6 +1,8 @@
 import { AdminService } from 'src/app/services/admin.service';
 import { Component, OnInit } from '@angular/core';
 import { Admin } from 'src/app/models/admin';
+import { Store } from '@ngrx/store';
+import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
 
 @Component({
   selector: 'app-admin',
@@ -11,7 +13,15 @@ export class AdminComponent implements OnInit {
   isOpen = false;
   adminInfo: Admin[] = [];
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private store: Store) {
+    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+      console.log(refresh);
+      if (refresh === true) {
+        console.log('refresh');
+        this.getAdmins();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.getAdmins();
