@@ -50,12 +50,9 @@ export class AdminService {
     return this.http.get(url);
   }
 
-  resetPasswordScreen(
-    resetInfo: ResetPassword,
-    token: string
-  ): Observable<any> {
+  resetPasswordScreen(resetInfo: ResetPassword, userId: any): Observable<any> {
     return this.http.post<any>(
-      `${environment.apiUrl}/${this.url}/reset-password-screen?token=${token}`,
+      `${environment.apiUrl}/${this.url}/reset-password?userId=${userId}`,
       resetInfo
     );
   }
@@ -79,6 +76,13 @@ export class AdminService {
     return this.http.post<Admin>(
       `${environment.apiUrl}/Admin/forgot-password?userId=${adminId}`,
       adminId
+    );
+  }
+
+  passChange(adminId: any, admin: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.apiUrl}/Admin/pass-change?id=${adminId}`,
+      admin
     );
   }
 }

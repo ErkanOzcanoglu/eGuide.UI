@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Vehicle } from 'src/app/models/vehicle';
 import { VehicleService } from 'src/app/services/vehicle.service';
+import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -17,14 +19,22 @@ export class VehicleListComponent {
   editForm: FormGroup;
   updatedModel: string | undefined;
   searchTerm: any;
-  showSearch:any;
+  showSearch: any;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private store: Store
   ) {
+    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+      console.log(refresh);
+      if (refresh === true) {
+        console.log('refresh');
+        this.getVehicleInfo();
+      }
+    });
     this.editForm = this.formBuilder.group({
       model: [''],
     });
@@ -87,7 +97,6 @@ export class VehicleListComponent {
 
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
-    
   }
 
   onSave(item: Vehicle): void {
