@@ -50,9 +50,6 @@ import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
-import { AddServiceComponent } from './components/service-components/add-service/add-service.component';
-import { ListServicesComponent } from './components/service-components/list-services/list-services.component';
-import { ServiceScreenComponent } from './screens/service-screen/service-screen.component';
 import { VehicleComponent } from './screens/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-components/vehicle-list/vehicle-list.component';
@@ -74,6 +71,11 @@ import { FacilityComponent } from './screens/facility/facility.component';
 import { SocialMediaFormComponent } from './components/social-media-components/social-media-form/social-media-form.component';
 import { SocialMediaListComponent } from './components/social-media-components/social-media-list/social-media-list.component';
 import { SocialMediaComponent } from './screens/social-media/social-media.component';
+import { CustomizationComponent } from './screens/customization/customization.component';
+import { NavbarCustomizationComponent } from './components/customization-components/navbar-customization/navbar-customization.component';
+import { FooterCustomizationComponent } from './components/customization-components/footer-customization/footer-customization.component';
+import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
+import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,9 +106,6 @@ import { SocialMediaComponent } from './screens/social-media/social-media.compon
     SignComponent,
     ChangePasswordComponent,
     AdminComponent,
-    AddServiceComponent,
-    ListServicesComponent,
-    ServiceScreenComponent,
     VehicleComponent,
     VehicleFormComponent,
     VehicleListComponent,
@@ -125,6 +124,11 @@ import { SocialMediaComponent } from './screens/social-media/social-media.compon
     SocialMediaFormComponent,
     SocialMediaListComponent,
     SocialMediaComponent,
+    CustomizationComponent,
+    NavbarCustomizationComponent,
+    FooterCustomizationComponent,
+    ColorCustomizationComponent,
+    CompanyInformationComponent,
   ],
   imports: [
     ChartModule,
