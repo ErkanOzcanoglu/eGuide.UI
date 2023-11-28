@@ -1,3 +1,4 @@
+import { StationFacility } from './stationFacility';
 import { StationModel } from './stationModel';
 import { UserStation } from './user-station';
 
@@ -11,4 +12,5 @@ export class Station {
   stationModel?: StationModel;
   userStations: UserStation[] = [];
   distance: number | undefined;
+  stationFacilities:StationFacility[]=[];
 }
