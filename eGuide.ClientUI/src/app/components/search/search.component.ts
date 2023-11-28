@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.getStations();
     this.getConnectors();
-    this.getFacilities();
+    // this.getFacilities();
   }
 
   onClick() {
@@ -64,17 +64,15 @@ export class SearchComponent implements OnInit {
   getStations() {
     this.stationService.getStations().subscribe((stations) => {
       this.stations = stations;
-      console.log(this.stations);
       this.showConnectors = false;
     });
   }
 
-  getFacilities() {
-    this.facilityService.getFacilities().subscribe((facilities) => {
-      this.facilities = facilities;
-    });
-    console.log(this.facilities[0].name, 'deneme');
-  }
+  // getFacilities() {
+  //   this.facilityService.getFacilities().subscribe((facilities) => {
+  //     this.facilities = facilities;
+  //   });
+  // }
 
   toggleConnectors() {
     this.showConnectors = !this.showConnectors;
