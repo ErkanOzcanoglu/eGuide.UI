@@ -76,6 +76,7 @@ import { NavbarCustomizationComponent } from './components/customization-compone
 import { FooterCustomizationComponent } from './components/customization-components/footer-customization/footer-customization.component';
 import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
+import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -146,7 +147,7 @@ import { CompanyInformationComponent } from './components/customization-componen
     StoreModule.forRoot({
       map: mapReducer,
       stationEditData: stationEditDataReducer,
-      refresh: stationEditDataReducer,
+      refresh: setRefreshReducer,
       serviceEditData: serviceEditDataReducer,
     }),
     MatTabsModule,

@@ -114,7 +114,12 @@
               Edit
             </button>
           </div>
-          <button class="btn btn-ghost btn-sm">Delete</button>
+          <button
+            (click)="deleteChargingUnit(socket.id)"
+            class="btn btn-ghost btn-sm"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>

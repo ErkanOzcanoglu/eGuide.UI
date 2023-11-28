@@ -5,4 +5,5 @@ export class Admin {
   email?: string;
   username?: string;
   passwordResetToken?: string;
+  isMasterAdmin?: boolean;
 }
