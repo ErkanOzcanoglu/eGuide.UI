@@ -1,11 +1,4 @@
-<div class="h-full w-full min-h-[500px]">
-  <!-- <input
-    type="text"
-    class="form-control transparent-input"
-    [(ngModel)]="searchTerm"
-    placeholder="Search by brand or model"
-  /> -->
-
+<div class="h-full w-full">
   <table class="table">
     <thead class="w-full">
       <tr>
@@ -37,7 +30,7 @@
             </div>
           </div>
         </th>
-        <th class="w-2/5 bg-[#202c3f]">Vehicle Brand</th>
+        <th class="w-2/5 bg-primary">Vehicle Brand</th>
         <th class="w-1/5">Vehicle Model</th>
         <th class="w-1/5"></th>
       </tr>
@@ -52,13 +45,13 @@
             <input type="checkbox" class="checkbox" />
           </label>
         </td>
-        <td class="bg-[#1E293B]">
+        <td class="bg-primary">
           <div class="font-bold">{{ item.brand + " " + item.model }}</div>
         </td>
-        <td class="bg-[#202c3f]">
+        <td class="bg-primary">
           <div class="font-bold">{{ item.brand }}</div>
         </td>
-        <td class="bg-[#1E293B]">
+        <td class="bg-primary">
           <input
             class="bg-transparent border-none outline-none font-bold"
             type="text"

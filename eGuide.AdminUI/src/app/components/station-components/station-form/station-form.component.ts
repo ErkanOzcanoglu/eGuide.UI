@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -22,11 +22,10 @@ import {
 import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { Facility } from 'src/app/models/facility';
+import { FacilityService } from 'src/app/services/facility.service';
+import { StationFacilityService } from 'src/app/services/station-facility.service';
 
-interface Point {
-  lat: number;
-  lng: number;
-}
 @Component({
   selector: 'app-station-form',
   templateUrl: './station-form.component.html',
@@ -35,32 +34,20 @@ interface Point {
 export class StationFormComponent implements OnInit {
   switchStatus = false;
   isEdited = false;
-
-  toppings = new FormControl('');
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
-
-  customButton:any
+  customButton: any;
   chargingUnit: ChargingUnit[] = [];
   stationId = '';
   selectedChargingUnits: any[] = [];
-
   stationForm: FormGroup = new FormGroup({});
   stationModelForm: FormGroup = new FormGroup({});
   stationChargingUnitForm: FormGroup = new FormGroup({});
   selectedChargingUnitForm: FormGroup = new FormGroup({});
-
+  selectedFacilitiesForm: FormGroup = new FormGroup({});
   apiLoginErrorMessages: string[] = [];
   submitted = false;
-
   mapClickedData: any;
   editDatas?: Station;
+  facilities: Facility[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,23 +56,25 @@ export class StationFormComponent implements OnInit {
     private stationModelService: StationModelService,
     private stationSocketService: StationSocketService,
     private toastr: ToastrService,
+    private facility: FacilityService,
+    private stationFacilityService: StationFacilityService,
     private store: Store<MapState>,
     private store2: Store<{ stationEditData: any }>
   ) {
     this.store.pipe(select(getFormAddressData)).subscribe();
-
     this.stationForm = this.formBuilder.group({
       address: ['', Validators.required],
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
       stationModelId: ['', Validators.required],
-      stationStatus:['']
+      stationStatus: [''],
     });
   }
 
   ngOnInit(): void {
     this.getSockets();
     this.initializeForm();
+    this.getFacilities();
 
     this.store.pipe(select(getClickedData)).subscribe((clickedData) => {
       if (clickedData) {
@@ -99,18 +88,22 @@ export class StationFormComponent implements OnInit {
     this.store2
       .pipe(select(selectStationEditData))
       .subscribe((stationEditData) => {
-        console.log(stationEditData.stationEditData, 'stationEditData');
-        this.isEdited = true;
+        console.log(
+          stationEditData.stationEditData?.address,
+          'stationEditData'
+        );
+        if (stationEditData.stationEditData?.address !== undefined)
+          this.isEdited = true;
         if (stationEditData) {
           this.stationForm.patchValue({
             address: stationEditData.stationEditData?.address,
             latitude: stationEditData.stationEditData?.latitude,
             longitude: stationEditData.stationEditData?.longitude,
             name: stationEditData.stationEditData?.name,
-            stationStatus:stationEditData.stationEditData?.stationStatus,
+            stationStatus: stationEditData.stationEditData?.stationStatus,
           });
           this.setButtonColor(stationEditData.stationEditData?.stationStatus);
-          
+
           this.editDatas = stationEditData.stationEditData;
 
           console.log(this.editDatas?.stationModel?.id, 'stationModelId');
@@ -131,12 +124,12 @@ export class StationFormComponent implements OnInit {
         }
       });
   }
-  
+
   setButtonColor(stationStatus: number | undefined): void {
-      this. customButton = document.getElementById('customButton');
+    this.customButton = document.getElementById('customButton');
     if (this.customButton) {
-      this.customButton=stationStatus;
-      console.log(this.customButton,"rer");
+      this.customButton = stationStatus;
+      console.log(this.customButton, 'rer');
     }
   }
 
@@ -166,7 +159,7 @@ export class StationFormComponent implements OnInit {
       latitude: [''],
       longitude: [''],
       stationModelId: [''],
-      stationStatus:['']
+      stationStatus: [''],
     });
 
     this.stationModelForm = this.formBuilder.group({
@@ -181,6 +174,16 @@ export class StationFormComponent implements OnInit {
       chargingUnitId: ['', Validators.required],
       stationModelId: [''],
     });
+
+    this.selectedFacilitiesForm = this.formBuilder.group({
+      facilities: ['', Validators.required],
+    });
+  }
+
+  getFacilities(): void {
+    this.facility.getFacilities().subscribe((facilities) => {
+      this.facilities = facilities;
+    });
   }
 
   onSubmit() {
@@ -189,7 +192,8 @@ export class StationFormComponent implements OnInit {
       this.stationForm.invalid &&
       this.stationModelForm.invalid &&
       this.selectedChargingUnitForm.invalid &&
-      this.stationChargingUnitForm.invalid
+      this.stationChargingUnitForm.invalid &&
+      this.selectedFacilitiesForm.invalid
     ) {
       console.log('invalid form');
       this.toastr.error('Station creation failed!');
@@ -212,6 +216,25 @@ export class StationFormComponent implements OnInit {
                 next: (station) => {
                   this.toastr.success('Station created successfully!');
                   this.stationId = station.id;
+                  this.selectedFacilitiesForm.value.facilities.forEach(
+                    (facilityId: number) => {
+                      console.log(stationModel.id, 'stationModelId');
+                      this.stationFacilityService
+                        .createStationFacility({
+                          facilityId: facilityId,
+                          stationId: this.stationId,
+                        })
+                        .subscribe({
+                          error: (err) => {
+                            console.log(err);
+                            this.toastr.error(
+                              'Station Facility creation failed!'
+                            );
+                          },
+                        });
+                    }
+                  );
+
                   this.selectedChargingUnitForm.value.sockets.forEach(
                     (chargingUnitId: number) => {
                       console.log(stationModel.id, 'stationModelId');
@@ -231,18 +254,6 @@ export class StationFormComponent implements OnInit {
                             this.toastr.error(
                               'Station Socket creation failed!'
                             );
-                            // this.stationModelService
-                            //   .hardDeleteStationModel(
-                            //     this.stationForm.value.stationModelId
-                            //   )
-                            //   .subscribe({
-                            //     next: (res) => {
-                            //       console.log(res);
-                            //     },
-                            //     error: (err) => {
-                            //       console.log(err);
-                            //     },
-                            //   });
                           },
                         });
                     }
@@ -267,16 +278,12 @@ export class StationFormComponent implements OnInit {
     }
   }
 
-  submitForm() {
-    this.onFormSubmit();
-  }
-
-  onFormSubmit() {
-    const addressData = {
-      address: this.stationForm.value.address,
-      lat: this.stationForm.value.latitude,
-      lng: this.stationForm.value.longitude,
-    };
-    this.store.dispatch(setFormAddressData({ formAddressData: addressData }));
+  onUpdate() {
+    const stationModelId = this.editDatas?.stationModel?.id;
+    this.stationModelService.hardDeleteStationModel(stationModelId).subscribe({
+      next: () => {
+        this.onSubmit();
+      },
+    });
   }
 }

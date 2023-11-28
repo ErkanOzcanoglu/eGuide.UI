@@ -21,11 +21,24 @@ export class StationModelService {
     );
   }
 
-  deleteStationModel(id: string) {
+  updateStationModel(
+    id: any,
+    stationModel: StationModel
+  ): Observable<StationModel> {
+    return this.http.put<StationModel>(
+      `${environment.apiUrl}/StationModel?id=${id}`,
+      stationModel,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  deleteStationModel(id: any) {
     return this.http.delete(`${environment.apiUrl}/StationModel/${id}`);
   }
 
-  hardDeleteStationModel(id: string) {
+  hardDeleteStationModel(id: any) {
     return this.http.delete(`${environment.apiUrl}/StationModel/${id}`);
   }
 }

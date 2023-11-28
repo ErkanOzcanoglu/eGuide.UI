@@ -52,4 +52,12 @@ export class StationSocketService {
       `${environment.apiUrl}/StationsChargingUnit/GetAllStationProfile`
     );
   }
+
+  updateStationSocket(id: any, stationSocket: StationChargingUnit) {
+    return this.http.put<StationChargingUnit>(
+      `${environment.apiUrl}/StationsChargingUnit/${id}`,
+      stationSocket,
+      { responseType: 'json' }
+    );
+  }
 }

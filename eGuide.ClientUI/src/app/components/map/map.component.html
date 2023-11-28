@@ -15,7 +15,7 @@
   >
     <!-- ! ZoomIn button -->
     <button
-      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
       (click)="zoomIn()"
     >
       <!-- on hover show text -->
@@ -24,11 +24,12 @@
         alt="zoom-in"
         class="w-full h-full object-cover"
       />
+      <p class="text-[8px] w-10 text-black">Zoom In</p>
     </button>
 
     <!-- ! ZoomOut button -->
     <button
-      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
       (click)="zoomOut()"
     >
       <img
@@ -36,11 +37,12 @@
         alt="zoom-out"
         class="w-full h-full object-cover"
       />
+      <p class="text-[8px] w-10 text-black">Zoom Out</p>
     </button>
 
     <!-- ! Locate button -->
     <button
-      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
       (click)="locateS()"
     >
       <img
@@ -48,9 +50,10 @@
         alt="target"
         class="w-full h-full object-cover"
       />
+      <p class="text-[8px] w-10 text-black">Locate</p>
     </button>
     <button
-      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
       (click)="findNearestStations()"
     >
       <img
@@ -58,17 +61,19 @@
         alt="target"
         class="w-full h-full object-cover"
       />
+      <p class="text-[8px] w-10 text-black">Nearest</p>
     </button>
 
     <!-- ! Change Layer button -->
     <button
-      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white"
+      class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
     >
       <img
         src="../../../assets/layer.svg"
         alt="target"
         class="w-full h-full object-cover"
       />
+      <p class="text-[8px] w-10 text-black">Layers</p>
       <ul class="absolute right-12 gap-y-2 flex top-48 flex-col px-1">
         <button
           class="asd rounded-xl border-black border bg-white p-2 h-full gap-y-2 bcd"
