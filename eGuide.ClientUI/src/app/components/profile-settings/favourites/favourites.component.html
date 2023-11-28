@@ -20,26 +20,24 @@
             FAVOURITES<i class="fas fa-star fa-2xs ml-5"></i>
           </h1>
           <div class="flex items-center justify-between overflow-x-auto">
-            <table class="table w-3/5 ml-20 mt-10 mb-10">
+            <table class="table w-4/5 ml-5 mt-10 mb-10">
               <!-- head -->
               <thead>
                 <tr>
-                  <th class="text-xl font-bold text-green-500">Station Name</th>
-                  <th class="text-xl font-bold text-green-500">Address</th>
-                  <th class="text-xl font-bold text-green-500">Model</th>
-                  <th class="text-xl font-bold text-green-500">
-                    Charging unit
-                  </th>
-                  <th class="text-xl font-bold text-green-500">Connector</th>
+                  <th class="text-xl font-bold text-cyan-500">Station Name</th>
+                  <th class="text-xl font-bold text-cyan-500">Address</th>
+                  <th class="text-xl font-bold text-cyan-500">Model</th>
+                  <th class="text-xl font-bold text-cyan-500">Charging unit</th>
+                  <th class="text-xl font-bold text-cyan-500">Connector</th>
                 </tr>
               </thead>
               <tbody>
                 <!-- row 1 -->
                 <tr *ngFor="let station of stations; let i = index">
-                  <td class="text-xl">{{ station.name }}</td>
-                  <td class="text-xl">{{ station.address }}</td>
-                  <td class="text-xl">{{ station.stationModel?.name }}</td>
-                  <td class="text-xl">
+                  <td>{{ station.name }}</td>
+                  <td>{{ station.address }}</td>
+                  <td>{{ station.stationModel?.name }}</td>
+                  <td>
                     <div
                       *ngFor="
                         let unit of station.stationModel?.stationsChargingUnits;
@@ -49,7 +47,7 @@
                       {{ unit?.chargingUnit?.name }}
                     </div>
                   </td>
-                  <td class="text-xl">
+                  <td>
                     <div
                       *ngFor="
                         let unit of station.stationModel?.stationsChargingUnits;
@@ -62,9 +60,9 @@
                   <td>
                     <!-- Delete Button -->
                     <button
-                      class="bg-red-300 text-white px-4 py-2 rounded"
+                      class="bg-red-700 text-white px-4 py-2 rounded"
                       (click)="
-                        onDeleteStationProfile(station.userStations[i].id)
+                        onDeleteStationProfile(station.id)
                       "
                     >
                       Delete
