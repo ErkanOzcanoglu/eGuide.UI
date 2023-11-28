@@ -1,5 +1,5 @@
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
@@ -39,6 +39,8 @@ export class MapComponent implements OnInit {
   connectorTypelist:any[] = [];
   facilityList:any[]=[];
 
+ connectorFilteredStations:Station[] = [];
+
   constructor(
     private stationService: StationService,
     private lastVisitedStationsService: LastVisitedStationsService,
@@ -50,7 +52,9 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeMap(); // initialize map
+    this.initializeMap();
+    
+     // initialize map
   }
 
   initializeMap() {
@@ -144,8 +148,10 @@ export class MapComponent implements OnInit {
 
   // get stations from api
   getStations(): void {
+
     this.stationService.getStations().subscribe((data) => {
-      this.stations = data; // assign stations to stations array
+     
+    this.stations = data;     
       const userId = localStorage.getItem('authToken');
       if (userId !== null)
         this.userStationService
@@ -292,6 +298,16 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
+  deneme(event:any)
+  {
+    console.log("aaaaaaaa",event);
+    this.connectorFilteredStations=event;
+    console.log(this.connectorFilteredStations[0].id);
+    // if(this.connectorFilteredStations[0].id !== '') 
+    // this.getStations(); 
+  }
+
+
   // get search text from search component
   goLocation(stationId: any) {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -342,6 +358,7 @@ export class MapComponent implements OnInit {
     const search = new Search({
       view: this.view,
     });
+    console.log(this.searchType,"aaa");
     search.search(this.searchType);
   }
 
@@ -351,4 +368,6 @@ export class MapComponent implements OnInit {
     console.log(this.userStation);
     this.userStationService.saveUserStation(this.userStation).subscribe();
   }
+
+
 }

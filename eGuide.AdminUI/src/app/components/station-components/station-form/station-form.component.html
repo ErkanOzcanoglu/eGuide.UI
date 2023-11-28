@@ -157,6 +157,37 @@
         />
       </div>
     </div>
+    <!-- ! Station Facility Input -->
+    <div class="mb-4 w-full justify-between">
+      <div class="flex w-full justify-between">
+        <label
+          class="block text-white bg-primary border-secondary text-sm mb-2"
+          for="sockets"
+        >
+          Station Facility
+        </label>
+      </div>
+      <form class="w-full" [formGroup]="selectedFacilitiesForm">
+        <mat-form-field>
+          <mat-label>Station Facility</mat-label>
+          <mat-select
+            class="rounded-3xl w-full text-white bg-primary border-secondary"
+            required="true"
+            formControlName="facilities"
+            multiple
+            (selectionChange)="onSelectionChange($event)"
+          >
+            <mat-option
+              *ngFor="let facility of facilities"
+              [value]="facility.id"
+              class="mat-mdc-option mdc-list-item w-full mat-mdc-option-multiple"
+            >
+              {{ facility.type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
 
     <!-- ! charging Unit -->
     <div class="mb-4 w-full justify-between">
