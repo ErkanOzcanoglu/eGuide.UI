@@ -109,7 +109,7 @@
       </form>
     </div>
     <!-- ! Station Facility Input -->
-    <div class="mb-4 w-full justify-between flex gap-3">
+    <div class="w-full justify-between flex gap-3">
       <div class="w-full">
         <div class="flex w-full justify-between">
           <label
@@ -141,20 +141,12 @@
         </form>
       </div>
       <!-- ! Station Status Input -->
-      <div class="mb-4 w-full justify-between">
+      <div class="w-full justify-between">
         <label
           class="block text-white bg-primary border-secondary text-sm mb-2"
           for="stationStatus"
           >Station Status</label
         >
-        <!-- <input
-          class="shadow appearance-none border rounded-lg w-full h-14 py-2 px-3 text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
-          id="status"
-          required
-          type="text"
-          formControlName="stationStatus"
-          placeholder="Enter Station Status"
-        /> -->
         <mat-form-field class="w-full">
           <mat-label>Station Status</mat-label>
           <mat-select
@@ -177,37 +169,6 @@
           </mat-select>
         </mat-form-field>
       </div>
-    </div>
-    <!-- ! Station Facility Input -->
-    <div class="mb-4 w-full justify-between">
-      <div class="flex w-full justify-between">
-        <label
-          class="block text-white bg-primary border-secondary text-sm mb-2"
-          for="sockets"
-        >
-          Station Facility
-        </label>
-      </div>
-      <form class="w-full" [formGroup]="selectedFacilitiesForm">
-        <mat-form-field>
-          <mat-label>Station Facility</mat-label>
-          <mat-select
-            class="rounded-3xl w-full text-white bg-primary border-secondary"
-            required="true"
-            formControlName="facilities"
-            multiple
-            (selectionChange)="onSelectionChange($event)"
-          >
-            <mat-option
-              *ngFor="let facility of facilities"
-              [value]="facility.id"
-              class="mat-mdc-option mdc-list-item w-full mat-mdc-option-multiple"
-            >
-              {{ facility.type }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
     </div>
 
     <!-- ! charging Unit -->

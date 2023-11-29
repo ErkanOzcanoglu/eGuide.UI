@@ -4,7 +4,7 @@
   >
     <div>
       <a
-        href="/"
+        routerLink="/"
         class="text-xl text-black hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
         >eGuide</a
       >
@@ -16,7 +16,7 @@
         >Home</a
       >
       <a
-        routerLink="services"
+        routerLink="/services"
         class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
         >Services</a
       >
@@ -36,7 +36,7 @@
               >Logout</a
             >
             <a
-              (click)="navigateToSettings()"
+              routerLink="/settings"
               class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
               >Settings</a
             >
@@ -56,12 +56,12 @@
         (click)="$event.stopPropagation()"
       >
         <a
-          href="/"
+          routerLink="/"
           class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Home</a
         >
         <a
-          href="/services"
+          routerLink="/services"
           class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Services</a
         >
@@ -81,7 +81,7 @@
                 >Logout</a
               >
               <a
-                (click)="navigateToSettings()"
+                routerLink="/settings"
                 class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
                 >Settings</a
               >
