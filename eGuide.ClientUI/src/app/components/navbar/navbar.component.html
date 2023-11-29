@@ -21,7 +21,7 @@
         >Services</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
-        <div class="relative group" (click)="showUserMenu = !showUserMenu">
+        <div class="relative group" (click)="showUserMenu = !showUserMenu"  (keydown)="onKeyDown($event)"role="button" tabindex="0">
           <a
             class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
             >{{ user.name }}</a
@@ -31,12 +31,12 @@
             class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
           >
             <a
-              (click)="logout()"
+              (click)="logout()" (keydown)="onKeyDown($event)"role="button" tabindex="0"
               class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
               >Logout</a
             >
             <a
-              (click)="navigateToSettings()"
+              (click)="navigateToSettings()" (keydown)="onKeyDown($event)"role="button" tabindex="0"
               class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
               >Settings</a
             >
@@ -47,13 +47,13 @@
     <div
       id="hamburgerIcon"
       class="hidden relative group"
-      (click)="toggleHamburgerMenu()"
+      (click)="toggleHamburgerMenu()"  (keydown)="onKeyDown($event)"role="button" tabindex="0"
     >
       <i class="fas fa-bars"></i>
       <div
         *ngIf="hamburgerMenu"
         class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-auto"
-        (click)="$event.stopPropagation()"
+        (click)="$event.stopPropagation()"  (keydown)="onKeyDown($event)"role="button" tabindex="0"
       >
         <a
           href="/"
@@ -66,7 +66,7 @@
           >Services</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
-          <div class="relative group" (click)="showUserMenu = !showUserMenu">
+          <div class="relative group" (click)="showUserMenu = !showUserMenu"  (keydown)="onKeyDown($event)"role="button" tabindex="0">
             <a
               class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
               >{{ user.name }}</a
@@ -75,16 +75,17 @@
               *ngIf="showUserMenu"
               class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
             >
+             
               <a
-                (click)="logout()"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-                >Logout</a
-              >
-              <a
-                (click)="navigateToSettings()"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+                
+                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"  (click)="navigateToSettings()" (keydown)="onKeyDown($event)"role="button" tabindex="0"
                 >Settings</a
               >
+              <a
+              
+              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"  (keydown)="onKeyDown($event)"role="button" tabindex="0"
+              >Logout</a
+            >
             </div>
           </div>
         </ng-container>

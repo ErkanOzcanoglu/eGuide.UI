@@ -24,14 +24,18 @@ export class SearchComponent implements OnInit {
   facilities: Facility[] = [];
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
+  selectedFacilities: Facility[] = [];
+  selectedConnectors: Connector[] = [];
+  filteredFacilityStations:Station[] = [];
+  filteredConnectorStations:Station[] = [];
+
 
 
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
-  @Output() connectorSelected = new EventEmitter<Connector>();
-  @Output() facilitySelected = new EventEmitter<Facility>();
-  
+  @Output() stationFacilitySelected = new EventEmitter<Station[]>();
+
 
   showConnectors = false;
 
@@ -58,7 +62,7 @@ export class SearchComponent implements OnInit {
 
   aramaYap(text: string) {
     this.searchTexts.emit(text);
-    console.log(text, 'text in the search component');
+    // console.log(text, 'text in the search component');
   }
 
   closeSearch() {
@@ -69,7 +73,7 @@ export class SearchComponent implements OnInit {
   getStations() {
     this.stationService.getStations().subscribe((stations) => {
       this.stations = stations;
-      console.log(this.stations);
+      // console.log(this.stations);
       this.showConnectors = false;
     });
   }
@@ -78,7 +82,6 @@ export class SearchComponent implements OnInit {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
     });
-    console.log(this.facilities[0].name, 'deneme');
   }
 
   toggleConnectors() {
@@ -98,32 +101,90 @@ export class SearchComponent implements OnInit {
   onSelectStation(station: Station) {
     this.searchText = station.name;
     this.isClicked = false;
-    console.log(this.searchText);
+    // console.log(this.searchText);
     this.stationSelected.emit(station);
   }
-  //`${station.name} ${station.stationModel?.stationsChargingUnits[0].chargingUnit?.type}`;
+  
+  onSelectFacility(facility: Facility) {
+    console.log(this.selectedFacilities, "girdim mi ki");
+    const index = this.selectedFacilities.findIndex(selected => selected.type === facility.type);
+  
+    if (index !== -1) {
+      this.selectedFacilities.splice(index, 1);
+    } else {
+      this.selectedFacilities.push(facility);
+    }
+  
+    this.updateSearchText();
+    
+  if(this.filteredConnectorStations.length===0)
+  {
+    this.filteredFacilityStations = this.stations.filter(station =>
+      this.selectedFacilities.every(selectedFacility =>
+        station.stationFacilities.some(unit =>
+          unit.facility?.type === selectedFacility.type
+        )
+      )
+    );
+  }
+  else
+  {
+    this.filteredFacilityStations = this.filteredConnectorStations.filter(filteredConnectorStations =>
+      this.selectedFacilities.every(selectedFacility =>
+        filteredConnectorStations.stationFacilities.some(unit =>
+          unit.facility?.type === selectedFacility.type
+        )
+      )
+    );
+  }
+  
+    this.stationFacilitySelected.emit(this.filteredFacilityStations);
+  
+    console.log('Seçilen Tesisler:', this.selectedFacilities);
+    console.log('Seçilen İstasyonlar (Facility):',this.filteredFacilityStations);
+  }
+  
   onSelectConnector(connector: Connector) {
     this.searchText = connector.type;
     this.isClicked = false;
-    console.log(this.searchText);
-    this.connectorSelected.emit(connector);
-    this.filteredStations = this.stations.filter(station =>
-      station.stationModel?.stationsChargingUnits.some(unit =>
-        unit.chargingUnit?.connector?.type === connector.type
-      )
-    );
-        this.stationConnectorSelected.emit( this.filteredStations);
-        console.log('Seçilen Connector:', connector);
-        console.log('Seçilen İstasyonlar:', this.filteredStations);
-  }
+  
+    if (this.filteredFacilityStations.length === 0) {
+      console.log(this.filteredFacilityStations, "buraya girdim");
+        // filteredFacilityStations henüz tanımlanmadıysa veya null ise
+        this.filteredConnectorStations = this.stations.filter(station =>
+            station.stationModel?.stationsChargingUnits.some(unit =>
+                unit.chargingUnit?.connector?.type === connector.type
+                )
+                );
 
-  onSelectFacility(facility: Facility) {
-    this.searchText = facility.type;
-    this.isClicked = false;
-    console.log(this.searchText);
-    this.facilitySelected.emit(facility);
-    console.log('Seçilen Facility:', facility);
-  }
+    } else {
+      console.log("filteredFacilityStations:", this.filteredFacilityStations);
+      console.log("asdşlasdaskdlasdkalsdk");
+        // filteredFacilityStations tanımlıysa ve null değilse
+        this.filteredConnectorStations = this.filteredFacilityStations .filter(filteredFacilityStations  =>
+            filteredFacilityStations .stationModel?.stationsChargingUnits.some(unit =>
+                unit.chargingUnit?.connector?.type === connector.type
+            )
+        );
+    }
+    
+    // Filtrelenmiş istasyonları güncelle ve etkinlik yayınla
+    this.stationConnectorSelected.emit(this.filteredConnectorStations);
+    console.log('Seçilen Connector:', connector);
+    console.log('Seçilen İstasyonlar (Connector):', this.filteredConnectorStations);
+}
+
+updateSearchText() {
+ 
+  const facilityTypes = this.selectedFacilities.map(facility => facility.type);
+
+  const allSelectedTypes = [facilityTypes];
+  this.searchText = allSelectedTypes.join(', ');
+}
+
+isSelectedFacility(facility: Facility): boolean {
+  return this.selectedFacilities.some(selected => selected.type === facility.type);
+}
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
@@ -139,14 +200,14 @@ export class SearchComponent implements OnInit {
         .subscribe((lastVisitedStations) => {
           if (lastVisitedStations.length > 0) {
             this.lastVisitedStations = lastVisitedStations;
-            console.log(this.lastVisitedStations, 'genel deneme');
-            console.log(this.lastVisitedStations[0].stationId, 'station id');
+            // console.log(this.lastVisitedStations, 'genel deneme');
+            // console.log(this.lastVisitedStations[0].stationId, 'station id');
             // find station by station if for each last visited station
             this.lastVisitedStations.forEach((lastVisitedStation) => {
               this.stationService
                 .getStationById(lastVisitedStation.stationId)
                 .subscribe((station) => {
-                  console.log(station, 'station');
+                  // console.log(station, 'station');
                   this.lastVisitedStations2.push({
                     id: lastVisitedStation.id,
                     createdTime: lastVisitedStation.createdTime,
@@ -155,7 +216,7 @@ export class SearchComponent implements OnInit {
                     station: station,
                   });
                 });
-              console.log(this.lastVisitedStations2, 'last visited stations 2');
+              // console.log(this.lastVisitedStations2, 'last visited stations 2');
             });
           } else {
             // clear the last visited stations
@@ -171,7 +232,7 @@ export class SearchComponent implements OnInit {
       .subscribe(() => {
         this.getLastVisitedStations();
         window.location.reload();
-        console.log('last visited station removed');
+        // console.log('last visited station removed');
       });
   }
 }

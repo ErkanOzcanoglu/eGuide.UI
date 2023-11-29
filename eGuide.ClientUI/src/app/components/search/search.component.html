@@ -73,8 +73,9 @@
             (click)="onSelectFacility(facility)"
             (keyup.enter)="onSelectFacility(facility)"
             tabindex="0"
+            [ngClass]="{'selected': isSelectedFacility(facility)}"
           >
-           <i [ngClass]="facility.icon"></i>
+            <i [ngClass]="facility.icon"></i>
             {{ facility.type }}
           </li>
         </ul>

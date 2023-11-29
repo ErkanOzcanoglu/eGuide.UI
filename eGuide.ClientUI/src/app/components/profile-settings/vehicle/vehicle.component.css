@@ -33,3 +33,26 @@
   background-color: transparent; /* Kaydırma çubuğu köşesinin arka plan rengi */
 }
 
+.vehicle-list-item:hover {
+  background-color: #f5f5f5;
+}
+
+.vehicle-list-item {
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: bold;
+  color:midnightblue
+}
+
+.model {
+  font-size: 16px;
+  color: #555;
+}
