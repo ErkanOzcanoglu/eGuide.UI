@@ -36,10 +36,10 @@ export class MapComponent implements OnInit {
   basemapss: any[] = [];
 
   chargingUnitList: any[] = [];
-  connectorTypelist:any[] = [];
-  facilityList:any[]=[];
+  connectorTypelist: any[] = [];
+  facilityList: any[] = [];
 
- connectorFilteredStations:Station[] = [];
+  connectorFilteredStations: Station[] = [];
 
   constructor(
     private stationService: StationService,
@@ -53,8 +53,8 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeMap();
-    
-     // initialize map
+    this.getStations();
+    // initialize map
   }
 
   initializeMap() {
@@ -148,10 +148,8 @@ export class MapComponent implements OnInit {
 
   // get stations from api
   getStations(): void {
-
     this.stationService.getStations().subscribe((data) => {
-     
-    this.stations = data;     
+      this.stations = data;
       const userId = localStorage.getItem('authToken');
       if (userId !== null)
         this.userStationService
@@ -204,29 +202,29 @@ export class MapComponent implements OnInit {
                 className: starColorClass,
                 stationId: element.id,
               };
-              
+
               if (element.stationModel?.stationsChargingUnits) {
-                const chargingUnits = element.stationModel.stationsChargingUnits.map(unit => ({
-                  name: unit.chargingUnit?.name,
-                
-                }));  
-                this.chargingUnitList = chargingUnits;  
+                const chargingUnits =
+                  element.stationModel.stationsChargingUnits.map((unit) => ({
+                    name: unit.chargingUnit?.name,
+                  }));
+                this.chargingUnitList = chargingUnits;
               }
 
               if (element.stationModel?.stationsChargingUnits) {
-                const connectors = element.stationModel.stationsChargingUnits.map(unit => ({
-                  type: unit.chargingUnit?.connector?.type,
-                
-                }));
-              
-                this.connectorTypelist = connectors;            
+                const connectors =
+                  element.stationModel.stationsChargingUnits.map((unit) => ({
+                    type: unit.chargingUnit?.connector?.type,
+                  }));
+
+                this.connectorTypelist = connectors;
               }
 
               if (element.stationFacilities) {
-                const facilityList = element.stationFacilities.map(unit => ({
-                  type: unit.facility?.type
-                }));  
-                this.facilityList = facilityList;  
+                const facilityList = element.stationFacilities.map((unit) => ({
+                  type: unit.facility?.type,
+                }));
+                this.facilityList = facilityList;
               }
 
               const pointGraphic = {
@@ -239,10 +237,16 @@ export class MapComponent implements OnInit {
                   address: element.address,
                   latitude: element.latitude,
                   longitude: element.longitude,
-                  model:element.stationModel?.name,
-                  chargingUnit:this.chargingUnitList.map(chargingUnit => chargingUnit.name).join(', '),
-                  connector:this.connectorTypelist.map(chargingUnit => chargingUnit.type).join(', '),
-                  stationFacilities:this.facilityList.map( stationFacilities=> stationFacilities.type).join(', '),
+                  model: element.stationModel?.name,
+                  chargingUnit: this.chargingUnitList
+                    .map((chargingUnit) => chargingUnit.name)
+                    .join(', '),
+                  connector: this.connectorTypelist
+                    .map((chargingUnit) => chargingUnit.type)
+                    .join(', '),
+                  stationFacilities: this.facilityList
+                    .map((stationFacilities) => stationFacilities.type)
+                    .join(', '),
                 },
 
                 // open popup when graphic is clicked
@@ -273,17 +277,14 @@ export class MapComponent implements OnInit {
                           label: 'Connector Type',
                         },
                         {
-                          
                           fieldName: 'stationFacilities',
-                          label:'Facilities',
-                          
+                          label: 'Facilities',
                         },
                       ],
-                    },                 
-                   
+                    },
                   ],
                   actions: [goLocationAction, addFavorite],
-                }
+                },
               };
               // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
               this.view.graphics.add(pointGraphic); // add graphic to the view
@@ -298,15 +299,13 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
-  deneme(event:any)
-  {
-    console.log("aaaaaaaa",event);
-    this.connectorFilteredStations=event;
+  deneme(event: any) {
+    console.log('aaaaaaaa', event);
+    this.connectorFilteredStations = event;
     console.log(this.connectorFilteredStations[0].id);
-    // if(this.connectorFilteredStations[0].id !== '') 
-    // this.getStations(); 
+    // if(this.connectorFilteredStations[0].id !== '')
+    // this.getStations();
   }
-
 
   // get search text from search component
   goLocation(stationId: any) {
@@ -328,13 +327,14 @@ export class MapComponent implements OnInit {
         reverseButtons: true,
       })
       .then((result) => {
-        if (result.isConfirmed) {        
-      
+        if (result.isConfirmed) {
           const userId = localStorage.getItem('authToken');
           if (userId != null) {
             this.lastVisitedStations.userId = userId;
             this.lastVisitedStations.stationId = stationId;
-            this.lastVisitedStationsService.createLastVisitedStation(this.lastVisitedStations).subscribe();
+            this.lastVisitedStationsService
+              .createLastVisitedStation(this.lastVisitedStations)
+              .subscribe();
           }
         }
         // else bloğu kaldırıldı
@@ -347,7 +347,7 @@ export class MapComponent implements OnInit {
     const search = new Search({
       view: this.view,
     });
-    console.log(this.searchType,"aaa");
+    console.log(this.searchType, 'aaa');
     search.search(this.searchType);
   }
 
@@ -357,6 +357,4 @@ export class MapComponent implements OnInit {
     console.log(this.userStation);
     this.userStationService.saveUserStation(this.userStation).subscribe();
   }
-
-
 }
