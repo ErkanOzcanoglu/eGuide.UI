@@ -21,6 +21,9 @@
         <th>
           <p class="pl-2">Voltage</p>
         </th>
+        <th>
+          <p class="pl-2">Connector</p>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -90,6 +93,19 @@
             [ngModel]="socket.voltage"
           />
         </td>
+        <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.connector?.type }}
+          </p>
+          <input
+            *ngIf="socket.editingMode"
+            type="text"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="connector"
+            [ngModel]="socket.connector?.type"
+          />
+        </td>
+
         <td class="flex justify-center mt-2 items-center">
           <div class="flex">
             <button

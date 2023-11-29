@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.getStations();
     this.getConnectors();
-    this.getFacilities();
+    // this.getFacilities();
   }
 
   onClick() {
@@ -73,10 +73,10 @@ export class SearchComponent implements OnInit {
   getStations() {
     this.stationService.getStations().subscribe((stations) => {
       this.stations = stations;
-      // console.log(this.stations);
       this.showConnectors = false;
     });
   }
+
 
   getFacilities() {
     this.facilityService.getFacilities().subscribe((facilities) => {

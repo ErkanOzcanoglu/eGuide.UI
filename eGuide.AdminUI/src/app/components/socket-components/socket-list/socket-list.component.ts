@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { ChargingUnit } from 'src/app/models/charging-unit';
+import { Connector } from 'src/app/models/connector';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { RefreshState } from 'src/app/state/refresh-list/refresh-list.reducer';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
@@ -13,6 +14,7 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
 })
 export class SocketListComponent implements OnInit {
   socketList: ChargingUnit[] = [];
+  connectorList: Connector[] = [];
   refData = false;
   socketUpdteForm: FormGroup = new FormGroup({});
   socketUpdateControl = new FormControl('');

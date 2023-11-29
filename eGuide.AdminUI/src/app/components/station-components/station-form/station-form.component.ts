@@ -67,7 +67,7 @@ export class StationFormComponent implements OnInit {
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
       stationModelId: ['', Validators.required],
-      stationStatus: [''],
+      stationStatus: [0, Validators.required],
     });
   }
 
@@ -159,7 +159,7 @@ export class StationFormComponent implements OnInit {
       latitude: [''],
       longitude: [''],
       stationModelId: [''],
-      stationStatus: [''],
+      stationStatus: [0],
     });
 
     this.stationModelForm = this.formBuilder.group({
@@ -263,6 +263,7 @@ export class StationFormComponent implements OnInit {
                   this.stationForm.reset();
                   this.selectedChargingUnitForm.reset();
                   this.stationChargingUnitForm.reset();
+                  this.selectedFacilitiesForm.reset();
                 },
                 error: (err) => {
                   console.log(err);
