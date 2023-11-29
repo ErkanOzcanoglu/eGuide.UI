@@ -43,6 +43,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { ContactComponent } from './screens/contact/contact.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+
 
 
 @NgModule({
@@ -83,6 +85,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatDialogModule,
     StoreModule.forRoot({}, {}),
     MatExpansionModule,
+    MatListModule,
     
   ],
   providers: [AuthGuard, AuthService],
