@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { WebsiteService } from 'src/app/services/website.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +10,17 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
+  navbar?: number;
   user: User = new User();
   isLoggedIn = false;
   showUserMenu = false;
-  hamburgerMenu=false;
+  hamburgerMenu = false;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private websiteService: WebsiteService
+  ) {}
 
   ngOnInit(): void {
     const authToken = localStorage.getItem('authToken');
@@ -26,6 +32,7 @@ export class NavbarComponent {
         this.isLoggedIn = true;
       });
     }
+    this.getNavbarType();
   }
 
   logout(): void {
@@ -44,10 +51,13 @@ export class NavbarComponent {
   }
 
   toggleHamburgerMenu() {
-   this.hamburgerMenu = !this.hamburgerMenu;
-   console.log(this.hamburgerMenu);
-}
+    this.hamburgerMenu = !this.hamburgerMenu;
+    console.log(this.hamburgerMenu);
+  }
 
-
-  
+  getNavbarType() {
+    this.websiteService.getWebsite().subscribe((website) => {
+      this.navbar = website[0].navbar;
+    });
+  }
 }

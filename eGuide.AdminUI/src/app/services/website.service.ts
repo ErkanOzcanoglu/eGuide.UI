@@ -39,4 +39,18 @@ export class WebsiteService {
       website
     );
   }
+
+  updateNavbar(id: any, num: any): Observable<any> {
+    return this.httpClient.put<any>(
+      `${environment.apiUrl}/Website/updateNavbar/${id}?num=${num}`,
+      num
+    );
+  }
+
+  updateFooter(id: any, num: any): Observable<any> {
+    return this.httpClient.put<any>(
+      `${environment.apiUrl}/Website/updateFooter/${id}?num=${num}`,
+      num
+    );
+  }
 }
