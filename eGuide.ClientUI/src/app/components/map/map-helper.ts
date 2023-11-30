@@ -1,9 +1,29 @@
 import { Injectable } from '@angular/core';
+import Search from '@arcgis/core/widgets/Search';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { LastVisitedStations } from 'src/app/models/last-visited-stations';
+import { CommentService } from 'src/app/services/comment.service';
+import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
+import Swal from 'sweetalert2';
+import { UserStation } from 'src/app/models/user-station';
+import { UserStationService } from 'src/app/services/user-station.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapHelper {
+  lastVisitedStations: LastVisitedStations = new LastVisitedStations();
+  commentForm: FormGroup = new FormGroup({});
+  searchType: any;
+  view: any;
+  userStation: UserStation = new UserStation();
+  constructor(
+    private lastVisitedStationsService: LastVisitedStationsService,
+    private commentService: CommentService,
+    private formBuilder: FormBuilder,
+    private userStationService: UserStationService
+  ) {}
+
   zoomIn(view: any): void {
     view.goTo({ zoom: view.zoom + 1 });
   }
@@ -81,5 +101,59 @@ export class MapHelper {
 
   deg2rad(deg: number): number {
     return deg * (Math.PI / 180);
+  }
+
+  goLocation(stationId: string) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success m-1',
+        cancelButton: 'btn btn-danger m-1',
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Are you sure?',
+        text: 'Gitmek istediğine emin misin!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Evet, Istiyorum!',
+        cancelButtonText: 'Hayır, Istemiyorum!',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          const userId = localStorage.getItem('authToken');
+          if (userId != null) {
+            this.lastVisitedStations.userId = userId;
+            this.lastVisitedStations.stationId = stationId;
+            this.lastVisitedStationsService
+              .createLastVisitedStation(this.lastVisitedStations)
+              .subscribe();
+          }
+          swalWithBootstrapButtons.fire({
+            title: 'Başarılı!',
+            text: 'İstasyona başarıyla gittiniz.',
+            icon: 'success',
+            confirmButtonText: 'Tamam',
+          });
+        }
+      });
+  }
+
+  search(enevt: any, view: any) {
+    this.searchType = enevt;
+    const search = new Search({
+      view: view,
+    });
+    console.log(this.searchType, 'aaa');
+    search.search(this.searchType);
+  }
+
+  saveUserStation(elementId: string, userId: string): void {
+    this.userStation.userId = userId;
+    this.userStation.stationProfileId = elementId;
+    console.log(this.userStation);
+    this.userStationService.saveUserStation(this.userStation).subscribe();
   }
 }

@@ -11,6 +11,8 @@ import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
 import { basemapss } from './map-data';
 import { MapHelper } from './map-helper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommentService } from 'src/app/services/comment.service';
 
 interface Center {
   latitude: any;
@@ -41,11 +43,15 @@ export class MapComponent implements OnInit {
 
   connectorFilteredStations: Station[] = [];
 
+  commentForm: FormGroup = new FormGroup({});
+
   constructor(
     private stationService: StationService,
     private lastVisitedStationsService: LastVisitedStationsService,
     private userStationService: UserStationService,
-    private mapHelper: MapHelper
+    private formBuilder: FormBuilder,
+    private mapHelper: MapHelper,
+    private commentService: CommentService
   ) {
     this.basemapss = basemapss;
     this.currentBasemapIndex = 0;
@@ -54,7 +60,7 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap();
     this.getStations();
-    // initialize map
+    this.initializeForm();
   }
 
   initializeMap() {
@@ -163,6 +169,8 @@ export class MapComponent implements OnInit {
                   this.saveUserStation(event.action.stationId, userId);
                 } else if (event.action.id === 'go-location-action') {
                   this.goLocation(event.action.stationId);
+                } else if (event.action.id === 'comment') {
+                  this.comment(event.action.stationId);
                 }
               }
             );
@@ -203,6 +211,12 @@ export class MapComponent implements OnInit {
                 stationId: element.id,
               };
 
+              const comment = {
+                id: 'comment',
+                className: 'esri-icon-comment',
+                stationId: element.id,
+              };
+
               if (element.stationModel?.stationsChargingUnits) {
                 const chargingUnits =
                   element.stationModel.stationsChargingUnits.map((unit) => ({
@@ -228,7 +242,6 @@ export class MapComponent implements OnInit {
               }
 
               const pointGraphic = {
-                // create graphic
                 geometry: point,
                 symbol: pinSymbol,
                 attributes: {
@@ -283,7 +296,7 @@ export class MapComponent implements OnInit {
                       ],
                     },
                   ],
-                  actions: [goLocationAction, addFavorite],
+                  actions: [goLocationAction, addFavorite, comment],
                 },
               };
               // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
@@ -303,58 +316,85 @@ export class MapComponent implements OnInit {
     console.log('aaaaaaaa', event);
     this.connectorFilteredStations = event;
     console.log(this.connectorFilteredStations[0].id);
-    // if(this.connectorFilteredStations[0].id !== '')
-    // this.getStations();
   }
 
   // get search text from search component
   goLocation(stationId: any) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success m-1',
-        cancelButton: 'btn btn-danger m-1',
-      },
-      buttonsStyling: false,
+    this.mapHelper.goLocation(stationId);
+  }
+
+  initializeForm() {
+    this.commentForm = this.formBuilder.group({
+      text: [''],
+      rating: [''],
+      ownerId: [''],
+      stationId: [''],
     });
-    swalWithBootstrapButtons
-      .fire({
-        title: 'Are you sure?',
-        text: 'Gitmek istediğine emin misin!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Evet, Istiyorum!',
-        cancelButtonText: 'Hayır, Istemiyorum!',
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          const userId = localStorage.getItem('authToken');
-          if (userId != null) {
-            this.lastVisitedStations.userId = userId;
-            this.lastVisitedStations.stationId = stationId;
-            this.lastVisitedStationsService
-              .createLastVisitedStation(this.lastVisitedStations)
-              .subscribe();
-          }
-        }
-        // else bloğu kaldırıldı
-      });
+  }
+
+  comment(stationId: any) {
+    Swal.fire({
+      title: 'Leave a Comment',
+      input: 'textarea',
+      inputLabel: 'Comment',
+      inputPlaceholder: 'Type your comment here...',
+      inputAttributes: {
+        'aria-label': 'Type your comment here',
+      },
+      // html: `<p>Rating</p>
+      //   <div class="rating">
+      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(1)"/>
+      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(2)"/>
+      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(3)"/>
+      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(4)"/>
+      //     </div>`,
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+      preConfirm: (login) => {
+        return login;
+      },
+    }).then((result) => {
+      if (result.value !== '' && result.isConfirmed) {
+        this.submitComment(result.value, stationId);
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your comment has been added.',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+      } else if (result.value === '') {
+        Swal.fire({
+          title: 'Error!',
+          text: 'You must enter a comment.',
+          icon: 'error',
+          confirmButtonText: 'Ok',
+        });
+      }
+    });
+  }
+
+  submitComment(comment: string, stationId: number) {
+    const userId = localStorage.getItem('authToken');
+    this.commentForm.patchValue({
+      text: comment,
+      ownerId: userId,
+      stationId: stationId,
+      rating: 2,
+    });
+    console.log(this.commentForm.value);
+    this.commentService.addComment(this.commentForm.value).subscribe();
   }
 
   // search function
   search(enevt: any) {
-    this.searchType = enevt;
-    const search = new Search({
-      view: this.view,
-    });
-    console.log(this.searchType, 'aaa');
-    search.search(this.searchType);
+    this.mapHelper.search(enevt, this.view);
   }
 
   saveUserStation(elementId: string, userId: string): void {
-    this.userStation.userId = userId;
-    this.userStation.stationProfileId = elementId;
-    console.log(this.userStation);
-    this.userStationService.saveUserStation(this.userStation).subscribe();
+    this.mapHelper.saveUserStation(elementId, userId);
   }
 }
