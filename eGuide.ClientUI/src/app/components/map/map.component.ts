@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
 
-  connectorFilteredStations: Station[] = [];
+  FilteredStations: Station[] = [];
 
   commentForm: FormGroup = new FormGroup({});
 
@@ -164,10 +164,14 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
-  deneme(event: any) {
-    console.log('aaaaaaaa', event);
-    this.connectorFilteredStations = event;
-    console.log(this.connectorFilteredStations[0].id);
+//  deneme(event: any) {
+//     console.log('aaaaaaaa', event);
+//     this.connectorFilteredStations = event;
+//     console.log(this.connectorFilteredStations[0].id);
+  FilteredStationsGet(event: any) {
+    console.log('Map Componentine Gelen Fİltrelenmiş İstasyonlar', event);
+    this.FilteredStations = event;
+    console.log(this.FilteredStations);
   }
 
   // get search text from search component
