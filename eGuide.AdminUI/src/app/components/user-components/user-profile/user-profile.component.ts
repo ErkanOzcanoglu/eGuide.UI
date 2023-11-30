@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserSharedService } from 'src/app/services/user-shared.service';
 import { UserService } from 'src/app/services/user.service';
@@ -19,40 +19,59 @@ kullaniciId:any;
   constructor(
     private router: Router,
     private userService: UserService,
-    private userSharedService: UserSharedService
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.userSharedService.profileSelected$.subscribe((userId) => {
-      this.deneme(userId); // Eğer bu fonksiyonu kullanıyorsanız
-    });
-  }
-  onModeChange() {
-    this.editMode = !this.editMode;
-  }
+  
+ngOnInit(): void {
+  // ActivatedRoute servisini kullanarak id parametresini al
+  this.route.params.subscribe(params => {
+    const userId = params['id'];
 
-  onCancelClick() {
-   
-    this.editMode = false; 
-  }
+    // Burada userId'yi kullanabilirsiniz
+    console.log('User ID from route parameters:', userId);
 
-  onSaveClick() {
-    let userId = localStorage.getItem('authToken');
+    // Kullanıcı bilgilerini almak için gerekli işlemleri gerçekleştirebilirsiniz
+    this.getUserInfo(userId);
+  });
+}
 
-    if (userId !== null) {
-      userId = userId.replace(/^"(.*)"$/, '$1');
-      this.userService.updateUser(userId, this.user).subscribe((response) => {
-        console.log('Userupdated:', response);
-        this.editMode = false;
-      });
+getUserInfo(userId: any) {
+  // Kullanıcı bilgilerini almak için gerekli HTTP çağrılarını yapabilirsiniz
+  // Örneğin:
+  this.userService.getUserById(userId).subscribe(
+    (user) => {
+      // Kullanıcı bilgilerini aldıktan sonra yapılacak işlemler
+      console.log('User Info:', user);
+      this.user = user;
+    },
+    (error) => {
+      console.error('Error getting user info:', error);
     }
-    this.editMode = false;
-  }
+  );
 
-  deneme(event: any) {
-    console.log('aaaaaaaa', event);
-    this.kullaniciId = event;
-    console.log(this.kullaniciId);
-    
+ 
+  // onModeChange() {
+  //   this.editMode = !this.editMode;
+  // }
+
+  // onCancelClick() {
+   
+  //   this.editMode = false; 
+  // }
+
+  // onSaveClick() {
+  //   let userId = localStorage.getItem('authToken');
+
+  //   if (userId !== null) {
+  //     userId = userId.replace(/^"(.*)"$/, '$1');
+  //     this.userService.updateUser(userId, this.user).subscribe((response) => {
+  //       console.log('Userupdated:', response);
+  //       this.editMode = false;
+  //     });
+  //   }
+  //   this.editMode = false;
+  // }
+
   }
 }

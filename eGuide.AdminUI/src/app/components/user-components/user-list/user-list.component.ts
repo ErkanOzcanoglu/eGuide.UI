@@ -24,7 +24,7 @@ export class UserListComponent {
   user: User = new User();
   users: User[] = [];
  
-  @Output() profileSelected = new EventEmitter<User>();
+  // @Output() profileSelected = new EventEmitter<User>();
  
   constructor(
     private router: Router,
@@ -76,8 +76,8 @@ getInitial(name: string): string {
   }
  
   viewProfile(userId: any) {
-    this.userSharedService.emitProfileSelected(userId);
     console.log("VIEW KULLANICI", userId);
+    this.router.navigate(['/user-profile', userId]);
   }
 }
  
