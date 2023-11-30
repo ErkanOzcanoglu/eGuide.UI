@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.getStations();
     this.getConnectors();
-    // this.getFacilities();
+    this.getFacilities();
   }
 
   onClick() {
