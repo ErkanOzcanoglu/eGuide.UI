@@ -82,7 +82,7 @@
       >
         <div class="w-full sm:w-1/2">
           <h1 class="text-3xl font-semibold text">
-            VEHICLE<i class="fas fa-cars ml-5"></i>
+            VEHICLE<i class="fa-solid fa-car ml-5"></i>
           </h1>
           <div class="flex items-center justify-between">
             <div class="ml-5">
@@ -91,19 +91,17 @@
               </h2>
             </div>
           </div>
-          <div
-            class="mt-4 mr-16 overflow-auto custom-scrollbar"
-            style="max-height: 160px"
-          >
+          <div class="mt-4 mr-16 overflow-auto custom-scrollbar" style="max-height: 160px">
             <ng-container *ngFor="let vehicle of vehicleList; let i = index">
-              <p
+              <div
                 (click)="selectVehicle(vehicle)"
                 (keydown)="onKeyDown($event, vehicle)"
                 tabindex="0"
-                class="vehicle-list-item text-2xl font-medium"
+                class="vehicle-list-item"
               >
-                {{ vehicle.brand }} - {{ vehicle.model }}
-              </p>
+                <p class="brand">{{ vehicle.brand }}</p>
+                <p class="model">{{ vehicle.model }}</p>
+              </div>
             </ng-container>
           </div>
         </div>
@@ -111,7 +109,7 @@
           <h2 class="text-xl font-semibold field-label">Vehicle Options</h2>
           <form>
             <div class="mt-4 ml-7 field-label">
-              <label for="brand">Brand:</label>
+              <div><label for="brand">Brand:</label></div>
               <select
                 id="brand"
                 class="w-80 border p-2 rounded bg-white"
@@ -133,7 +131,7 @@
               </select>
             </div>
             <div class="mt-4 ml-7 field-label">
-              <label for="model">Model:</label>
+              <div><label for="model">Model:</label></div>
               <select
                 id="model"
                 class="w-80 border p-2 rounded bg-white"
@@ -154,8 +152,10 @@
                 </option>
               </select>
             </div>
-            <div class="mt-4 flex field-label">
-              <label for="connector">Connector:</label>
+            <div class="mt-4 ml-7 field-label">
+              <div class="w-full h-fit">
+                <label for="connector">Connector:</label>
+              </div>
               <div
                 id="connectorList"
                 class="w-80 border p-2 rounded bg-white"

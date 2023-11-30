@@ -8,11 +8,13 @@
       class="bg-white w-52 h-10 p-2 pr-10 rounded-l-xl outline-none"
       (click)="onClick()"
     />
-    <button class="absolute right-0 top-0 h-full bg-white w-10 flex items-center justify-center">
+    <button
+      class="absolute right-0 top-0 h-full bg-white w-10 flex items-center justify-center"
+    >
       <img src="assets/search.svg" alt="search" class="w-7 h-7 object-cover" />
     </button>
   </div>
-  
+
   <button class="bg-white w-10 h-10 rounded-full" (click)="openFilter()">
     <i class="fas fa-filter text-black"></i>
   </button>
@@ -25,7 +27,7 @@
     'min-h-[400px] max-h-[400px] h-full bg-white overflow-scroll': isClicked || isFilterClicked,
   }"
 >
-  <ul class="list-group cursor-pointer list-group-flush " *ngIf="isClicked">
+  <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
     <li
       class="list-group-item text-black p-3 pb-0 border-b"
       *ngFor="let c of stations | appFilter : searchText"
@@ -37,14 +39,12 @@
       {{ c.name }}
     </li>
   </ul>
-  
+
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header">
-        <mat-panel-title>
-          Connectors
-        </mat-panel-title>
+        <mat-panel-title> Connectors </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
         <ul>
@@ -62,26 +62,25 @@
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header">
-        <mat-panel-title>
-          Facilities
-        </mat-panel-title>
+        <mat-panel-title> Facilities </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
         <ul>
-          <li 
+          <li
             *ngFor="let facility of facilities"
             (click)="onSelectFacility(facility)"
             (keyup.enter)="onSelectFacility(facility)"
             tabindex="0"
+            [ngClass]="{ selected: isSelectedFacility(facility) }"
           >
-           <i [ngClass]="facility.icon"></i>
+            <i [ngClass]="facility.icon"></i>
             {{ facility.type }}
           </li>
         </ul>
       </mat-panel-description>
     </mat-expansion-panel>
   </mat-accordion>
-  
+
   <!-- Last Visited Stations Listesi -->
   <ul
     class="list-group cursor-pointer list-group-flush"
@@ -89,7 +88,9 @@
   >
     <li
       class="list-group-item text-black p-3 pb-0 border-b flex justify-between"
-      *ngFor="let lvs of lastVisitedStations2 | appFilter : searchText | slice : 0 : 5"
+      *ngFor="
+        let lvs of lastVisitedStations2 | appFilter : searchText | slice : 0 : 5
+      "
     >
       <p
         (click)="onSelectConnector(lvs.station)"
@@ -106,7 +107,7 @@
       </button>
     </li>
   </ul>
-  
+
   <!-- Kapatma Butonu -->
   <button
     class="w-full text-black items-end absolute bottom-0 cursor-pointer justify-center flex text-center"

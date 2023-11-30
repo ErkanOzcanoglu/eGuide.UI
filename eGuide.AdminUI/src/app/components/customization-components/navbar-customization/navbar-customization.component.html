@@ -5,5 +5,49 @@
       Customize the navbar of the application.
     </p>
   </div>
-  <form class="gap-4 mt-5"></form>
+  <form>
+    <div class="gap-5 mt-5 flex flex-col laptop:flex-row">
+      <button
+        class="btn laptop:w-1/2 flex justify-start items-start h-28 p-4 pt-2"
+        (click)="navbarType(0)"
+        [ngClass]="value === 0 ? 'checkbox-primary' : ''"
+      >
+        <div
+          class="w-full h-10 rounded-2xl bg-white flex justify-between items-center px-5"
+        >
+          <div>
+            <p class="text-black">eGuide</p>
+          </div>
+          <div class="flex gap-5">
+            <p class="text-black">Home</p>
+            <p class="text-black">Service</p>
+            <p class="text-black">Jhon</p>
+          </div>
+        </div>
+      </button>
+      <button
+        class="btn laptop:w-1/2 h-28 flex justify-center items-start p-0"
+        (click)="navbarType(1)"
+        [ngClass]="value === 1 ? 'checkbox-primary' : ''"
+      >
+        <div
+          class="w-full h-10 bg-white flex justify-between items-center px-5"
+        >
+          <div>
+            <p class="text-black">eGuide</p>
+          </div>
+          <div class="flex gap-5">
+            <p class="text-black">Home</p>
+            <p class="text-black">Service</p>
+            <p class="text-black">Jhon</p>
+          </div>
+        </div>
+      </button>
+    </div>
+    <div class="w-full flex justify-end mt-5">
+      <button (click)="onSubmit()" class="btn bg-primary border-secondary">
+        <p class="text-white">Save</p>
+      </button>
+    </div>
+  </form>
 </div>

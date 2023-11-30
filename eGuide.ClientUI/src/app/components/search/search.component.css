@@ -24,3 +24,7 @@
   padding-bottom: 8px; /* Çizgi ile başlık arasındaki boşluğu ayarlayabilirsiniz */
   margin-bottom: 0px; /* Çizgi ile altındaki içerik arasındaki boşluğu ayarlayabilirsiniz */
 }
+.selected {
+  background-color: #e0e0e0; /* veya seçiminizi vurgulamak için başka bir stil */
+  /* İkonların görünümünü değiştirmek istiyorsanız, burada ikon stili de ekleyebilirsiniz */
+}

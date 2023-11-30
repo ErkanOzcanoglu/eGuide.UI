@@ -12,20 +12,30 @@ import { VerifyEmailComponent } from './screens/verify-email/verify-email.compon
 import { PreventLoginGuardService } from './services/prevent-login-guard.service';
 import { ServiceComponent } from './screens/service/service.component';
 import { ContactComponent } from './screens/contact/contact.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: 'password-change', component: PasswordSettingsComponent },
-  { path: 'forgot-password/:token', component: ForgotUserPasswordComponent },
-  { path: 'email-confirm', component: EmailLinkConfirmComponent },
-  { path: '', component: HomeComponent },
-  { path: 'station/:name', component: HomeComponent },
-  { path: 'verify-email/:token', component: VerifyEmailComponent },
-  { path: 'services', component: ServiceComponent },
-  { path: 'contact', component: ContactComponent },
   {
-    path: 'settings',
-    component: SettingsComponent,
-    canActivate: [AuthGuard],
+    path: '',
+    component: AppComponent,
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'password-change', component: PasswordSettingsComponent },
+      {
+        path: 'forgot-password/:token',
+        component: ForgotUserPasswordComponent,
+      },
+      { path: 'email-confirm', component: EmailLinkConfirmComponent },
+      { path: 'station/:name', component: HomeComponent },
+      { path: 'verify-email/:token', component: VerifyEmailComponent },
+      { path: 'services', component: ServiceComponent },
+      { path: 'contact', component: ContactComponent },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
   },
   {
     path: 'register',

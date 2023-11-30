@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Vehicle } from 'src/app/models/vehicle';
 import { VehicleService } from 'src/app/services/vehicle.service';
+import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -13,7 +15,7 @@ import { VehicleService } from 'src/app/services/vehicle.service';
 export class VehicleFormComponent {
   vehicle: Vehicle = new Vehicle();
   vehicleForm: FormGroup = new FormGroup({});
-  vehicles:Vehicle[]=[]
+  vehicles: Vehicle[] = [];
   brandControl = '';
   modelControl = '';
 
@@ -21,12 +23,12 @@ export class VehicleFormComponent {
     private router: Router,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private store: Store<{ refresh: boolean }>
   ) {}
 
   ngOnInit() {
     this.initializeForm();
-
   }
 
   initializeForm() {
@@ -48,7 +50,9 @@ export class VehicleFormComponent {
         (response) => {
           // Başarılı bir şekilde eklenirse yapılacak işlemler
           this.toastr.success('Araç başarıyla eklendi', 'Başarılı');
-          this.getVehicleInfo();
+          setTimeout(() => {
+            this.store.dispatch(setRefresh(true));
+          }, 400);
         },
         (error) => {
           // Hata durumunda yapılacak işlemler

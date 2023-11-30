@@ -1,5 +1,5 @@
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
@@ -36,8 +36,10 @@ export class MapComponent implements OnInit {
   basemapss: any[] = [];
 
   chargingUnitList: any[] = [];
-  connectorTypelist:any[] = [];
-  facilityList:any[]=[];
+  connectorTypelist: any[] = [];
+  facilityList: any[] = [];
+
+  connectorFilteredStations: Station[] = [];
 
   constructor(
     private stationService: StationService,
@@ -50,7 +52,9 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeMap(); // initialize map
+    this.initializeMap();
+    this.getStations();
+    // initialize map
   }
 
   initializeMap() {
@@ -145,7 +149,7 @@ export class MapComponent implements OnInit {
   // get stations from api
   getStations(): void {
     this.stationService.getStations().subscribe((data) => {
-      this.stations = data; // assign stations to stations array
+      this.stations = data;
       const userId = localStorage.getItem('authToken');
       if (userId !== null)
         this.userStationService
@@ -198,29 +202,29 @@ export class MapComponent implements OnInit {
                 className: starColorClass,
                 stationId: element.id,
               };
-              
+
               if (element.stationModel?.stationsChargingUnits) {
-                const chargingUnits = element.stationModel.stationsChargingUnits.map(unit => ({
-                  name: unit.chargingUnit?.name,
-                
-                }));  
-                this.chargingUnitList = chargingUnits;  
+                const chargingUnits =
+                  element.stationModel.stationsChargingUnits.map((unit) => ({
+                    name: unit.chargingUnit?.name,
+                  }));
+                this.chargingUnitList = chargingUnits;
               }
 
               if (element.stationModel?.stationsChargingUnits) {
-                const connectors = element.stationModel.stationsChargingUnits.map(unit => ({
-                  type: unit.chargingUnit?.connector?.type,
-                
-                }));
-              
-                this.connectorTypelist = connectors;            
+                const connectors =
+                  element.stationModel.stationsChargingUnits.map((unit) => ({
+                    type: unit.chargingUnit?.connector?.type,
+                  }));
+
+                this.connectorTypelist = connectors;
               }
 
               if (element.stationFacilities) {
-                const facilityList = element.stationFacilities.map(unit => ({
-                  type: unit.facility?.type
-                }));  
-                this.facilityList = facilityList;  
+                const facilityList = element.stationFacilities.map((unit) => ({
+                  type: unit.facility?.type,
+                }));
+                this.facilityList = facilityList;
               }
 
               const pointGraphic = {
@@ -233,10 +237,16 @@ export class MapComponent implements OnInit {
                   address: element.address,
                   latitude: element.latitude,
                   longitude: element.longitude,
-                  model:element.stationModel?.name,
-                  chargingUnit:this.chargingUnitList.map(chargingUnit => chargingUnit.name).join(', '),
-                  connector:this.connectorTypelist.map(chargingUnit => chargingUnit.type).join(', '),
-                  stationFacilities:this.facilityList.map( stationFacilities=> stationFacilities.type).join(', '),
+                  model: element.stationModel?.name,
+                  chargingUnit: this.chargingUnitList
+                    .map((chargingUnit) => chargingUnit.name)
+                    .join(', '),
+                  connector: this.connectorTypelist
+                    .map((chargingUnit) => chargingUnit.type)
+                    .join(', '),
+                  stationFacilities: this.facilityList
+                    .map((stationFacilities) => stationFacilities.type)
+                    .join(', '),
                 },
 
                 // open popup when graphic is clicked
@@ -267,17 +277,14 @@ export class MapComponent implements OnInit {
                           label: 'Connector Type',
                         },
                         {
-                          
                           fieldName: 'stationFacilities',
-                          label:'Facilities',
-                          
+                          label: 'Facilities',
                         },
                       ],
-                    },                 
-                   
+                    },
                   ],
                   actions: [goLocationAction, addFavorite],
-                }
+                },
               };
               // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
               this.view.graphics.add(pointGraphic); // add graphic to the view
@@ -290,6 +297,14 @@ export class MapComponent implements OnInit {
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
+  }
+
+  deneme(event: any) {
+    console.log('aaaaaaaa', event);
+    this.connectorFilteredStations = event;
+    console.log(this.connectorFilteredStations[0].id);
+    // if(this.connectorFilteredStations[0].id !== '')
+    // this.getStations();
   }
 
   // get search text from search component
@@ -313,11 +328,6 @@ export class MapComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire({
-            title: 'Deleted!',
-            text: 'Your file has been deleted.',
-            icon: 'success',
-          });
           const userId = localStorage.getItem('authToken');
           if (userId != null) {
             this.lastVisitedStations.userId = userId;
@@ -326,13 +336,8 @@ export class MapComponent implements OnInit {
               .createLastVisitedStation(this.lastVisitedStations)
               .subscribe();
           }
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire({
-            title: 'Cancelled',
-            text: 'Your imaginary file is safe :)',
-            icon: 'error',
-          });
         }
+        // else bloğu kaldırıldı
       });
   }
 
@@ -342,6 +347,7 @@ export class MapComponent implements OnInit {
     const search = new Search({
       view: this.view,
     });
+    console.log(this.searchType, 'aaa');
     search.search(this.searchType);
   }
 
