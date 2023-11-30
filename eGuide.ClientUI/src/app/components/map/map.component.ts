@@ -299,11 +299,11 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
-  deneme(event: any) {
+  FilteredStationsGet(event: any) {
     console.log('Map Componentine Gelen Fİltrelenmiş İstasyonlar', event);
     this.FilteredStations = event;
     console.log(this.FilteredStations);
-   
+
   }
 
   // get search text from search component
