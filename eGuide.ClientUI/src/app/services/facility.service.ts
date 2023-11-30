@@ -18,7 +18,7 @@ export class FacilityService {
     );
   }
 
-  // public getFacilities(): Observable<Facility[]> {
-  //   return this.http.get<Facility[]>(`${environment.apiUrl}/${this.url}`);
-  // }
+  public getFacilities(): Observable<Facility[]> {
+    return this.http.get<Facility[]>(`${environment.apiUrl}/${this.url}`);
+  }
 }
