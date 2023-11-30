@@ -54,9 +54,9 @@ export class MapHelper {
     locate.locate();
   }
 
-  calculateNearestStations(userP: any, stations: any[], view: any): void {
+  calculateNearestStations(userP: any, view: any): void {
     // Calculate distance between user and each station
-    stations.forEach((station) => {
+    this.stations.forEach((station) => {
       if (station.latitude !== undefined && station.longitude !== undefined) {
         const distance = this.calculateDistance(
           userP.coords.latitude,
@@ -69,7 +69,7 @@ export class MapHelper {
     });
 
     // Sort stations by distance
-    stations.sort((a, b) => {
+    this.stations.sort((a, b) => {
       // Handle the case where distance is undefined
       if (a.distance === undefined && b.distance === undefined) {
         return 0; // If both distances are undefined, consider them equal
@@ -83,7 +83,7 @@ export class MapHelper {
     });
 
     // Get nearest station
-    const nearestStation = stations[0];
+    const nearestStation = this.stations[0];
     // Display nearest station
     view.center = [nearestStation.longitude, nearestStation.latitude];
     view.zoom = 12;

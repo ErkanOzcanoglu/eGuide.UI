@@ -132,7 +132,7 @@ export class MapComponent implements OnInit {
   }
 
   calculateNearestStations(userP: any): void {
-    this.mapHelper.calculateNearestStations(userP, this.stations, this.view);
+    this.mapHelper.calculateNearestStations(userP, this.view);
   }
 
   calculateDistance(
@@ -164,10 +164,10 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
-//  deneme(event: any) {
-//     console.log('aaaaaaaa', event);
-//     this.connectorFilteredStations = event;
-//     console.log(this.connectorFilteredStations[0].id);
+  //  deneme(event: any) {
+  //     console.log('aaaaaaaa', event);
+  //     this.connectorFilteredStations = event;
+  //     console.log(this.connectorFilteredStations[0].id);
   FilteredStationsGet(event: any) {
     console.log('Map Componentine Gelen Fİltrelenmiş İstasyonlar', event);
     this.FilteredStations = event;
