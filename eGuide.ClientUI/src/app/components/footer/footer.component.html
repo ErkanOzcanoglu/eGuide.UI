@@ -1,5 +1,6 @@
 <footer
   class="footer footer-center p-10 bg-[#232332] text-base-content rounded"
+  *ngIf="footer === 0"
 >
   <nav class="grid grid-flow-col gap-4">
     <a routerLink="" class="link link-hover">Home</a>
@@ -19,4 +20,22 @@
   <aside>
     <p>Copyright © 2023 - All right reserved by eGuide</p>
   </aside>
+</footer>
+
+<footer
+  class="footer items-center w-full flex justify-around p-4 bg-[#232332] border-t border-w text-neutral-content"
+  *ngIf="footer === 1"
+>
+  <aside class="items-center grid-flow-col">
+    <p>Copyright © 2023 - All right reserved by eGuide</p>
+  </aside>
+  <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+    <a
+      *ngFor="let socialMedia of socialMedias"
+      [href]="socialMedia.link"
+      target="_blank"
+    >
+      <i class="{{ socialMedia.icon }} fa-2xl"></i>
+    </a>
+  </nav>
 </footer>
