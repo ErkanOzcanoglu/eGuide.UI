@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
 import { UserAuthService } from 'src/app/services/user-auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userauthService: UserAuthService,
     private formBuilder: FormBuilder,
+    private userService: UserService,
     private toastr: ToastrService
   ) {}
 
@@ -40,37 +42,64 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     //console.log(this.loginForm.value);
-    this.userauthService.login(this.loginForm.value).subscribe(
-      (token: string) => {
-        token = token.replace(/^"(.*)"$/, '$1');
-        localStorage.setItem('authToken', token);
 
-        if (token === 'wrong email' || token === 'wrong password') {
-          this.toastr.error('Incorrect login information, please try again..');
-          localStorage.removeItem('authToken');
-        } else {
-          this.toastr.success('Login successful!');
-          this.logForm.patchValue({
-            message: `${
-              this.loginForm.value.email
-            } logged in at ${new Date().toLocaleString()}`,
-            level: 'info',
-            source: 'web',
+    // if (token === 'wrong email' || token === 'wrong password') {
+    //   this.toastr.error('Incorrect login information, please try again..');
+    //   localStorage.removeItem('authToken');
+    // } else {
+    //   this.toastr.success('Login successful!');
+    //   this.logForm.patchValue({
+    //     message: `${
+    //       this.loginForm.value.email
+    //     } logged in at ${new Date().toLocaleString()}`,
+    //     level: 'info',
+    //     source: 'web',
+    //   });
+    //   this.userauthService
+    //     .login_Log(this.logForm.value)
+    //     .subscribe(() => console.log('oldu'));
+
+    //   setTimeout(() => {
+    //     this.router.navigate(['/']);
+    //     location.reload();
+    //   }, 1000);
+    // }
+    if (this.loginForm.valid) {
+      this.userauthService.login(this.loginForm.value).subscribe({
+        next: (response) => {
+          console.log(response.id, 'response');
+          this.userService.getUserById(response?.id).subscribe({
+            next: (response) => {
+              if (response?.id) localStorage.setItem('authToken', response?.id);
+              this.toastr.success('Login successful!');
+              this.logForm.patchValue({
+                message: `${
+                  this.loginForm.value.email
+                } logged in at ${new Date().toLocaleString()}`,
+                level: 'info',
+                source: 'web',
+              });
+              this.userauthService
+                .login_Log(this.logForm.value)
+                .subscribe(() => console.log('oldu'));
+              setTimeout(() => {
+                this.router.navigate(['/']);
+                location.reload();
+              }, 1000);
+            },
+            error: (error) => {
+              this.toastr.error(
+                'Incorrect login information, please try again..'
+              );
+              console.log(error);
+            },
           });
-          this.userauthService
-            .login_Log(this.logForm.value)
-            .subscribe(() => console.log('oldu'));
-
-          setTimeout(() => {
-            this.router.navigate(['/']);
-            location.reload();
-          }, 1000);
-        }
-      },
-      (error) => {
-        this.toastr.error('An error occurred while logging in.');
-        console.error('An error occurred while logging in:', error);
-      }
-    );
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error('Incorrect login information, please try again..');
+        },
+      });
+    }
   }
 }

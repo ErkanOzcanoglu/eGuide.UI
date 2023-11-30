@@ -76,6 +76,7 @@ import { FooterCustomizationComponent } from './components/customization-compone
 import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
+import { TabbarComponent } from './components/tabbar/tabbar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -129,6 +130,7 @@ import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
     FooterCustomizationComponent,
     ColorCustomizationComponent,
     CompanyInformationComponent,
+    TabbarComponent,
   ],
   imports: [
     ChartModule,
