@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
   selectedFacilities: Facility[] = [];
-  selectedConnectors: Connector[] = [];
+  selectedConnector: Connector[] = [];
   filteredFacilityStations: Station[] = [];
   filteredConnectorStations: Station[] = [];
 
@@ -33,6 +33,7 @@ export class SearchComponent implements OnInit {
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
   @Output() stationFacilitySelected = new EventEmitter<Station[]>();
+  @Output() stationFilteredSelected = new EventEmitter<Station[]>();
 
   showConnectors = false;
 
@@ -50,7 +51,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.getStations();
     this.getConnectors();
-    // this.getFacilities();
+    this.getFacilities();
   }
 
   onClick() {
@@ -77,6 +78,7 @@ export class SearchComponent implements OnInit {
   getFacilities() {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
+      console.log(this.facilities);
     });
   }
 
@@ -134,7 +136,7 @@ export class SearchComponent implements OnInit {
       );
     }
 
-    this.stationFacilitySelected.emit(this.filteredFacilityStations);
+    this.stationFilteredSelected.emit(this.filteredFacilityStations);
 
     console.log('Seçilen Tesisler:', this.selectedFacilities);
     console.log(
@@ -167,8 +169,7 @@ export class SearchComponent implements OnInit {
       );
     }
 
-    // Filtrelenmiş istasyonları güncelle ve etkinlik yayınla
-    this.stationConnectorSelected.emit(this.filteredConnectorStations);
+    this.stationFilteredSelected.emit(this.filteredConnectorStations);
     console.log('Seçilen Connector:', connector);
     console.log(
       'Seçilen İstasyonlar (Connector):',
@@ -188,6 +189,12 @@ export class SearchComponent implements OnInit {
   isSelectedFacility(facility: Facility): boolean {
     return this.selectedFacilities.some(
       (selected) => selected.type === facility.type
+    );
+  }
+
+  isSelectedConnector(connector: Connector): boolean {
+    return this.selectedConnector.some(
+      (selected) => selected.type === connector.type
     );
   }
 

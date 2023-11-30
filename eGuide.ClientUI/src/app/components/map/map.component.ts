@@ -39,7 +39,7 @@ export class MapComponent implements OnInit {
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
 
-  connectorFilteredStations: Station[] = [];
+  FilteredStations: Station[] = [];
 
   constructor(
     private stationService: StationService,
@@ -300,11 +300,10 @@ export class MapComponent implements OnInit {
   }
 
   deneme(event: any) {
-    console.log('aaaaaaaa', event);
-    this.connectorFilteredStations = event;
-    console.log(this.connectorFilteredStations[0].id);
-    // if(this.connectorFilteredStations[0].id !== '')
-    // this.getStations();
+    console.log('Map Componentine Gelen Fİltrelenmiş İstasyonlar', event);
+    this.FilteredStations = event;
+    console.log(this.FilteredStations);
+   
   }
 
   // get search text from search component
