@@ -13,6 +13,7 @@ import { basemapss } from './map-data';
 import { MapHelper } from './map-helper';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommentService } from 'src/app/services/comment.service';
+import { Comment } from 'src/app/models/comment';
 
 interface Center {
   latitude: any;
@@ -31,12 +32,12 @@ export class MapComponent implements OnInit {
   userStation: UserStation = new UserStation();
   currentBasemapIndex: number;
   stations: Station[] = [];
+  comments: Comment[] = [];
   map: any;
   view: any;
   locate: any;
   nearLocate: any;
   basemapss: any[] = [];
-
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
@@ -154,156 +155,7 @@ export class MapComponent implements OnInit {
 
   // get stations from api
   getStations(): void {
-    this.stationService.getStations().subscribe((data) => {
-      this.stations = data;
-      const userId = localStorage.getItem('authToken');
-      if (userId !== null)
-        this.userStationService
-          .getStationProfiles(userId)
-          .subscribe((favoriteStations) => {
-            reactiveUtils.on(
-              () => this.view.popup,
-              'trigger-action',
-              (event: any) => {
-                if (event.action.id === 'add-favorite') {
-                  this.saveUserStation(event.action.stationId, userId);
-                } else if (event.action.id === 'go-location-action') {
-                  this.goLocation(event.action.stationId);
-                } else if (event.action.id === 'comment') {
-                  this.comment(event.action.stationId);
-                }
-              }
-            );
-            this.stations.forEach((element) => {
-              const isFavorite = favoriteStations.some(
-                (station) => station.id === element.id
-              );
-
-              const point = {
-                // create point
-                type: 'point',
-                longitude: element.longitude,
-                latitude: element.latitude,
-              };
-
-              const pinSymbol = {
-                // create symbol
-                type: 'picture-marker',
-                url: '../../assets/charging.svg',
-                width: '50px',
-                height: '50px',
-              };
-
-              // Yıldız rengi için sınıf ataması yap
-              const starColorClass = isFavorite
-                ? 'esri-icon-favorites-favorite'
-                : 'esri-icon-favorites';
-
-              const goLocationAction = {
-                id: 'go-location-action',
-                className: 'esri-icon-locate-circled',
-                stationId: element.id,
-              };
-
-              const addFavorite = {
-                id: 'add-favorite',
-                className: starColorClass,
-                stationId: element.id,
-              };
-
-              const comment = {
-                id: 'comment',
-                className: 'esri-icon-comment',
-                stationId: element.id,
-              };
-
-              if (element.stationModel?.stationsChargingUnits) {
-                const chargingUnits =
-                  element.stationModel.stationsChargingUnits.map((unit) => ({
-                    name: unit.chargingUnit?.name,
-                  }));
-                this.chargingUnitList = chargingUnits;
-              }
-
-              if (element.stationModel?.stationsChargingUnits) {
-                const connectors =
-                  element.stationModel.stationsChargingUnits.map((unit) => ({
-                    type: unit.chargingUnit?.connector?.type,
-                  }));
-
-                this.connectorTypelist = connectors;
-              }
-
-              if (element.stationFacilities) {
-                const facilityList = element.stationFacilities.map((unit) => ({
-                  type: unit.facility?.type,
-                }));
-                this.facilityList = facilityList;
-              }
-
-              const pointGraphic = {
-                geometry: point,
-                symbol: pinSymbol,
-                attributes: {
-                  name: element.name,
-                  id: element.id,
-                  address: element.address,
-                  latitude: element.latitude,
-                  longitude: element.longitude,
-                  model: element.stationModel?.name,
-                  chargingUnit: this.chargingUnitList
-                    .map((chargingUnit) => chargingUnit.name)
-                    .join(', '),
-                  connector: this.connectorTypelist
-                    .map((chargingUnit) => chargingUnit.type)
-                    .join(', '),
-                  stationFacilities: this.facilityList
-                    .map((stationFacilities) => stationFacilities.type)
-                    .join(', '),
-                },
-
-                // open popup when graphic is clicked
-                popupTemplate: {
-                  title: '{name}',
-                  content: [
-                    {
-                      type: 'fields',
-                      fieldInfos: [
-                        {
-                          fieldName: 'name',
-                          label: 'Name',
-                        },
-                        {
-                          fieldName: 'address',
-                          label: 'Address',
-                        },
-                        {
-                          fieldName: 'model',
-                          label: 'Model',
-                        },
-                        {
-                          fieldName: 'chargingUnit',
-                          label: 'ChargingUnit',
-                        },
-                        {
-                          fieldName: 'connector',
-                          label: 'Connector Type',
-                        },
-                        {
-                          fieldName: 'stationFacilities',
-                          label: 'Facilities',
-                        },
-                      ],
-                    },
-                  ],
-                  actions: [goLocationAction, addFavorite, comment],
-                },
-              };
-              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
-              this.view.graphics.add(pointGraphic); // add graphic to the view
-            });
-          });
-    });
+    this.mapHelper.getStations(this.view);
   }
 
   // get selected station from station list component
@@ -332,61 +184,140 @@ export class MapComponent implements OnInit {
     });
   }
 
+  getComments(stationId: any) {
+    // this.commentService.getComments(stationId).subscribe((data) => {
+    //   console.log(data);
+    //   this.comments = data;
+    // });
+    this.mapHelper.getComments(stationId);
+  }
+
   comment(stationId: any) {
-    Swal.fire({
-      title: 'Leave a Comment',
-      input: 'textarea',
-      inputLabel: 'Comment',
-      inputPlaceholder: 'Type your comment here...',
-      inputAttributes: {
-        'aria-label': 'Type your comment here',
-      },
-      // html: `<p>Rating</p>
-      //   <div class="rating">
-      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(1)"/>
-      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
-      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(2)"/>
-      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(3)"/>
-      //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(4)"/>
-      //     </div>`,
-      showCancelButton: true,
-      confirmButtonText: 'Submit',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-      allowOutsideClick: () => !Swal.isLoading(),
-      preConfirm: (login) => {
-        return login;
-      },
-    }).then((result) => {
-      if (result.value !== '' && result.isConfirmed) {
-        this.submitComment(result.value, stationId);
-        Swal.fire({
-          title: 'Success!',
-          text: 'Your comment has been added.',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-        });
-      } else if (result.value === '') {
-        Swal.fire({
-          title: 'Error!',
-          text: 'You must enter a comment.',
-          icon: 'error',
-          confirmButtonText: 'Ok',
-        });
-      }
-    });
+    // Swal.fire({
+    //   title: 'Comments',
+    //   html: generateCommentsHTML(this.comments),
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Add Comment',
+    //   cancelButtonText: 'Cancel',
+    //   reverseButtons: true,
+    //   allowOutsideClick: () => !Swal.isLoading(),
+    //   preConfirm: (comment) => {
+    //     // Handle the added comment (you might want to save it to the database here)
+    //     console.log('Added comment:', comment);
+    //   },
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     Swal.fire({
+    //       title: 'Leave a Comment',
+    //       input: 'textarea',
+    //       inputLabel: 'Comment',
+    //       inputPlaceholder: 'Type your comment here...',
+    //       inputAttributes: {
+    //         'aria-label': 'Type your comment here',
+    //       },
+    //       // html: `<p>Rating</p>
+    //       //   <div class="rating">
+    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(1)"/>
+    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(2)"/>
+    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(3)"/>
+    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(4)"/>
+    //       //     </div>`,
+    //       showCancelButton: true,
+    //       confirmButtonText: 'Submit',
+    //       cancelButtonText: 'Cancel',
+    //       reverseButtons: true,
+    //       allowOutsideClick: () => !Swal.isLoading(),
+    //       preConfirm: (login) => {
+    //         return login;
+    //       },
+    //     }).then((result) => {
+    //       if (result.value !== '' && result.isConfirmed) {
+    //         this.submitComment(result.value, stationId);
+    //         Swal.fire({
+    //           title: 'Success!',
+    //           text: 'Your comment has been added.',
+    //           icon: 'success',
+    //           confirmButtonText: 'Ok',
+    //         });
+    //       } else if (result.value === '') {
+    //         Swal.fire({
+    //           title: 'Error!',
+    //           text: 'You must enter a comment.',
+    //           icon: 'error',
+    //           confirmButtonText: 'Ok',
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
+    // function generateCommentsHTML(comments: any) {
+    //   if (comments.length === 0) {
+    //     return '<p>No comments yet.</p>';
+    //   }
+
+    //   const commentsList = comments
+    //     .map((comment: any) => `<p>${comment}</p>`)
+    //     .join('');
+    //   return commentsList;
+    // }
+
+    // // Swal.fire({
+    // //   title: 'Leave a Comment',
+    // //   input: 'textarea',
+    // //   inputLabel: 'Comment',
+    // //   inputPlaceholder: 'Type your comment here...',
+    // //   inputAttributes: {
+    // //     'aria-label': 'Type your comment here',
+    // //   },
+    // //   // html: `<p>Rating</p>
+    // //   //   <div class="rating">
+    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(1)"/>
+    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(2)"/>
+    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(3)"/>
+    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(4)"/>
+    // //   //     </div>`,
+    // //   showCancelButton: true,
+    // //   confirmButtonText: 'Submit',
+    // //   cancelButtonText: 'Cancel',
+    // //   reverseButtons: true,
+    // //   allowOutsideClick: () => !Swal.isLoading(),
+    // //   preConfirm: (login) => {
+    // //     return login;
+    // //   },
+    // // }).then((result) => {
+    // //   if (result.value !== '' && result.isConfirmed) {
+    // //     this.submitComment(result.value, stationId);
+    // //     Swal.fire({
+    // //       title: 'Success!',
+    // //       text: 'Your comment has been added.',
+    // //       icon: 'success',
+    // //       confirmButtonText: 'Ok',
+    // //     });
+    // //   } else if (result.value === '') {
+    // //     Swal.fire({
+    // //       title: 'Error!',
+    // //       text: 'You must enter a comment.',
+    // //       icon: 'error',
+    // //       confirmButtonText: 'Ok',
+    // //     });
+    // //   }
+    // // });
+    this.mapHelper.comment(stationId);
   }
 
   submitComment(comment: string, stationId: number) {
-    const userId = localStorage.getItem('authToken');
-    this.commentForm.patchValue({
-      text: comment,
-      ownerId: userId,
-      stationId: stationId,
-      rating: 2,
-    });
-    console.log(this.commentForm.value);
-    this.commentService.addComment(this.commentForm.value).subscribe();
+    // const userId = localStorage.getItem('authToken');
+    // this.commentForm.patchValue({
+    //   text: comment,
+    //   ownerId: userId,
+    //   stationId: stationId,
+    //   rating: 2,
+    // });
+    // console.log(this.commentForm.value);
+    // this.commentService.addComment(this.commentForm.value).subscribe();
+    this.mapHelper.submitComment(comment, stationId);
   }
 
   // search function
