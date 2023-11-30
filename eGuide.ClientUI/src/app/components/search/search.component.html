@@ -47,15 +47,18 @@
         <mat-panel-title> Connectors </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <ul>
+        <ul class="connectors-list">
           <li
             *ngFor="let connector of connectors"
             (click)="onSelectConnector(connector)"
             (keyup.enter)="onSelectConnector(connector)"
             tabindex="0"
+            [ngClass]="{'selected': isSelectedConnector(connector)}"
           >
-            <img class="w-16 h-18" [src]="connector.imageData" alt="" />
-            {{ connector.type }}
+            <div class="connector-item">
+              <img class="connector-image" [src]="connector.imageData" alt="" />
+              <span class="connector-type">{{ connector.type }}</span>
+            </div>
           </li>
         </ul>
       </mat-panel-description>
@@ -65,15 +68,15 @@
         <mat-panel-title> Facilities </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <ul>
+        <ul class="facilities-list">
           <li
             *ngFor="let facility of facilities"
             (click)="onSelectFacility(facility)"
             (keyup.enter)="onSelectFacility(facility)"
             tabindex="0"
-            [ngClass]="{ selected: isSelectedFacility(facility) }"
+            [ngClass]="{'selected': isSelectedFacility(facility)}"
           >
-            <i [ngClass]="facility.icon"></i>
+            <i class="facility-icon" [ngClass]="facility.icon"></i>
             {{ facility.type }}
           </li>
         </ul>

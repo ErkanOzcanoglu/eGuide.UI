@@ -28,3 +28,68 @@
   background-color: #e0e0e0; /* veya seçiminizi vurgulamak için başka bir stil */
   /* İkonların görünümünü değiştirmek istiyorsanız, burada ikon stili de ekleyebilirsiniz */
 }
+
+.facilities-list {
+  list-style: none;
+  padding: 0;
+}
+
+.facilities-list li {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.facilities-list li:hover {
+  background-color: #f0f0f0;
+  border-radius: 8px
+}
+
+.facilities-list li.selected {
+  background-color: #cbe7fa;
+  border-radius: 8px
+}
+
+.facility-icon {
+  margin-right: 8px; 
+  font-size: 20px;
+  color: #3d0101;
+}
+
+.connectors-list {
+  list-style: none;
+  padding: 0;
+}
+
+.connector-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.connector-item:hover {
+  background-color: #f0f0f0;
+  border-radius: 8px
+}
+
+.connector-item.selected {
+  background-color: #b3e0ff;
+  border-radius: 8px
+}
+
+.connector-image {
+  width: 60px; /* İmajın genişliğini artırabilirsiniz */
+  height: 60px; /* İmajın yüksekliğini artırabilirsiniz */
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.connector-type {
+  font-size: 18px;
+  font-weight: bold;
+}
