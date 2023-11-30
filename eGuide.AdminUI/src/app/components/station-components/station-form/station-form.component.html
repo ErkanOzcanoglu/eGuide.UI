@@ -169,119 +169,120 @@
           </mat-select>
         </mat-form-field>
       </div>
-    <!-- ! charging Unit -->
-    <div class="mb-4 w-full justify-between">
-      <div class="flex w-full justify-between">
-        <label
-          class="block text-white bg-primary border-secondary text-sm mb-2"
-          for="sockets"
-        >
-          Charging Unit
-        </label>
-      </div>
-      <div class="w-full">
-        <form class="w-full" [formGroup]="selectedChargingUnitForm">
-          <mat-form-field
-            class="appearance-none w-full text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
-            color="primary"
-            appearance="fill"
+      <!-- ! charging Unit -->
+      <div class="mb-4 w-full justify-between">
+        <div class="flex w-full justify-between">
+          <label
+            class="block text-white bg-primary border-secondary text-sm mb-2"
+            for="sockets"
           >
-            <mat-label>Charging Units</mat-label>
-            <!-- display only the selected name -->
-            <mat-select
-              class="rounded-3xl w-full text-white bg-primary border-secondary"
-              required="true"
-              formControlName="sockets"
-              multiple
-              (selectionChange)="onSelectionChange($event)"
+            Charging Unit
+          </label>
+        </div>
+        <div class="w-full">
+          <form class="w-full" [formGroup]="selectedChargingUnitForm">
+            <mat-form-field
+              class="appearance-none w-full text-white bg-primary border-secondary leading-tight focus:outline-none focus:shadow-outline"
+              color="primary"
+              appearance="fill"
             >
-              <mat-option
-                disabled=""
-                class="mat-mdc-option mdc-list-item w-full mat-mdc-option-multiple"
+              <mat-label>Charging Units</mat-label>
+              <!-- display only the selected name -->
+              <mat-select
+                class="rounded-3xl w-full text-white bg-primary border-secondary"
+                required="true"
+                formControlName="sockets"
+                multiple
+                (selectionChange)="onSelectionChange($event)"
               >
-                <thead class="w-full">
-                  <tr>
-                    <th class="w-[120px] font-normal">Name</th>
-                    <th class="w-[120px] font-normal">Power</th>
-                    <th class="w-[120px] font-normal">Current</th>
-                    <th class="w-[120px] font-normal">Type</th>
-                    <th class="w-[120px] font-normal">Voltage</th>
-                    <th class="w-[120px]"></th>
-                  </tr>
-                </thead>
-              </mat-option>
-              <mat-option
-                class="w-full"
-                [class.is-invalid]="
-                  submitted &&
-                  selectedChargingUnitForm.get('chargingUnit')?.errors
-                "
-                *ngFor="let socket of chargingUnit"
-                [value]="socket.id"
-                aria-selected="false"
-              >
-                <table class="table">
-                  <td class="w-[120px]">
-                    <div class="w-full flex items-center">
-                      <div>
-                        <div class="">{{ socket.name }}</div>
+                <mat-option
+                  disabled=""
+                  class="mat-mdc-option mdc-list-item w-full mat-mdc-option-multiple"
+                >
+                  <thead class="w-full">
+                    <tr>
+                      <th class="w-[120px] font-normal">Name</th>
+                      <th class="w-[120px] font-normal">Power</th>
+                      <th class="w-[120px] font-normal">Current</th>
+                      <th class="w-[120px] font-normal">Type</th>
+                      <th class="w-[120px] font-normal">Voltage</th>
+                      <th class="w-[120px]"></th>
+                    </tr>
+                  </thead>
+                </mat-option>
+                <mat-option
+                  class="w-full"
+                  [class.is-invalid]="
+                    submitted &&
+                    selectedChargingUnitForm.get('chargingUnit')?.errors
+                  "
+                  *ngFor="let socket of chargingUnit"
+                  [value]="socket.id"
+                  aria-selected="false"
+                >
+                  <table class="table">
+                    <td class="w-[120px]">
+                      <div class="w-full flex items-center">
+                        <div>
+                          <div class="">{{ socket.name }}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="w-[120px]">
-                    <div class="w-full flex items-center">
-                      <div>
-                        <div class="">{{ socket.power }}</div>
+                    </td>
+                    <td class="w-[120px]">
+                      <div class="w-full flex items-center">
+                        <div>
+                          <div class="">{{ socket.power }}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="w-[120px]">
-                    <div class="w-full flex items-center">
-                      <div>
-                        <div class="">{{ socket.current }}</div>
+                    </td>
+                    <td class="w-[120px]">
+                      <div class="w-full flex items-center">
+                        <div>
+                          <div class="">{{ socket.current }}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="w-[120px]">
-                    <div class="w-full flex items-center">
-                      <div>
-                        <div class="">{{ socket.type }}</div>
+                    </td>
+                    <td class="w-[120px]">
+                      <div class="w-full flex items-center">
+                        <div>
+                          <div class="">{{ socket.type }}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="w-[120px]">
-                    <div class="w-full flex items-center">
-                      <div>
-                        <div class="">{{ socket.voltage }}</div>
+                    </td>
+                    <td class="w-[120px]">
+                      <div class="w-full flex items-center">
+                        <div>
+                          <div class="">{{ socket.voltage }}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                </table>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
+                    </td>
+                  </table>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
       </div>
-    </div>
 
-    <!-- ! submit button -->
-    <div class="flex justify-end gap-x-2">
-      <button
-        class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="submit"
-        (click)="onSubmit()"
-        *ngIf="!isEdited"
-      >
-        Submit
-      </button>
-      <button
-        *ngIf="isEdited"
-        class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="submit"
-        (click)="onUpdate()"
-      >
-        Update
-      </button>
+      <!-- ! submit button -->
+      <div class="flex justify-end gap-x-2">
+        <button
+          class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+          (click)="onSubmit()"
+          *ngIf="!isEdited"
+        >
+          Submit
+        </button>
+        <button
+          *ngIf="isEdited"
+          class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+          (click)="onUpdate()"
+        >
+          Update
+        </button>
+      </div>
     </div>
   </div>
 </form>

@@ -46,7 +46,6 @@ import { AdminLoginComponent } from './components/adminAuth/admin-login/admin-lo
 import { EmailConfirmComponent } from './components/adminAuth/email-confirm/email-confirm.component';
 import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admin-password/forgot-admin-password.component';
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
-import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
@@ -152,7 +151,7 @@ import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
     }),
     MatTabsModule,
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
