@@ -60,7 +60,6 @@ export class SearchComponent implements OnInit {
 
   aramaYap(text: string) {
     this.searchTexts.emit(text);
-    // console.log(text, 'text in the search component');
   }
 
   closeSearch() {
@@ -103,7 +102,6 @@ export class SearchComponent implements OnInit {
   }
 
   onSelectFacility(facility: Facility) {
-    console.log(this.selectedFacilities, 'girdim mi ki');
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -149,8 +147,6 @@ export class SearchComponent implements OnInit {
     this.isClicked = false;
 
     if (this.filteredFacilityStations.length === 0) {
-      console.log(this.filteredFacilityStations, 'buraya girdim');
-      // filteredFacilityStations henüz tanımlanmadıysa veya null ise
       this.filteredConnectorStations = this.stations.filter((station) =>
         station.stationModel?.stationsChargingUnits.some(
           (unit) => unit.chargingUnit?.connector?.type === connector.type
@@ -158,8 +154,6 @@ export class SearchComponent implements OnInit {
       );
     } else {
       console.log('filteredFacilityStations:', this.filteredFacilityStations);
-      console.log('asdşlasdaskdlasdkalsdk');
-      // filteredFacilityStations tanımlıysa ve null değilse
       this.filteredConnectorStations = this.filteredFacilityStations.filter(
         (filteredFacilityStations) =>
           filteredFacilityStations.stationModel?.stationsChargingUnits.some(
@@ -168,7 +162,6 @@ export class SearchComponent implements OnInit {
       );
     }
 
-    // Filtrelenmiş istasyonları güncelle ve etkinlik yayınla
     this.stationFilteredSelected.emit(this.filteredConnectorStations);
     console.log('Seçilen Connector:', connector);
     console.log(
