@@ -44,6 +44,7 @@ import { ContactFormComponent } from './components/contact-form/contact-form.com
 import { ContactComponent } from './screens/contact/contact.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { MatListModule } from '@angular/material/list';
     FooterComponent,
     ContactFormComponent,
     ContactComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
