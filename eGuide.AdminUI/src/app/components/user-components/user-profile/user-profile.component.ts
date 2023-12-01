@@ -37,11 +37,9 @@ ngOnInit(): void {
 }
 
 getUserInfo(userId: any) {
-  // Kullanıcı bilgilerini almak için gerekli HTTP çağrılarını yapabilirsiniz
-  // Örneğin:
+ 
   this.userService.getUserById(userId).subscribe(
     (user) => {
-      // Kullanıcı bilgilerini aldıktan sonra yapılacak işlemler
       console.log('User Info:', user);
       this.user = user;
     },
