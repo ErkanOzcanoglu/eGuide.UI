@@ -7,9 +7,7 @@ import { fadeIn } from 'src/app/models/fade-in.animation';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
- 
- 
- 
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -31,8 +29,7 @@ export class UserListComponent {
     private router: Router,
     private userService: UserService,
     private toastr: ToastrService,
-    private store: Store,
-
+    private store: Store
   ) {
     this.store.select(selectRefresh).subscribe((refresh: boolean) => {
       console.log(refresh);
@@ -64,10 +61,7 @@ export class UserListComponent {
   }
 
   toggleSelection(item: User): void {
-    // Diğer tüm araçların seçimini kaldır
     this.users.forEach((v) => (v.isSelected = false));
-
-    // Şu anki aracın seçim durumunu tersine çevir
     item.isSelected = !item.isSelected;
   }
 
@@ -96,5 +90,15 @@ export class UserListComponent {
     }
   }
 
+  closeProfileCardOnKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === 'Space') {
+      this.closeProfileCard();
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === 'Space') {
+      this.viewProfileDetails(this.user.id);
+    }
+  }
 }
- 

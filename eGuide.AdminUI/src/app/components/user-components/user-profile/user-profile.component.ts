@@ -76,7 +76,7 @@ export class UserProfileComponent {
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
-          this.vehicleList = data;   
+          this.vehicleList = data;
           // Araç sayısını alma
           this.numberOfVehicles = this.vehicleList.length;
           console.log('Toplam Araç Sayısı:', this.numberOfVehicles);
