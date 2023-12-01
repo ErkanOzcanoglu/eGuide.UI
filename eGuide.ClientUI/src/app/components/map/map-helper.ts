@@ -12,6 +12,7 @@ import { Station } from 'src/app/models/station';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Comment } from 'src/app/models/comment';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,8 @@ export class MapHelper {
     private commentService: CommentService,
     private formBuilder: FormBuilder,
     private userStationService: UserStationService,
-    private stationService: StationService
+    private stationService: StationService,
+    private toastrService: ToastrService
   ) {}
 
   zoomIn(view: any): void {
@@ -156,15 +158,15 @@ export class MapHelper {
     const search = new Search({
       view: view,
     });
-    console.log(this.searchType, 'aaa');
     search.search(this.searchType);
   }
 
   saveUserStation(elementId: string, userId: string): void {
     this.userStation.userId = userId;
     this.userStation.stationProfileId = elementId;
-    console.log(this.userStation);
-    this.userStationService.saveUserStation(this.userStation).subscribe();
+    this.userStationService.saveUserStation(this.userStation).subscribe(() => {
+      this.toastrService.success('Station added to favorites.');
+    });
   }
 
   getStations(view: any): void {
@@ -323,7 +325,6 @@ export class MapHelper {
 
   getComments(stationId: any) {
     this.commentService.getComments(stationId).subscribe((data) => {
-      console.log(data);
       this.comments = data;
     });
   }
@@ -422,10 +423,6 @@ export class MapHelper {
     }
   }
 
-  setInput(val: number) {
-    console.log(val);
-  }
-
   initializeCommentForm() {
     this.commentForm = this.formBuilder.group({
       text: [''],
@@ -443,7 +440,6 @@ export class MapHelper {
       stationId: stationId,
       rating: 2,
     });
-    console.log(this.commentForm.value, 'asdasdsa');
     this.commentService.addComment(this.commentForm.value).subscribe();
   }
 }

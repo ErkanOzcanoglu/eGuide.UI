@@ -1,3 +1,4 @@
+import { StationFilterPipe } from './../../../pipes/station-filter.pipe';
 import { Model } from 'src/app/models/stationInformationModel';
 import { Component, OnInit } from '@angular/core';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -21,6 +22,7 @@ export class StationListComponent implements OnInit {
   stationInfo: any;
   showList: any;
   selectedItem: any;
+  searchText = '';
 
   toggleList() {
     this.showList = !this.showList;
@@ -48,7 +50,6 @@ export class StationListComponent implements OnInit {
     this.stationService.getStations().subscribe({
       next: (stations) => {
         this.stations = stations;
-        console.log(stations[0].stationStatus,"sda");
       },
     });
   }

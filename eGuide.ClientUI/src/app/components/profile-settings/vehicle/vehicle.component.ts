@@ -66,14 +66,12 @@ export class VehicleComponent implements OnInit {
   getBrands() {
     this.vehicleService.getAllBrands().subscribe((data) => {
       this.brands = data;
-      console.log(this.brands);
     });
   }
 
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
-      console.log(this.connectorList);
     });
   }
 
@@ -86,8 +84,7 @@ export class VehicleComponent implements OnInit {
     this.selectedConnector = connector;
     localStorage.setItem('connectorId', this.selectedConnector.id);
     this.dropdownVisible = false;
-    this.toggleDropdown(); 
-   
+    this.toggleDropdown();
   }
 
   toggleDropdown() {
@@ -95,7 +92,6 @@ export class VehicleComponent implements OnInit {
   }
 
   onBrandSelected(event: any) {
-    console.log(event.target.value);
     const selectedBrand = event.target.value;
     this.loadModelsByBrand(selectedBrand);
     localStorage.setItem('brand', selectedBrand);
@@ -116,7 +112,6 @@ export class VehicleComponent implements OnInit {
   }
 
   onCarSelected(brand: string, connector: string) {
-    console.log('araba secme tıklamas');
     const selectedBrand = brand;
     this.selectedConnector = connector;
     this.loadModelsByBrand(selectedBrand);
@@ -142,8 +137,6 @@ export class VehicleComponent implements OnInit {
     if (selectedBrand && selectedBrand !== 'default') {
       this.vehicleService.getModelsByBrand(selectedBrand).subscribe(
         (models) => {
-          console.log('Ait modeller:', models);
-
           this.models = models;
         },
         (error) => {
@@ -185,7 +178,6 @@ export class VehicleComponent implements OnInit {
 
       this.userVehicleService.saveVehicle(userVehicle).subscribe(
         (response) => {
-          console.log('UserVehicle başarıyla kaydedildi:', response);
           this.getVehicleById();
         },
         (error) => {
@@ -207,7 +199,6 @@ export class VehicleComponent implements OnInit {
           const combinedVehicles = this.vehicleList.map((vehicle) => {
             return `${vehicle.brand}-${vehicle.model}`;
           });
-          console.log(combinedVehicles);
         },
         (error) => {
           console.error('Araç bilgileri alma hatası:', error);
@@ -220,14 +211,11 @@ export class VehicleComponent implements OnInit {
     const vehicleId = localStorage.getItem('vehicleId');
     const userId = localStorage.getItem('authToken');
 
-    console.log(vehicleId);
-    console.log(userId);
     if (vehicleId !== null && userId !== null) {
       this.userVehicleService
         .deleteUserVehicleByVehicleId(userId, vehicleId)
         .subscribe(
           () => {
-            console.log('Araç başarıyla silindi.');
             this.getVehicleById();
           },
           (error) => {
@@ -265,7 +253,6 @@ export class VehicleComponent implements OnInit {
         .updateVehicle(userId, oldId, vehicleId, connectorId)
         .subscribe(
           (response) => {
-            console.log('Araç güncelleme başarılı:', response);
             this.getVehicleById();
           },
           (error) => {

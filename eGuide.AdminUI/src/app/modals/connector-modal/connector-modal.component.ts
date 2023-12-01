@@ -66,7 +66,6 @@ export class ConnectorModalComponent implements OnInit {
               this.toaster.error('Error while adding connector');
             },
           });
-        console.log(this.connectorForm.value, 'asdasda');
       });
     }
 
@@ -86,7 +85,6 @@ export class ConnectorModalComponent implements OnInit {
 
   onFileSelect(event: any) {
     this.files.push(event.target.files[0]);
-    console.log(this.files);
   }
 
   getImage() {

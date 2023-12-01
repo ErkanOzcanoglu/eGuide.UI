@@ -36,13 +36,11 @@ export class ContactFormComponent implements OnInit {
     this.isSending = true;
     this.contactFormService.sendEmail(this.contactForm.value).subscribe(
       (response) => {
-        console.log(response);
         this.toastrService.success('Email sent successfully');
         this.reset();
         this.isSending = false;
       },
       (error) => {
-        console.log(error);
         this.toastrService.error('Email not sent');
       }
     );
@@ -51,7 +49,6 @@ export class ContactFormComponent implements OnInit {
   getWebsites(): void {
     this.websiteService.getWebsite().subscribe(
       (response) => {
-        console.log(response);
         this.websites = response;
       },
       (error) => {

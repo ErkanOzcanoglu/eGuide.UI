@@ -28,10 +28,8 @@ export class PasswordSettingsComponent implements OnInit {
       .resetPassword(this.resetPasswordModel, this.userId)
       .subscribe(
         (response: string) => {
-          console.log(response);
-          
           localStorage.removeItem('authToken');
-          this.router.navigate(['/login']); 
+          this.router.navigate(['/login']);
         },
         (error) => {
           console.error(error);

@@ -3,9 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
-import Search from '@arcgis/core/widgets/Search';
-import * as reactiveUtils from '@arcgis/core/reactiveUtils';
-import Swal from 'sweetalert2';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
@@ -164,14 +161,8 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
-  //  deneme(event: any) {
-  //     console.log('aaaaaaaa', event);
-  //     this.connectorFilteredStations = event;
-  //     console.log(this.connectorFilteredStations[0].id);
   FilteredStationsGet(event: any) {
-    console.log('Map Componentine Gelen Fİltrelenmiş İstasyonlar', event);
     this.FilteredStations = event;
-    console.log(this.FilteredStations);
   }
 
   // get search text from search component
@@ -189,138 +180,14 @@ export class MapComponent implements OnInit {
   }
 
   getComments(stationId: any) {
-    // this.commentService.getComments(stationId).subscribe((data) => {
-    //   console.log(data);
-    //   this.comments = data;
-    // });
     this.mapHelper.getComments(stationId);
   }
 
   comment(stationId: any) {
-    // Swal.fire({
-    //   title: 'Comments',
-    //   html: generateCommentsHTML(this.comments),
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Add Comment',
-    //   cancelButtonText: 'Cancel',
-    //   reverseButtons: true,
-    //   allowOutsideClick: () => !Swal.isLoading(),
-    //   preConfirm: (comment) => {
-    //     // Handle the added comment (you might want to save it to the database here)
-    //     console.log('Added comment:', comment);
-    //   },
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     Swal.fire({
-    //       title: 'Leave a Comment',
-    //       input: 'textarea',
-    //       inputLabel: 'Comment',
-    //       inputPlaceholder: 'Type your comment here...',
-    //       inputAttributes: {
-    //         'aria-label': 'Type your comment here',
-    //       },
-    //       // html: `<p>Rating</p>
-    //       //   <div class="rating">
-    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(1)"/>
-    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
-    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(2)"/>
-    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(3)"/>
-    //       //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(4)"/>
-    //       //     </div>`,
-    //       showCancelButton: true,
-    //       confirmButtonText: 'Submit',
-    //       cancelButtonText: 'Cancel',
-    //       reverseButtons: true,
-    //       allowOutsideClick: () => !Swal.isLoading(),
-    //       preConfirm: (login) => {
-    //         return login;
-    //       },
-    //     }).then((result) => {
-    //       if (result.value !== '' && result.isConfirmed) {
-    //         this.submitComment(result.value, stationId);
-    //         Swal.fire({
-    //           title: 'Success!',
-    //           text: 'Your comment has been added.',
-    //           icon: 'success',
-    //           confirmButtonText: 'Ok',
-    //         });
-    //       } else if (result.value === '') {
-    //         Swal.fire({
-    //           title: 'Error!',
-    //           text: 'You must enter a comment.',
-    //           icon: 'error',
-    //           confirmButtonText: 'Ok',
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
-    // function generateCommentsHTML(comments: any) {
-    //   if (comments.length === 0) {
-    //     return '<p>No comments yet.</p>';
-    //   }
-
-    //   const commentsList = comments
-    //     .map((comment: any) => `<p>${comment}</p>`)
-    //     .join('');
-    //   return commentsList;
-    // }
-
-    // // Swal.fire({
-    // //   title: 'Leave a Comment',
-    // //   input: 'textarea',
-    // //   inputLabel: 'Comment',
-    // //   inputPlaceholder: 'Type your comment here...',
-    // //   inputAttributes: {
-    // //     'aria-label': 'Type your comment here',
-    // //   },
-    // //   // html: `<p>Rating</p>
-    // //   //   <div class="rating">
-    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(1)"/>
-    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
-    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(2)"/>
-    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(3)"/>
-    // //   //   <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" (change)="asd(4)"/>
-    // //   //     </div>`,
-    // //   showCancelButton: true,
-    // //   confirmButtonText: 'Submit',
-    // //   cancelButtonText: 'Cancel',
-    // //   reverseButtons: true,
-    // //   allowOutsideClick: () => !Swal.isLoading(),
-    // //   preConfirm: (login) => {
-    // //     return login;
-    // //   },
-    // // }).then((result) => {
-    // //   if (result.value !== '' && result.isConfirmed) {
-    // //     this.submitComment(result.value, stationId);
-    // //     Swal.fire({
-    // //       title: 'Success!',
-    // //       text: 'Your comment has been added.',
-    // //       icon: 'success',
-    // //       confirmButtonText: 'Ok',
-    // //     });
-    // //   } else if (result.value === '') {
-    // //     Swal.fire({
-    // //       title: 'Error!',
-    // //       text: 'You must enter a comment.',
-    // //       icon: 'error',
-    // //       confirmButtonText: 'Ok',
-    // //     });
-    // //   }
-    // // });
     this.mapHelper.comment(stationId);
   }
 
   submitComment(comment: string, stationId: number) {
-    // const userId = localStorage.getItem('authToken');
-    // this.commentForm.patchValue({
-    //   text: comment,
-    //   ownerId: userId,
-    //   stationId: stationId,
-    //   rating: 2,
-    // });
-    // console.log(this.commentForm.value);
-    // this.commentService.addComment(this.commentForm.value).subscribe();
     this.mapHelper.submitComment(comment, stationId);
   }
 

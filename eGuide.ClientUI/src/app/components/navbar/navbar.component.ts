@@ -24,7 +24,7 @@ export class NavbarComponent {
 
   ngOnInit(): void {
     const authToken = localStorage.getItem('authToken');
-    console.log(authToken);
+    authToken;
     if (authToken) {
       const userId = authToken;
       this.userService.getUserById(userId).subscribe((user) => {
@@ -52,7 +52,6 @@ export class NavbarComponent {
 
   toggleHamburgerMenu() {
     this.hamburgerMenu = !this.hamburgerMenu;
-    console.log(this.hamburgerMenu);
   }
 
   getNavbarType() {

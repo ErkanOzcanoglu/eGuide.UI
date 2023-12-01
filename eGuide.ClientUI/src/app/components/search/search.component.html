@@ -55,7 +55,7 @@
             (click)="onSelectConnector(connector)"
             (keyup.enter)="onSelectConnector(connector)"
             tabindex="0"
-            [ngClass]="{'selected': isSelectedConnector(connector)}"
+            [ngClass]="{ selected: isSelectedConnector(connector) }"
           >
             <div class="connector-item">
               <img class="connector-image" [src]="connector.imageData" alt="" />
@@ -98,8 +98,8 @@
       "
     >
       <p
-        (click)="onSelectConnector(lvs.station)"
-        (keyup)="onSelectConnector(lvs.station)"
+        (click)="onSelectStation(lvs.station)"
+        (keyup)="onSelectStation(lvs.station)"
         tabindex="0"
       >
         {{ lvs.station.name | titlecase }}

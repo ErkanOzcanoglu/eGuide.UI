@@ -36,16 +36,13 @@ export class UserAuthComponent implements OnInit {
   }
 
   register(): void {
-    console.log(this.registerForm.value);
     this.userauthService.registerUser(this.registerForm.value).subscribe({
       next: (response) => {
         this.toastr.success('User registered successfully.');
-        console.log(response);
         this.router.navigate(['/login']);
       },
       error: (error) => {
         this.toastr.error('Please fill out all the form information.');
-        console.log(error);
         console.error('Please fill out all the form information.');
       },
     });

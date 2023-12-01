@@ -78,7 +78,6 @@ export class SearchComponent implements OnInit {
   getFacilities() {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
-      console.log(this.facilities);
     });
   }
 
@@ -104,7 +103,6 @@ export class SearchComponent implements OnInit {
   }
 
   onSelectFacility(facility: Facility) {
-    console.log(this.selectedFacilities, 'girdim mi ki');
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -137,12 +135,6 @@ export class SearchComponent implements OnInit {
     }
 
     this.stationFilteredSelected.emit(this.filteredFacilityStations);
-
-    console.log('Seçilen Tesisler:', this.selectedFacilities);
-    console.log(
-      'Seçilen İstasyonlar (Facility):',
-      this.filteredFacilityStations
-    );
   }
 
   onSelectConnector(connector: Connector) {
@@ -150,7 +142,6 @@ export class SearchComponent implements OnInit {
     this.isClicked = false;
 
     if (this.filteredFacilityStations.length === 0) {
-      console.log(this.filteredFacilityStations, 'buraya girdim');
       // filteredFacilityStations henüz tanımlanmadıysa veya null ise
       this.filteredConnectorStations = this.stations.filter((station) =>
         station.stationModel?.stationsChargingUnits.some(
@@ -158,8 +149,6 @@ export class SearchComponent implements OnInit {
         )
       );
     } else {
-      console.log('filteredFacilityStations:', this.filteredFacilityStations);
-      console.log('asdşlasdaskdlasdkalsdk');
       // filteredFacilityStations tanımlıysa ve null değilse
       this.filteredConnectorStations = this.filteredFacilityStations.filter(
         (filteredFacilityStations) =>
@@ -170,11 +159,6 @@ export class SearchComponent implements OnInit {
     }
 
     this.stationFilteredSelected.emit(this.filteredConnectorStations);
-    console.log('Seçilen Connector:', connector);
-    console.log(
-      'Seçilen İstasyonlar (Connector):',
-      this.filteredConnectorStations
-    );
   }
 
   updateSearchText() {

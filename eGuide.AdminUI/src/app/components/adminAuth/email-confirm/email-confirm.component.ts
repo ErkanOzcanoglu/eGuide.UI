@@ -16,7 +16,7 @@ export class EmailConfirmComponent {
   token = '';
 
   ngOnInit() {
-    this.token = this.route.snapshot.params['token']; 
+    this.token = this.route.snapshot.params['token'];
   }
 
   navigateToHome() {
@@ -24,10 +24,8 @@ export class EmailConfirmComponent {
   }
 
   confirmAccount() {
-    console.log(this.token);
     this.userService.confirmAccount(this.token).subscribe(
       (response) => {
-        console.log('Hesap onaylandı.', response);
         this.router.navigate(['/home']);
       },
       (error) => {

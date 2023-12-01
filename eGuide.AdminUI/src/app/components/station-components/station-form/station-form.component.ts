@@ -88,10 +88,6 @@ export class StationFormComponent implements OnInit {
     this.store2
       .pipe(select(selectStationEditData))
       .subscribe((stationEditData) => {
-        console.log(
-          stationEditData.stationEditData?.address,
-          'stationEditData'
-        );
         if (stationEditData.stationEditData?.address !== undefined)
           this.isEdited = true;
         if (stationEditData) {
@@ -106,7 +102,6 @@ export class StationFormComponent implements OnInit {
 
           this.editDatas = stationEditData.stationEditData;
 
-          console.log(this.editDatas?.stationModel?.id, 'stationModelId');
           this.stationModelForm.patchValue({
             name: this.editDatas?.stationModel?.name,
           });
@@ -129,7 +124,6 @@ export class StationFormComponent implements OnInit {
     this.customButton = document.getElementById('customButton');
     if (this.customButton) {
       this.customButton = stationStatus;
-      console.log(this.customButton, 'rer');
     }
   }
 
@@ -139,7 +133,6 @@ export class StationFormComponent implements OnInit {
         (chargingUnit) => chargingUnit.id === chargingUnitId
       )?.name;
     });
-    console.log(this.selectedChargingUnits, 'selectedSockets');
   }
 
   setSwitch(): void {
@@ -195,7 +188,6 @@ export class StationFormComponent implements OnInit {
       this.stationChargingUnitForm.invalid &&
       this.selectedFacilitiesForm.invalid
     ) {
-      console.log('invalid form');
       this.toastr.error('Station creation failed!');
       return;
     } else {
@@ -204,7 +196,6 @@ export class StationFormComponent implements OnInit {
         .subscribe({
           next: (stationModel) => {
             this.stationForm.patchValue({ stationModelId: stationModel.id });
-            console.log(this.stationForm.value);
             // conver lat and lng to string
             this.stationForm.value.latitude =
               this.stationForm.value.latitude.toString();
@@ -218,7 +209,6 @@ export class StationFormComponent implements OnInit {
                   this.stationId = station.id;
                   this.selectedFacilitiesForm.value.facilities.forEach(
                     (facilityId: number) => {
-                      console.log(stationModel.id, 'stationModelId');
                       this.stationFacilityService
                         .createStationFacility({
                           facilityId: facilityId,
@@ -237,15 +227,10 @@ export class StationFormComponent implements OnInit {
 
                   this.selectedChargingUnitForm.value.sockets.forEach(
                     (chargingUnitId: number) => {
-                      console.log(stationModel.id, 'stationModelId');
                       this.stationChargingUnitForm.patchValue({
                         chargingUnitId: chargingUnitId,
                         stationModelId: stationModel.id,
                       });
-                      console.log(
-                        this.stationChargingUnitForm.value,
-                        'socketForm'
-                      );
                       this.stationSocketService
                         .createStationSocket(this.stationChargingUnitForm.value)
                         .subscribe({

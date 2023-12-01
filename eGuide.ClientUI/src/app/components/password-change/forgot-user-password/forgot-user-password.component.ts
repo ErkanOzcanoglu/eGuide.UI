@@ -23,10 +23,8 @@ export class ForgotUserPasswordComponent {
   ) {}
 
   ngOnInit() {
-    this.initializeForm(); 
-      this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
-      console.log(this.token); // Token'i konsola yazdırabilirsiniz
-
+    this.initializeForm();
+    this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
   }
 
   initializeForm() {
@@ -41,11 +39,9 @@ export class ForgotUserPasswordComponent {
       .resetPasswordScreen(this.forgotPasswordForm.value, this.token)
       .subscribe(
         (response) => {
-          console.log('success',response);
-           this.router.navigate(['/login']);
+          this.router.navigate(['/login']);
         },
         (error) => {
-          console.log('patos',error);
           this.router.navigate(['/login']);
         }
       );

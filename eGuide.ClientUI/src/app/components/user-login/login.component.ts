@@ -67,7 +67,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.userauthService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          console.log(response.id, 'response');
           this.userService.getUserById(response?.id).subscribe({
             next: (response) => {
               if (response?.id) localStorage.setItem('authToken', response?.id);
@@ -79,9 +78,7 @@ export class LoginComponent implements OnInit {
                 level: 'info',
                 source: 'web',
               });
-              this.userauthService
-                .login_Log(this.logForm.value)
-                .subscribe(() => console.log('oldu'));
+              this.userauthService.login_Log(this.logForm.value).subscribe();
               setTimeout(() => {
                 this.router.navigate(['/']);
                 location.reload();

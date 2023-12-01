@@ -77,6 +77,7 @@ import { ColorCustomizationComponent } from './components/customization-componen
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
 import { TabbarComponent } from './components/tabbar/tabbar.component';
+import { StationFilterPipe } from './pipes/station-filter.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,6 +106,7 @@ import { TabbarComponent } from './components/tabbar/tabbar.component';
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    StationFilterPipe,
     ChangePasswordComponent,
     AdminComponent,
     VehicleComponent,
