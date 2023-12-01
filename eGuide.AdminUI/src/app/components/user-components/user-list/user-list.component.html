@@ -1,85 +1,108 @@
 <div class="h-full w-full">
-    <table class="table">
-      <thead class="w-full">
-        <tr>
-          <!-- Checkbox Header -->
-          <th>
-            <!--
+  <table class="table">
+    <thead class="w-full">
+      <tr>
+        <!-- Checkbox Header -->
+        <th>
+          <!--
             <label>
               <input type="checkbox" class="checkbox" />
             </label>
             -->
-          </th>
-          <!-- Search Header -->
-          <th class="w-2/5">
-            <div class="search-container">
-              <div class="title-and-search">
-                <!-- Search Icon -->
-                <span
-                  class="search-icon-container"
-                  (click)="toggleSearch()"
-                  (keydown.enter)="toggleSearch()"
-                  tabindex="0"
-                  role="button"
-                >
-                  <i class="fas fa-search search-icon"></i>
-                </span>
-                <!-- Search Input -->
-                User
-                <input
-                  *ngIf="showSearch"
-                  type="text"
-                  class="form-control transparent-input"
-           
-                  placeholder="Search for Users"
-                />
-              </div>
-            </div>
-          </th>
-          <!-- User Name Header -->
-          <th class="w-2/5 bg-primary">User Email</th>
-          <!-- User Surname Header -->
-          
-          <!-- Empty Header -->
-          <th class="w-1/5"></th>
-        </tr>
-      </thead>
-      <tbody class="w-full">
-        <!-- User Rows -->
-        <tr
-          *ngFor="let user of users | userFilter : searchTerm"
-          (click)="toggleSelection(user)"
-        >
-          <!-- Checkbox Column -->
-          <div class="avatar">
-            <div class="mask mask-squircle p-2 flex justify-center items-center bg-black">
-              <p class="text-seconborder-secondary text-xl flex justify-center items-center font-bold">
-                {{ user.name?.charAt(0) }}{{ user.surname?.charAt(0) }}
-              </p>
+        </th>
+        <!-- Search Header -->
+        <th class="w-2/5">
+          <div class="search-container">
+            <div class="title-and-search">
+              <!-- Search Icon -->
+              <span
+                class="search-icon-container"
+                (click)="toggleSearch()"
+                (keydown.enter)="toggleSearch()"
+                tabindex="0"
+                role="button"
+              >
+                <i class="fas fa-search search-icon"></i>
+              </span>
+              <!-- Search Input -->
+              User
+              <input
+                *ngIf="showSearch"
+                type="text"
+                class="form-control transparent-input"
+                placeholder="Search for Users"
+              />
             </div>
           </div>
-          <!-- User Name Column -->
-          <td class="bg-primary">
-            <div class="font-bold">{{ user.name + " " + user.surname}}</div>
-          </td>
-          <!-- User Email Column -->
-          
-          <!-- User Surname Input Column -->
-          <td class="bg-primary">
-            <input
-              class="bg-transparent border-none outline-none font-bold"
-              type="text"
-              [value]="user.name"
-              [disabled]="!editMode"
-            />
-          </td>
-          <!-- Actions Column (Commented Out) -->
-         
-          <td class="gap-x-2 flex">
-              <button class="btn bg-primary border-secondary" (click)="viewProfile(user.id)">View Profile</button>
-          </td>
-         
-        </tr>
-      </tbody>
-    </table>
+        </th>
+        <!-- User Name Header -->
+        <th class="w-2/5 bg-primary">User Email</th>
+        <!-- User Surname Header -->
+
+        <!-- Empty Header -->
+        <th class="w-1/5"></th>
+      </tr>
+    </thead>
+    <tbody class="w-full">
+      <!-- User Rows -->
+      <tr
+        *ngFor="let user of users | userFilter : searchTerm"
+        (click)="toggleSelection(user)"
+      >
+        <!-- Checkbox Column -->
+        <div class="avatar">
+          <div
+            class="mask mask-squircle p-2 flex justify-center items-center bg-black"
+          >
+            <p
+              class="text-seconborder-secondary text-xl flex justify-center items-center font-bold"
+            >
+              {{ user.name?.charAt(0) }}{{ user.surname?.charAt(0) }}
+            </p>
+          </div>
+        </div>
+        <!-- User Name Column -->
+        <td class="bg-primary">
+          <div class="font-bold">{{ user.name + " " + user.surname }}</div>
+        </td>
+        <!-- User Email Column -->
+
+        <!-- User Surname Input Column -->
+        <td class="bg-primary">
+          <input
+            class="bg-transparent border-none outline-none font-bold"
+            type="text"
+            [value]="user.name"
+            [disabled]="!editMode"
+          />
+        </td>
+        <!-- Actions Column (Commented Out) -->
+
+        <!-- <td class="gap-x-2 flex">
+              <button class="btn bg-primary border-secondary" (click)="viewProfileDetails(user.id)">View Profile</button>
+          </td> -->
+        <td class="gap-x-2 flex">
+          <button
+            class="btn bg-primary border-secondary"
+            (click)="openProfileCard(user)"
+          >
+            Information
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="selectedUser" class="popup card w-96 bg-base-100 shadow-xl" [@fadeIn]>
+  <div class="card-body">
+    <h2 class="card-title">
+      {{ selectedUser.name }} {{ selectedUser.surname }}
+    </h2>
+    <p>Email: {{ selectedUser.email }}</p>
+    <p>Register Date: {{ selectedUser.createdDate }}</p>
+    <div class="card-actions justify-end">
+      <div class="badge badge-outline" (click)="viewProfileDetails(selectedUser.id)">View Profile Details</div>
+    </div>
+    <span class="close-btn" (click)="closeProfileCard()">&times;</span>
   </div>
+</div>

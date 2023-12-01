@@ -5,6 +5,9 @@ export class User {
     email = '';
     password = '';
     confirmPassword = '';
+    createdDate='';
     isSelected?: boolean;
+
+    
   }
   
