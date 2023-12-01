@@ -80,7 +80,7 @@ import { UserFilterPipe } from './pipes/user.pipe';
 import { UserComponent } from './screens/user/user.component';
 import { UserListComponent } from './components/user-components/user-list/user-list.component';
 import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
-import { UserSharedService } from './services/user-shared.service';
+
 
 
 
@@ -167,7 +167,7 @@ import { UserSharedService } from './services/user-shared.service';
     UserListComponent,
     UserProfileComponent
   ],
-  providers: [AuthService,UserSharedService],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

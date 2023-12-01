@@ -1,1 +1,86 @@
-dsadasd
+<div class="w-full bg-primary flex justify-center flex-col p-10">
+  <div class="h-full flex flex-col p-5">
+    <div
+      class="border-b mx-5 flex justify-between text-white border-sectext-secondary pb-2 text-3xl font-bold w-full"
+    >
+      <h1 class="">USER PROFILE</h1>
+      <button
+        class="btn bg-primary border-secondary"
+        (click)="viewProfileList()"
+      >
+        View Profile List
+      </button>
+    </div>
+
+    <div class="bg-primary">
+      <div class="mx-10">
+        <div class="mb-8 mt-8">
+          <h2 class="text-2xl font-semibold mb-4">Edit Profile</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="name"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Name</label
+              >
+              <p
+                class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+              >
+                {{ user?.name }}
+              </p>
+            </div>
+            <div>
+              <label
+                for="surname"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Surname</label
+              >
+              <p
+                class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+              >
+                {{ user?.surname }}
+              </p>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label
+              for="email"
+              class="block ml-2 text-sm font-medium text-gray-600"
+              >Email</label
+            >
+            <p
+              class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+            >
+              {{ user?.email }}
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div class="col-span-2">
+              <label
+                for="email"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Vehicles</label
+              >
+            </div>
+            <div
+              class="mr-16 overflow-auto custom-scrollbar"
+              style="max-height: 160px"
+            >
+              <ng-container *ngFor="let vehicle of vehicleList; let i = index">
+                <div class="vehicle-list-item">
+                  <p class="brand">{{ vehicle.brand }}</p>
+                  <p class="model">{{ vehicle.model }}</p>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end flex-row gap-x-3 w-full">
+          <button class="btn btn-error" (click)="removeUser()">
+            Delete Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

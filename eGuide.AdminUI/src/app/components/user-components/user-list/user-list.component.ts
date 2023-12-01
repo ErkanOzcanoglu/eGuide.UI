@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscribable } from 'rxjs';
 import { fadeIn } from 'src/app/models/fade-in.animation';
 import { User } from 'src/app/models/user';
-import { UserSharedService } from 'src/app/services/user-shared.service';
 import { UserService } from 'src/app/services/user.service';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
  
@@ -33,7 +32,7 @@ export class UserListComponent {
     private userService: UserService,
     private toastr: ToastrService,
     private store: Store,
-    private userSharedService: UserSharedService
+
   ) {
     this.store.select(selectRefresh).subscribe((refresh: boolean) => {
       console.log(refresh);
