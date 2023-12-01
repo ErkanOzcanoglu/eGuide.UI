@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Station } from 'src/app/models/station';
 import { User } from 'src/app/models/user';
 import { Vehicle } from 'src/app/models/vehicle';
+import { UserStationService } from 'src/app/services/user-station.service';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -13,8 +15,12 @@ import { UserService } from 'src/app/services/user.service';
 export class UserProfileComponent {
   user: User = new User();
   vehicleList: Vehicle[] = [];
+  stations: Station[] = [];
   editMode = false;
   userId = '';
+
+  numberOfVehicles: any;
+  numberOfStations: any;
 
   kullaniciId: any;
 
@@ -22,13 +28,14 @@ export class UserProfileComponent {
     private router: Router,
     private userService: UserService,
     private route: ActivatedRoute,
-    private userVehicleService: UserVehicleService
+    private userVehicleService: UserVehicleService,
+    private userStationService: UserStationService
   ) {}
 
   ngOnInit(): void {
     // ActivatedRoute servisini kullanarak id parametresini al
     this.route.params.subscribe((params) => {
-      this. userId = params['id'];
+      this.userId = params['id'];
 
       // Burada userId'yi kullanabilirsiniz
       console.log('User ID from route parameters:', this.userId);
@@ -36,7 +43,7 @@ export class UserProfileComponent {
       // Kullanıcı bilgilerini almak için gerekli işlemleri gerçekleştirebilirsiniz
       this.getUserInfo(this.userId);
       this.getVehicleById(this.userId);
-    
+      this.getStationProfilesById(this.userId);
     });
   }
 
@@ -69,18 +76,32 @@ export class UserProfileComponent {
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
-          this.vehicleList = data;
+          this.vehicleList = data;   
+          // Araç sayısını alma
+          this.numberOfVehicles = this.vehicleList.length;
+          console.log('Toplam Araç Sayısı:', this.numberOfVehicles);
 
-          const combinedVehicles = this.vehicleList.map((vehicle) => {
-            return `${vehicle.brand}-${vehicle.model}`;
-          });
-          console.log(combinedVehicles);
+          console.log(this.numberOfVehicles);
         },
         (error) => {
           console.error('Araç bilgileri alma hatası:', error);
         }
       );
     }
+  }
+
+  getStationProfilesById(userId: string): void {
+    this.userStationService.getStationProfiles(userId).subscribe(
+      (stations: Station[]) => {
+        this.stations = stations;
+        // İstasyon sayısını alma
+        this.numberOfStations = this.stations.length;
+        console.log('Toplam İstasyon Sayısı:', this.numberOfStations);
+      },
+      (error) => {
+        console.error('Error fetching station profiles:', error);
+      }
+    );
   }
 
   viewProfileList() {

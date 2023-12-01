@@ -15,7 +15,39 @@
     <div class="bg-primary">
       <div class="mx-10">
         <div class="mb-8 mt-8">
-          <h2 class="text-2xl font-semibold mb-4">Edit Profile</h2>
+          <div class="flex flex-row items-center">
+            <h2 class="text-2xl font-semibold  text-white">
+              User Statistics
+            </h2>
+            <div class="flex flex-row">
+              <div class="ml-4 flex items-center">
+                <div
+                  class="mr-5 p-2 pt-3 w-10 input border rounded-md input-disabled"
+                >
+                  {{ numberOfVehicles }}
+                </div>
+                <div
+                  for="totalVehicles"
+                  class="block text-sm font-medium text-white"
+                >
+                  Total Vehicles
+                </div>
+              </div>
+              <div class="ml-4 flex items-center">
+                <div
+                  class=" mr-5 p-2 pt-3 w-10 input border rounded-md input-disabled"
+                >
+                  {{ numberOfStations }}
+                </div>
+                <div
+                  for="totalFavoriteStations"
+                  class="block text-sm font-medium text-white"
+                >
+                  Total Favorite Stations
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label
@@ -23,11 +55,11 @@
                 class="block ml-2 text-sm font-medium text-gray-600"
                 >Name</label
               >
-              <p
+              <div
                 class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
               >
                 {{ user?.name }}
-              </p>
+              </div>
             </div>
             <div>
               <label
@@ -35,11 +67,11 @@
                 class="block ml-2 text-sm font-medium text-gray-600"
                 >Surname</label
               >
-              <p
+              <div
                 class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
               >
                 {{ user?.surname }}
-              </p>
+              </div>
             </div>
           </div>
           <div class="mt-4">
@@ -55,23 +87,45 @@
             </p>
           </div>
           <div class="grid grid-cols-2 gap-4 mt-4">
-            <div class="col-span-2">
+            <!-- Araç Listesi -->
+            <div class="col-span-1">
               <label
-                for="email"
-                class="block ml-2 text-sm font-medium text-gray-600"
+                for="vehicle"
+                class="block text-sm font-medium text-gray-600"
                 >Vehicles</label
               >
+              <div
+                class="mr-16 overflow-auto custom-scrollbar"
+                style="max-height: 160px; width: 455px"
+              >
+                <ng-container
+                  *ngFor="let vehicle of vehicleList; let i = index"
+                >
+                  <div class="vehicle-list-item">
+                    <p class="brand">{{ vehicle.brand }}</p>
+                    <p class="model">{{ vehicle.model }}</p>
+                  </div>
+                </ng-container>
+              </div>
             </div>
-            <div
-              class="mr-16 overflow-auto custom-scrollbar"
-              style="max-height: 160px"
-            >
-              <ng-container *ngFor="let vehicle of vehicleList; let i = index">
-                <div class="vehicle-list-item">
-                  <p class="brand">{{ vehicle.brand }}</p>
-                  <p class="model">{{ vehicle.model }}</p>
-                </div>
-              </ng-container>
+            <!-- Favori İstasyon Listesi -->
+            <div class="col-span-1">
+              <label
+                for="station"
+                class="block text-sm font-medium text-gray-600"
+                >Favorite Stations</label
+              >
+              <div
+                class="mr-16 overflow-auto custom-scrollbar"
+                style="max-height: 160px; width: 455px"
+              >
+                <ng-container *ngFor="let station of stations; let i = index">
+                  <div class="vehicle-list-item">
+                    <p class="name">{{ station.name }}</p>
+                    <p class="address">{{ station.address }}</p>
+                  </div>
+                </ng-container>
+              </div>
             </div>
           </div>
         </div>
