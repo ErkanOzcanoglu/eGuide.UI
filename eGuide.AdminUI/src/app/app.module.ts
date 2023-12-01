@@ -1,7 +1,7 @@
 import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -78,6 +78,7 @@ import { CompanyInformationComponent } from './components/customization-componen
 import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
 import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -133,6 +134,7 @@ import { StationFilterPipe } from './pipes/station-filter.pipe';
     ColorCustomizationComponent,
     CompanyInformationComponent,
     TabbarComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     ChartModule,
