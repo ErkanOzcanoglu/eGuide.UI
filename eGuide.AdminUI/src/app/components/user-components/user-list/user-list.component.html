@@ -55,9 +55,10 @@
             class="mask mask-squircle p-2 flex justify-center items-center bg-black"
           >
             <p
-              class="text-seconborder-secondary text-xl flex justify-center items-center font-bold"
+              class="text-seconborder-secondary upper-case text-xl flex justify-center items-center font-bold"
             >
-              {{ user.name?.charAt(0) }}{{ user.surname?.charAt(0) }}
+              {{ user.name?.charAt(0).toUpperCase()
+              }}{{ user.surname?.charAt(0).toUpperCase() }}
             </p>
           </div>
         </div>
@@ -93,7 +94,11 @@
     </tbody>
   </table>
 </div>
-<div *ngIf="selectedUser" class="popup card w-96 bg-base-100 shadow-xl" [@fadeIn]>
+<div
+  *ngIf="selectedUser"
+  class="popup card w-96 bg-base-100 shadow-xl"
+  [@fadeIn]
+>
   <div class="card-body">
     <h2 class="card-title">
       {{ selectedUser.name }} {{ selectedUser.surname }}
@@ -101,7 +106,12 @@
     <p>Email: {{ selectedUser.email }}</p>
     <p>Register Date: {{ selectedUser.createdDate }}</p>
     <div class="card-actions justify-end">
-     <div class="btn bg-primary border-secondary" (click)="viewProfileDetails(selectedUser.id)">View Profile Details</div>
+      <div
+        class="btn bg-primary border-secondary"
+        (click)="viewProfileDetails(selectedUser.id)"
+      >
+        View Profile Details
+      </div>
     </div>
     <span class="close-btn" (click)="closeProfileCard()">&times;</span>
   </div>
