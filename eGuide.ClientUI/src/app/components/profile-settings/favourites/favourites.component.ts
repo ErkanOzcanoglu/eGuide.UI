@@ -34,13 +34,11 @@ export class FavouritesComponent {
     );
   }
 
-  onDeleteStationProfile(id:any): void {
+  onDeleteStationProfile(id: any): void {
     this.userStationService.deleteStationProfile(id).subscribe(
       () => {
-        console.log("silinen istasyonidsi",id);
         const token = localStorage.getItem('authToken');
-        if (token !== null) 
-        this.getStationProfiles(token);
+        if (token !== null) this.getStationProfiles(token);
       },
       (error) => {
         console.error('Error deleting station profile:', error);

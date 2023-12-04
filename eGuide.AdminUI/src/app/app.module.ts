@@ -76,13 +76,14 @@ import { FooterCustomizationComponent } from './components/customization-compone
 import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
+
 import { UserFilterPipe } from './pipes/user.pipe';
 import { UserComponent } from './screens/user/user.component';
 import { UserListComponent } from './components/user-components/user-list/user-list.component';
 import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
 
-
-
+import { TabbarComponent } from './components/tabbar/tabbar.component';
+import { StationFilterPipe } from './pipes/station-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { UserProfileComponent } from './components/user-components/user-profile/
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    StationFilterPipe,
     ChangePasswordComponent,
     AdminComponent,
     VehicleComponent,
@@ -141,6 +143,7 @@ import { UserProfileComponent } from './components/user-components/user-profile/
     UserComponent,
     UserListComponent,
     UserProfileComponent,
+    TabbarComponent,
   ],
   imports: [
     ChartModule,

@@ -18,10 +18,7 @@ export class UserSettingsComponent implements OnInit {
 
   showForgotPasswordButton = true;
 
-  constructor(
-    private router: Router,
-    private userService: UserService,
-  ) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('authToken');
@@ -29,7 +26,6 @@ export class UserSettingsComponent implements OnInit {
       this.userService.getUserById(userId).subscribe(
         (user) => {
           this.user = user;
-          console.log(user);
         },
         (error) => {
           console.error('error while getting data:', error);
@@ -44,8 +40,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   onCancelClick() {
-   
-    this.editMode = false; 
+    this.editMode = false;
   }
 
   onSaveClick() {
@@ -54,7 +49,6 @@ export class UserSettingsComponent implements OnInit {
     if (userId !== null) {
       userId = userId.replace(/^"(.*)"$/, '$1');
       this.userService.updateUser(userId, this.user).subscribe((response) => {
-        console.log('Userupdated:', response);
         this.editMode = false;
       });
     }
@@ -66,8 +60,6 @@ export class UserSettingsComponent implements OnInit {
       .resetPassword(this.resetPasswordModel, this.userId)
       .subscribe(
         (response: string) => {
-          console.log(response);
-
           localStorage.removeItem('authToken');
           this.router.navigate(['/login']);
         },

@@ -34,13 +34,11 @@ export class SocialMediaListComponent {
 
   openForm() {
     this.isOpen = !this.isOpen;
-    console.log('open form');
   }
 
   getSocialMedias() {
     this.socialMediaService.getSocialMedias().subscribe((response) => {
       this.socialMedias = response;
-      console.log(this.socialMedias);
     });
   }
 

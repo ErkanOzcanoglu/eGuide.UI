@@ -14,7 +14,10 @@ export class FavoritesComponent {
   stationNames: string[] = [];
   stationUserCounts: number[] = [];
 
-  constructor(private userStationService: UserStationService, private stationService: StationService) {}
+  constructor(
+    private userStationService: UserStationService,
+    private stationService: StationService
+  ) {}
 
   ngOnInit(): void {
     this.getStations();
@@ -41,13 +44,13 @@ export class FavoritesComponent {
   getTotalUserCount(stationId: string) {
     this.userStationService.getTotalUserCountForStation(stationId).subscribe(
       (totalUserCount) => {
-        console.log(`Total User Count for Station ${stationId}: ${totalUserCount}`);
-        
         this.stationUserCounts.push(totalUserCount);
       },
       (error) => {
-        console.error(`Error getting total user count for Station ${stationId}:`, error);
-
+        console.error(
+          `Error getting total user count for Station ${stationId}:`,
+          error
+        );
         this.stationUserCounts.push(-1);
       }
     );

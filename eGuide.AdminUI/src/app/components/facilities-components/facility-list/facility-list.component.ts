@@ -33,13 +33,11 @@ export class FacilityListComponent implements OnInit {
 
   openForm() {
     this.isOpen = !this.isOpen;
-    console.log('open form');
   }
 
   getFacilities() {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
-      console.log(this.facilities);
     });
   }
 
@@ -71,12 +69,10 @@ export class FacilityListComponent implements OnInit {
 
   editFacility(facility: Facility) {
     const facilityId = facility.id;
-    console.log(facilityId);
     this.facilityService
       .updateFacility(facilityId, this.facilityForm.value)
       .subscribe(
         (data) => {
-          console.log(data);
           this.getFacilities();
         },
         (error) => {

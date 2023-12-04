@@ -36,14 +36,16 @@
                   <p
                     class="text-seconborder-secondary text-xl flex justify-center items-center font-bold"
                   >
-                    {{ adminInfo.name?.charAt(0)
-                    }}{{ adminInfo.surname?.charAt(0) }}
+                    {{ adminInfo.name?.charAt(0) | uppercase
+                    }}{{ adminInfo.surname?.charAt(0) | uppercase }}
                   </p>
                 </div>
               </div>
               <div>
-                <div class="font-bold">{{ adminInfo.name }}</div>
-                <div class="text-sm opacity-50">{{ adminInfo.surname }}</div>
+                <div class="font-bold">{{ adminInfo.name | titlecase }}</div>
+                <div class="text-sm opacity-50">
+                  {{ adminInfo.surname | titlecase }}
+                </div>
               </div>
             </div>
           </td>

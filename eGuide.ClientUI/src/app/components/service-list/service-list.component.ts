@@ -32,7 +32,6 @@ export class ServiceListComponent implements OnInit {
   getServices() {
     this.serviceService.getAllServices().subscribe((data) => {
       this.service = data;
-      console.log(data);
     });
   }
 }

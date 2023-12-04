@@ -3,14 +3,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
-import Search from '@arcgis/core/widgets/Search';
-import * as reactiveUtils from '@arcgis/core/reactiveUtils';
-import Swal from 'sweetalert2';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
 import { basemapss } from './map-data';
 import { MapHelper } from './map-helper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommentService } from 'src/app/services/comment.service';
+import { Comment } from 'src/app/models/comment';
 
 interface Center {
   latitude: any;
@@ -29,23 +29,27 @@ export class MapComponent implements OnInit {
   userStation: UserStation = new UserStation();
   currentBasemapIndex: number;
   stations: Station[] = [];
+  comments: Comment[] = [];
   map: any;
   view: any;
   locate: any;
   nearLocate: any;
   basemapss: any[] = [];
-
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
 
   FilteredStations: Station[] = [];
+  commentForm: FormGroup = new FormGroup({});
+
 
   constructor(
     private stationService: StationService,
     private lastVisitedStationsService: LastVisitedStationsService,
     private userStationService: UserStationService,
-    private mapHelper: MapHelper
+    private formBuilder: FormBuilder,
+    private mapHelper: MapHelper,
+    private commentService: CommentService
   ) {
     this.basemapss = basemapss;
     this.currentBasemapIndex = 0;
@@ -54,7 +58,7 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap();
     this.getStations();
-    // initialize map
+    this.initializeForm();
   }
 
   initializeMap() {
@@ -125,7 +129,7 @@ export class MapComponent implements OnInit {
   }
 
   calculateNearestStations(userP: any): void {
-    this.mapHelper.calculateNearestStations(userP, this.stations, this.view);
+    this.mapHelper.calculateNearestStations(userP, this.view);
   }
 
   calculateDistance(
@@ -153,6 +157,7 @@ export class MapComponent implements OnInit {
   }
 
   getStations(): void {
+
     this.stationService.getStations().subscribe((data) => {
       if (this.FilteredStations.length === 0) {
         this.stations = data;
@@ -430,6 +435,9 @@ export class MapComponent implements OnInit {
         });
       }
     });
+
+  
+
   }
 
   // get selected station from station list component
@@ -438,54 +446,43 @@ export class MapComponent implements OnInit {
     this.view.zoom = 12; // zoom in to the selected station
   }
 
+  FilteredStationsGet(event: any) {
+    this.FilteredStations = event;
+  }
+
+
   // get search text from search component
   goLocation(stationId: any) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success m-1',
-        cancelButton: 'btn btn-danger m-1',
-      },
-      buttonsStyling: false,
+    this.mapHelper.goLocation(stationId);
+  }
+
+  initializeForm() {
+    this.commentForm = this.formBuilder.group({
+      text: [''],
+      rating: [''],
+      ownerId: [''],
+      stationId: [''],
     });
-    swalWithBootstrapButtons
-      .fire({
-        title: 'Are you sure?',
-        text: 'Gitmek istediğine emin misin!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Evet, Istiyorum!',
-        cancelButtonText: 'Hayır, Istemiyorum!',
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          const userId = localStorage.getItem('authToken');
-          if (userId != null) {
-            this.lastVisitedStations.userId = userId;
-            this.lastVisitedStations.stationId = stationId;
-            this.lastVisitedStationsService
-              .createLastVisitedStation(this.lastVisitedStations)
-              .subscribe();
-          }
-        }
-        // else bloğu kaldırıldı
-      });
+  }
+
+  getComments(stationId: any) {
+    this.mapHelper.getComments(stationId);
+  }
+
+  comment(stationId: any) {
+    this.mapHelper.comment(stationId);
+  }
+
+  submitComment(comment: string, stationId: number) {
+    this.mapHelper.submitComment(comment, stationId);
   }
 
   // search function
   search(enevt: any) {
-    this.searchType = enevt;
-    const search = new Search({
-      view: this.view,
-    });
-    console.log(this.searchType, 'aaa');
-    search.search(this.searchType);
+    this.mapHelper.search(enevt, this.view);
   }
 
   saveUserStation(elementId: string, userId: string): void {
-    this.userStation.userId = userId;
-    this.userStation.stationProfileId = elementId;
-    console.log(this.userStation);
-    this.userStationService.saveUserStation(this.userStation).subscribe();
+    this.mapHelper.saveUserStation(elementId, userId);
   }
 }

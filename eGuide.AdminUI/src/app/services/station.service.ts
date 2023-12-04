@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Station } from '../models/station';
 import { environment } from '../environments/environment';
 import { Model } from '../models/stationInformationModel';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,31 +12,31 @@ import { Model } from '../models/stationInformationModel';
 export class StationService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  getStations() {
+  getStations(): Observable<Station[]> {
     return this.http.get<Station[]>(`${environment.apiUrl}/Station`, {
       responseType: 'json',
     });
   }
 
-  createStation(station: Station) {
+  createStation(station: Station): Observable<Station> {
     return this.http.post<Station>(`${environment.apiUrl}/Station`, station, {
       responseType: 'json',
     });
   }
 
-  getAllStaiton() {
+  getAllStaiton(): Observable<Model[]> {
     return this.http.get<Model[]>(`${environment.apiUrl}/Station`, {
       responseType: 'json',
     });
   }
 
-  getStationById(id: string) {
+  getStationById(id: string): Observable<Station> {
     return this.http.get<Station>(`${environment.apiUrl}/Station/${id}`, {
       responseType: 'json',
     });
   }
 
-  updateStation(id: any, station: Station) {
+  updateStation(id: any, station: Station): Observable<Station> {
     return this.http.put<Station>(
       `${environment.apiUrl}/Station/${id}`,
       station,

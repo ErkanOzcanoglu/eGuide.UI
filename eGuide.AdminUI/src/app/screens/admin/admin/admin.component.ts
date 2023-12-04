@@ -15,9 +15,7 @@ export class AdminComponent implements OnInit {
 
   constructor(private adminService: AdminService, private store: Store) {
     this.store.select(selectRefresh).subscribe((refresh: boolean) => {
-      console.log(refresh);
       if (refresh === true) {
-        console.log('refresh');
         this.getAdmins();
       }
     });
@@ -35,6 +33,5 @@ export class AdminComponent implements OnInit {
 
   openForm() {
     this.isOpen = !this.isOpen;
-    console.log(this.isOpen);
   }
 }

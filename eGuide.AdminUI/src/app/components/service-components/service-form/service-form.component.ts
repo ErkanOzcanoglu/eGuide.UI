@@ -64,7 +64,6 @@ export class ServiceFormComponent {
 
   getEditData() {
     this.store.pipe(select(selectServiceEditData)).subscribe((datas) => {
-      console.log(datas, 'getEditData');
       if (datas) {
         const data = datas.serviceEditData;
         this.serviceForm.patchValue({
@@ -84,8 +83,6 @@ export class ServiceFormComponent {
 
   onFileSelect(event: any) {
     this.files.push(event.target.files[0]);
-    console.log(this.files);
-
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event: any) => {

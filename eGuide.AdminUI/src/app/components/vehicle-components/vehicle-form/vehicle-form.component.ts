@@ -52,7 +52,9 @@ export class VehicleFormComponent {
           this.toastr.success('Araç başarıyla eklendi', 'Başarılı');
           setTimeout(() => {
             this.store.dispatch(setRefresh(true));
+            this.vehicleForm.reset();
           }, 400);
+          this.store.dispatch(setRefresh(false));
         },
         (error) => {
           // Hata durumunda yapılacak işlemler

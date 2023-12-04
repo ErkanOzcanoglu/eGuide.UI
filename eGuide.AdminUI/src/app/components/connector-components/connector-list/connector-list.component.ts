@@ -35,7 +35,6 @@ export class ConnectorListComponent implements OnInit {
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
-      console.log(this.connectorList);
     });
   }
 

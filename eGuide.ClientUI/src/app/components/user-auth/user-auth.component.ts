@@ -36,17 +36,13 @@ export class UserAuthComponent implements OnInit {
   }
 
   register(): void {
-    console.log(this.registerForm.value);
     this.userauthService.registerUser(this.registerForm.value).subscribe({
       next: (response) => {
-        if (response && response.id) {
-          response.id = response.id.replace(/^"(.*)"$/, '$1');
-          localStorage.setItem('authToken', response.id);
-        }
+        this.toastr.success('User registered successfully.');
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         this.toastr.error('Please fill out all the form information.');
-        console.log(error);
         console.error('Please fill out all the form information.');
       },
     });

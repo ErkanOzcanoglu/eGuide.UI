@@ -25,9 +25,7 @@ export class SocketListComponent implements OnInit {
     private store: Store
   ) {
     this.store.select(selectRefresh).subscribe((refresh: boolean) => {
-      console.log(refresh);
       if (refresh === true) {
-        console.log('refresh');
         this.getChargingUnitList();
       }
     });
@@ -76,7 +74,6 @@ export class SocketListComponent implements OnInit {
       .updateChargingUnit(id, this.socketUpdteForm.value)
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.getChargingUnitList();
         },
         error: (error) => {

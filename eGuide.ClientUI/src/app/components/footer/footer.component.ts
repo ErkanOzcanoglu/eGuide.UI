@@ -25,14 +25,12 @@ export class FooterComponent implements OnInit {
   getSocialMedias() {
     return this.socialMediaService.getSocialMedia().subscribe((data) => {
       this.socialMedias = data;
-      console.log(this.socialMedias);
     });
   }
 
   getFooterType() {
     this.websiteService.getWebsite().subscribe((website) => {
       this.footer = website[0].footer;
-      console.log(this.footer);
     });
   }
 }

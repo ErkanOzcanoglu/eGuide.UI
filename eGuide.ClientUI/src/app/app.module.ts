@@ -42,10 +42,8 @@ import { ServiceComponent } from './screens/service/service.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { ContactComponent } from './screens/contact/contact.component';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-
-
 
 @NgModule({
   declarations: [
@@ -86,7 +84,6 @@ import { MatListModule } from '@angular/material/list';
     StoreModule.forRoot({}, {}),
     MatExpansionModule,
     MatListModule,
-    
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
