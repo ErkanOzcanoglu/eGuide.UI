@@ -85,8 +85,11 @@
             VEHICLE<i class="fa-solid fa-car ml-5"></i>
           </h1>
           <div class="flex items-center justify-between">
-            <div class="ml-5">
-              <h2 class="text-xl font-semibold mt-5 mb-3 field-label">
+            <div class="ml-1">
+              <h2
+                class="text-xl font-semibold mt-5 mb-3 field-label"
+                id="vehicle-list-label"
+              >
                 Vehicle
               </h2>
             </div>
@@ -105,14 +108,21 @@
                   'selected-vehicle': userVehicleActive.vehicleId === vehicle.id
                 }"
               >
-                <p class="brand">{{ vehicle.brand }}</p>
+                <p class="brand">
+                  {{ vehicle.brand }}
+                  <span
+                    *ngIf="userVehicleActive.vehicleId === vehicle.id"
+                    class="selected-indicator"
+                    ><i class="fa-solid fa-road"></i
+                  ></span>
+                </p>
                 <p class="model">{{ vehicle.model }}</p>
               </div>
             </ng-container>
           </div>
         </div>
         <div class="w-full sm:w-1/2 mt-12 sm:mt-0">
-          <h2 class="text-xl font-semibold field-label">Vehicle Options</h2>
+          <h2 class="text-xl font-semibold field-label mt-2"id="vehicle-options-label">Vehicle Options</h2>
           <form>
             <div class="mt-4 ml-7 field-label">
               <div><label for="brand">Brand:</label></div>

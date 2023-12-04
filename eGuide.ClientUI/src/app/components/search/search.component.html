@@ -1,34 +1,36 @@
-<div class="flex justify-center items-center space-x-2">
+<div class="flex justify-center items-center space-x-1">
   <div class="relative flex items-center">
     <input
       type="text"
       aria-describedby="search-text"
       placeholder="Search"
       [(ngModel)]="searchText"
-      class="bg-white w-52 h-10 p-2 pr-10 rounded-l-xl outline-none"
+      class="search bg-white w-64 h-10 p-2 pr-10 rounded-l-xl outline-none"
       (click)="onClick()"
     />
-    <button
-      class="absolute right-0 top-0 h-full bg-white w-10 flex items-center justify-center"
-    >
-      <button class="w-10 h-10" (click)="aramaYap(searchText)">
+   
+      <button
+        class="search-button w-10 h-10 ml-1"
+        (click)="aramaYap(searchText)"
+      >
         <i class="fas fa-search text-black"></i>
       </button>
-    </button>
+   
   </div>
 
-  <button class="bg-white w-10 h-10 rounded-full" (click)="openFilter()">
+  <button class="filter-button bg-white w-10 h-10" (click)="openFilter()">
     <i class="fas fa-filter text-black"></i>
   </button>
 </div>
 
 <div
-  class="mt-2 pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
+  class="pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
   [ngClass]="{
     'h-20 bg-transparent z- overflow-hidden': !isClicked || !isFilterClicked,
-    'min-h-[400px] max-h-[400px] h-full bg-white overflow-scroll': isClicked || isFilterClicked,
+    'min-h-[400px] max-h-[400px] h-full overflow-scroll': isClicked || isFilterClicked,
   }"
->   <!-- Toggle Eklenen Kısım -->
+>
+  <!-- Toggle Eklenen Kısım -->
   <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
     <li
       class="list-group-item text-black p-3 pb-0 border-b"
@@ -41,26 +43,34 @@
       {{ c.name }}
     </li>
   </ul>
-   <!-- Toggle ve Dropdown Eklenen Kısım -->
-<!-- component.html -->
-<div class="ml-2 flex items-center " *ngIf="isFilterClicked">
-  <label class="switch">
-    <input type="checkbox" [(ngModel)]="isFilterEnabled" (ngModelChange)="toggleFilter()">
-    <span class="slider"></span>
-  </label>
-  <span class="ml-2">Filter</span>
-</div>
+  <!-- Toggle ve Dropdown Eklenen Kısım -->
+  <!-- component.html -->
+  <div class="ml-2 flex items-center" *ngIf="isFilterClicked">
+    <label class="switch">
+      <input
+        type="checkbox"
+        [(ngModel)]="isFilterEnabled"
+        (ngModelChange)="toggleFilter()"
+      />
+      <span class="slider"></span>
+    </label>
+    <span class="ml-2">Filter</span>
+  </div>
 
-<div class="ml-2 flex items-center" *ngIf="isFilterClicked" style="flex-direction: row-reverse;">
-  <button (click)="refreshFilter()" class="refresh-button">
-    <i class="fas fa-sync-alt"></i> Close
-  </button>
-</div>
+  <div
+    class="ml-2 flex items-center"
+    *ngIf="isFilterClicked"
+    style="flex-direction: row-reverse"
+  >
+    <button (click)="refreshFilter()" class="refresh-button">
+      <i class="fas fa-sync-alt"></i> Close
+    </button>
+  </div>
 
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">
     <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header class="accordion-header">
+      <mat-expansion-panel-header class="accordion-header-connector">
         <mat-panel-title> Connectors </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
@@ -70,8 +80,7 @@
             (click)="onSelectConnector(connector)"
             (keyup.enter)="onSelectConnector(connector)"
             tabindex="0"
-            [ngClass]="{'selected': isSelectedConnector(connector)}"
-
+            [ngClass]="{ selected: isSelectedConnector(connector) }"
           >
             <div class="connector-item">
               <img class="connector-image" [src]="connector.imageData" alt="" />
@@ -82,7 +91,7 @@
       </mat-panel-description>
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header class="accordion-header">
+      <mat-expansion-panel-header class="accordion-header-facilty">
         <mat-panel-title> Facilities </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
@@ -92,7 +101,7 @@
             (click)="onSelectFacility(facility)"
             (keyup.enter)="onSelectFacility(facility)"
             tabindex="0"
-            [ngClass]="{'selected': isSelectedFacility(facility)}"
+            [ngClass]="{ selected: isSelectedFacility(facility) }"
           >
             <i class="facility-icon" [ngClass]="facility.icon"></i>
             {{ facility.type }}
@@ -135,6 +144,6 @@
     [ngClass]="{ hidden: !isClicked && !isFilterClicked }"
     (click)="closeSearch()"
   >
-    <i class="fas fa-times-circle text-red-500 text-2xl"></i>
+    <i class="fas fa-times-circle text-cyan-950 text-2xl"></i>
   </button>
 </div>
