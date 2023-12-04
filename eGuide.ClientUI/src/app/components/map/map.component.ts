@@ -11,6 +11,7 @@ import { MapHelper } from './map-helper';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/models/comment';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 
 interface Center {
   latitude: any;
@@ -41,7 +42,6 @@ export class MapComponent implements OnInit {
 
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
-
 
   constructor(
     private stationService: StationService,
@@ -149,15 +149,13 @@ export class MapComponent implements OnInit {
     this.map.basemap = basemap.name; // change basemap
     this.currentBasemapIndex = basemap.id; // change current basemap index
   }
-  
-  deneme(event: any) {
+
+  FilteredStationsonMap(event: any) {
     this.FilteredStations = event;
-    console.log('DENEME', this.FilteredStations);
     this.getStations();
   }
 
   getStations(): void {
-
     this.stationService.getStations().subscribe((data) => {
       if (this.FilteredStations.length === 0) {
         this.stations = data;
@@ -435,9 +433,6 @@ export class MapComponent implements OnInit {
         });
       }
     });
-
-  
-
   }
 
   // get selected station from station list component
@@ -449,7 +444,6 @@ export class MapComponent implements OnInit {
   FilteredStationsGet(event: any) {
     this.FilteredStations = event;
   }
-
 
   // get search text from search component
   goLocation(stationId: any) {
