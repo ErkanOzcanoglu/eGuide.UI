@@ -60,7 +60,6 @@ export class SearchComponent implements OnInit {
 
   aramaYap(text: string) {
     this.searchTexts.emit(text);
-    // console.log(text, 'text in the search component');
   }
 
   closeSearch() {
@@ -134,7 +133,16 @@ export class SearchComponent implements OnInit {
       );
     }
 
+    this.stationFilteredSelected .emit(this.filteredFacilityStations);
+
+    console.log('Seçilen Tesisler:', this.selectedFacilities);
+    console.log(
+      'Seçilen İstasyonlar (Facility):',
+      this.filteredFacilityStations
+    );
+
     this.stationFilteredSelected.emit(this.filteredFacilityStations);
+
   }
 
   onSelectConnector(connector: Connector) {
@@ -149,6 +157,7 @@ export class SearchComponent implements OnInit {
         )
       );
     } else {
+      console.log('filteredFacilityStations:', this.filteredFacilityStations);
       // filteredFacilityStations tanımlıysa ve null değilse
       this.filteredConnectorStations = this.filteredFacilityStations.filter(
         (filteredFacilityStations) =>
@@ -159,6 +168,12 @@ export class SearchComponent implements OnInit {
     }
 
     this.stationFilteredSelected.emit(this.filteredConnectorStations);
+
+    console.log('Seçilen Connector:', connector);
+    console.log(
+      'Seçilen İstasyonlar (Connector):',
+      this.filteredConnectorStations
+    );
   }
 
   updateSearchText() {
