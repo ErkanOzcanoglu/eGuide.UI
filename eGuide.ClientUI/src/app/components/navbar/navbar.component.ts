@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { Vehicle } from 'src/app/models/vehicle';
 import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
 
@@ -15,6 +16,7 @@ export class NavbarComponent {
   isLoggedIn = false;
   showUserMenu = false;
   hamburgerMenu = false;
+  vehicle:Vehicle=new Vehicle();
 
   constructor(
     private router: Router,
@@ -58,5 +60,10 @@ export class NavbarComponent {
     this.websiteService.getWebsite().subscribe((website) => {
       this.navbar = website[0].navbar;
     });
+  }
+
+   handleActiveVehicle(event: any) {
+    this.vehicle=event;
+    console.log(this.vehicle);
   }
 }

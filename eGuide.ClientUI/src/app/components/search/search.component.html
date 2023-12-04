@@ -28,7 +28,7 @@
     'h-20 bg-transparent z- overflow-hidden': !isClicked || !isFilterClicked,
     'min-h-[400px] max-h-[400px] h-full bg-white overflow-scroll': isClicked || isFilterClicked,
   }"
->
+>   <!-- Toggle Eklenen Kısım -->
   <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
     <li
       class="list-group-item text-black p-3 pb-0 border-b"
@@ -41,6 +41,21 @@
       {{ c.name }}
     </li>
   </ul>
+   <!-- Toggle ve Dropdown Eklenen Kısım -->
+<!-- component.html -->
+<div class="ml-2 flex items-center " *ngIf="isFilterClicked">
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="isFilterEnabled" (ngModelChange)="toggleFilter()">
+    <span class="slider"></span>
+  </label>
+  <span class="ml-2">Filter</span>
+</div>
+
+<div class="ml-2 flex items-center" *ngIf="isFilterClicked" style="flex-direction: row-reverse;">
+  <button (click)="refreshFilter()" class="refresh-button">
+    <i class="fas fa-sync-alt"></i> Close
+  </button>
+</div>
 
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">
