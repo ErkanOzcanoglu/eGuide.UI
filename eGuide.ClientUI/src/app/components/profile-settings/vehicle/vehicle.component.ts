@@ -7,6 +7,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import * as VehicleActions from 'src/app/state/vehicle.actions';
 
 @Component({
   selector: 'app-vehicle',
@@ -40,13 +42,14 @@ export class VehicleComponent implements OnInit {
   editModeVehicle = false;
   isUpdate = true;
 
-  
+  vehicleState: Vehicle = new Vehicle();
 
   constructor(
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
     private connectorService: ConnectorService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -211,6 +214,15 @@ export class VehicleComponent implements OnInit {
       );
     }
   }
+  updateVehicle() {
+    const vehicleId = localStorage.getItem('vehicleId');
+    const oldId = vehicleId;
+
+    if (oldId != null) {
+      localStorage.setItem('oldId', oldId);
+    }
+    this.isUpdate = false;
+  }
 
   deleteVehicle() {
     const vehicleId = localStorage.getItem('vehicleId');
@@ -231,15 +243,17 @@ export class VehicleComponent implements OnInit {
       console.error('vehicleId eksik.');
     }
   }
-
-  updateVehicle() {
-    const vehicleId = localStorage.getItem('vehicleId');
-    const oldId = vehicleId;
-
-    if (oldId != null) {
-      localStorage.setItem('oldId', oldId);
-    }
-    this.isUpdate = false;
+  
+  vehicleNgrX = new Vehicle();
+  getVehicleByIdActive(vehicleId: string): void {
+    this.vehicleService.getVehicleById(vehicleId).subscribe(
+      (data: Vehicle) => {
+        this.vehicleNgrX = data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   updateVehicleActiveStatus() {
@@ -247,16 +261,26 @@ export class VehicleComponent implements OnInit {
     const userId = localStorage.getItem('authToken');
 
     if (vehicleId != null && userId != null) {
-      console.log(vehicleId);
-      console.log(userId);
+    
       this.userVehicleService
         .updateVehicleActiveStatus(userId, vehicleId)
-        .subscribe((res) => {
-          console.log(res);
+        .subscribe((response) => {
+          this.getVehicleByIdActive(vehicleId);
+          this.setActiveVehicle(this.vehicleNgrX);
         });
-       
     }
   }
+
+  // this.userVehicleService
+  //       .updateVehicle(userId, oldId, vehicleId, connectorId)
+  //       .subscribe(
+  //         (response) => {
+  //           this.getVehicleById();
+  //         },
+  //         (error) => {
+  //           console.error('Araç güncelleme hatası:', error);
+  //         }
+  //       );
 
   vehicleActiveView(): void {
     const userId = localStorage.getItem('authToken');
@@ -270,9 +294,10 @@ export class VehicleComponent implements OnInit {
           const matchingVehicle = this.vehicleList.find(
             (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
           );
+          if (matchingVehicle != null) this.vehicleState = matchingVehicle;
 
           if (matchingVehicle) {
-            console.log('Eşleşen VehicleId:', matchingVehicle.id);
+            console.log('Eşleşen :', matchingVehicle);
             this.getVehicleById();
           } else {
             console.log('Eşleşen VehicleId bulunamadı.');
@@ -283,6 +308,10 @@ export class VehicleComponent implements OnInit {
         }
       );
     }
+  }
+  //NgRx metot
+  setActiveVehicle(activeVehicle: Vehicle): void {
+    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
   }
 
   saveUpdate() {
