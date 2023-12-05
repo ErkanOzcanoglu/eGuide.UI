@@ -2,23 +2,33 @@ import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Station } from 'src/app/models/station';
 import { UserStationService } from 'src/app/services/user-station.service';
+import { ColorHelper } from '../../generic-helper/color/color-helper';
+import { Color } from 'src/app/models/color';
 
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.css'],
+  providers: [ColorHelper],
 })
 export class FavouritesComponent {
   stations: Station[] = [];
+  color: Color = new Color();
   constructor(
     private userStationService: UserStationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private colorHelper: ColorHelper
   ) {}
 
   ngOnInit(): void {
     // Sayfa yüklendiğinde servisi çağır
     const token = localStorage.getItem('authToken');
     if (token !== null) this.getStationProfiles(token); // Kullanıcı kimliğinizi buraya ekleyin
+    this.getColor();
+  }
+
+  getColor(): void {
+    this.colorHelper.getLocalColors(this.color);
   }
 
   getStationProfiles(userId: string): void {

@@ -4,32 +4,42 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ContactFormService } from 'src/app/services/contact-form.service';
 import { WebsiteService } from 'src/app/services/website.service';
+import { ColorHelper } from '../generic-helper/color/color-helper';
+import { Color } from 'src/app/models/color';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
   styleUrls: ['./contact-form.component.css'],
+  providers: [ColorHelper],
 })
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup = new FormGroup({});
   websites: Website[] = [];
   isSending = false;
+  color: Color = new Color();
 
   constructor(
     private formBuilder: FormBuilder,
     private contactFormService: ContactFormService,
     private websiteService: WebsiteService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private colorHelper: ColorHelper
   ) {}
 
   ngOnInit(): void {
     this.getWebsites();
+    this.getColor();
 
     this.contactForm = this.formBuilder.group({
       name: [''],
       email: [''],
       message: [''],
     });
+  }
+
+  getColor() {
+    this.colorHelper.getLocalColors(this.color);
   }
 
   onSubmit(): void {

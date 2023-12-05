@@ -8,40 +8,54 @@
     <div>
       <a
         routerLink="/"
-        class="text-xl text-black hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        class="text-xl hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        [style]="{
+          color: localColor.lightColor2
+        }"
         >eGuide</a
       >
     </div>
     <div id="userMenu" class="laptop:flex-row flex flex-col">
       <a
+        [style]="{
+          color: localColor.lightColor2
+        }"
         routerLink=""
-        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
         >Home</a
       >
       <a
+        [style]="{
+          color: localColor.lightColor2
+        }"
         routerLink="/services"
-        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
         >Services</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
-        <button class="relative group" (click)="showUserMenu = !showUserMenu">
+        <button
+          [style]="{
+            color: localColor.lightColor2
+          }"
+          class="relative group"
+          (click)="showUserMenu = !showUserMenu"
+        >
           <a
-            class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
             >{{ user.name }}</a
           >
           <div
             *ngIf="showUserMenu"
-            class="absolute left-0 mt-2 bg-white border shadow-lg rounded-xl z-50"
+            class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
+            [style]="{
+              color: localColor.lightColor2,
+              'background-color': localColor.lightColor3
+            }"
           >
-            <button
-              (click)="logout()"
-              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-            >
+            <button (click)="logout()" class="block px-4 py-2 rounded-xl">
               Logout
             </button>
-            <a
-              routerLink="/settings"
-              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+            <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
               >Settings</a
             >
           </div>
@@ -58,19 +72,23 @@
       <i class="fas fa-bars"></i>
       <button
         *ngIf="hamburgerMenu"
-        class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-auto"
+        class="absolute right-0 mt-2 border rounded shadow-lg rounded-xl z-auto"
         (click)="$event.stopPropagation()"
         role="button"
         tabindex="0"
+        [style]="{
+          color: localColor.lightColor2,
+          'background-color': localColor.lightColor3
+        }"
       >
         <a
           routerLink="/"
-          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Home</a
         >
         <a
           routerLink="/services"
-          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Services</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
@@ -81,22 +99,21 @@
             tabindex="0"
           >
             <a
-              class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+              class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
               >{{ user.name }}</a
             >
             <div
               *ngIf="showUserMenu"
-              class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+              class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
+              [style]="{
+                color: localColor.lightColor2,
+                'background-color': localColor.lightColor3
+              }"
             >
-              <button
-                (click)="logout()"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-              >
+              <button (click)="logout()" class="block px-4 py-2 rounded-xl">
                 Logout
               </button>
-              <a
-                routerLink="/settings"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+              <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
                 >Settings</a
               >
             </div>
@@ -109,13 +126,21 @@
 
 <ng-template #loginRegister>
   <a
+    [style]="{
+      color: localColor.lightColor2,
+      'background-color': localColor.lightColor3
+    }"
     routerLink="/login"
-    class="text-lg text-black font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
+    class="text-lg font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
     >Login</a
   >
   <a
+    [style]="{
+      color: localColor.lightColor2,
+      'background-color': localColor.lightColor3
+    }"
     routerLink="/register"
-    class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+    class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
     >Register</a
   >
 </ng-template>
@@ -140,40 +165,35 @@
     <div>
       <a
         routerLink="/"
-        class="text-xl text-black hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        class="text-xl hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
         >eGuide</a
       >
     </div>
     <div id="userMenu" class="laptop:flex-row flex flex-col">
       <a
         routerLink=""
-        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
         >Home</a
       >
       <a
         routerLink="/services"
-        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
         >Services</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
         <button class="relative group" (click)="showUserMenu = !showUserMenu">
           <a
-            class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
             >{{ user.name }}</a
           >
           <div
             *ngIf="showUserMenu"
-            class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+            class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
           >
-            <button
-              (click)="logout()"
-              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-            >
+            <button (click)="logout()" class="block px-4 py-2 rounded-xl">
               Logout
             </button>
-            <a
-              routerLink="/settings"
-              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+            <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
               >Settings</a
             >
           </div>
@@ -188,38 +208,33 @@
       <i class="fas fa-bars"></i>
       <button
         *ngIf="hamburgerMenu"
-        class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-auto"
+        class="absolute right-0 mt-2 border rounded shadow-lg rounded-xl z-auto"
         (click)="$event.stopPropagation()"
       >
         <a
           routerLink="/"
-          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Home</a
         >
         <a
           routerLink="/services"
-          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
           >Services</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
           <button class="relative group" (click)="showUserMenu = !showUserMenu">
             <a
-              class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+              class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
               >{{ user.name }}</a
             >
             <div
               *ngIf="showUserMenu"
-              class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+              class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
             >
-              <button
-                (click)="logout()"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-              >
+              <button (click)="logout()" class="block px-4 py-2 rounded-xl">
                 Logout
               </button>
-              <a
-                routerLink="/settings"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
+              <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
                 >Settings</a
               >
             </div>

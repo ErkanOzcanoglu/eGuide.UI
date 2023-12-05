@@ -11,11 +11,11 @@
   }
 </style>
 
-<div class="bg-gray-100 h-screen flex justify-center items-center">
+<div class="bg-transparent h-screen flex justify-center items-center">
   <div id="customPanel" class="w-4/6">
     <div class="grid-container">
       <div class="user-profile">
-        <div class="custom-panel bg-white rounded-lg shadow p-4">
+        <div class="custom-panel rounded-lg shadow p-4">
           <h1 class="text-3xl font-semibold text">
             FAVOURITES<i class="fas fa-star fa-2xs ml-5"></i>
           </h1>
@@ -23,17 +23,27 @@
             <table class="table w-4/5 ml-5 mt-10 mb-10">
               <!-- head -->
               <thead>
-                <tr>
-                  <th class="text-xl font-bold text-cyan-500">Station Name</th>
-                  <th class="text-xl font-bold text-cyan-500">Address</th>
-                  <th class="text-xl font-bold text-cyan-500">Model</th>
-                  <th class="text-xl font-bold text-cyan-500">Charging unit</th>
-                  <th class="text-xl font-bold text-cyan-500">Connector</th>
+                <tr
+                  [style]="{
+                    color: color.lightColor2
+                  }"
+                >
+                  <th class="text-xl font-bold">Station Name</th>
+                  <th class="text-xl font-bold">Address</th>
+                  <th class="text-xl font-bold">Model</th>
+                  <th class="text-xl font-bold">Charging unit</th>
+                  <th class="text-xl font-bold">Connector</th>
                 </tr>
               </thead>
               <tbody>
                 <!-- row 1 -->
-                <tr *ngFor="let station of stations; let i = index">
+                <tr
+                  class="text-center"
+                  [style]="{
+                    color: color.lightColor2
+                  }"
+                  *ngFor="let station of stations; let i = index"
+                >
                   <td>{{ station.name }}</td>
                   <td>{{ station.address }}</td>
                   <td>{{ station.stationModel?.name }}</td>
@@ -60,10 +70,12 @@
                   <td>
                     <!-- Delete Button -->
                     <button
-                      class="bg-red-700 text-white px-4 py-2 rounded"
-                      (click)="
-                        onDeleteStationProfile(station.id)
-                      "
+                      [style]="{
+                        'background-color': color.lightColor2,
+                        color: color.lightColor4
+                      }"
+                      class="px-4 py-2 rounded"
+                      (click)="onDeleteStationProfile(station.id)"
                     >
                       Delete
                     </button>
