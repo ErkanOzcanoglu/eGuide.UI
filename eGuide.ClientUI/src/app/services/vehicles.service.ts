@@ -44,4 +44,9 @@ export class VehiclesService {
     return this.http.get<string[]>(`${environment.apiUrl}/${this.url}/brands`);
   }
 
+  public getVehicleById(vehicleId: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(
+      `${environment.apiUrl}/${this.url}/getVehiclebyId/${vehicleId}`
+    );
+  }
 }

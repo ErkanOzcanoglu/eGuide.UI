@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { User } from 'src/app/models/user';
+import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
+import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
 import { selectActiveVehicle } from 'src/app/state/vehicle.selector';
@@ -23,18 +25,18 @@ export class NavbarComponent {
 
   activeVehicle$: Observable<Vehicle | null>;
 
-  deneme: Vehicle = new Vehicle();
   currentState: Vehicle | null = null;
+  userVehicleActive: Vehicle = new Vehicle();
+  savedActiveVehicle: Vehicle = new Vehicle();
 
   constructor(
     private router: Router,
     private userService: UserService,
     private websiteService: WebsiteService,
+    private userVehicleService: UserVehicleService,
     private store: Store
   ) {
     this.activeVehicle$ = this.store.select(selectActiveVehicle);
-    
-    
   }
 
   ngOnInit(): void {
@@ -47,6 +49,9 @@ export class NavbarComponent {
         this.isLoggedIn = true;
       });
     }
+    // this.vehicleActiveView();
+    this.getActiveVehiclebyUserId();
+    this.getNavbarType();
     this.activeVehicle$.subscribe((currentState) => {
       // Bu kodlar asenkron bir şekilde çalışır
       if (currentState) {
@@ -86,8 +91,6 @@ export class NavbarComponent {
     //   .subscribe();
     // console.log('ngrx deneme5', this.activeVehicle$);
     // console.log('aaaa',this.currentState);
-
-    
   }
 
   logout(): void {
@@ -118,5 +121,22 @@ export class NavbarComponent {
   handleActiveVehicle(event: any) {
     this.vehicle = event;
     console.log(this.vehicle);
+  }
+
+  getActiveVehiclebyUserId() {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken != null) {
+      this.userVehicleService.getActiveVehicle(authToken).subscribe(
+        (activeVehicle: Vehicle) => {
+          console.log('aktif araç geldi', activeVehicle);
+
+          // activeVehicle değişkenini başka bir değişkene atayabilir veya başka bir yerde kullanabilirsiniz
+          this.savedActiveVehicle = activeVehicle;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
 }
