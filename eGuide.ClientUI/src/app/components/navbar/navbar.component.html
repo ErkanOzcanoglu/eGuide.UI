@@ -1,6 +1,9 @@
 <div class="flex justify-center sticky top-5 mt-5 z-20" *ngIf="navbar === 0">
   <div
-    class="navbar h-[80px] bg-[#ffffff] rounded-full w-[95vw] flex justify-between px-10"
+    class="navbar h-[80px] rounded-full w-[95vw] flex justify-between px-10"
+    [style]="{
+      'background-color': localColor.lightColor3
+    }"
   >
     <div>
       <a
