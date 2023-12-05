@@ -13,6 +13,7 @@ import { PreventLoginGuardService } from './services/prevent-login-guard.service
 import { ServiceComponent } from './screens/service/service.component';
 import { ContactComponent } from './screens/contact/contact.component';
 import { AppComponent } from './app.component';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,7 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [PreventLoginGuardService],
   },
+  { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
 @NgModule({
