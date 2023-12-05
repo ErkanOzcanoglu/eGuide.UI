@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserVehicle } from '../models/user-vehicle';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { Vehicle } from '../models/vehicle';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -45,23 +45,6 @@ export class UserVehicleService {
     );
   }
 
-  updateVehicleActiveStatus(
-    userId: string,
-    vehicleId: string
-  ): Observable<any> {
-    const data = { userId: userId, vehicleId: vehicleId };
-    return this.http.put(
-      `${environment.apiUrl}/${this.url}/update-active-vehicle/${userId}/${vehicleId}`,
-      data
-    );
-  }
-
-  getUserVehicleWithActiveStatus(userId: string): Observable<UserVehicle> {
-    return this.http.get<any>(
-      `${environment.apiUrl}/${this.url}/GetUserVehicleWithActiveStatus/${userId}`
-    );
-  }
-
   deleteUserVehicleByVehicleId(
     userId: string,
     vehicleId: string
@@ -70,6 +53,4 @@ export class UserVehicleService {
       `${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}?userid=${userId}`
     );
   }
-
- 
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { User } from 'src/app/models/user';
 import { ColorService } from 'src/app/services/color.service';
+import { Vehicle } from 'src/app/models/vehicle';
 import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
@@ -24,6 +25,7 @@ export class NavbarComponent implements OnInit {
   color = new Color();
   localColor = new ThemeColor();
   currentTheme = localStorage.getItem('theme');
+  vehicle:Vehicle=new Vehicle();
 
   constructor(
     private router: Router,
@@ -98,7 +100,8 @@ export class NavbarComponent implements OnInit {
     localStorage.setItem('theme', 'light');
   }
 
-  refreshPage() {
-    window.location.reload();
+   handleActiveVehicle(event: any) {
+    this.vehicle=event;
+    console.log(this.vehicle);
   }
 }

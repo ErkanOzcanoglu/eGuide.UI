@@ -76,6 +76,12 @@ import { FooterCustomizationComponent } from './components/customization-compone
 import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
+
+import { UserFilterPipe } from './pipes/user.pipe';
+import { UserComponent } from './screens/user/user.component';
+import { UserListComponent } from './components/user-components/user-list/user-list.component';
+import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
+
 import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
@@ -133,6 +139,10 @@ import { PageNotFoundComponent } from './components/error-pages/page-not-found/p
     FooterCustomizationComponent,
     ColorCustomizationComponent,
     CompanyInformationComponent,
+    UserFilterPipe,
+    UserComponent,
+    UserListComponent,
+    UserProfileComponent,
     TabbarComponent,
     PageNotFoundComponent,
   ],
@@ -156,6 +166,10 @@ import { PageNotFoundComponent } from './components/error-pages/page-not-found/p
       serviceEditData: serviceEditDataReducer,
     }),
     MatTabsModule,
+  ], exports: [
+    UserComponent,
+    UserListComponent,
+    UserProfileComponent
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

@@ -29,6 +29,8 @@ export class SearchComponent implements OnInit {
   filteredFacilityStations: Station[] = [];
   filteredConnectorStations: Station[] = [];
 
+  isFilterEnabled = true;
+
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
@@ -60,7 +62,6 @@ export class SearchComponent implements OnInit {
 
   aramaYap(text: string) {
     this.searchTexts.emit(text);
-    // console.log(text, 'text in the search component');
   }
 
   closeSearch() {
@@ -98,11 +99,26 @@ export class SearchComponent implements OnInit {
   onSelectStation(station: Station) {
     this.searchText = station.name;
     this.isClicked = false;
-    // console.log(this.searchText);
     this.stationSelected.emit(station);
   }
 
+  toggleFilter() {
+    if (!this.isFilterEnabled) {
+      this.stationFilteredSelected.emit(this.stations);
+      console.log("switchten sonraki istasyonlar",this.stations);
+      return;
+    }
+  }
+
+  refreshFilter() {
+      console.log("Refreshten sonraki istasyonlar",this.stations);
+      this.stationFilteredSelected.emit(this.stations); 
+  }
+
   onSelectFacility(facility: Facility) {
+    // if (!this.isFilterEnabled) {
+    //   return;
+    // }
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -135,11 +151,23 @@ export class SearchComponent implements OnInit {
     }
 
     this.stationFilteredSelected.emit(this.filteredFacilityStations);
+
+    console.log('Seçilen Tesisler:', this.selectedFacilities);
+    console.log(
+      'Seçilen İstasyonlar (Facility):',
+      this.filteredFacilityStations
+    );
+
+    this.stationFilteredSelected.emit(this.filteredFacilityStations);
   }
 
   onSelectConnector(connector: Connector) {
     this.searchText = connector.type;
     this.isClicked = false;
+
+    // if (!this.isFilterEnabled) {
+    //   return;
+    // }
 
     if (this.filteredFacilityStations.length === 0) {
       // filteredFacilityStations henüz tanımlanmadıysa veya null ise
@@ -149,6 +177,7 @@ export class SearchComponent implements OnInit {
         )
       );
     } else {
+      console.log('filteredFacilityStations:', this.filteredFacilityStations);
       // filteredFacilityStations tanımlıysa ve null değilse
       this.filteredConnectorStations = this.filteredFacilityStations.filter(
         (filteredFacilityStations) =>
@@ -159,6 +188,12 @@ export class SearchComponent implements OnInit {
     }
 
     this.stationFilteredSelected.emit(this.filteredConnectorStations);
+
+    console.log('Seçilen Connector:', connector);
+    console.log(
+      'Seçilen İstasyonlar (Connector):',
+      this.filteredConnectorStations
+    );
   }
 
   updateSearchText() {

@@ -17,6 +17,7 @@ export class VehicleComponent implements OnInit {
   vehicle: Vehicle = new Vehicle();
   vehicleList: Vehicle[] = [];
   uservehicle: UserVehicle = new UserVehicle();
+  userVehicleActive: UserVehicle = new UserVehicle();
 
   onSelectVehicle = false;
 
@@ -39,6 +40,8 @@ export class VehicleComponent implements OnInit {
   editModeVehicle = false;
   isUpdate = true;
 
+  
+
   constructor(
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
@@ -50,6 +53,7 @@ export class VehicleComponent implements OnInit {
     this.getBrands();
     this.getVehicleById();
     this.getConnector();
+    this.vehicleActiveView();
   }
 
   dropdownVisible = false;
@@ -174,6 +178,7 @@ export class VehicleComponent implements OnInit {
         userId: userId,
         vehicleId: vehicleId,
         connectorId: connectorId,
+        activeStatus: 0, //buraya dikkat cnm
       };
 
       this.userVehicleService.saveVehicle(userVehicle).subscribe(
@@ -235,6 +240,49 @@ export class VehicleComponent implements OnInit {
       localStorage.setItem('oldId', oldId);
     }
     this.isUpdate = false;
+  }
+
+  updateVehicleActiveStatus() {
+    const vehicleId = localStorage.getItem('vehicleId');
+    const userId = localStorage.getItem('authToken');
+
+    if (vehicleId != null && userId != null) {
+      console.log(vehicleId);
+      console.log(userId);
+      this.userVehicleService
+        .updateVehicleActiveStatus(userId, vehicleId)
+        .subscribe((res) => {
+          console.log(res);
+        });
+       
+    }
+  }
+
+  vehicleActiveView(): void {
+    const userId = localStorage.getItem('authToken');
+    if (userId != null) {
+      this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
+        (uservehicle) => {
+          this.userVehicleActive = uservehicle;
+          console.log('Gelen UserVehicle:', this.userVehicleActive);
+          console.log(this.vehicleList);
+          // this.vehicleList içindeki vehicleId'leri kontrol et
+          const matchingVehicle = this.vehicleList.find(
+            (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
+          );
+
+          if (matchingVehicle) {
+            console.log('Eşleşen VehicleId:', matchingVehicle.id);
+            this.getVehicleById();
+          } else {
+            console.log('Eşleşen VehicleId bulunamadı.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching active user vehicle:', error);
+        }
+      );
+    }
   }
 
   saveUpdate() {

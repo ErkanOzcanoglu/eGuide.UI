@@ -91,13 +91,19 @@
               </h2>
             </div>
           </div>
-          <div class="mt-4 mr-16 overflow-auto custom-scrollbar" style="max-height: 160px">
+          <div
+            class="mt-4 mr-16 overflow-auto custom-scrollbar"
+            style="max-height: 160px"
+          >
             <ng-container *ngFor="let vehicle of vehicleList; let i = index">
               <div
                 (click)="selectVehicle(vehicle)"
                 (keydown)="onKeyDown($event, vehicle)"
                 tabindex="0"
                 class="vehicle-list-item"
+                [ngClass]="{
+                  'selected-vehicle': userVehicleActive.vehicleId === vehicle.id
+                }"
               >
                 <p class="brand">{{ vehicle.brand }}</p>
                 <p class="model">{{ vehicle.model }}</p>
@@ -170,8 +176,12 @@
                   {{ selectedConnector.type }}
                 </div>
                 <ng-template #noConnector>
-                  <div class="default-message" >
-                    Please select a Connector <i class="fas fa-chevron-down" style="margin-left: 99px;  font-size: 11px;" ></i>
+                  <div class="default-message">
+                    Please select a Connector
+                    <i
+                      class="fas fa-chevron-down"
+                      style="margin-left: 99px; font-size: 11px"
+                    ></i>
                   </div>
                 </ng-template>
                 <div *ngIf="dropdownVisible" class="connector-options">
@@ -192,6 +202,14 @@
               </div>
             </div>
             <div id="buttonMenu">
+              <button
+                type="button"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
+                *ngIf="!editModeVehicle"
+                (click)="updateVehicleActiveStatus()"
+              >
+                Active Vehicle
+              </button>
               <button
                 type="submit"
                 class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"

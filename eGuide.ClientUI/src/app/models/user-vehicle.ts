@@ -2,5 +2,6 @@ export class UserVehicle {
   // id = '';
   userId = '';
   vehicleId = '';
-  connectorId= '';
+  connectorId = '';
+  activeStatus?:number;
 }
