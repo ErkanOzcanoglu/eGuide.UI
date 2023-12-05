@@ -27,7 +27,7 @@
                 [(ngModel)]="color.lightColor1"
               />
             </div>
-            <label class="text-sm badge w-full flex justify-center" for=""
+            <label class="text-sm badge h-fit w-full flex text-center" for=""
               >Background Color</label
             >
           </div>
@@ -47,7 +47,7 @@
                 [(ngModel)]="color.lightColor4"
               />
             </div>
-            <label class="text-sm badge w-full flex justify-center" for=""
+            <label class="text-sm badge w-full flex justify-center h-fit" for=""
               >Text Color</label
             >
           </div>
@@ -89,7 +89,7 @@
                 [(ngModel)]="color.lightColor2"
               />
             </div>
-            <label class="text-sm badge w-full flex justify-center" for=""
+            <label class="text-sm badge w-full flex justify-center h-fit" for=""
               >Navbar Text Color</label
             >
           </div>
@@ -101,70 +101,92 @@
           <p>Dark Theme</p>
         </div>
         <div class="flex w-full h-full" *ngFor="let color of color">
-          <div class="w-full h-full relative flex justify-center">
-            <input
-              type="color"
-              class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
-              formControlName="darkColor1"
-              [(ngModel)]="color.darkColor1"
-            />
-            <input
-              type="text"
-              class="absolute bottom-5 input input-bordered w-24"
-              [ngClass]=""
-              formControlName="darkColor1"
-              [(ngModel)]="color.darkColor1"
-            />
+          <div class="w-full h-full">
+            <div class="w-full h-full relative flex justify-center">
+              <input
+                type="color"
+                class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
+                formControlName="darkColor1"
+                [(ngModel)]="color.darkColor1"
+              />
+              <input
+                type="text"
+                class="absolute bottom-5 input input-bordered w-24"
+                [ngClass]=""
+                formControlName="darkColor1"
+                [(ngModel)]="color.darkColor1"
+              />
+            </div>
+            <label class="text-sm badge h-fit w-full flex text-center" for=""
+              >Background Color</label
+            >
           </div>
-          <div class="w-full h-full relative flex justify-center">
-            <input
-              type="color"
-              class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
-              formControlName="darkColor2"
-              [(ngModel)]="color.darkColor2"
-            />
-            <input
-              type="text"
-              class="absolute bottom-5 input input-bordered w-24"
-              [ngClass]=""
-              formControlName="darkColor2"
-              [(ngModel)]="color.darkColor2"
-            />
+          <div class="w-full h-full">
+            <div class="w-full h-full relative flex justify-center">
+              <input
+                type="color"
+                class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
+                formControlName="darkColor4"
+                [(ngModel)]="color.darkColor4"
+              />
+              <input
+                type="text"
+                class="absolute bottom-5 input input-bordered w-24"
+                [ngClass]=""
+                formControlName="darkColor4"
+                [(ngModel)]="color.darkColor4"
+              />
+            </div>
+            <label class="text-sm badge w-full flex justify-center h-fit" for=""
+              >Text Color</label
+            >
           </div>
-          <div class="w-full h-full relative flex justify-center">
-            <input
-              type="color"
-              class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
-              formControlName="darkColor3"
-              [(ngModel)]="color.darkColor3"
-            />
-            <input
-              type="text"
-              class="absolute bottom-5 input input-bordered w-24"
-              [ngClass]=""
-              formControlName="darkColor3"
-              [(ngModel)]="color.darkColor3"
-            />
+          <div class="w-full h-full">
+            <div class="w-full h-full relative flex justify-center">
+              <input
+                type="color"
+                class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
+                formControlName="darkColor3"
+                [(ngModel)]="color.darkColor3"
+              />
+              <input
+                type="text"
+                class="absolute bottom-5 input input-bordered w-24"
+                [ngClass]=""
+                formControlName="darkColor3"
+                [(ngModel)]="color.darkColor3"
+              />
+            </div>
+            <label
+              class="text-sm px-1 mx-1 badge w-full flex justify-center"
+              for=""
+              >Navbar Color</label
+            >
           </div>
-          <div class="w-full h-full relative flex justify-center">
-            <input
-              type="color"
-              class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
-              formControlName="darkColor4"
-              [(ngModel)]="color.darkColor4"
-            />
-            <input
-              type="text"
-              class="absolute bottom-5 input input-bordered w-24"
-              [ngClass]=""
-              formControlName="darkColor4"
-              [(ngModel)]="color.darkColor4"
-            />
+          <div class="w-full h-full">
+            <div class="w-full h-full relative flex justify-center">
+              <input
+                type="color"
+                class="w-full h-full absolute top-0 bottom-0 left-0 right-0"
+                formControlName="darkColor4"
+                [(ngModel)]="color.darkColor4"
+              />
+              <input
+                type="text"
+                class="absolute bottom-5 input input-bordered w-24"
+                [ngClass]=""
+                formControlName="darkColor4"
+                [(ngModel)]="color.darkColor4"
+              />
+            </div>
+            <label class="text-sm badge w-full flex justify-center h-fit" for=""
+              >Navbar Text Color</label
+            >
           </div>
         </div>
       </div>
     </div>
-    <div class="w-full flex justify-end mt-5">
+    <div class="w-full flex justify-end mt-8">
       <button (click)="onSubmit()" class="btn bg-primary border-secondary">
         <p class="text-white">Save</p>
       </button>

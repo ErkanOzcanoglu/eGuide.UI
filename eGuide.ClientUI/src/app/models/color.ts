@@ -8,3 +8,10 @@ export class Color {
   darkColor3?: string;
   darkColor4?: string;
 }
+
+export class ThemeColor {
+  color1?: string;
+  color2?: string;
+  color3?: string;
+  color4?: string;
+}

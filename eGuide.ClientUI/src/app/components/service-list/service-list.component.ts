@@ -2,8 +2,12 @@ import { ServiceService } from './../../services/service.service';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Service } from 'src/app/models/service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
-import { Color } from 'src/app/models/color';
-
+import { Color, ThemeColor } from 'src/app/models/color';
+import { Store, select } from '@ngrx/store';
+import { selectThemeData } from 'src/app/state/theme.selector';
+export interface Theme {
+  theme?: string;
+}
 @Component({
   selector: 'app-service-list',
   templateUrl: './service-list.component.html',
@@ -13,7 +17,8 @@ import { Color } from 'src/app/models/color';
 export class ServiceListComponent implements OnInit {
   service?: Service[];
   width?: number;
-  color = new Color();
+  color = new ThemeColor();
+  theme?: Theme;
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -21,17 +26,27 @@ export class ServiceListComponent implements OnInit {
   }
   constructor(
     private serviceService: ServiceService,
-    private colorHepler: ColorHelper
+    private colorHepler: ColorHelper,
+    private store: Store<{ theme: any }>
   ) {}
 
   ngOnInit(): void {
     this.getServices();
-    this.setColor();
+    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
+      this.theme = theme;
+      setTimeout(() => {
+        this.colorHepler.getColors();
+        this.colorHepler.getLocalColors(this.color);
+      }, 20);
+      this.setColor();
+    });
   }
 
   setColor(): void {
-    this.colorHepler.getLocalColors(this.color);
-    console.log(this.color, 'color');
+    setTimeout(() => {
+      this.colorHepler.getLocalColors(this.color);
+      console.log(this.color, 'color');
+    }, 20);
   }
 
   getWindowWidth() {

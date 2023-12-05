@@ -1,4 +1,4 @@
-import { Color } from 'src/app/models/color';
+import { Color, ThemeColor } from 'src/app/models/color';
 import { Injectable } from '@angular/core';
 import { ColorService } from 'src/app/services/color.service';
 @Injectable({
@@ -8,46 +8,51 @@ export class ColorHelper {
   constructor(private colorService: ColorService) {}
   color = new Color();
   localColor = new Color();
+  themeColor = new ThemeColor();
 
   getColors() {
     this.colorService.getColors().subscribe((colors) => {
       this.color = colors[0];
-      if (this.color != null)
-        if (this.color.lightColor1 !== this.localColor.lightColor1) {
-          localStorage.removeItem('lightColor1');
-          localStorage.setItem('lightColor1', this.color.lightColor1!);
-        }
-      if (this.color.lightColor2 !== this.localColor.lightColor2) {
-        localStorage.removeItem('lightColor2');
-        localStorage.setItem('lightColor2', this.color.lightColor2!);
-      }
-      if (this.color.lightColor3 !== this.localColor.lightColor3) {
-        localStorage.removeItem('lightColor3');
-        localStorage.setItem('lightColor3', this.color.lightColor3!);
-      }
-      if (this.color.lightColor4 !== this.localColor.lightColor4) {
-        localStorage.removeItem('lightColor4');
-        localStorage.setItem('lightColor4', this.color.lightColor4!);
+      const theme = localStorage.getItem('theme');
+
+      if (theme === 'light') {
+        localStorage.removeItem('color1');
+        localStorage.setItem('color1', this.color.lightColor1!);
+        localStorage.removeItem('color2');
+        localStorage.setItem('color2', this.color.lightColor2!);
+        localStorage.removeItem('color3');
+        localStorage.setItem('color3', this.color.lightColor3!);
+        localStorage.removeItem('color4');
+        localStorage.setItem('color4', this.color.lightColor4!);
+      } else if (theme === 'dark') {
+        localStorage.removeItem('color1');
+        localStorage.setItem('color1', this.color.darkColor1!);
+        localStorage.removeItem('color2');
+        localStorage.setItem('color2', this.color.darkColor2!);
+        localStorage.removeItem('color3');
+        localStorage.setItem('color3', this.color.darkColor3!);
+        localStorage.removeItem('color4');
+        localStorage.setItem('color4', this.color.darkColor4!);
       }
     });
   }
 
-  getLocalColors(localColor: Color): void {
+  getLocalColors(localColor: ThemeColor): void {
     if (
-      localStorage.getItem('lightColor1') != null &&
-      localStorage.getItem('lightColor2') != null &&
-      localStorage.getItem('lightColor3') != null &&
-      localStorage.getItem('lightColor4') != null
+      localStorage.getItem('color1') != null &&
+      localStorage.getItem('color2') != null &&
+      localStorage.getItem('color3') != null &&
+      localStorage.getItem('color4') != null
     ) {
-      localColor.lightColor1 = localStorage.getItem('lightColor1')!;
-      localColor.lightColor2 = localStorage.getItem('lightColor2')!;
-      localColor.lightColor3 = localStorage.getItem('lightColor3')!;
-      localColor.lightColor4 = localStorage.getItem('lightColor4')!;
+      localColor.color1 = localStorage.getItem('color1')!;
+      localColor.color2 = localStorage.getItem('color2')!;
+      localColor.color3 = localStorage.getItem('color3')!;
+      localColor.color4 = localStorage.getItem('color4')!;
     } else {
-      localColor.lightColor1 = '#007bff';
-      localColor.lightColor2 = '#6c757d';
-      localColor.lightColor3 = '#ffffff';
-      localColor.lightColor4 = '#6c757d';
+      localColor.color1 = '#007bff';
+      localColor.color2 = '#6c757d';
+      localColor.color3 = '#ffffff';
+      localColor.color4 = '#6c757d';
     }
   }
 }

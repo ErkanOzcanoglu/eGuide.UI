@@ -1,8 +1,8 @@
 <div class="flex justify-center sticky top-5 mt-5 z-20" *ngIf="navbar === 0">
   <div
-    class="navbar h-[80px] rounded-full w-[95vw] flex justify-between px-10"
+    class="navbar duration-200 h-[80px] rounded-full w-[95vw] flex justify-between px-10"
     [style]="{
-      'background-color': localColor.lightColor3
+      'background-color': localColor.color3
     }"
   >
     <div>
@@ -10,7 +10,7 @@
         routerLink="/"
         class="text-xl hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
         [style]="{
-          color: localColor.lightColor2
+          color: localColor.color2
         }"
         >eGuide</a
       >
@@ -18,7 +18,7 @@
     <div id="userMenu" class="laptop:flex-row flex flex-col">
       <a
         [style]="{
-          color: localColor.lightColor2
+          color: localColor.color2
         }"
         routerLink=""
         class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
@@ -26,7 +26,7 @@
       >
       <a
         [style]="{
-          color: localColor.lightColor2
+          color: localColor.color2
         }"
         routerLink="/services"
         class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
@@ -35,7 +35,7 @@
       <ng-container *ngIf="isLoggedIn; else loginRegister">
         <button
           [style]="{
-            color: localColor.lightColor2
+            color: localColor.color2
           }"
           class="relative group"
           (click)="showUserMenu = !showUserMenu"
@@ -48,8 +48,8 @@
             *ngIf="showUserMenu"
             class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
             [style]="{
-              color: localColor.lightColor2,
-              'background-color': localColor.lightColor3
+              color: localColor.color2,
+              'background-color': localColor.color3
             }"
           >
             <button (click)="logout()" class="block px-4 py-2 rounded-xl">
@@ -61,6 +61,14 @@
           </div>
         </button>
       </ng-container>
+      <div>
+        <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+          <i class="fa-solid fa-sun fa-xl"></i>
+        </button>
+        <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+          <i class="fa-solid fa-moon fa-xl"></i>
+        </button>
+      </div>
     </div>
     <button
       id="hamburgerIcon"
@@ -77,8 +85,8 @@
         role="button"
         tabindex="0"
         [style]="{
-          color: localColor.lightColor2,
-          'background-color': localColor.lightColor3
+          color: localColor.color2,
+          'background-color': localColor.color3
         }"
       >
         <a
@@ -106,8 +114,8 @@
               *ngIf="showUserMenu"
               class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
               [style]="{
-                color: localColor.lightColor2,
-                'background-color': localColor.lightColor3
+                color: localColor.color2,
+                'background-color': localColor.color3
               }"
             >
               <button (click)="logout()" class="block px-4 py-2 rounded-xl">
@@ -127,8 +135,8 @@
 <ng-template #loginRegister>
   <a
     [style]="{
-      color: localColor.lightColor2,
-      'background-color': localColor.lightColor3
+      color: localColor.color2,
+      'background-color': localColor.color3
     }"
     routerLink="/login"
     class="text-lg font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
@@ -136,8 +144,8 @@
   >
   <a
     [style]="{
-      color: localColor.lightColor2,
-      'background-color': localColor.lightColor3
+      color: localColor.color2,
+      'background-color': localColor.color3
     }"
     routerLink="/register"
     class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"

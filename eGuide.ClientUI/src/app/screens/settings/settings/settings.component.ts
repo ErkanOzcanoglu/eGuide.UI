@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { ColorHelper } from 'src/app/components/generic-helper/color/color-helper';
-import { Color } from 'src/app/models/color';
+import { Color, ThemeColor } from 'src/app/models/color';
+import { selectThemeData } from 'src/app/state/theme.selector';
 
 @Component({
   selector: 'app-settings',
@@ -10,12 +12,21 @@ import { Color } from 'src/app/models/color';
 })
 export class SettingsComponent {
   currentPage = 'user-settings';
-  color: Color = new Color();
+  color: ThemeColor = new ThemeColor();
 
-  constructor(private colorHelper: ColorHelper) {}
+  constructor(
+    private colorHelper: ColorHelper,
+    private store: Store<{ theme: any }>
+  ) {}
 
   ngOnInit(): void {
     this.colorHelper.getLocalColors(this.color);
+    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
+      setTimeout(() => {
+        this.colorHelper.getColors();
+        this.colorHelper.getLocalColors(this.color);
+      }, 50);
+    });
   }
 
   showPage(page: string) {

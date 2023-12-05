@@ -46,6 +46,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 import { ColorComponent } from './components/generic-helper/color/color.component';
+import { themeReducer } from './state/theme.reducer';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,9 @@ import { ColorComponent } from './components/generic-helper/color/color.componen
     BrowserAnimationsModule,
     FontAwesomeModule,
     MatDialogModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({
+      theme: themeReducer,
+    }),
     MatExpansionModule,
     MatListModule,
   ],

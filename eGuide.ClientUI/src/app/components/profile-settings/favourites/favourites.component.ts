@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Station } from 'src/app/models/station';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { ColorHelper } from '../../generic-helper/color/color-helper';
-import { Color } from 'src/app/models/color';
+import { Color, ThemeColor } from 'src/app/models/color';
 
 @Component({
   selector: 'app-favourites',
@@ -13,7 +13,7 @@ import { Color } from 'src/app/models/color';
 })
 export class FavouritesComponent {
   stations: Station[] = [];
-  color: Color = new Color();
+  color: ThemeColor = new ThemeColor();
   constructor(
     private userStationService: UserStationService,
     private toastr: ToastrService,
