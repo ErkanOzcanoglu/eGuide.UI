@@ -3,12 +3,18 @@ import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { User } from 'src/app/models/user';
 import { ColorService } from 'src/app/services/color.service';
+import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
+import { User } from 'src/app/models/user';
+import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
+import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Store } from '@ngrx/store';
 import { setThemeData } from 'src/app/state/theme.action';
+import { selectActiveVehicle } from 'src/app/state/vehicle.selector';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +32,11 @@ export class NavbarComponent implements OnInit {
   localColor = new ThemeColor();
   currentTheme = localStorage.getItem('theme');
   vehicle:Vehicle=new Vehicle();
+  vehicle: Vehicle = new Vehicle();
+  activeVehicle$: Observable<Vehicle | null>;
+  currentState: Vehicle | null = null;
+  userVehicleActive: Vehicle = new Vehicle();
+  savedActiveVehicle: Vehicle = new Vehicle();
 
   constructor(
     private router: Router,
@@ -34,7 +45,11 @@ export class NavbarComponent implements OnInit {
     private colorService: ColorService,
     private colorHelper: ColorHelper,
     private store: Store<{ theme: any }>
-  ) {}
+    private userVehicleService: UserVehicleService,
+    private store: Store
+  ) {
+    this.activeVehicle$ = this.store.select(selectActiveVehicle);
+  }
 
   ngOnInit(): void {
     this.colorHelper.getColors();
@@ -49,7 +64,48 @@ export class NavbarComponent implements OnInit {
         this.isLoggedIn = true;
       });
     }
+    // this.vehicleActiveView();
+    this.getActiveVehiclebyUserId();
     this.getNavbarType();
+    this.activeVehicle$.subscribe((currentState) => {
+      // Bu kodlar asenkron bir şekilde çalışır
+      if (currentState) {
+        console.log(
+          'ngrx deneme',
+          currentState.id,
+          currentState.brand,
+          currentState.model
+        );
+      } else {
+        console.log('Aktif araç bulunamadı.');
+      }
+      this.currentState = currentState;
+
+      // currentState kullanıldığı yer buraya taşındı
+      console.log('aa', this.currentState);
+      console.log('aa', this.currentState);
+    });
+
+    // this.activeVehicle$
+    //   .pipe(
+    //     map((currentState) => {
+    //       if (currentState) {
+    //         console.log(
+    //           'ngrx deneme',
+    //           currentState.id,
+    //           currentState.brand,
+    //           currentState.model
+    //         );
+    //       } else {
+    //         console.log('Aktif araç bulunamadı.');
+    //       }
+    //       this.currentState=currentState;
+    //       return currentState;
+    //     })
+    //   )
+    //   .subscribe();
+    // console.log('ngrx deneme5', this.activeVehicle$);
+    // console.log('aaaa',this.currentState);
   }
 
   logout(): void {
@@ -102,6 +158,25 @@ export class NavbarComponent implements OnInit {
 
    handleActiveVehicle(event: any) {
     this.vehicle=event;
+  handleActiveVehicle(event: any) {
+    this.vehicle = event;
     console.log(this.vehicle);
+  }
+
+  getActiveVehiclebyUserId() {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken != null) {
+      this.userVehicleService.getActiveVehicle(authToken).subscribe(
+        (activeVehicle: Vehicle) => {
+          console.log('aktif araç geldi', activeVehicle);
+
+          // activeVehicle değişkenini başka bir değişkene atayabilir veya başka bir yerde kullanabilirsiniz
+          this.savedActiveVehicle = activeVehicle;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
 }

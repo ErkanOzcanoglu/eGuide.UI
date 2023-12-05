@@ -47,6 +47,7 @@ import { MatListModule } from '@angular/material/list';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 import { ColorComponent } from './components/generic-helper/color/color.component';
 import { themeReducer } from './state/theme.reducer';
+import { vehicleReducer } from './state/vehicle.reducer';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,9 @@ import { themeReducer } from './state/theme.reducer';
     MatDialogModule,
     StoreModule.forRoot({
       theme: themeReducer,
+    activeVehicle: vehicleReducer
     }),
+    StoreModule.forRoot({ activeVehicle: vehicleReducer}),
     MatExpansionModule,
     MatListModule,
   ],

@@ -70,6 +70,9 @@ export class UserVehicleService {
       `${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}?userid=${userId}`
     );
   }
-
- 
+  public getActiveVehicle(userId: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(
+      `${environment.apiUrl}/${this.url}/GetActiveVehicle/${userId}`
+    );
+  }
 }

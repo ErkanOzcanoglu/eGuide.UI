@@ -4,13 +4,18 @@ import { Router } from '@angular/router';
 import { Vehicle } from '../models/vehicle';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehiclesService {
   private url = 'UserforVehicle';
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store
+  ) {}
 
   public getAllVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(`${environment.apiUrl}/${this.url}`);
@@ -37,5 +42,11 @@ export class VehiclesService {
 
   public getAllBrands(): Observable<string[]> {
     return this.http.get<string[]>(`${environment.apiUrl}/${this.url}/brands`);
+  }
+
+  public getVehicleById(vehicleId: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(
+      `${environment.apiUrl}/${this.url}/getVehiclebyId/${vehicleId}`
+    );
   }
 }

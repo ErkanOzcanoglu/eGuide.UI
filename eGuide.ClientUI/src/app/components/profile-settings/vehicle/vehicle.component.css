@@ -60,3 +60,14 @@
 .selected-vehicle {
   background-color: rgb(203, 244, 252); /* veya başka bir renk */
 }
+
+.selected-indicator {
+  margin-left: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color:midnightblue;
+  padding: 2px 5px;
+
+}
+
+

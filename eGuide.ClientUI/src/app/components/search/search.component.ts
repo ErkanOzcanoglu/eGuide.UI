@@ -7,11 +7,24 @@ import { StationService } from 'src/app/services/station.service';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { FacilityService } from 'src/app/services/facility.service';
 import { Facility } from 'src/app/models/facility';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
+  animations: [
+    trigger('slideDown', [
+      state('void', style({ height: '0', opacity: 0 })),
+      transition(':enter, :leave', [animate('0.3s ease-in-out')]),
+    ]),
+  ],
 })
 export class SearchComponent implements OnInit {
   searchText = '';
@@ -60,7 +73,14 @@ export class SearchComponent implements OnInit {
     this.isClicked = true;
   }
 
-  aramaYap(text: string) {
+  searchByAddress(text: string) {
+    if (this.isClicked) {
+      // Eğer overlay açıksa, tekrar search ikonuna tıklanınca kapat
+      this.isClicked = false;
+    } else {
+      // Eğer overlay kapalıysa, overlay'ı aç
+      this.isClicked = true;
+    }
     this.searchTexts.emit(text);
   }
 
@@ -105,20 +125,20 @@ export class SearchComponent implements OnInit {
   toggleFilter() {
     if (!this.isFilterEnabled) {
       this.stationFilteredSelected.emit(this.stations);
-      console.log("switchten sonraki istasyonlar",this.stations);
+      console.log('switchten sonraki istasyonlar', this.stations);
       return;
     }
   }
 
   refreshFilter() {
-      console.log("Refreshten sonraki istasyonlar",this.stations);
-      this.stationFilteredSelected.emit(this.stations); 
+    console.log('Refreshten sonraki istasyonlar', this.stations);
+    this.stationFilteredSelected.emit(this.stations);
   }
 
   onSelectFacility(facility: Facility) {
-    // if (!this.isFilterEnabled) {
-    //   return;
-    // }
+    if (!this.isFilterEnabled) {
+      return;
+    }
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -165,9 +185,9 @@ export class SearchComponent implements OnInit {
     this.searchText = connector.type;
     this.isClicked = false;
 
-    // if (!this.isFilterEnabled) {
-    //   return;
-    // }
+    if (!this.isFilterEnabled) {
+      return;
+    }
 
     if (this.filteredFacilityStations.length === 0) {
       // filteredFacilityStations henüz tanımlanmadıysa veya null ise
@@ -231,9 +251,6 @@ export class SearchComponent implements OnInit {
         .subscribe((lastVisitedStations) => {
           if (lastVisitedStations.length > 0) {
             this.lastVisitedStations = lastVisitedStations;
-            // console.log(this.lastVisitedStations, 'genel deneme');
-            // console.log(this.lastVisitedStations[0].stationId, 'station id');
-            // find station by station if for each last visited station
             this.lastVisitedStations.forEach((lastVisitedStation) => {
               this.stationService
                 .getStationById(lastVisitedStation.stationId)
@@ -247,7 +264,6 @@ export class SearchComponent implements OnInit {
                     station: station,
                   });
                 });
-              // console.log(this.lastVisitedStations2, 'last visited stations 2');
             });
           } else {
             // clear the last visited stations
