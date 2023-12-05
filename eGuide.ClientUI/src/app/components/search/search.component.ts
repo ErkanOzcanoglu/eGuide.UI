@@ -7,7 +7,13 @@ import { StationService } from 'src/app/services/station.service';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { FacilityService } from 'src/app/services/facility.service';
 import { Facility } from 'src/app/models/facility';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-search',
@@ -44,8 +50,6 @@ export class SearchComponent implements OnInit {
   @Output() stationFacilitySelected = new EventEmitter<Station[]>();
   @Output() stationFilteredSelected = new EventEmitter<Station[]>();
 
-  
-
   showConnectors = false;
 
   constructor(
@@ -69,7 +73,7 @@ export class SearchComponent implements OnInit {
     this.isClicked = true;
   }
 
-  aramaYap(text: string) {
+  searchByAddress(text: string) {
     if (this.isClicked) {
       // Eğer overlay açıksa, tekrar search ikonuna tıklanınca kapat
       this.isClicked = false;

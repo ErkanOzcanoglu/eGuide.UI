@@ -7,6 +7,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import * as VehicleActions from 'src/app/state/vehicle.actions';
 
 @Component({
   selector: 'app-vehicle',
@@ -40,13 +42,14 @@ export class VehicleComponent implements OnInit {
   editModeVehicle = false;
   isUpdate = true;
 
-  
+  vehicleState: Vehicle = new Vehicle();
 
   constructor(
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
     private connectorService: ConnectorService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -254,7 +257,6 @@ export class VehicleComponent implements OnInit {
         .subscribe((res) => {
           console.log(res);
         });
-       
     }
   }
 
@@ -270,7 +272,10 @@ export class VehicleComponent implements OnInit {
           const matchingVehicle = this.vehicleList.find(
             (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
           );
-
+          if(matchingVehicle!=null)
+          this.vehicleState=matchingVehicle;
+          
+          this.setActiveVehicle(this.vehicleState);
           if (matchingVehicle) {
             console.log('Eşleşen VehicleId:', matchingVehicle.id);
             this.getVehicleById();
@@ -283,6 +288,10 @@ export class VehicleComponent implements OnInit {
         }
       );
     }
+  }
+
+  setActiveVehicle(activeVehicle: Vehicle): void {
+    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle}));
   }
 
   saveUpdate() {

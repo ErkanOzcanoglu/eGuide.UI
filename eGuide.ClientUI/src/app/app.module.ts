@@ -44,6 +44,7 @@ import { ContactFormComponent } from './components/contact-form/contact-form.com
 import { ContactComponent } from './screens/contact/contact.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { vehicleReducer } from './state/vehicle.reducer';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,7 @@ import { MatListModule } from '@angular/material/list';
     BrowserAnimationsModule,
     FontAwesomeModule,
     MatDialogModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ activeVehicle: vehicleReducer}),
     MatExpansionModule,
     MatListModule,
   ],

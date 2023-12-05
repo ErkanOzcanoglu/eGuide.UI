@@ -1,17 +1,17 @@
-<div class="flex justify-center items-center space-x-1">
+<div class="flex justify-center items-center">
   <div class="relative flex items-center">
     <input
       type="text"
       aria-describedby="search-text"
       placeholder="Search"
       [(ngModel)]="searchText"
-      class="search bg-white w-64 h-10 p-2 pr-10 rounded-l-xl outline-none"
+      class="search bg-white w-56 h-10 p-2 pr-10 rounded-l-xl outline-none"
       (click)="onClick()"
     />
    
       <button
-        class="search-button w-10 h-10 ml-1"
-        (click)="aramaYap(searchText)"
+        class="search-button w-10 h-10"
+        (click)="searchByAddress(searchText)"
       >
         <i class="fas fa-search text-black"></i>
       </button>
