@@ -8,7 +8,7 @@ import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
-import { selectActiveVehicle } from 'src/app/state/vehicle.selector';
+import { selectActiveVehicle } from 'src/app/state/vehicle-state/vehicle.selector';
 
 @Component({
   selector: 'app-navbar',
@@ -67,8 +67,8 @@ export class NavbarComponent {
       this.currentState = currentState;
 
       // currentState kullanıldığı yer buraya taşındı
-      console.log('aa', this.currentState);
-      console.log('aa', this.currentState);
+      console.log('navbara ulaşan araç budur', this.currentState);
+      
     });
 
     // this.activeVehicle$
