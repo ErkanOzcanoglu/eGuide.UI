@@ -11,10 +11,12 @@ import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
+import { selectActiveVehicle } from 'src/app/state/vehicle-state/vehicle.selector';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Store } from '@ngrx/store';
 import { setThemeData } from 'src/app/state/theme.action';
-import { selectActiveVehicle } from 'src/app/state/vehicle.selector';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -82,8 +84,8 @@ export class NavbarComponent implements OnInit {
       this.currentState = currentState;
 
       // currentState kullanıldığı yer buraya taşındı
-      console.log('aa', this.currentState);
-      console.log('aa', this.currentState);
+      console.log('navbara ulaşan araç budur', this.currentState);
+      
     });
 
     // this.activeVehicle$

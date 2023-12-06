@@ -8,7 +8,7 @@ import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import * as VehicleActions from 'src/app/state/vehicle.actions';
+import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 
 @Component({
   selector: 'app-vehicle',
@@ -42,7 +42,11 @@ export class VehicleComponent implements OnInit {
   editModeVehicle = false;
   isUpdate = true;
 
+  dropdownVisible = false;
+  maxVisibleItems = 3;
+
   vehicleState: Vehicle = new Vehicle();
+  vehicleNgrX = new Vehicle();
 
   constructor(
     private userVehicleService: UserVehicleService,
@@ -56,11 +60,8 @@ export class VehicleComponent implements OnInit {
     this.getBrands();
     this.getVehicleById();
     this.getConnector();
-    this.vehicleActiveView();
+    this.getVehicleActiveView();
   }
-
-  dropdownVisible = false;
-  maxVisibleItems = 3;
 
   onModeChangeVehicle() {
     this.editModeVehicle = !this.editModeVehicle;
@@ -82,11 +83,6 @@ export class VehicleComponent implements OnInit {
     });
   }
 
-  // onConnectorSelected(event: any) {
-  //   const selectedConnectorId = event.target.value;
-  //   this.selectedConnectorId = selectedConnectorId;
-  //   localStorage.setItem('connectorId', selectedConnectorId);
-  // }
   onConnectorSelected(connector: any) {
     this.selectedConnector = connector;
     localStorage.setItem('connectorId', this.selectedConnector.id);
@@ -103,6 +99,7 @@ export class VehicleComponent implements OnInit {
     this.loadModelsByBrand(selectedBrand);
     localStorage.setItem('brand', selectedBrand);
   }
+
   selectVehicle(selectedVehicle: any) {
     localStorage.setItem('brand', selectedVehicle.brand);
     this.onCarSelected(selectedVehicle.brand, selectedVehicle.connector);
@@ -243,17 +240,10 @@ export class VehicleComponent implements OnInit {
       console.error('vehicleId eksik.');
     }
   }
-  
-  vehicleNgrX = new Vehicle();
-  getVehicleByIdActive(vehicleId: string): void {
-    this.vehicleService.getVehicleById(vehicleId).subscribe(
-      (data: Vehicle) => {
-        this.vehicleNgrX = data;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+
+  //<--NGRX METHODS FOR VEHICLE-->
+  setActiveVehicle(activeVehicle: Vehicle): void {
+    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
   }
 
   updateVehicleActiveStatus() {
@@ -261,28 +251,23 @@ export class VehicleComponent implements OnInit {
     const userId = localStorage.getItem('authToken');
 
     if (vehicleId != null && userId != null) {
-    
       this.userVehicleService
-        .updateVehicleActiveStatus(userId, vehicleId)
-        .subscribe((response) => {
-          this.getVehicleByIdActive(vehicleId);
-          this.setActiveVehicle(this.vehicleNgrX);
-        });
+        .updateVehicleActiveStatus(userId, vehicleId)//THIS METHOD RETURNS VEHICLE FOR RESPONSE
+        .subscribe(
+          (response) => {
+            this.vehicleNgrX = response;
+            console.log('ngrx ici', this.vehicleNgrX);
+            this.setActiveVehicle(this.vehicleNgrX);
+            this.getVehicleActiveView();
+          },
+          (error) => {
+            console.error('Update error:', error);
+          }
+        );
     }
   }
 
-  // this.userVehicleService
-  //       .updateVehicle(userId, oldId, vehicleId, connectorId)
-  //       .subscribe(
-  //         (response) => {
-  //           this.getVehicleById();
-  //         },
-  //         (error) => {
-  //           console.error('Araç güncelleme hatası:', error);
-  //         }
-  //       );
-
-  vehicleActiveView(): void {
+  getVehicleActiveView(): void {
     const userId = localStorage.getItem('authToken');
     if (userId != null) {
       this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
@@ -308,10 +293,6 @@ export class VehicleComponent implements OnInit {
         }
       );
     }
-  }
-  //NgRx metot
-  setActiveVehicle(activeVehicle: Vehicle): void {
-    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
   }
 
   saveUpdate() {

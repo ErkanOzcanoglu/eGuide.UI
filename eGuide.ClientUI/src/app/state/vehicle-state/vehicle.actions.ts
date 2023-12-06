@@ -1,11 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { Vehicle } from '../models/vehicle';
+import { Vehicle } from 'src/app/models/vehicle';
 
 
 export const setActiveVehicle = createAction(
   '[Vehicle] Set Active Vehicle',
   props<{ activeVehicle: Vehicle }>()
 
-   // (activeVehicle: any) => ({ activeVehicle})
+  // (activeVehicle: any) => ({ activeVehicle})
 );
-

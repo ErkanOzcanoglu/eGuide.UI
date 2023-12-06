@@ -48,7 +48,7 @@ export class UserVehicleService {
   updateVehicleActiveStatus(
     userId: string,
     vehicleId: string
-  ): Observable<any> {
+  ): Observable<Vehicle> {
     const data = { userId: userId, vehicleId: vehicleId };
     return this.http.put(
       `${environment.apiUrl}/${this.url}/update-active-vehicle/${userId}/${vehicleId}`,
