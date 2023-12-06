@@ -25,6 +25,7 @@ export class MapHelper {
   userStation: UserStation = new UserStation();
   stations: Station[] = [];
   comments: Comment[] = [];
+  rating?: string;
   chargingUnitList: any;
   facilityList: any;
   connectorTypelist: any;
@@ -350,36 +351,47 @@ export class MapHelper {
               'aria-label': 'Type your comment here',
             },
             html: `<p>Rating</p>
-              <div class="rating">
-                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400"/>
-                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
-                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-              </div>
-             `,
+    <div class="rating" id="swal-rating">
+      <input type="radio" name="rating-2" value="1" class="mask mask-star-2 bg-orange-400" />
+      <input type="radio" name="rating-2" value="2" class="mask mask-star-2 bg-orange-400" />
+      <input type="radio" name="rating-2" value="3" class="mask mask-star-2 bg-orange-400" />
+      <input type="radio" name="rating-2" value="4" class="mask mask-star-2 bg-orange-400" />
+      <input type="radio" name="rating-2" value="5" class="mask mask-star-2 bg-orange-400" />
+    </div>`,
             showCancelButton: true,
             confirmButtonText: 'Submit',
             cancelButtonText: 'Cancel',
             reverseButtons: true,
             allowOutsideClick: () => !Swal.isLoading(),
-            preConfirm: (login) => {
-              return login;
+            preConfirm: () => {
+              const selectedRatingInput = document.querySelector(
+                'input[name="rating-2"]:checked'
+              ) as HTMLInputElement;
+
+              if (selectedRatingInput) {
+                this.rating = selectedRatingInput.value;
+              }
+
+              const comment = Swal.getInput()?.value;
+
+              if (!selectedRatingInput || !comment) {
+                Swal.showValidationMessage(
+                  'You must enter a comment and select a rating.'
+                );
+              }
+
+              return { comment, rating: this.rating };
             },
           }).then((result) => {
-            if (result.value !== '' && result.isConfirmed) {
-              this.submitComment(result.value, stationId);
+            if (result.isConfirmed) {
+              const { comment, rating } = result.value;
+              this.submitComment(comment, rating, stationId);
+              console.log(rating);
+
               Swal.fire({
                 title: 'Success!',
                 text: 'Your comment has been added.',
                 icon: 'success',
-                confirmButtonText: 'Ok',
-              });
-            } else if (result.value === '') {
-              Swal.fire({
-                title: 'Error!',
-                text: 'You must enter a comment.',
-                icon: 'error',
                 confirmButtonText: 'Ok',
               });
             }
@@ -403,7 +415,7 @@ export class MapHelper {
                     <span class="text1 text-gray-700">${comment.text}</span>
                     <div class="flex justify-between py-1 pt-2">
                       <div class="flex items-center">
-                          <span class="text2 text-gray-700">Json</span>
+                          <span class="text2 text-gray-700">${comment.rating}</span>
                       </div>
                     </div>
                   </div>
@@ -432,13 +444,13 @@ export class MapHelper {
     });
   }
 
-  submitComment(comment: string, stationId: number) {
+  submitComment(comment: string, rating: number, stationId: number) {
     const userId = localStorage.getItem('authToken');
     this.commentForm.patchValue({
       text: comment,
       ownerId: userId,
       stationId: stationId,
-      rating: 2,
+      rating: rating,
     });
     this.commentService.addComment(this.commentForm.value).subscribe();
   }

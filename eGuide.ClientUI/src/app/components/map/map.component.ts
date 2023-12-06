@@ -1,15 +1,11 @@
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
-import { StationService } from 'src/app/services/station.service';
-import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
-import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
 import { basemapss } from './map-data';
 import { MapHelper } from './map-helper';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/models/comment';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 
@@ -43,14 +39,7 @@ export class MapComponent implements OnInit {
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
 
-  constructor(
-    private stationService: StationService,
-    private lastVisitedStationsService: LastVisitedStationsService,
-    private userStationService: UserStationService,
-    private formBuilder: FormBuilder,
-    private mapHelper: MapHelper,
-    private commentService: CommentService
-  ) {
+  constructor(private formBuilder: FormBuilder, private mapHelper: MapHelper) {
     this.basemapss = basemapss;
     this.currentBasemapIndex = 0;
   }
@@ -467,8 +456,8 @@ export class MapComponent implements OnInit {
     this.mapHelper.comment(stationId);
   }
 
-  submitComment(comment: string, stationId: number) {
-    this.mapHelper.submitComment(comment, stationId);
+  submitComment(comment: string, rating: number, stationId: number) {
+    this.mapHelper.submitComment(comment, rating, stationId);
   }
 
   // search function
