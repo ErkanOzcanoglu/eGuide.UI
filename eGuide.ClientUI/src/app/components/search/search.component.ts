@@ -14,6 +14,9 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Vehicle } from 'src/app/models/vehicle';
+import { UserVehicleService } from 'src/app/services/user-vehicle.service';
+import { UserVehicle } from 'src/app/models/user-vehicle';
 
 @Component({
   selector: 'app-search',
@@ -35,6 +38,7 @@ export class SearchComponent implements OnInit {
   stations: Station[] = [];
   connectors: Connector[] = [];
   facilities: Facility[] = [];
+  vehicles: Vehicle[] = [];
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
   selectedFacilities: Facility[] = [];
@@ -42,7 +46,10 @@ export class SearchComponent implements OnInit {
   filteredFacilityStations: Station[] = [];
   filteredConnectorStations: Station[] = [];
 
-  isFilterEnabled = true;
+  vehicleState: Vehicle = new Vehicle();
+  userVehicleActive: UserVehicle = new UserVehicle();
+
+  isFilterEnabled = false;
 
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
@@ -56,7 +63,8 @@ export class SearchComponent implements OnInit {
     private stationService: StationService,
     private connectorService: ConnectorService,
     private lastVisitedStationsService: LastVisitedStationsService,
-    private facilityService: FacilityService
+    private facilityService: FacilityService,
+    private userVehicleService: UserVehicleService
   ) {}
 
   searchT(event: any) {
@@ -67,6 +75,8 @@ export class SearchComponent implements OnInit {
     this.getStations();
     this.getConnectors();
     this.getFacilities();
+    this.getVehicles();
+    this.getVehicleActiveView();
   }
 
   onClick() {
@@ -87,6 +97,51 @@ export class SearchComponent implements OnInit {
   closeSearch() {
     this.isClicked = false;
     this.isFilterClicked = false;
+    this.isFilterEnabled = false;
+  }
+
+  getVehicles() {
+    const userId = localStorage.getItem('authToken');
+    if (userId !== null) {
+      this.userVehicleService.getvehicleById(userId).subscribe(
+        (data) => {
+          this.vehicles = data;
+          const combinedVehicles = this.vehicles.map((vehicle) => {
+            return `${vehicle.brand}-${vehicle.model}`;
+          });
+        },
+        (error) => {
+          console.error('Araç bilgileri alma hatası:', error);
+        }
+      );
+    }
+  }
+
+  getVehicleActiveView(): void {
+    const userId = localStorage.getItem('authToken');
+    if (userId != null) {
+      this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
+        (uservehicle) => {
+          this.userVehicleActive = uservehicle;
+          console.log('Gelen UserVehicle xxx:', this.userVehicleActive);
+          // this.vehicleList içindeki vehicleId'leri kontrol et
+          const matchingVehicle = this.vehicles.find(
+            (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
+          );
+          if (matchingVehicle != null) this.vehicleState = matchingVehicle;
+
+          if (matchingVehicle) {
+            console.log('Eşleşen xxxx :', matchingVehicle);
+            this.getVehicles();
+          } else {
+            console.log('Eşleşen VehicleId bulunamadı xxx.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching active user vehicle:', error);
+        }
+      );
+    }
   }
 
   getStations() {
@@ -122,23 +177,15 @@ export class SearchComponent implements OnInit {
     this.stationSelected.emit(station);
   }
 
-  toggleFilter() {
-    if (!this.isFilterEnabled) {
-      this.stationFilteredSelected.emit(this.stations);
-      console.log('switchten sonraki istasyonlar', this.stations);
-      return;
-    }
-  }
-
   refreshFilter() {
     console.log('Refreshten sonraki istasyonlar', this.stations);
     this.stationFilteredSelected.emit(this.stations);
   }
 
   onSelectFacility(facility: Facility) {
-    if (!this.isFilterEnabled) {
-      return;
-    }
+    // if (this.isFilterEnabled) {
+    //   return;
+    // }
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -181,11 +228,26 @@ export class SearchComponent implements OnInit {
     this.stationFilteredSelected.emit(this.filteredFacilityStations);
   }
 
+  toggleFilter() {
+    if (this.isFilterEnabled) {
+      this.filteredConnectorStations = this.stations.filter((station) =>
+        station.stationModel?.stationsChargingUnits.some(
+          (unit) =>
+            unit.chargingUnit?.connector?.id ===
+            this.userVehicleActive.connectorId
+        )
+      );
+      console.log('gitmesi gereken istasyon', this.filteredConnectorStations);
+      this.stationFilteredSelected.emit(this.filteredConnectorStations);
+      return;
+    }
+  }
+
   onSelectConnector(connector: Connector) {
     this.searchText = connector.type;
     this.isClicked = false;
 
-    if (!this.isFilterEnabled) {
+    if (this.isFilterEnabled) {
       return;
     }
 
@@ -193,7 +255,7 @@ export class SearchComponent implements OnInit {
       // filteredFacilityStations henüz tanımlanmadıysa veya null ise
       this.filteredConnectorStations = this.stations.filter((station) =>
         station.stationModel?.stationsChargingUnits.some(
-          (unit) => unit.chargingUnit?.connector?.type === connector.type
+          (unit) => unit.chargingUnit?.connector?.id === connector.id
         )
       );
     } else {

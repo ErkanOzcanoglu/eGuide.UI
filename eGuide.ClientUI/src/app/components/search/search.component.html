@@ -8,14 +8,13 @@
       class="search bg-white w-56 h-10 p-2 pr-10 rounded-l-xl outline-none"
       (click)="onClick()"
     />
-   
-      <button
-        class="search-button w-10 h-10"
-        (click)="searchByAddress(searchText)"
-      >
-        <i class="fas fa-search text-black"></i>
-      </button>
-   
+
+    <button
+      class="search-button w-10 h-10"
+      (click)="searchByAddress(searchText)"
+    >
+      <i class="fas fa-search text-black"></i>
+    </button>
   </div>
 
   <button class="filter-button bg-white w-10 h-10" (click)="openFilter()">
@@ -45,7 +44,7 @@
   </ul>
   <!-- Toggle ve Dropdown Eklenen Kısım -->
   <!-- component.html -->
-  <div class="ml-2 flex items-center" *ngIf="isFilterClicked">
+  <!-- <div class="ml-2 flex items-center" *ngIf="isFilterClicked">
     <label class="switch">
       <input
         type="checkbox"
@@ -55,7 +54,7 @@
       <span class="slider"></span>
     </label>
     <span class="ml-2">Filter</span>
-  </div>
+  </div> -->
 
   <div
     class="ml-2 flex items-center"
@@ -69,6 +68,33 @@
 
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="accordion-header-connector">
+        <mat-panel-title> Vehicles </mat-panel-title>
+        <div class="ml-2 flex items-center" *ngIf="isFilterClicked">
+          <label class="switch">
+            <input
+              type="checkbox"
+              [(ngModel)]="isFilterEnabled"
+              (ngModelChange)="toggleFilter()"
+            />
+            <span class="slider"></span>
+          </label>
+          <span class="ml-2">.</span>
+        </div>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <ul class="connectors-list">
+          <li *ngFor="let vehicle of vehicles">
+            <div class="connector-item">
+              <span class="connector-type"
+                >{{ vehicle.brand }}-{{ vehicle.model }}</span
+              >
+            </div>
+          </li>
+        </ul>
+      </mat-panel-description>
+    </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header-connector">
         <mat-panel-title> Connectors </mat-panel-title>

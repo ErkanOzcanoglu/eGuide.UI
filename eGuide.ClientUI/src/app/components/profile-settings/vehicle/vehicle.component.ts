@@ -58,7 +58,7 @@ export class VehicleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBrands();
-    this.getVehicleById();
+    this.getVehicleByUserId();
     this.getConnector();
     this.getVehicleActiveView();
   }
@@ -183,7 +183,7 @@ export class VehicleComponent implements OnInit {
 
       this.userVehicleService.saveVehicle(userVehicle).subscribe(
         (response) => {
-          this.getVehicleById();
+          this.getVehicleByUserId();
         },
         (error) => {
           console.error('UserVehicle kaydetme hatası:', error);
@@ -194,7 +194,7 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  getVehicleById() {
+  getVehicleByUserId() {
     const userId = localStorage.getItem('authToken');
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
@@ -230,7 +230,7 @@ export class VehicleComponent implements OnInit {
         .deleteUserVehicleByVehicleId(userId, vehicleId)
         .subscribe(
           () => {
-            this.getVehicleById();
+            this.getVehicleByUserId();
           },
           (error) => {
             console.error('Araç silme hatası:', error);
@@ -283,7 +283,7 @@ export class VehicleComponent implements OnInit {
 
           if (matchingVehicle) {
             console.log('Eşleşen :', matchingVehicle);
-            this.getVehicleById();
+            this.getVehicleByUserId();
           } else {
             console.log('Eşleşen VehicleId bulunamadı.');
           }
@@ -311,7 +311,7 @@ export class VehicleComponent implements OnInit {
         .updateVehicle(userId, oldId, vehicleId, connectorId)
         .subscribe(
           (response) => {
-            this.getVehicleById();
+            this.getVehicleByUserId();
           },
           (error) => {
             console.error('Araç güncelleme hatası:', error);

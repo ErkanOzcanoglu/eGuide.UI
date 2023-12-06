@@ -216,7 +216,7 @@ input:checked + .slider:before {
 }
 
 .accordion-header-connector {
-  background-color: #f9f9f9; /* Daha koyu bir mavi tonu */
+  background-color: #ffffff; /* Daha koyu bir mavi tonu */
 }
 
 .accordion-header-facilty {
