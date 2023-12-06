@@ -15,8 +15,6 @@ import { ColorHelper } from '../generic-helper/color/color-helper';
 
 import { setThemeData } from 'src/app/state/theme.action';
 
-
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -67,23 +65,9 @@ export class NavbarComponent implements OnInit {
     this.getActiveVehiclebyUserId();
     this.getNavbarType();
     this.activeVehicle$.subscribe((currentState) => {
-      // Bu kodlar asenkron bir şekilde çalışır
-      if (currentState) {
-        console.log(
-          'ngrx deneme',
-          currentState.id,
-          currentState.brand,
-          currentState.model
-        );
-      } else {
-        console.log('Aktif araç bulunamadı.');
-      }
       this.currentState = currentState;
-
-      // currentState kullanıldığı yer buraya taşındı
       console.log('navbara ulaşan araç budur', this.currentState);
     });
-
   }
 
   logout(): void {
@@ -138,15 +122,13 @@ export class NavbarComponent implements OnInit {
     this.vehicle = event;
     console.log(this.vehicle);
   }
-  
+
   getActiveVehiclebyUserId() {
     const authToken = localStorage.getItem('authToken');
     if (authToken != null) {
       this.userVehicleService.getActiveVehicle(authToken).subscribe(
         (activeVehicle: Vehicle) => {
           console.log('aktif araç geldi', activeVehicle);
-
-          // activeVehicle değişkenini başka bir değişkene atayabilir veya başka bir yerde kullanabilirsiniz
           this.savedActiveVehicle = activeVehicle;
         },
         (error) => {

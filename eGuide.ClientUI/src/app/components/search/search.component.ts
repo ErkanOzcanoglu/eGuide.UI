@@ -17,6 +17,8 @@ import {
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserVehicle } from 'src/app/models/user-vehicle';
+import { Store } from '@ngrx/store';
+import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 
 @Component({
   selector: 'app-search',
@@ -43,6 +45,7 @@ export class SearchComponent implements OnInit {
   lastVisitedStations2: LastVisitedStations[] = [];
   selectedFacilities: Facility[] = [];
   selectedConnector: Connector[] = [];
+  selectedVehicle: Vehicle = new Vehicle();
   filteredFacilityStations: Station[] = [];
   filteredConnectorStations: Station[] = [];
 
@@ -64,7 +67,8 @@ export class SearchComponent implements OnInit {
     private connectorService: ConnectorService,
     private lastVisitedStationsService: LastVisitedStationsService,
     private facilityService: FacilityService,
-    private userVehicleService: UserVehicleService
+    private userVehicleService: UserVehicleService,
+    private store: Store
   ) {}
 
   searchT(event: any) {
@@ -141,6 +145,30 @@ export class SearchComponent implements OnInit {
           console.error('Error fetching active user vehicle:', error);
         }
       );
+    }
+  }
+  vehicleNgrX = new Vehicle();
+  setActiveVehicle(activeVehicle: Vehicle): void {
+    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
+  }
+  onSelectVehicle(vehicle: Vehicle) {
+    const userId = localStorage.getItem('authToken');
+
+    if (vehicle.id != null && userId != null) {
+      this.userVehicleService
+        .updateVehicleActiveStatus(userId, vehicle.id) //THIS METHOD RETURNS VEHICLE FOR RESPONSE
+        .subscribe(
+          (response) => {
+            this.vehicleNgrX = response;
+            console.log('ngrx ici', this.vehicleNgrX);
+            this.setActiveVehicle(this.vehicleNgrX);
+            this.getVehicleActiveView();
+            console.log(response, 'guncellendiii');
+          },
+          (error) => {
+            console.error('Update error:', error);
+          }
+        );
     }
   }
 
@@ -298,6 +326,12 @@ export class SearchComponent implements OnInit {
       (selected) => selected.type === connector.type
     );
   }
+
+  // isSelectedVehicle(vehicle: Vehicle): boolean {
+  //   return this.selectedVehicle.some(
+  //     (selected) => selected.type === vehcile.type
+  //   );
+  // }
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;

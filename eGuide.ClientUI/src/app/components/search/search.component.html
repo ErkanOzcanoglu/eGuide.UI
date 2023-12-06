@@ -85,7 +85,9 @@
       </mat-expansion-panel-header>
       <mat-panel-description>
         <ul class="connectors-list">
-          <li *ngFor="let vehicle of vehicles">
+          <li *ngFor="let vehicle of vehicles"  (click)="onSelectVehicle(vehicle)"
+              (keyup.enter)="onSelectVehicle(vehicle)"
+              tabindex="0">
             <div class="connector-item">
               <span class="connector-type"
                 >{{ vehicle.brand }}-{{ vehicle.model }}</span
@@ -100,20 +102,26 @@
         <mat-panel-title> Connectors </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <ul class="connectors-list">
-          <li
-            *ngFor="let connector of connectors"
-            (click)="onSelectConnector(connector)"
-            (keyup.enter)="onSelectConnector(connector)"
-            tabindex="0"
-            [ngClass]="{ selected: isSelectedConnector(connector) }"
-          >
-            <div class="connector-item">
-              <img class="connector-image" [src]="connector.imageData" alt="" />
-              <span class="connector-type">{{ connector.type }}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="scrollable-content">
+          <ul class="connectors-list">
+            <li
+              *ngFor="let connector of connectors"
+              (click)="onSelectConnector(connector)"
+              (keyup.enter)="onSelectConnector(connector)"
+              tabindex="0"
+              [ngClass]="{ selected: isSelectedConnector(connector) }"
+            >
+              <div class="connector-item">
+                <img
+                  class="connector-image"
+                  [src]="connector.imageData"
+                  alt=""
+                />
+                <span class="connector-type">{{ connector.type }}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </mat-panel-description>
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
