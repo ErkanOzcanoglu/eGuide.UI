@@ -1,5 +1,11 @@
-<div class="min-h-screen bg-[#232332] flex flex-col justify-between">
-  <div class="pt-36 w-full flex justify-center h-full bg-[#232332]">
+<div
+  class="min-h-screen duration-200 flex flex-col justify-between"
+  [style]="{
+    color: color.color4,
+    'background-color': color.color1
+  }"
+>
+  <div class="pt-36 w-full flex justify-center h-full">
     <div class="container h-full">
       <app-service-list></app-service-list>
     </div>

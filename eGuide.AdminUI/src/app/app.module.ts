@@ -84,7 +84,7 @@ import { UserProfileComponent } from './components/user-components/user-profile/
 
 import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
-
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -144,6 +144,7 @@ import { StationFilterPipe } from './pipes/station-filter.pipe';
     UserListComponent,
     UserProfileComponent,
     TabbarComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     ChartModule,
