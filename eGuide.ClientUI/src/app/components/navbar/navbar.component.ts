@@ -5,7 +5,6 @@ import { User } from 'src/app/models/user';
 import { ColorService } from 'src/app/services/color.service';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
-import { User } from 'src/app/models/user';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
@@ -13,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 import { WebsiteService } from 'src/app/services/website.service';
 import { selectActiveVehicle } from 'src/app/state/vehicle-state/vehicle.selector';
 import { ColorHelper } from '../generic-helper/color/color-helper';
-import { Store } from '@ngrx/store';
+
 import { setThemeData } from 'src/app/state/theme.action';
 
 
@@ -33,7 +32,6 @@ export class NavbarComponent implements OnInit {
   color = new Color();
   localColor = new ThemeColor();
   currentTheme = localStorage.getItem('theme');
-  vehicle:Vehicle=new Vehicle();
   vehicle: Vehicle = new Vehicle();
   activeVehicle$: Observable<Vehicle | null>;
   currentState: Vehicle | null = null;
@@ -46,7 +44,6 @@ export class NavbarComponent implements OnInit {
     private websiteService: WebsiteService,
     private colorService: ColorService,
     private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
     private userVehicleService: UserVehicleService,
     private store: Store
   ) {
@@ -85,29 +82,8 @@ export class NavbarComponent implements OnInit {
 
       // currentState kullanıldığı yer buraya taşındı
       console.log('navbara ulaşan araç budur', this.currentState);
-      
     });
 
-    // this.activeVehicle$
-    //   .pipe(
-    //     map((currentState) => {
-    //       if (currentState) {
-    //         console.log(
-    //           'ngrx deneme',
-    //           currentState.id,
-    //           currentState.brand,
-    //           currentState.model
-    //         );
-    //       } else {
-    //         console.log('Aktif araç bulunamadı.');
-    //       }
-    //       this.currentState=currentState;
-    //       return currentState;
-    //     })
-    //   )
-    //   .subscribe();
-    // console.log('ngrx deneme5', this.activeVehicle$);
-    // console.log('aaaa',this.currentState);
   }
 
   logout(): void {
@@ -158,13 +134,11 @@ export class NavbarComponent implements OnInit {
     localStorage.setItem('theme', 'light');
   }
 
-   handleActiveVehicle(event: any) {
-    this.vehicle=event;
   handleActiveVehicle(event: any) {
     this.vehicle = event;
     console.log(this.vehicle);
   }
-
+  
   getActiveVehiclebyUserId() {
     const authToken = localStorage.getItem('authToken');
     if (authToken != null) {
