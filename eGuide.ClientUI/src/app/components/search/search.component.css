@@ -216,7 +216,7 @@ input:checked + .slider:before {
 }
 
 .accordion-header-connector {
-  background-color: #f9f9f9; /* Daha koyu bir mavi tonu */
+  background-color: #ffffff; /* Daha koyu bir mavi tonu */
 }
 
 .accordion-header-facilty {
@@ -248,3 +248,22 @@ input:checked + .slider:before {
   background-color: #fefefe; /* Açıldığında başlık arka plan rengini belirleyebilirsiniz */
 }
 
+.scrollable-content {
+  max-height: 200px; /* İhtiyaca göre ayarlanabilir */
+  overflow-y: auto;
+  margin-right: -12px; /* Scrollbar genişliği kadar negatif margin ekleyerek sağa doğru kaydırma */
+}
+
+/* Dikey kaydırma çubuğu stil ayarları */
+.scrollable-content::-webkit-scrollbar {
+  width: 12px; /* İhtiyaca göre ayarlanabilir */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* İhtiyaca göre renk ayarlanabilir */
+  border-radius: 6px; /* İhtiyaca göre kenar yuvarlatma ayarlanabilir */
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background-color: transparent; /* Scrollbar yolunun arkasındaki alan rengi */
+}

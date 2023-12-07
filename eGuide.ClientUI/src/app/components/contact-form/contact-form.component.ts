@@ -29,7 +29,13 @@ export class ContactFormComponent implements OnInit {
     private toastrService: ToastrService,
     private colorHelper: ColorHelper,
     private store: Store<{ theme: any }>
-  ) {}
+  ) {
+    this.contactForm = this.formBuilder.group({
+      name: [''],
+      email: [''],
+      message: [''],
+    });
+  }
 
   ngOnInit(): void {
     this.getWebsites();
@@ -42,11 +48,7 @@ export class ContactFormComponent implements OnInit {
       }, 50);
     });
 
-    this.contactForm = this.formBuilder.group({
-      name: [''],
-      email: [''],
-      message: [''],
-    });
+    
   }
   getColor() {
     this.colorHelper.getLocalColors(this.color);

@@ -8,6 +8,8 @@ import { MapHelper } from './map-helper';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Comment } from 'src/app/models/comment';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { StationService } from 'src/app/services/station.service';
+import { UserStationService } from 'src/app/services/user-station.service';
 
 interface Center {
   latitude: any;
@@ -39,7 +41,12 @@ export class MapComponent implements OnInit {
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder, private mapHelper: MapHelper) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private mapHelper: MapHelper,
+    private stationService: StationService,
+    private userStationService:UserStationService
+  ) {
     this.basemapss = basemapss;
     this.currentBasemapIndex = 0;
   }
