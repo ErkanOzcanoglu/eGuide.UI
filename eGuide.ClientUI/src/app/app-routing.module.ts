@@ -14,7 +14,7 @@ import { ServiceComponent } from './screens/service/service.component';
 import { ContactComponent } from './screens/contact/contact.component';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
-import { LiveSupportComponent } from './components/live-support/live-support.component';
+
 
 const routes: Routes = [
   {
@@ -38,10 +38,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
     ],
-  },
-  {
-    path: 'live-support',
-    component: LiveSupportComponent,
   },
   {
     path: 'register',

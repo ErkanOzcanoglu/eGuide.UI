@@ -35,8 +35,6 @@ export class FavouritesComponent {
     this.userStationService.getStationProfiles(userId).subscribe(
       (stations: Station[]) => {
         this.stations = stations;
-        // İsteğe bağlı: Verileri konsola yazdırabilirsiniz
-        //console.log(stations[0].userStations[0].id,"fghf");
       },
       (error) => {
         console.error('Error fetching station profiles:', error);
