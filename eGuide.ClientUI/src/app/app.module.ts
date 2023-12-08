@@ -48,6 +48,7 @@ import { vehicleReducer } from './state/vehicle-state/vehicle.reducer';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 import { ColorComponent } from './components/generic-helper/color/color.component';
 import { themeReducer } from './state/theme.reducer';
+import { LiveSupportComponent } from './components/live-support/live-support.component';
 
 
 
@@ -76,6 +77,7 @@ import { themeReducer } from './state/theme.reducer';
     ContactComponent,
     PageNotFoundComponent,
     ColorComponent,
+    LiveSupportComponent,
   ],
   imports: [
     BrowserModule,
