@@ -15,6 +15,7 @@ import { ContactComponent } from './screens/contact/contact.component';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 
+
 const routes: Routes = [
   {
     path: '',

@@ -252,11 +252,10 @@ export class VehicleComponent implements OnInit {
 
     if (vehicleId != null && userId != null) {
       this.userVehicleService
-        .updateVehicleActiveStatus(userId, vehicleId)//THIS METHOD RETURNS VEHICLE FOR RESPONSE
+        .updateVehicleActiveStatus(userId, vehicleId) //THIS METHOD RETURNS VEHICLE FOR RESPONSE
         .subscribe(
           (response) => {
             this.vehicleNgrX = response;
-            console.log('ngrx ici', this.vehicleNgrX);
             this.setActiveVehicle(this.vehicleNgrX);
             this.getVehicleActiveView();
           },
@@ -273,8 +272,7 @@ export class VehicleComponent implements OnInit {
       this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
         (uservehicle) => {
           this.userVehicleActive = uservehicle;
-          console.log('Gelen UserVehicle:', this.userVehicleActive);
-          console.log(this.vehicleList);
+
           // this.vehicleList içindeki vehicleId'leri kontrol et
           const matchingVehicle = this.vehicleList.find(
             (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
@@ -282,7 +280,6 @@ export class VehicleComponent implements OnInit {
           if (matchingVehicle != null) this.vehicleState = matchingVehicle;
 
           if (matchingVehicle) {
-            console.log('Eşleşen :', matchingVehicle);
             this.getVehicleByUserId();
           } else {
             console.log('Eşleşen VehicleId bulunamadı.');

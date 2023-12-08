@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
     this.getNavbarType();
     this.activeVehicle$.subscribe((currentState) => {
       this.currentState = currentState;
-      console.log('navbara ulaşan araç budur', this.currentState);
+     
     });
   }
 
@@ -128,7 +128,6 @@ export class NavbarComponent implements OnInit {
     if (authToken != null) {
       this.userVehicleService.getActiveVehicle(authToken).subscribe(
         (activeVehicle: Vehicle) => {
-          console.log('aktif araç geldi', activeVehicle);
           this.savedActiveVehicle = activeVehicle;
         },
         (error) => {

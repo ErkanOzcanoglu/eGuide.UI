@@ -51,6 +51,7 @@ import { themeReducer } from './state/theme.reducer';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +77,7 @@ import { themeReducer } from './state/theme.reducer';
     ContactComponent,
     PageNotFoundComponent,
     ColorComponent,
+
   ],
   imports: [
     BrowserModule,
