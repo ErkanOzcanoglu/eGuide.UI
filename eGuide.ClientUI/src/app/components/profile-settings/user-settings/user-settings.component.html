@@ -83,14 +83,6 @@
             <h1 class="text-3xl font-semibold text">
               {{ 'USER_PROFILE' | translate }}<i class="fas fa-user fa-2xs ml-5"></i>
             </h1>
-            <select #language (change)="onChange(language.value)">
-              <option
-                *ngFor="let lang of translateService.getLangs()"
-                [value]="lang"
-              >
-                {{ lang | translate }}
-              </option>
-            </select>
             <button
               *ngIf="editMode"
               (click)="onSaveClick()"

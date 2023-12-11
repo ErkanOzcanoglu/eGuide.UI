@@ -112,7 +112,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-      defaultLanguage: 'tr',
+      defaultLanguage: 'en',
     }),
   ],
   providers: [AuthGuard, AuthService],

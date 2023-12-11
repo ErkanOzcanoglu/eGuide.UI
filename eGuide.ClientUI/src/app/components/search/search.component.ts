@@ -1,6 +1,12 @@
 import { Connector } from 'src/app/models/connector';
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, EventEmitter, OnInit, Output, VERSION } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  VERSION,
+} from '@angular/core';
 import { Station } from 'src/app/models/station';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { StationService } from 'src/app/services/station.service';
@@ -56,7 +62,9 @@ export class SearchComponent implements OnInit {
 
   isFilterEnabled = false;
 
-  selectedLanguage='';
+  vehicleNgrX = new Vehicle();
+
+  selectedLanguage = '';
 
   language$: Observable<string>;
 
@@ -75,8 +83,7 @@ export class SearchComponent implements OnInit {
     private facilityService: FacilityService,
     private userVehicleService: UserVehicleService,
     private store: Store,
-    public translateService: TranslateService,
-    
+    public translateService: TranslateService
   ) {
     this.language$ = of('en');
   }
@@ -93,20 +100,16 @@ export class SearchComponent implements OnInit {
     this.getVehicleActiveView();
 
     this.language$.subscribe((currentState) => {
-      this. selectedLanguage = currentState;
-      console.log("deneme ngrx",this.selectedLanguage);
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx', this.selectedLanguage);
     });
   }
 
   //dil değişimi
-  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
-  public customNumberValue = 12345;
-  public get translationFormTypeScript(): string {
-    return this.translateService.instant('example5.fromTypeScript');
-  }
 
-  public onChange(selectedLanguage: string): void {
-    this.translateService.use(selectedLanguage);
+  public onChange(): void {
+    this.translateService.use(this.selectedLanguage);
+    console.log('navbarden searche geldi', this.selectedLanguage);
   }
   //dil değişimi
 
@@ -174,7 +177,7 @@ export class SearchComponent implements OnInit {
       );
     }
   }
-  vehicleNgrX = new Vehicle();
+
   setActiveVehicle(activeVehicle: Vehicle): void {
     this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
   }

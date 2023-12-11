@@ -20,14 +20,6 @@
             {{ "FAVOURITES" | translate
             }}<i class="fas fa-star fa-2xs ml-5"></i>
           </h1>
-          <select #language (change)="onChange(language.value)">
-            <option
-              *ngFor="let lang of translateService.getLangs()"
-              [value]="lang"
-            >
-              {{ lang | translate }}
-            </option>
-          </select>
           <div class="flex items-center justify-between overflow-x-auto">
             <table class="table w-4/5 ml-5 mt-10 mb-10">
               <!-- head -->
