@@ -1,7 +1,7 @@
 import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -85,6 +85,12 @@ import { UserProfileComponent } from './components/user-components/user-profile/
 import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
+
 @NgModule({
   declarations: [
     AppComponent,

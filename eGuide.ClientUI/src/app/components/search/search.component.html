@@ -62,15 +62,22 @@
     style="flex-direction: row-reverse"
   >
     <button (click)="refreshFilter()" class="refresh-button">
-      <i class="fas fa-sync-alt"></i> Close
+      <i class="fas fa-sync-alt"></i>{{ "Close" | translate }}
     </button>
+  </div>
+  <div>
+    <select #language (change)="onChange(language.value)">
+      <option *ngFor="let lang of translateService.getLangs()" [value]="lang">
+        {{ lang | translate }}
+      </option>
+    </select>
   </div>
 
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header-connector">
-        <mat-panel-title> Vehicles </mat-panel-title>
+        <mat-panel-title>{{ "Vehicles" | translate }}</mat-panel-title>
         <div class="ml-2 flex items-center" *ngIf="isFilterClicked">
           <label class="switch">
             <input
@@ -85,9 +92,12 @@
       </mat-expansion-panel-header>
       <mat-panel-description>
         <ul class="connectors-list">
-          <li *ngFor="let vehicle of vehicles"  (click)="onSelectVehicle(vehicle)"
-              (keyup.enter)="onSelectVehicle(vehicle)"
-              tabindex="0">
+          <li
+            *ngFor="let vehicle of vehicles"
+            (click)="onSelectVehicle(vehicle)"
+            (keyup.enter)="onSelectVehicle(vehicle)"
+            tabindex="0"
+          >
             <div class="connector-item">
               <span class="connector-type"
                 >{{ vehicle.brand }}-{{ vehicle.model }}</span
@@ -99,7 +109,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header-connector">
-        <mat-panel-title> Connectors </mat-panel-title>
+        <mat-panel-title>{{ "Connectors" | translate }} </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
         <div class="scrollable-content">
@@ -126,7 +136,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header class="accordion-header-facilty">
-        <mat-panel-title> Facilities </mat-panel-title>
+        <mat-panel-title> {{ "Facilities" | translate }} </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
         <ul class="facilities-list">
@@ -167,7 +177,7 @@
         class="text-red-500 hover:text-red-700"
         (click)="removeLastVisitedStations(lvs.id)"
       >
-        Remove
+        {{ " Remove" | translate }}
       </button>
     </li>
   </ul>

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, VERSION } from '@angular/core';
 import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { User } from 'src/app/models/user';
@@ -14,6 +14,7 @@ import { selectActiveVehicle } from 'src/app/state/vehicle-state/vehicle.selecto
 import { ColorHelper } from '../generic-helper/color/color-helper';
 
 import { setThemeData } from 'src/app/state/theme.action';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -43,9 +44,13 @@ export class NavbarComponent implements OnInit {
     private colorService: ColorService,
     private colorHelper: ColorHelper,
     private userVehicleService: UserVehicleService,
-    private store: Store
+    private store: Store,
+    public translateService: TranslateService
   ) {
     this.activeVehicle$ = this.store.select(selectActiveVehicle);
+    this.translateService.addLangs(['tr', 'en']);
+    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
+    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
   }
 
   ngOnInit(): void {
@@ -66,9 +71,20 @@ export class NavbarComponent implements OnInit {
     this.getNavbarType();
     this.activeVehicle$.subscribe((currentState) => {
       this.currentState = currentState;
-     
     });
   }
+
+  //dil değişimi
+  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
+  public customNumberValue = 12345;
+  public get translationFormTypeScript(): string {
+    return this.translateService.instant('example5.fromTypeScript');
+  }
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+  }
+  //dil değişimi
 
   logout(): void {
     localStorage.removeItem('authToken');

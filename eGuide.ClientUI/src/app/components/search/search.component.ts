@@ -1,6 +1,6 @@
 import { Connector } from 'src/app/models/connector';
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, VERSION } from '@angular/core';
 import { Station } from 'src/app/models/station';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { StationService } from 'src/app/services/station.service';
@@ -19,6 +19,7 @@ import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
@@ -68,7 +69,8 @@ export class SearchComponent implements OnInit {
     private lastVisitedStationsService: LastVisitedStationsService,
     private facilityService: FacilityService,
     private userVehicleService: UserVehicleService,
-    private store: Store
+    private store: Store,
+    public translateService: TranslateService
   ) {}
 
   searchT(event: any) {
@@ -82,6 +84,18 @@ export class SearchComponent implements OnInit {
     this.getVehicles();
     this.getVehicleActiveView();
   }
+
+  //dil değişimi
+  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
+  public customNumberValue = 12345;
+  public get translationFormTypeScript(): string {
+    return this.translateService.instant('example5.fromTypeScript');
+  }
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+  }
+  //dil değişimi
 
   onClick() {
     this.isClicked = true;

@@ -82,15 +82,23 @@
       >
         <div class="w-full sm:w-1/2">
           <h1 class="text-3xl font-semibold text">
-            VEHICLE<i class="fa-solid fa-car ml-5"></i>
+            {{ "VEHICLE" | translate }}<i class="fa-solid fa-car ml-5"></i>
           </h1>
+          <select #language (change)="onChange(language.value)">
+              <option
+                *ngFor="let lang of translateService.getLangs()"
+                [value]="lang"
+              >
+                {{ lang | translate }}
+              </option>
+            </select>
           <div class="flex items-center justify-between">
             <div class="ml-1">
               <h2
                 class="text-xl font-semibold mt-5 mb-3 field-label"
                 id="vehicle-list-label"
               >
-                Vehicle
+               {{ "Vehicle" | translate }}
               </h2>
             </div>
           </div>
@@ -126,11 +134,13 @@
             class="text-xl font-semibold field-label mt-2"
             id="vehicle-options-label"
           >
-            Vehicle Options
+            {{ "Vehicle Options" | translate }}
           </h2>
           <form>
             <div class="mt-4 ml-7 field-label">
-              <div><label for="brand">Brand:</label></div>
+              <div>
+                <label for="brand">{{ "Brand" | translate }}:</label>
+              </div>
               <select
                 id="brand"
                 class="w-80 border p-2 rounded bg-white"
@@ -152,7 +162,9 @@
               </select>
             </div>
             <div class="mt-4 ml-7 field-label">
-              <div><label for="model">Model:</label></div>
+              <div>
+                <label for="model">{{ "Model" | translate }}:</label>
+              </div>
               <select
                 id="model"
                 class="w-80 border p-2 rounded bg-white"
@@ -175,7 +187,7 @@
             </div>
             <div class="mt-4 ml-7 field-label">
               <div class="w-full h-fit">
-                <label for="connector">Connector:</label>
+                <label for="connector">{{ "Connector" | translate }}:</label>
               </div>
               <div
                 id="connectorList"
@@ -192,7 +204,7 @@
                 </div>
                 <ng-template #noConnector>
                   <div class="default-message">
-                    Please select a Connector
+                    {{ "Please select a Connector" | translate }}
                     <i
                       class="fas fa-chevron-down"
                       style="margin-left: 99px; font-size: 11px"
@@ -223,7 +235,7 @@
                 *ngIf="!editModeVehicle"
                 (click)="updateVehicleActiveStatus()"
               >
-                Active Vehicle
+                {{ "Active Vehicle" | translate }}
               </button>
               <button
                 type="submit"
@@ -231,7 +243,7 @@
                 *ngIf="!editModeVehicle"
                 (click)="onModeChangeVehicle()"
               >
-                Edit
+                {{ "Edit" | translate }}
               </button>
               <button
                 type="submit"
@@ -239,7 +251,7 @@
                 *ngIf="editModeVehicle"
                 (click)="addVehicle()"
               >
-                Add
+                {{ "Add" | translate }}
               </button>
               <button
                 type="submit"
@@ -247,7 +259,7 @@
                 *ngIf="editModeVehicle"
                 (click)="deleteVehicle()"
               >
-                Delete
+                {{ "Delete" | translate }}
               </button>
               <button
                 type="submit"
@@ -263,7 +275,7 @@
                 *ngIf="editModeVehicle"
                 (click)="cancelVehicleEdit()"
               >
-                Cancel
+                {{ "Cancel" | translate }}
               </button>
             </div>
           </form>

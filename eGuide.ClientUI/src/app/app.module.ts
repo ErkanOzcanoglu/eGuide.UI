@@ -1,7 +1,7 @@
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -48,9 +48,16 @@ import { vehicleReducer } from './state/vehicle-state/vehicle.reducer';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 import { ColorComponent } from './components/generic-helper/color/color.component';
 import { themeReducer } from './state/theme.reducer';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DenemeComponent } from './components/deneme/deneme.component';
+import { languageReducer } from './state/language-state/language.reducer';
 
 
 
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -77,7 +84,7 @@ import { themeReducer } from './state/theme.reducer';
     ContactComponent,
     PageNotFoundComponent,
     ColorComponent,
-
+    DenemeComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,11 +100,20 @@ import { themeReducer } from './state/theme.reducer';
     MatDialogModule,
     StoreModule.forRoot({
       theme: themeReducer,
-    activeVehicle: vehicleReducer
+      activeVehicle: vehicleReducer,
+      language: languageReducer
     }),
-    StoreModule.forRoot({ activeVehicle: vehicleReducer}),
+    // StoreModule.forRoot({ activeVehicle: vehicleReducer }),
     MatExpansionModule,
     MatListModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'tr',
+    }),
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

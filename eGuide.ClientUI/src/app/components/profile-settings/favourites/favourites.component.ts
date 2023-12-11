@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, VERSION } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Station } from 'src/app/models/station';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { ColorHelper } from '../../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-favourites',
@@ -17,8 +18,12 @@ export class FavouritesComponent {
   constructor(
     private userStationService: UserStationService,
     private toastr: ToastrService,
-    private colorHelper: ColorHelper
-  ) {}
+    private colorHelper: ColorHelper,
+    public translateService: TranslateService
+  ) {this.translateService.addLangs(['tr', 'en']);
+    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
+    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
+  }
 
   ngOnInit(): void {
     // Sayfa yüklendiğinde servisi çağır
@@ -26,6 +31,17 @@ export class FavouritesComponent {
     if (token !== null) this.getStationProfiles(token); // Kullanıcı kimliğinizi buraya ekleyin
     this.getColor();
   }
+  //dil değişimi
+  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
+  public customNumberValue = 12345;
+  public get translationFormTypeScript(): string {
+    return this.translateService.instant('example5.fromTypeScript');
+  }
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+  }
+  //dil değişimi
 
   getColor(): void {
     this.colorHelper.getLocalColors(this.color);

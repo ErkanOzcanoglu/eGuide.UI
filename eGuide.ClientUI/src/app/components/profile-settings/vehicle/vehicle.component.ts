@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, VERSION } from '@angular/core';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
@@ -9,6 +9,7 @@ import { ConnectorService } from 'src/app/services/connector.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vehicle',
@@ -53,8 +54,13 @@ export class VehicleComponent implements OnInit {
     private vehicleService: VehiclesService,
     private connectorService: ConnectorService,
     private sanitizer: DomSanitizer,
-    private store: Store
-  ) {}
+    private store: Store,
+    public translateService: TranslateService
+  ) {
+    this.translateService.addLangs(['tr', 'en']);
+    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
+    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan}
+  }
 
   ngOnInit(): void {
     this.getBrands();
@@ -62,6 +68,18 @@ export class VehicleComponent implements OnInit {
     this.getConnector();
     this.getVehicleActiveView();
   }
+
+  //dil değişimi
+  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
+  public customNumberValue = 12345;
+  public get translationFormTypeScript(): string {
+    return this.translateService.instant('example5.fromTypeScript');
+  }
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+  }
+  //dil değişimi
 
   onModeChangeVehicle() {
     this.editModeVehicle = !this.editModeVehicle;

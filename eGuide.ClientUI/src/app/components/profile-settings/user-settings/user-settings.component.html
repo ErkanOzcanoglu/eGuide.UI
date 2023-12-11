@@ -81,33 +81,41 @@
         <div class="custom-panel bg-white rounded-lg shadow p-4">
           <div class="flex items-center justify-between">
             <h1 class="text-3xl font-semibold text">
-              USER PROFILE<i class="fas fa-user fa-2xs ml-5"></i>
+              {{ 'USER_PROFILE' | translate }}<i class="fas fa-user fa-2xs ml-5"></i>
             </h1>
+            <select #language (change)="onChange(language.value)">
+              <option
+                *ngFor="let lang of translateService.getLangs()"
+                [value]="lang"
+              >
+                {{ lang | translate }}
+              </option>
+            </select>
             <button
               *ngIf="editMode"
               (click)="onSaveClick()"
               class="bg-slate-400 text-white px-2 py-1 rounded hover-bg-blue-600 focus:outline-none"
             >
-              Save
+              {{'Save'| translate}}
             </button>
             <button
               *ngIf="!editMode"
               (click)="onModeChange()"
               class="bg-slate-400 text-white px-2 py-1 rounded hover-bg-blue-600 focus:outline-none"
             >
-              Edit
+              {{'Edit' | translate}}
             </button>
             <button
               *ngIf="editMode"
               (click)="onCancelClick()"
               class="bg-red-400 text-white px-2 py-1 rounded hover-red-600 focus:outline-none"
             >
-              Cancel
+              {{'Cancel'| translate}}
             </button>
           </div>
           <div class="mt-4" *ngIf="user">
             <p>
-              <span class="field-label text-xl">Name: </span>
+              <span class="field-label text-xl"> {{'Name' | translate}}: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -117,7 +125,7 @@
               />
             </p>
             <p>
-              <span class="field-label text-xl">Surname: </span>
+              <span class="field-label text-xl"> {{'Surname'| translate}}: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -127,7 +135,7 @@
               />
             </p>
             <p>
-              <span class="field-label text-xl">E-mail: </span>
+              <span class="field-label text-xl"> {{'Email'| translate}}: </span>
               <input
                 class="bg-white input-text w-96"
                 type="text"
@@ -139,11 +147,11 @@
           </div>
           <div class="mt-4 w-50 flex">
             <span>
-              Forgot your password?
+             {{'Forgot your password?'| translate}}
               <a
                 routerLink="/email-confirm"
                 class="text-blue-600 hover:text-blue-800 hover:underline"
-                >Change Password</a
+                > {{ 'Change Password' | translate }}</a
               >
             </span>
           </div>
