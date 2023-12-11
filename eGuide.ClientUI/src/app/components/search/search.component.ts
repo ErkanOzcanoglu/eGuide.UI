@@ -27,6 +27,7 @@ import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-search',
@@ -68,6 +69,7 @@ export class SearchComponent implements OnInit {
 
   language$: Observable<string>;
 
+
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
@@ -85,7 +87,7 @@ export class SearchComponent implements OnInit {
     private store: Store,
     public translateService: TranslateService
   ) {
-    this.language$ = of('en');
+    this.language$ = this.store.select(selectLanguage);
   }
 
   searchT(event: any) {
@@ -98,8 +100,9 @@ export class SearchComponent implements OnInit {
     this.getFacilities();
     this.getVehicles();
     this.getVehicleActiveView();
-
+   
     this.language$.subscribe((currentState) => {
+      
       this.selectedLanguage = currentState;
       console.log('deneme ngrx', this.selectedLanguage);
     });

@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit {
 
   setLanguage(language: string): void {
     this.store.dispatch(LanguageActions.setLanguage({ language }));
-    console.log(language);
+    console.log("navbarda setlenen dil",language);
   }
 
   public onChange(selectedLanguage: string): void {
