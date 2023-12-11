@@ -1,3 +1,4 @@
+import { LogHelper } from './../generic-helper/log/log-helper';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
@@ -43,7 +44,8 @@ export class NavbarComponent implements OnInit {
     private colorService: ColorService,
     private colorHelper: ColorHelper,
     private userVehicleService: UserVehicleService,
-    private store: Store
+    private store: Store,
+    private logHelper: LogHelper
   ) {
     this.activeVehicle$ = this.store.select(selectActiveVehicle);
   }
@@ -66,7 +68,6 @@ export class NavbarComponent implements OnInit {
     this.getNavbarType();
     this.activeVehicle$.subscribe((currentState) => {
       this.currentState = currentState;
-     
     });
   }
 
@@ -131,6 +132,7 @@ export class NavbarComponent implements OnInit {
           this.savedActiveVehicle = activeVehicle;
         },
         (error) => {
+          this.logHelper.errorProcess('getActiveVehiclebyUserId', error);
           console.error(error);
         }
       );

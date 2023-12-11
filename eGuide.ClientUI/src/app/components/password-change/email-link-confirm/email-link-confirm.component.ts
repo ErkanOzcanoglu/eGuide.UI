@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { LogHelper } from '../../generic-helper/log/log-helper';
 
 @Component({
   selector: 'app-email-link-confirm',
   templateUrl: './email-link-confirm.component.html',
   styleUrls: ['./email-link-confirm.component.css'],
+  providers: [LogHelper],
 })
 export class EmailLinkConfirmComponent {
   user: User = new User();
@@ -18,7 +20,8 @@ export class EmailLinkConfirmComponent {
     private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private logHelper: LogHelper
   ) {}
 
   ngOnInit() {
@@ -47,6 +50,7 @@ export class EmailLinkConfirmComponent {
             'An error occurred while sending an email verification request.',
             'Error'
           );
+          this.logHelper.errorProcess('confirmEmail', error);
           console.error('Error sending email verification request:', error);
         },
       });
