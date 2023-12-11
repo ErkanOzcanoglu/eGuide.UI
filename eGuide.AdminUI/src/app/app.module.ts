@@ -86,6 +86,7 @@ import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -170,6 +171,14 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       stationEditData: stationEditDataReducer,
       refresh: setRefreshReducer,
       serviceEditData: serviceEditDataReducer,
+    }),
+     TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: "en"
     }),
     MatTabsModule,
   ], exports: [

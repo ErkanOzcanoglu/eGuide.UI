@@ -15,6 +15,7 @@ import { ColorHelper } from '../generic-helper/color/color-helper';
 
 import { setThemeData } from 'src/app/state/theme.action';
 import { TranslateService } from '@ngx-translate/core';
+import * as LanguageActions from 'src/app/state/language-state/language.action';
 
 @Component({
   selector: 'app-navbar',
@@ -36,6 +37,8 @@ export class NavbarComponent implements OnInit {
   currentState: Vehicle | null = null;
   userVehicleActive: Vehicle = new Vehicle();
   savedActiveVehicle: Vehicle = new Vehicle();
+
+
 
   constructor(
     private router: Router,
@@ -74,15 +77,14 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  //dil değişimi
-  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
-  public customNumberValue = 12345;
-  public get translationFormTypeScript(): string {
-    return this.translateService.instant('example5.fromTypeScript');
+  setLanguage(language: string): void {
+    this.store.dispatch(LanguageActions.setLanguage({ language }));
+    console.log(language);
   }
 
   public onChange(selectedLanguage: string): void {
     this.translateService.use(selectedLanguage);
+    this.setLanguage(selectedLanguage);
   }
   //dil değişimi
 

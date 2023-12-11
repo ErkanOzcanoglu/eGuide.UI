@@ -70,11 +70,6 @@ export class VehicleComponent implements OnInit {
   }
 
   //dil değişimi
-  public title = `Angular ${VERSION.major} i18n with ngx-translate`;
-  public customNumberValue = 12345;
-  public get translationFormTypeScript(): string {
-    return this.translateService.instant('example5.fromTypeScript');
-  }
 
   public onChange(selectedLanguage: string): void {
     this.translateService.use(selectedLanguage);

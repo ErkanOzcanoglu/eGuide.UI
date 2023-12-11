@@ -65,13 +65,6 @@
       <i class="fas fa-sync-alt"></i>{{ "Close" | translate }}
     </button>
   </div>
-  <div>
-    <select #language (change)="onChange(language.value)">
-      <option *ngFor="let lang of translateService.getLangs()" [value]="lang">
-        {{ lang | translate }}
-      </option>
-    </select>
-  </div>
 
   <!-- Filter penceresi içeriği -->
   <mat-accordion *ngIf="isFilterClicked">

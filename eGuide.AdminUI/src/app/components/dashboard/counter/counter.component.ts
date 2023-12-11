@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { FacilityService } from 'src/app/services/facility.service';
 import { ServiceService } from 'src/app/services/service.service';
@@ -25,7 +26,8 @@ export class CounterComponent implements OnInit {
     private chargingUnitService: ChargingUnitService,
     private socialMediaService: SocialMediaService,
     private facilityService: FacilityService,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    public translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +37,10 @@ export class CounterComponent implements OnInit {
     this.getSocialMediaCount();
     this.getFacilityCount();
     this.getServiceCount();
+  }
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
   }
 
   getStationCount() {

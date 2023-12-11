@@ -20,6 +20,7 @@ import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -55,6 +56,10 @@ export class SearchComponent implements OnInit {
 
   isFilterEnabled = false;
 
+  selectedLanguage='';
+
+  language$: Observable<string>;
+
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
@@ -70,8 +75,11 @@ export class SearchComponent implements OnInit {
     private facilityService: FacilityService,
     private userVehicleService: UserVehicleService,
     private store: Store,
-    public translateService: TranslateService
-  ) {}
+    public translateService: TranslateService,
+    
+  ) {
+    this.language$ = of('en');
+  }
 
   searchT(event: any) {
     this.searchTexts.emit(event.target.value);
@@ -83,6 +91,11 @@ export class SearchComponent implements OnInit {
     this.getFacilities();
     this.getVehicles();
     this.getVehicleActiveView();
+
+    this.language$.subscribe((currentState) => {
+      this. selectedLanguage = currentState;
+      console.log("deneme ngrx",this.selectedLanguage);
+    });
   }
 
   //dil değişimi
