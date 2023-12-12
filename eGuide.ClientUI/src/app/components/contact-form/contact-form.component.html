@@ -7,7 +7,7 @@
           color: color.color4
         }"
       >
-        GET IN TOUCH
+        {{ "GET IN TOUCH" | translate }}
       </p>
       <h2
         [style]="{
@@ -15,7 +15,7 @@
         }"
         class="form-headline"
       >
-        Send us a message
+        {{ "Send us a message" | translate }}
       </h2>
       <form id="submit-form" [formGroup]="contactForm">
         <p>
@@ -60,7 +60,7 @@
               }"
               *ngIf="!isSending"
             >
-              Send Message
+              {{ "Send Message" | translate }}
             </p>
             <span *ngIf="isSending" class="loading loading-spinner"></span>
           </button>
@@ -71,7 +71,7 @@
             class="reset-btn btn"
             (click)="reset()"
           >
-            Reset
+            {{ "Reset" | translate }}
           </button>
         </p>
       </form>

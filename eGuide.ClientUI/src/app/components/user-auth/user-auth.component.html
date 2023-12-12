@@ -16,7 +16,7 @@
       <div form="space-y-4">
         <div class="form-group">
           <label for="name" class="label">
-            <span class="text-base label-text">Name</span>
+            <span class="text-base label-text">{{ "Name" | translate }}</span>
           </label>
           <input
             id="name"
@@ -28,7 +28,9 @@
         </div>
         <div class="form-group">
           <label for="surname" class="label">
-            <span class="text-base label-text">Surname</span>
+            <span class="text-base label-text">{{
+              "Surname" | translate
+            }}</span>
           </label>
           <input
             type="text"
@@ -39,7 +41,7 @@
         </div>
         <div>
           <label for="email" class="label">
-            <span class="text-base label-text">Email</span>
+            <span class="text-base label-text">{{ "Email" | translate }}</span>
           </label>
           <input
             type="text"
@@ -50,7 +52,9 @@
         </div>
         <div>
           <label for="password" class="label">
-            <span class="text-base label-text">Password</span>
+            <span class="text-base label-text">{{
+              "Password" | translate
+            }}</span>
           </label>
           <input
             type="password"
@@ -61,7 +65,9 @@
         </div>
         <div>
           <label for="confirmPassword" class="label">
-            <span class="text-base label-text">Confirm Password</span>
+            <span class="text-base label-text">{{
+              "Confirm Password" | translate
+            }}</span>
           </label>
           <input
             type="password"
@@ -72,21 +78,21 @@
         </div>
         <div>
           <button class="btn w-full mt-3 bg-white" (click)="register()">
-            Register
+            {{ "Register" | translate }}
           </button>
         </div>
         <span>
-          Already have an account?
+          {{ "Already have an account" | translate }}?
           <a
             routerLink="/login"
             class="text-blue-600 hover:text-blue-800 hover:underline"
-            >Login</a
+            >{{ "Login" | translate }}</a
           >
         </span>
       </div>
       <div class="flex items-center w-full my-1">
         <hr class="w-full" />
-        <p class="px-3">OR</p>
+        <p class="px-3">{{ "OR" | translate }}</p>
         <hr class="w-full" />
       </div>
       <div class="my-6 space-y-1">

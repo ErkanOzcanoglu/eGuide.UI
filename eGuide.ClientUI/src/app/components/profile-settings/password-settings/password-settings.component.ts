@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { UserService } from 'src/app/services/user.service';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-password-settings',
@@ -9,11 +13,18 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./password-settings.component.css'],
 })
 export class PasswordSettingsComponent implements OnInit {
+  selectedLanguage = '';
+  language$: Observable<string>;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService // Auth servisinizin adınıza göre değiştirin
-  ) {}
+    private userService: UserService,
+    private store: Store,
+    public translateService: TranslateService
+  ) {
+    this.language$ = this.store.select(selectLanguage);
+  }
 
   userId = '';
   resetPasswordModel: ResetPassword = new ResetPassword();
@@ -21,6 +32,11 @@ export class PasswordSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('authToken') || '';
+    this.language$.subscribe((currentState) => {
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx search icin', this.selectedLanguage);
+      this.translateService.use(this.selectedLanguage);
+    });
   }
 
   resetPassword(): void {

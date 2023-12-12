@@ -1,10 +1,13 @@
 import { Component, OnInit, VERSION } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-user-settings',
@@ -19,17 +22,30 @@ export class UserSettingsComponent implements OnInit {
 
   showForgotPasswordButton = true;
 
+  selectedLanguage = '';
+
+  language$: Observable<string>;
+
   constructor(
     private router: Router,
     private userService: UserService,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private store: Store
   ) {
     this.translateService.addLangs(['tr', 'en']);
     this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
     this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
+    this.language$ = this.store.select(selectLanguage);
   }
 
   ngOnInit(): void {
+
+     this.language$.subscribe((currentState) => {
+       this.selectedLanguage = currentState;
+       console.log('deneme ngrx user icin', this.selectedLanguage);
+       this.translateService.use(this.selectedLanguage);
+     });
+
     const userId = localStorage.getItem('authToken');
     if (userId !== null) {
       this.userService.getUserById(userId).subscribe(
@@ -44,12 +60,13 @@ export class UserSettingsComponent implements OnInit {
 
     this.userId = localStorage.getItem('authToken') || '';
   }
-//dil değişimi
+  //dil değişimi
 
-  public onChange(selectedLanguage: string): void {
-    this.translateService.use(selectedLanguage);
+  public onChange(): void {
+    this.translateService.use(this.selectedLanguage);
+    console.log('navbarden searche geldi', this.selectedLanguage);
   }
-//dil değişimi
+  //dil değişimi
   onModeChange() {
     this.editMode = !this.editMode;
   }

@@ -6,6 +6,9 @@ import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
+import { Observable } from 'rxjs';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footer',
@@ -17,15 +20,26 @@ export class FooterComponent implements OnInit {
   socialMedias: SocialMedia[] = [];
   footer?: number;
   color: ThemeColor = new ThemeColor();
+  language$: Observable<string>;
+  selectedLanguage = '';
 
   constructor(
     private socialMediaService: SocialMediaService,
     private websiteService: WebsiteService,
     private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
-  ) {}
+    private store: Store<{ theme: any }>,
+    public translateService: TranslateService
+  ) {
+    this.language$ = this.store.select(selectLanguage);
+  }
 
   ngOnInit(): void {
+    this.language$.subscribe((currentState) => {
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx search icin', this.selectedLanguage);
+      this.translateService.use(this.selectedLanguage);
+    });
+
     this.getSocialMedias();
     this.getFooterType();
     this.getColor();

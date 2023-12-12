@@ -9,6 +9,8 @@ import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
+import { TranslateService } from '@ngx-translate/core';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-contact-form',
@@ -21,6 +23,8 @@ export class ContactFormComponent implements OnInit {
   websites: Website[] = [];
   isSending = false;
   color: ThemeColor = new ThemeColor();
+  language$: Observable<string>;
+  selectedLanguage = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,8 +32,10 @@ export class ContactFormComponent implements OnInit {
     private websiteService: WebsiteService,
     private toastrService: ToastrService,
     private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
+    private store: Store<{ theme: any }>,
+    public translateService: TranslateService
   ) {
+    this.language$ = this.store.select(selectLanguage);
     this.contactForm = this.formBuilder.group({
       name: [''],
       email: [''],
@@ -38,6 +44,12 @@ export class ContactFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.language$.subscribe((currentState) => {
+      this.selectedLanguage = currentState;
+      this.translateService.use(this.selectedLanguage);
+      console.log('deneme ngrx liste servisdi', this.selectedLanguage);
+    });
+
     this.getWebsites();
     this.getColor();
 
@@ -47,8 +59,6 @@ export class ContactFormComponent implements OnInit {
         this.colorHelper.getLocalColors(this.color);
       }, 50);
     });
-
-    
   }
   getColor() {
     this.colorHelper.getLocalColors(this.color);

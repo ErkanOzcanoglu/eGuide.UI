@@ -50,10 +50,7 @@ import { ColorComponent } from './components/generic-helper/color/color.componen
 import { themeReducer } from './state/theme.reducer';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { DenemeComponent } from './components/deneme/deneme.component';
 import { languageReducer } from './state/language-state/language.reducer';
-
-
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -84,7 +81,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ContactComponent,
     PageNotFoundComponent,
     ColorComponent,
-    DenemeComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,7 +97,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StoreModule.forRoot({
       theme: themeReducer,
       activeVehicle: vehicleReducer,
-      language: languageReducer
+      language: languageReducer,
     }),
     // StoreModule.forRoot({ activeVehicle: vehicleReducer }),
     MatExpansionModule,

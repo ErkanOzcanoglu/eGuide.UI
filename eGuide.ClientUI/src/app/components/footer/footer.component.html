@@ -8,8 +8,10 @@
     }"
     class="grid grid-flow-col gap-4"
   >
-    <a routerLink="" class="link link-hover">Home</a>
-    <a routerLink="/contact" class="link link-hover">Contact</a>
+    <a routerLink="" class="link link-hover">{{ "Home" | translate }}</a>
+    <a routerLink="/contact" class="link link-hover">{{
+      "Contact" | translate
+    }}</a>
   </nav>
   <nav>
     <div class="grid grid-flow-col gap-4">
@@ -31,7 +33,7 @@
         color: color.color3
       }"
     >
-      Copyright © 2023 - All right reserved by eGuide
+      {{ "Copyright © 2023 - All right reserved by eGuide" | translate }}
     </p>
   </aside>
 </footer>
@@ -49,7 +51,7 @@
       color: color.color3
     }"
   >
-    <p>Copyright © 2023 - All right reserved by eGuide</p>
+    {{ "Copyright © 2023 - All right reserved by eGuide" | translate }}
   </aside>
   <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
     <a

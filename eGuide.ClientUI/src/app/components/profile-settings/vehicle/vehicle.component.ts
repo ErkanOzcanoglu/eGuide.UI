@@ -10,6 +10,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-vehicle',
@@ -49,6 +51,9 @@ export class VehicleComponent implements OnInit {
   vehicleState: Vehicle = new Vehicle();
   vehicleNgrX = new Vehicle();
 
+  selectedLanguage = '';
+  language$: Observable<string>;
+
   constructor(
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
@@ -60,6 +65,7 @@ export class VehicleComponent implements OnInit {
     this.translateService.addLangs(['tr', 'en']);
     this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
     this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan}
+     this.language$ = this.store.select(selectLanguage);
   }
 
   ngOnInit(): void {
@@ -67,6 +73,12 @@ export class VehicleComponent implements OnInit {
     this.getVehicleByUserId();
     this.getConnector();
     this.getVehicleActiveView();
+
+     this.language$.subscribe((currentState) => {
+       this.selectedLanguage = currentState;
+       console.log('deneme ngrx search icin', this.selectedLanguage);
+       this.translateService.use(this.selectedLanguage);
+     });
   }
 
   //dil değişimi

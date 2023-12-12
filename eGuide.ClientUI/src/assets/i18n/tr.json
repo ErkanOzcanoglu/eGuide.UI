@@ -44,5 +44,26 @@
   "Connectors": "Bağlayıcılar",
   "Facilities": "Tesisler",
   "Close": "Kapat",
-  "Remove": "Kaldır"
+  "Remove": "Kaldır",
+
+  "Email": "E-posta",
+  "Password": "Şifre",
+  "Confirm Password": "Şifreyi Onayla",
+  "Already have an account": "Zaten hesabınız var mı",
+  "OR": "Yada",
+  "Create an account": "Hesap Oluştur",
+  "Forgot Password": "Şifremi Unuttum",
+  "LOGIN": "GİRİŞ",
+  "Email Confirmation": "Email Onayla",
+  "Send Email": "Email Gönder",
+  "Please check your email address": "Lütfen Email hesabınızı kontrol edin",
+  "Reset Password": "Şifreyi Sıfırla",
+
+  "Get Started": "Başlat",
+  "GET IN TOUCH": "Bizimle İletişime Geçin",
+  "Send us a message": "Mesaj Gönder",
+  "Send Message": "Mesajı Gönder",
+  "Reset": "Vazgeç",
+  "Copyright © 2023 - All right reserved by eGuide": "Copyright © 2023 - Tüm haklar eGuide tarafından saklıdır",
+  "Contact": "İletişim"
 }

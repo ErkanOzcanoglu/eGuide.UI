@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-forgot-user-password',
@@ -15,16 +19,28 @@ export class ForgotUserPasswordComponent {
   forgotPasswordForm: FormGroup = new FormGroup({});
   token = '';
 
+  selectedLanguage = '';
+  language$: Observable<string>;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private store: Store,
+    public translateService: TranslateService
+  ) {
+    this.language$ = this.store.select(selectLanguage);
+  }
 
   ngOnInit() {
     this.initializeForm();
     this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
+    this.language$.subscribe((currentState) => {
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx search icin', this.selectedLanguage);
+      this.translateService.use(this.selectedLanguage);
+    });
   }
 
   initializeForm() {

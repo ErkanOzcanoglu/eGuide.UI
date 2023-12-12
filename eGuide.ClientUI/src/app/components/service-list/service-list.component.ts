@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
 import { Observable } from 'rxjs';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { TranslateService } from '@ngx-translate/core';
 export interface Theme {
   theme?: string;
 }
@@ -31,7 +32,8 @@ export class ServiceListComponent implements OnInit {
   constructor(
     private serviceService: ServiceService,
     private colorHepler: ColorHelper,
-    private store: Store<{ theme: any }>
+    private store: Store<{ theme: any }>,
+    public translateService: TranslateService
   ) {
     this.language$ = this.store.select(selectLanguage);
   }
@@ -39,6 +41,7 @@ export class ServiceListComponent implements OnInit {
   ngOnInit(): void {
     this.language$.subscribe((currentState) => {
       this.selectedLanguage = currentState;
+      this.translateService.use(this.selectedLanguage);
       console.log('deneme ngrx liste servisdi', this.selectedLanguage);
       this.getServices(this.selectedLanguage);
     });

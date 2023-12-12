@@ -66,9 +66,7 @@ export class SearchComponent implements OnInit {
   vehicleNgrX = new Vehicle();
 
   selectedLanguage = '';
-
   language$: Observable<string>;
-
 
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
@@ -100,11 +98,11 @@ export class SearchComponent implements OnInit {
     this.getFacilities();
     this.getVehicles();
     this.getVehicleActiveView();
-   
+
     this.language$.subscribe((currentState) => {
-      
       this.selectedLanguage = currentState;
-      console.log('deneme ngrx', this.selectedLanguage);
+      console.log('deneme ngrx search icin', this.selectedLanguage);
+      this.translateService.use(this.selectedLanguage);
     });
   }
 

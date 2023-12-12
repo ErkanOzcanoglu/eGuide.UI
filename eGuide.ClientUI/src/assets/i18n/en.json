@@ -1,6 +1,6 @@
 {
   "USER_PROFILE": "USER PROFILE",
-  "User Profile":"User Profile",
+  "User Profile": "User Profile",
   "Save": "Save",
   "Edit": "Edit",
   "Cancel": "Cancel",
@@ -44,5 +44,29 @@
   "Connectors": "Connectors",
   "Facilities": "Facilities",
   "Close": "Close",
-  "Remove": "Remove"
+  "Remove": "Remove",
+
+
+  "Email": "Email",
+  "Password": "Password",
+  "Confirm Password": "Confirm Password",
+  "Already have an account": "Already have an account",
+  "OR": " OR",
+  "Create an account": "Create an account",
+  "Forgot Password": "Forgot Password",
+  "LOGIN": "LOGIN",
+  "Email Confirmation":"Email Confirmation",
+  "Send Email":"Send Email",
+  "Please check your email address":"Please check your email address",
+  "Reset Password":"Reset Password",
+
+
+ 
+  "Get Started":"Get Started",
+  "GET IN TOUCH":" GET IN TOUCH",
+  "Send us a message":"Send us a message",
+  "Send Message":" Send Message",
+  "Reset":"Reset",
+  "Copyright © 2023 - All right reserved by eGuide":"Copyright © 2023 - All right reserved by eGuide",
+  "Contact":"Contact"
 }
