@@ -176,13 +176,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       refresh: setRefreshReducer,
       serviceEditData: serviceEditDataReducer,
     }),
-     TranslateModule.forRoot({
+    TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
+        deps: [HttpClient],
       },
-      defaultLanguage: "en"
+      defaultLanguage: 'en',
     }),
     MatTabsModule,
   ],
