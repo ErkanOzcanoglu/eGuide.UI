@@ -22,6 +22,7 @@ export class ServiceFormComponent {
     name: '',
     description: '',
     image: '',
+    language: '',
     isSelected: false,
     layout: 0,
   };
@@ -46,6 +47,7 @@ export class ServiceFormComponent {
       id: [''],
       name: ['', Validators.required],
       description: ['', Validators.required],
+      language: ['', Validators.required],
       image: [''],
       layout: ['', Validators.required],
     });
@@ -113,7 +115,10 @@ export class ServiceFormComponent {
         this.serviceService
           .createService(this.serviceForm.value)
           .subscribe(() => {
-            this.toastr.success('Service added successfully');
+            this.toastr.success(
+              'Service added successfully',
+              this.serviceForm.value
+            );
             setTimeout(() => {
               window.location.reload();
             }, 1500);

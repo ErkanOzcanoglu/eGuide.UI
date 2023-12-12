@@ -2,8 +2,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as LanguageActions from './language.action';
 
-export const initialState = {
-  language: 'en', // Varsayılan dil
+export const initialState: { language: string | null } = {
+  language:'en', // Varsayılan dil
 };
 
 export const languageReducer = createReducer(
