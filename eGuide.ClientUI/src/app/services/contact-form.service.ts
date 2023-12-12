@@ -11,4 +11,18 @@ export class ContactFormService {
   sendEmail(email: any) {
     return this.httpClient.post(`${environment.apiUrl}/ContactForm`, email);
   }
+
+  storeMail(email: any) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/ContactForm/send`,
+      email
+    );
+  }
+
+  replayMail(replayMail: any) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/ContactForm/reply-mail`,
+      replayMail
+    );
+  }
 }

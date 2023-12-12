@@ -10,6 +10,8 @@ import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
 import { LogHelper } from '../generic-helper/log/log-helper';
+import * as signalR from '@microsoft/signalr';
+import { ReplayMail } from 'src/app/models/replayMail';
 
 @Component({
   selector: 'app-contact-form',
@@ -43,6 +45,19 @@ export class ContactFormComponent implements OnInit {
     this.getWebsites();
     this.getColor();
 
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl('https://localhost:7297/myHub')
+      .build();
+
+    connection
+      .start()
+      .then(function () {
+        console.log('SignalR Connected!');
+      })
+      .catch(function (err) {
+        return console.error(err.toString());
+      });
+
     this.store.pipe(select(selectThemeData)).subscribe((theme) => {
       setTimeout(() => {
         this.colorHelper.getColors();
@@ -57,17 +72,35 @@ export class ContactFormComponent implements OnInit {
 
   onSubmit(): void {
     this.isSending = true;
-    this.contactFormService.sendEmail(this.contactForm.value).subscribe(
-      (response) => {
+    this.contactFormService.sendEmail(this.contactForm.value).subscribe({
+      next: (response) => {
         this.toastrService.success('Email sent successfully');
-        this.reset();
+        this.contactFormService.storeMail(this.contactForm.value).subscribe({
+          next: (response) => {
+            this.contactFormService
+              .replayMail(this.contactForm.value)
+              .subscribe({
+                next: (response) => {
+                  this.reset();
+                },
+                error: (error) => {
+                  this.logHelper.errorProcess('replayMail', error);
+                  console.log(error);
+                },
+              });
+          },
+          error: (error) => {
+            this.logHelper.errorProcess('storeMail', error);
+            console.log(error);
+          },
+        });
         this.isSending = false;
       },
-      (error) => {
+      error: (error) => {
         this.logHelper.errorProcess('sendEmail', error);
         this.toastrService.error('Email not sent');
-      }
-    );
+      },
+    });
   }
 
   getWebsites(): void {
@@ -85,4 +118,16 @@ export class ContactFormComponent implements OnInit {
   reset(): void {
     this.contactForm.reset();
   }
+
+  // replyMail(mail: ReplayMail) {
+
+  //   this.contactForm.patchValue({
+  //     name: mail.name,
+  //     email: mail.email,
+  //     message: mail.message,
+  //   });
+
+  //   console.log(this.contactForm.value, 'reply form value');
+  //   this.contactFormService.replayMail(this.contactForm.value).subscribe();
+  // }
 }

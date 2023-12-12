@@ -85,6 +85,8 @@ import { UserProfileComponent } from './components/user-components/user-profile/
 import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { MessageModalComponent } from './modals/message-modal/message-modal.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -145,6 +147,8 @@ import { PageNotFoundComponent } from './components/error-pages/page-not-found/p
     UserProfileComponent,
     TabbarComponent,
     PageNotFoundComponent,
+    MessageModalComponent,
+    TruncatePipe,
   ],
   imports: [
     ChartModule,
@@ -166,11 +170,8 @@ import { PageNotFoundComponent } from './components/error-pages/page-not-found/p
       serviceEditData: serviceEditDataReducer,
     }),
     MatTabsModule,
-  ], exports: [
-    UserComponent,
-    UserListComponent,
-    UserProfileComponent
   ],
+  exports: [UserComponent, UserListComponent, UserProfileComponent],
   providers: [AuthService],
   bootstrap: [AppComponent],
 })
