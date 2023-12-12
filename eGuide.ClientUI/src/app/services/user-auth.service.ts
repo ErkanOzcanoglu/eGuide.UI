@@ -69,11 +69,4 @@ export class UserAuthService {
       request
     );
   }
-
-  public login_Log(userLog: UserLog): Observable<UserLog> {
-    return this.http.post<UserLog>(
-      `${environment.apiUrl}/${this.url}/users-log`,
-      userLog
-    );
-  }
 }

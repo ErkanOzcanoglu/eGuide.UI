@@ -9,12 +9,13 @@ import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
+import { LogHelper } from '../generic-helper/log/log-helper';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
   styleUrls: ['./contact-form.component.css'],
-  providers: [ColorHelper],
+  providers: [ColorHelper, LogHelper],
 })
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup = new FormGroup({});
@@ -28,7 +29,8 @@ export class ContactFormComponent implements OnInit {
     private websiteService: WebsiteService,
     private toastrService: ToastrService,
     private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
+    private store: Store<{ theme: any }>,
+    private logHelper: LogHelper
   ) {
     this.contactForm = this.formBuilder.group({
       name: [''],
@@ -47,8 +49,6 @@ export class ContactFormComponent implements OnInit {
         this.colorHelper.getLocalColors(this.color);
       }, 50);
     });
-
-    
   }
   getColor() {
     this.colorHelper.getLocalColors(this.color);
@@ -64,6 +64,7 @@ export class ContactFormComponent implements OnInit {
         this.isSending = false;
       },
       (error) => {
+        this.logHelper.errorProcess('sendEmail', error);
         this.toastrService.error('Email not sent');
       }
     );
@@ -75,6 +76,7 @@ export class ContactFormComponent implements OnInit {
         this.websites = response;
       },
       (error) => {
+        this.logHelper.errorProcess('getWebsites', error);
         console.log(error);
       }
     );
