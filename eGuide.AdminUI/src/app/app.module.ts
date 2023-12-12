@@ -85,6 +85,8 @@ import { UserProfileComponent } from './components/user-components/user-profile/
 import { TabbarComponent } from './components/tabbar/tabbar.component';
 import { StationFilterPipe } from './pipes/station-filter.pipe';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { MessageModalComponent } from './modals/message-modal/message-modal.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
@@ -152,6 +154,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     UserProfileComponent,
     TabbarComponent,
     PageNotFoundComponent,
+    MessageModalComponent,
+    TruncatePipe,
   ],
   imports: [
     ChartModule,
@@ -172,20 +176,17 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       refresh: setRefreshReducer,
       serviceEditData: serviceEditDataReducer,
     }),
-     TranslateModule.forRoot({
+    TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
+        deps: [HttpClient],
       },
-      defaultLanguage: "en"
+      defaultLanguage: 'en',
     }),
     MatTabsModule,
-  ], exports: [
-    UserComponent,
-    UserListComponent,
-    UserProfileComponent
   ],
+  exports: [UserComponent, UserListComponent, UserProfileComponent],
   providers: [AuthService],
   bootstrap: [AppComponent],
 })

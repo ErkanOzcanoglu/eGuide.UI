@@ -52,12 +52,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DenemeComponent } from './components/deneme/deneme.component';
 import { languageReducer } from './state/language-state/language.reducer';
 
-
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
-
-
 
 @NgModule({
   declarations: [
@@ -83,9 +80,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ContactFormComponent,
     ContactComponent,
     PageNotFoundComponent,
-    ColorComponent,
     DenemeComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -103,11 +98,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       theme: themeReducer,
       activeVehicle: vehicleReducer,
 
-      language: languageReducer
+      language: languageReducer,
     }),
-  
-    }),
-
     MatExpansionModule,
     MatListModule,
     TranslateModule.forRoot({
