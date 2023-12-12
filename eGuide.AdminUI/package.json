@@ -30,6 +30,8 @@
     "@ng-icons/heroicons": "^25.3.1",
     "@ng-icons/jam-icons": "^25.3.1",
     "@ngrx/store": "^16.3.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "analytics": "^0.8.9",
     "angular-highcharts": "^16.0.0",
     "esri-loader": "^3.7.0",

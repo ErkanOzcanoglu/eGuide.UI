@@ -10,7 +10,9 @@ import { HttpClient } from '@angular/common/http';
 export class ServiceService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllServices(): Observable<Service[]> {
-    return this.httpClient.get<Service[]>(`${environment.apiUrl}/Service`);
+  getAllServices(lang: string): Observable<Service[]> {
+    return this.httpClient.get<Service[]>(
+      `${environment.apiUrl}/Service/lang?lang=${lang}`
+    );
   }
 }

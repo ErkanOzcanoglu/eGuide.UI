@@ -1,6 +1,12 @@
 import { Connector } from 'src/app/models/connector';
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  VERSION,
+} from '@angular/core';
 import { Station } from 'src/app/models/station';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { StationService } from 'src/app/services/station.service';
@@ -19,6 +25,9 @@ import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-search',
@@ -54,6 +63,13 @@ export class SearchComponent implements OnInit {
 
   isFilterEnabled = false;
 
+  vehicleNgrX = new Vehicle();
+
+  selectedLanguage = '';
+
+  language$: Observable<string>;
+
+
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
@@ -68,8 +84,11 @@ export class SearchComponent implements OnInit {
     private lastVisitedStationsService: LastVisitedStationsService,
     private facilityService: FacilityService,
     private userVehicleService: UserVehicleService,
-    private store: Store
-  ) {}
+    private store: Store,
+    public translateService: TranslateService
+  ) {
+    this.language$ = this.store.select(selectLanguage);
+  }
 
   searchT(event: any) {
     this.searchTexts.emit(event.target.value);
@@ -81,7 +100,21 @@ export class SearchComponent implements OnInit {
     this.getFacilities();
     this.getVehicles();
     this.getVehicleActiveView();
+   
+    this.language$.subscribe((currentState) => {
+      
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx', this.selectedLanguage);
+    });
   }
+
+  //dil değişimi
+
+  public onChange(): void {
+    this.translateService.use(this.selectedLanguage);
+    console.log('navbarden searche geldi', this.selectedLanguage);
+  }
+  //dil değişimi
 
   onClick() {
     this.isClicked = true;
@@ -147,7 +180,7 @@ export class SearchComponent implements OnInit {
       );
     }
   }
-  vehicleNgrX = new Vehicle();
+
   setActiveVehicle(activeVehicle: Vehicle): void {
     this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
   }

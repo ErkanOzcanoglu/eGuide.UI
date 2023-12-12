@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, VERSION } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -23,8 +24,16 @@ export class UserSettingsComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private logHelper: LogHelper
-  ) {}
+    private logHelper: LogHelper,
+    public translateService: TranslateService
+  ) {
+    this.translateService.addLangs(['tr', 'en']);
+    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
+    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
+  }
+
+
+
 
   ngOnInit(): void {
     const userId = localStorage.getItem('authToken');
@@ -42,6 +51,12 @@ export class UserSettingsComponent implements OnInit {
 
     this.userId = localStorage.getItem('authToken') || '';
   }
+//dil değişimi
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+  }
+//dil değişimi
   onModeChange() {
     this.editMode = !this.editMode;
   }
