@@ -23,6 +23,7 @@
           <option
             *ngFor="let lang of translateService.getLangs()"
             [value]="lang"
+            [selected]="lang === 'en' ? true : 'tr'"
           >
             {{ lang | translate }}
           </option>
