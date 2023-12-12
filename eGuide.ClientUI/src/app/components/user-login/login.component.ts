@@ -9,11 +9,13 @@ import { User } from 'src/app/models/user';
 import { UserAuthService } from 'src/app/services/user-auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { LogHelper } from '../generic-helper/log/log-helper';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  providers: [LogHelper],
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
@@ -28,6 +30,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private toastr: ToastrService,
+    private logHelper: LogHelper,
     private store: Store,
     public translateService: TranslateService
   ) {
@@ -86,14 +89,8 @@ export class LoginComponent implements OnInit {
             next: (response) => {
               if (response?.id) localStorage.setItem('authToken', response?.id);
               this.toastr.success('Login successful!');
-              this.logForm.patchValue({
-                message: `${
-                  this.loginForm.value.email
-                } logged in at ${new Date().toLocaleString()}`,
-                level: 'info',
-                source: 'web',
-              });
-              this.userauthService.login_Log(this.logForm.value).subscribe();
+              this.logHelper.successLogin(this.loginForm.value.email);
+              // this.userauthService.userLog(this.logForm.value).subscribe();
               setTimeout(() => {
                 this.router.navigate(['/']);
                 location.reload();
@@ -104,12 +101,16 @@ export class LoginComponent implements OnInit {
                 'Incorrect login information, please try again..'
               );
               console.log(error);
+              this.logHelper.errorLogin(this.loginForm.value.email, error);
             },
           });
         },
         error: (error) => {
-          console.log(error);
+          // clg error message
+          console.log(error.message, 'eroor message');
+          console.log(error.error.error, 'eroor error');
           this.toastr.error('Incorrect login information, please try again..');
+          this.logHelper.errorLogin(this.loginForm.value.email, error);
         },
       });
     }

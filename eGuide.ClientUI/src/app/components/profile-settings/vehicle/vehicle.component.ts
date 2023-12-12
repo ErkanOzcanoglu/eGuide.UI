@@ -10,13 +10,19 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
+
 import { Observable } from 'rxjs';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+
+import { LogHelper } from '../../generic-helper/log/log-helper';
+
+
 
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.css'],
+  providers: [LogHelper],
 })
 export class VehicleComponent implements OnInit {
   vehicle: Vehicle = new Vehicle();
@@ -60,6 +66,7 @@ export class VehicleComponent implements OnInit {
     private connectorService: ConnectorService,
     private sanitizer: DomSanitizer,
     private store: Store,
+    private logHelper: LogHelper,
     public translateService: TranslateService
   ) {
     this.translateService.addLangs(['tr', 'en']);
@@ -169,6 +176,7 @@ export class VehicleComponent implements OnInit {
           this.models = models;
         },
         (error) => {
+          this.logHelper.errorProcess('Get models by brand', error);
           console.error('Modelleri alma hatası:', error);
         }
       );
@@ -185,6 +193,10 @@ export class VehicleComponent implements OnInit {
             localStorage.setItem('vehicleId', primaryKey);
           },
           (error) => {
+            this.logHelper.errorProcess(
+              'Get primary key by brand and model',
+              error
+            );
             console.error('Anahtar alma hatası:', error);
           }
         );
@@ -211,6 +223,7 @@ export class VehicleComponent implements OnInit {
           this.getVehicleByUserId();
         },
         (error) => {
+          this.logHelper.errorProcess('Save vehicle', error);
           console.error('UserVehicle kaydetme hatası:', error);
         }
       );

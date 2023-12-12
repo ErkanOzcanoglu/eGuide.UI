@@ -8,11 +8,14 @@ import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { LogHelper } from '../../generic-helper/log/log-helper';
+
 
 @Component({
   selector: 'app-user-settings',
   templateUrl: './user-settings.component.html',
   styleUrls: ['./user-settings.component.css'],
+  providers: [LogHelper],
 })
 export class UserSettingsComponent implements OnInit {
   user: User = new User();
@@ -30,13 +33,17 @@ export class UserSettingsComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     public translateService: TranslateService,
-    private store: Store
+    private store: Store,
+    private logHelper: LogHelper
+
   ) {
     this.translateService.addLangs(['tr', 'en']);
     this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
     this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
     this.language$ = this.store.select(selectLanguage);
   }
+
+
 
   ngOnInit(): void {
 
@@ -53,6 +60,7 @@ export class UserSettingsComponent implements OnInit {
           this.user = user;
         },
         (error) => {
+          this.logHelper.errorProcess('getUserById', error);
           console.error('error while getting data:', error);
         }
       );
@@ -96,6 +104,7 @@ export class UserSettingsComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         (error) => {
+          this.logHelper.errorProcess('resetPassword', error);
           console.error(error);
         }
       );
@@ -108,6 +117,7 @@ export class UserSettingsComponent implements OnInit {
         // Başarılı yanıt işlemleri
       },
       (error) => {
+        this.logHelper.errorProcess('forgotPassword', error);
         // Hata işlemleri
       }
     );

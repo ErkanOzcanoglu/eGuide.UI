@@ -11,12 +11,14 @@ import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
 import { TranslateService } from '@ngx-translate/core';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { LogHelper } from '../generic-helper/log/log-helper';
+
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
   styleUrls: ['./contact-form.component.css'],
-  providers: [ColorHelper],
+  providers: [ColorHelper, LogHelper],
 })
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup = new FormGroup({});
@@ -33,7 +35,9 @@ export class ContactFormComponent implements OnInit {
     private toastrService: ToastrService,
     private colorHelper: ColorHelper,
     private store: Store<{ theme: any }>,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private logHelper: LogHelper
+
   ) {
     this.language$ = this.store.select(selectLanguage);
     this.contactForm = this.formBuilder.group({
@@ -74,6 +78,7 @@ export class ContactFormComponent implements OnInit {
         this.isSending = false;
       },
       (error) => {
+        this.logHelper.errorProcess('sendEmail', error);
         this.toastrService.error('Email not sent');
       }
     );
@@ -85,6 +90,7 @@ export class ContactFormComponent implements OnInit {
         this.websites = response;
       },
       (error) => {
+        this.logHelper.errorProcess('getWebsites', error);
         console.log(error);
       }
     );

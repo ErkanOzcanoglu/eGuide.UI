@@ -8,11 +8,13 @@ import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { LogHelper } from '../../generic-helper/log/log-helper';
 
 @Component({
   selector: 'app-forgot-user-password',
   templateUrl: './forgot-user-password.component.html',
   styleUrls: ['./forgot-user-password.component.css'],
+  providers: [LogHelper],
 })
 export class ForgotUserPasswordComponent {
   resetPasswordModel: ResetPassword = new ResetPassword();
@@ -27,6 +29,7 @@ export class ForgotUserPasswordComponent {
     private route: ActivatedRoute,
     private userService: UserService,
     private formBuilder: FormBuilder,
+    private logHelper: LogHelper,
     private store: Store,
     public translateService: TranslateService
   ) {
@@ -58,6 +61,7 @@ export class ForgotUserPasswordComponent {
           this.router.navigate(['/login']);
         },
         (error) => {
+          this.logHelper.errorProcess('resetPassword', error);
           this.router.navigate(['/login']);
         }
       );

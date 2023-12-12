@@ -46,15 +46,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { vehicleReducer } from './state/vehicle-state/vehicle.reducer';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
-import { ColorComponent } from './components/generic-helper/color/color.component';
 import { themeReducer } from './state/theme.reducer';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { languageReducer } from './state/language-state/language.reducer';
 
+
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
+
+
 
 @NgModule({
   declarations: [
@@ -80,7 +82,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ContactFormComponent,
     ContactComponent,
     PageNotFoundComponent,
-    ColorComponent,
+
+
+
+
   ],
   imports: [
     BrowserModule,
@@ -99,7 +104,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       activeVehicle: vehicleReducer,
       language: languageReducer,
     }),
-    // StoreModule.forRoot({ activeVehicle: vehicleReducer }),
+
     MatExpansionModule,
     MatListModule,
     TranslateModule.forRoot({

@@ -5,15 +5,19 @@ import { UserStationService } from 'src/app/services/user-station.service';
 import { ColorHelper } from '../../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { TranslateService } from '@ngx-translate/core';
+
 import { Observable } from 'rxjs';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
 import { Store } from '@ngrx/store';
+import { LogHelper } from '../../generic-helper/log/log-helper';
+
+
 
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.css'],
-  providers: [ColorHelper],
+  providers: [ColorHelper, LogHelper],
 })
 export class FavouritesComponent {
   stations: Station[] = [];
@@ -26,10 +30,12 @@ export class FavouritesComponent {
     private userStationService: UserStationService,
     private toastr: ToastrService,
     private colorHelper: ColorHelper,
-    public translateService: TranslateService,
-    private store: Store
-  ) {
-    this.translateService.addLangs(['tr', 'en']);
+    private logHelper: LogHelper,
+    private store:Store,
+    public translateService: TranslateService
+ 
+  ) {this.translateService.addLangs(['tr', 'en']);
+
     this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
     this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
     this.language$ = this.store.select(selectLanguage);
@@ -64,6 +70,7 @@ export class FavouritesComponent {
         this.stations = stations;
       },
       (error) => {
+        this.logHelper.errorProcess('getStationProfiles', error);
         console.error('Error fetching station profiles:', error);
       }
     );
@@ -76,6 +83,7 @@ export class FavouritesComponent {
         if (token !== null) this.getStationProfiles(token);
       },
       (error) => {
+        this.logHelper.errorProcess('deleteStationProfile', error);
         console.error('Error deleting station profile:', error);
       }
     );

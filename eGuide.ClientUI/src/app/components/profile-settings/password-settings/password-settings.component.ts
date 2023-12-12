@@ -6,11 +6,14 @@ import { Observable } from 'rxjs';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { UserService } from 'src/app/services/user.service';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
+import { LogHelper } from '../../generic-helper/log/log-helper';
+
 
 @Component({
   selector: 'app-password-settings',
   templateUrl: './password-settings.component.html',
   styleUrls: ['./password-settings.component.css'],
+  providers: [LogHelper],
 })
 export class PasswordSettingsComponent implements OnInit {
   selectedLanguage = '';
@@ -21,7 +24,8 @@ export class PasswordSettingsComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private store: Store,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private logHelper: LogHelper
   ) {
     this.language$ = this.store.select(selectLanguage);
   }
@@ -48,6 +52,7 @@ export class PasswordSettingsComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         (error) => {
+          this.logHelper.errorProcess('resetPassword', error);
           console.error(error);
         }
       );
@@ -60,6 +65,7 @@ export class PasswordSettingsComponent implements OnInit {
         // Başarılı yanıt işlemleri
       },
       (error) => {
+        this.logHelper.errorProcess('forgotPassword', error);
         // Hata işlemleri
       }
     );
