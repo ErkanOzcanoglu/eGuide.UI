@@ -5,6 +5,8 @@ import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme.selector';
+import { Observable } from 'rxjs';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 export interface Theme {
   theme?: string;
 }
@@ -19,6 +21,8 @@ export class ServiceListComponent implements OnInit {
   width?: number;
   color = new ThemeColor();
   theme?: Theme;
+  language$: Observable<string>;
+  selectedLanguage = '';
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -28,10 +32,17 @@ export class ServiceListComponent implements OnInit {
     private serviceService: ServiceService,
     private colorHepler: ColorHelper,
     private store: Store<{ theme: any }>
-  ) {}
+  ) {
+    this.language$ = this.store.select(selectLanguage);
+  }
 
   ngOnInit(): void {
-    this.getServices();
+    this.language$.subscribe((currentState) => {
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx liste servisdi', this.selectedLanguage);
+      this.getServices(this.selectedLanguage);
+    });
+
     this.store.pipe(select(selectThemeData)).subscribe((theme) => {
       this.theme = theme;
       setTimeout(() => {
@@ -57,9 +68,10 @@ export class ServiceListComponent implements OnInit {
     }
   }
 
-  getServices() {
-    this.serviceService.getAllServices().subscribe((data) => {
+  getServices(lang: string) {
+    this.serviceService.getAllServices(lang).subscribe((data) => {
       this.service = data;
+      console.log(this.service);
     });
   }
 }

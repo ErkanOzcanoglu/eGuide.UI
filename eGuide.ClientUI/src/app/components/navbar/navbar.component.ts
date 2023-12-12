@@ -1,5 +1,6 @@
+
+import { Component, HostListener, OnInit, VERSION } from '@angular/core';
 import { LogHelper } from './../generic-helper/log/log-helper';
-import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { User } from 'src/app/models/user';
@@ -15,6 +16,8 @@ import { selectActiveVehicle } from 'src/app/state/vehicle-state/vehicle.selecto
 import { ColorHelper } from '../generic-helper/color/color-helper';
 
 import { setThemeData } from 'src/app/state/theme.action';
+import { TranslateService } from '@ngx-translate/core';
+import * as LanguageActions from 'src/app/state/language-state/language.action';
 
 @Component({
   selector: 'app-navbar',
@@ -37,6 +40,8 @@ export class NavbarComponent implements OnInit {
   userVehicleActive: Vehicle = new Vehicle();
   savedActiveVehicle: Vehicle = new Vehicle();
 
+
+
   constructor(
     private router: Router,
     private userService: UserService,
@@ -45,9 +50,14 @@ export class NavbarComponent implements OnInit {
     private colorHelper: ColorHelper,
     private userVehicleService: UserVehicleService,
     private store: Store,
+    public translateService: TranslateService,
     private logHelper: LogHelper
+
   ) {
     this.activeVehicle$ = this.store.select(selectActiveVehicle);
+    this.translateService.addLangs(['tr', 'en']);
+    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
+    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
   }
 
   ngOnInit(): void {
@@ -70,6 +80,17 @@ export class NavbarComponent implements OnInit {
       this.currentState = currentState;
     });
   }
+
+  setLanguage(language: string): void {
+    this.store.dispatch(LanguageActions.setLanguage({ language }));
+    console.log("navbarda setlenen dil",language);
+  }
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+    this.setLanguage(selectedLanguage);
+  }
+  //dil değişimi
 
   logout(): void {
     localStorage.removeItem('authToken');

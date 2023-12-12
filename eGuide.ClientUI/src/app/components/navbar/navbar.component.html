@@ -14,7 +14,22 @@
         }"
         >eGuide</a
       >
+      <div>
+        <select
+          #language
+          class="p-1 border rounded-md  bg-gray-100"
+          (change)="onChange(language.value)"
+        >
+          <option
+            *ngFor="let lang of translateService.getLangs()"
+            [value]="lang"
+          >
+            {{ lang | translate }}
+          </option>
+        </select>
+      </div>
     </div>
+
     <div id="userMenu" class="laptop:flex-row flex flex-col">
       <a
         [style]="{
@@ -22,7 +37,7 @@
         }"
         routerLink=""
         class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-        >Home</a
+        >{{ "Home" | translate }}</a
       >
       <a
         [style]="{
@@ -30,7 +45,7 @@
         }"
         routerLink="/services"
         class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-        >Services</a
+        >{{ "Services" | translate }}</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
         <button
@@ -44,17 +59,17 @@
             class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
             >{{ user.name }}</a
           >
-            <!-- currentState'ın brand özelliği varsa yanında göster -->
-            <ng-container
-              *ngIf="currentState?.brand; else savedActiveVehicleBrand"
-              class="ml-4"
-            >
-              {{ currentState?.brand }} {{ currentState?.model }}
-            </ng-container>
+          <!-- currentState'ın brand özelliği varsa yanında göster -->
+          <ng-container
+            *ngIf="currentState?.brand; else savedActiveVehicleBrand"
+            class="ml-4"
+          >
+            {{ currentState?.brand }} {{ currentState?.model }}
+          </ng-container>
 
-            <ng-template #savedActiveVehicleBrand>
-              {{ savedActiveVehicle?.brand }} {{ savedActiveVehicle?.model }}
-            </ng-template>
+          <ng-template #savedActiveVehicleBrand>
+            {{ savedActiveVehicle?.brand }} {{ savedActiveVehicle?.model }}
+          </ng-template>
           <div
             *ngIf="showUserMenu"
             class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
@@ -64,11 +79,11 @@
             }"
           >
             <button (click)="logout()" class="block px-4 py-2 rounded-xl">
-              Logout
+              {{ "Logout" | translate }}
             </button>
-            <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
-              >Settings</a
-            >
+            <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
+              "Settings" | translate
+            }}</a>
           </div>
         </button>
       </ng-container>
@@ -103,12 +118,12 @@
         <a
           routerLink="/"
           class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-          >Home</a
+          >{{ "Home" | translate }}</a
         >
         <a
           routerLink="/services"
           class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-          >Services</a
+          >{{ "Services" | translate }}</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
           <button
@@ -130,11 +145,11 @@
               }"
             >
               <button (click)="logout()" class="block px-4 py-2 rounded-xl">
-                Logout
+                {{ "Logout" | translate }}
               </button>
-              <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
-                >Settings</a
-              >
+              <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
+                "Settings" | translate
+              }}</a>
             </div>
           </button>
         </ng-container>
@@ -151,7 +166,7 @@
     }"
     routerLink="/login"
     class="text-lg font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
-    >Login</a
+    >{{ "Login" | translate }}</a
   >
   <a
     [style]="{
@@ -160,7 +175,7 @@
     }"
     routerLink="/register"
     class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-    >Register</a
+    >{{ "Register" | translate }}</a
   >
 </ng-template>
 <style>
@@ -192,12 +207,12 @@
       <a
         routerLink=""
         class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-        >Home</a
+        >{{ "Home" | translate }}</a
       >
       <a
         routerLink="/services"
         class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-        >Services</a
+        >{{ "Services" | translate }}</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
         <button class="relative group" (click)="showUserMenu = !showUserMenu">
@@ -210,11 +225,11 @@
             class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
           >
             <button (click)="logout()" class="block px-4 py-2 rounded-xl">
-              Logout
+              {{ "Logout" | translate }}
             </button>
-            <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
-              >Settings</a
-            >
+            <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
+              "Settings" | translate
+            }}</a>
           </div>
         </button>
       </ng-container>
@@ -233,12 +248,12 @@
         <a
           routerLink="/"
           class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-          >Home</a
+          >{{ "Home" | translate }}</a
         >
         <a
           routerLink="/services"
           class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-          >Services</a
+          >{{ "Services" | translate }}</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
           <button class="relative group" (click)="showUserMenu = !showUserMenu">
@@ -251,11 +266,11 @@
               class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
             >
               <button (click)="logout()" class="block px-4 py-2 rounded-xl">
-                Logout
+                {{ "Logout" | translate }}
               </button>
-              <a routerLink="/settings" class="block px-4 py-2 rounded-xl"
-                >Settings</a
-              >
+              <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
+                "Settings" | translate
+              }}</a>
             </div>
           </button>
         </ng-container>
