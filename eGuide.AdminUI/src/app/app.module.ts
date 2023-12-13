@@ -89,6 +89,7 @@ import { MessageModalComponent } from './modals/message-modal/message-modal.comp
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -156,6 +157,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PageNotFoundComponent,
     MessageModalComponent,
     TruncatePipe,
+    StationProfileComponent,
   ],
   imports: [
     ChartModule,

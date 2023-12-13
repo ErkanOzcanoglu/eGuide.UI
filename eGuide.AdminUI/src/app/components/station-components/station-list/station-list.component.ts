@@ -8,6 +8,7 @@ import { setStationEditData } from 'src/app/state/station-edit-data/station-edit
 import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-station-list',
@@ -38,7 +39,8 @@ export class StationListComponent implements OnInit {
     private chargingUnitService: ChargingUnitService,
     private stationSocketService: StationSocketService,
     private toastr: ToastrService,
-    private store: Store<{ stationEditData: any }>
+    private store: Store<{ stationEditData: any }>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -89,5 +91,10 @@ export class StationListComponent implements OnInit {
 
   editStation(model: Station): void {
     this.store.dispatch(setStationEditData({ stationEditData: model }));
+  }
+
+  viewStationDetails(stationId: any) {
+    console.log('VIEW KULLANICI', stationId);
+    this.router.navigate(['/station-profile', stationId]);
   }
 }
