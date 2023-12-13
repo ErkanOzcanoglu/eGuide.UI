@@ -49,7 +49,7 @@ import { PageNotFoundComponent } from './components/error-pages/page-not-found/p
 import { themeReducer } from './state/theme.reducer';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { DenemeComponent } from './components/deneme/deneme.component';
+
 import { languageReducer } from './state/language-state/language.reducer';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -80,7 +80,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ContactFormComponent,
     ContactComponent,
     PageNotFoundComponent,
-    DenemeComponent,
   ],
   imports: [
     BrowserModule,
