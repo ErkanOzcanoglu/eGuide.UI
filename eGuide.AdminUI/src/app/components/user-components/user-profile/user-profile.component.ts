@@ -35,7 +35,7 @@ export class UserProfileComponent {
   ngOnInit(): void {
     // ActivatedRoute servisini kullanarak id parametresini al
     this.route.params.subscribe((params) => {
-      this.userId = params['id'];
+      this.userId= params['id'];
 
       // Burada userId'yi kullanabilirsiniz
       console.log('User ID from route parameters:', this.userId);

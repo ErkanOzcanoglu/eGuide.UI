@@ -21,6 +21,7 @@ import { SocialMediaComponent } from './screens/social-media/social-media.compon
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
 import { UserComponent } from './screens/user/user.component';
 import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
+import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
 
 const routes: Routes = [
   {
@@ -41,9 +42,9 @@ const routes: Routes = [
       { path: 'facility', component: FacilityComponent },
       { path: 'social-media', component: SocialMediaComponent },
       { path: 'customization', component: CustomizationComponent },
-      { path:  'user',component:UserComponent},
+      { path: 'user', component: UserComponent },
       { path: 'user-profile/:id', component: UserProfileComponent },
-
+      { path: 'station-profile/:id', component: StationProfileComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },
