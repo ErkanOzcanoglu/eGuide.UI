@@ -69,7 +69,6 @@ export class SearchComponent implements OnInit {
 
   language$: Observable<string>;
 
-
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
@@ -100,9 +99,8 @@ export class SearchComponent implements OnInit {
     this.getFacilities();
     this.getVehicles();
     this.getVehicleActiveView();
-   
+
     this.language$.subscribe((currentState) => {
-      
       this.selectedLanguage = currentState;
       console.log('deneme ngrx', this.selectedLanguage);
     });
@@ -160,8 +158,7 @@ export class SearchComponent implements OnInit {
       this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
         (uservehicle) => {
           this.userVehicleActive = uservehicle;
-          console.log('Gelen UserVehicle xxx:', this.userVehicleActive);
-          // this.vehicleList içindeki vehicleId'leri kontrol et
+
           const matchingVehicle = this.vehicles.find(
             (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
           );
@@ -193,10 +190,8 @@ export class SearchComponent implements OnInit {
         .subscribe(
           (response) => {
             this.vehicleNgrX = response;
-            console.log('ngrx ici', this.vehicleNgrX);
             this.setActiveVehicle(this.vehicleNgrX);
             this.getVehicleActiveView();
-            console.log(response, 'guncellendiii');
           },
           (error) => {
             console.error('Update error:', error);
@@ -244,9 +239,6 @@ export class SearchComponent implements OnInit {
   }
 
   onSelectFacility(facility: Facility) {
-    // if (this.isFilterEnabled) {
-    //   return;
-    // }
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -313,7 +305,7 @@ export class SearchComponent implements OnInit {
     }
 
     if (this.filteredFacilityStations.length === 0) {
-      // filteredFacilityStations henüz tanımlanmadıysa veya null ise
+      
       this.filteredConnectorStations = this.stations.filter((station) =>
         station.stationModel?.stationsChargingUnits.some(
           (unit) => unit.chargingUnit?.connector?.id === connector.id
@@ -321,7 +313,6 @@ export class SearchComponent implements OnInit {
       );
     } else {
       console.log('filteredFacilityStations:', this.filteredFacilityStations);
-      // filteredFacilityStations tanımlıysa ve null değilse
       this.filteredConnectorStations = this.filteredFacilityStations.filter(
         (filteredFacilityStations) =>
           filteredFacilityStations.stationModel?.stationsChargingUnits.some(
