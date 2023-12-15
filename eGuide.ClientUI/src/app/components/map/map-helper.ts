@@ -219,7 +219,6 @@ export class MapHelper {
                 height: '50px',
               };
 
-              // Yıldız rengi için sınıf ataması yap
               const starColorClass = isFavorite
                 ? 'esri-icon-favorites-favorite'
                 : 'esri-icon-favorites';
@@ -325,7 +324,7 @@ export class MapHelper {
                   actions: [goLocationAction, addFavorite, comment],
                 },
               };
-              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
+              
               view.graphics.add(pointGraphic); // add graphic to the view
             });
           });
