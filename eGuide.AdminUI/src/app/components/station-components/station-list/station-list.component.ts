@@ -1,3 +1,4 @@
+import { StationFilterPipe } from './../../../pipes/station-filter.pipe';
 import { Model } from 'src/app/models/stationInformationModel';
 import { Component, OnInit } from '@angular/core';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -7,6 +8,7 @@ import { setStationEditData } from 'src/app/state/station-edit-data/station-edit
 import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-station-list',
@@ -21,6 +23,7 @@ export class StationListComponent implements OnInit {
   stationInfo: any;
   showList: any;
   selectedItem: any;
+  searchText = '';
 
   toggleList() {
     this.showList = !this.showList;
@@ -36,7 +39,8 @@ export class StationListComponent implements OnInit {
     private chargingUnitService: ChargingUnitService,
     private stationSocketService: StationSocketService,
     private toastr: ToastrService,
-    private store: Store<{ stationEditData: any }>
+    private store: Store<{ stationEditData: any }>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +52,6 @@ export class StationListComponent implements OnInit {
     this.stationService.getStations().subscribe({
       next: (stations) => {
         this.stations = stations;
-        console.log(stations[0].stationStatus,"sda");
       },
     });
   }
@@ -88,5 +91,10 @@ export class StationListComponent implements OnInit {
 
   editStation(model: Station): void {
     this.store.dispatch(setStationEditData({ stationEditData: model }));
+  }
+
+  viewStationDetails(stationId: any) {
+    console.log('VIEW KULLANICI', stationId);
+    this.router.navigate(['/station-profile', stationId]);
   }
 }

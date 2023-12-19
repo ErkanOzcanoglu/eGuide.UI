@@ -1,8 +1,14 @@
 <div
-  class="pt-28 mt-10 w-full flex justify-center min-h-screen h-full bg-[#232332]"
+  class="min-h-screen duration-200 flex flex-col justify-between"
+  [style]="{
+    color: color.color4,
+    'background-color': color.color1
+  }"
 >
-  <div class="container">
-    <app-service-list></app-service-list>
+  <div class="pt-36 w-full flex justify-center h-full">
+    <div class="container h-full">
+      <app-service-list></app-service-list>
+    </div>
   </div>
+  <app-footer></app-footer>
 </div>
-<app-footer></app-footer>

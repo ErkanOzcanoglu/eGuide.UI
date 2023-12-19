@@ -45,38 +45,28 @@ export class ConnectorModalComponent implements OnInit {
       const data = new FormData();
 
       data.append('file', file_data);
+      data.append('upload_preset', 'eGuide_cloudinary');
+      data.append('cloud_name', 'dg7apl0rh');
       data.append('ImageName', this.files[0].name);
 
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        // Ensure the data URL starts with the appropriate prefix
-        const base64String = event.target.result;
-        if (this.isValidImageFormat(base64String)) {
-          data.append('ImageData', base64String);
-          this.connectorForm.patchValue({
-            imageName: file_data.name,
-            imageData: base64String,
+      this.imageService2.uploadImage(data).subscribe((res) => {
+        this.connectorForm.patchValue({
+          imageName: file_data.name,
+          imageData: res.secure_url,
+        });
+        this.connectorService
+          .createConnector(this.connectorForm.value)
+          .subscribe({
+            next: (data) => {
+              this.connector = data;
+              this.connectorForm.reset();
+              this.toaster.success('Connector added');
+            },
+            error: (err) => {
+              this.toaster.error('Error while adding connector');
+            },
           });
-          this.connectorService
-            .createConnector(this.connectorForm.value)
-            .subscribe({
-              next: (data) => {
-                this.connector = data;
-                this.connectorForm.reset();
-                this.toaster.success('Connector added');
-              },
-              error: (err) => {
-                this.toaster.error('Error while adding connector');
-              },
-            });
-          console.log(this.connectorForm.value, 'asdasda');
-        } else {
-          console.error('Invalid image format');
-        }
-      };
-      reader.readAsDataURL(file_data);
-    } else {
-      this.toaster.error('Form is not valid');
+      });
     }
 
     if (!this.files[0]) {
@@ -95,7 +85,6 @@ export class ConnectorModalComponent implements OnInit {
 
   onFileSelect(event: any) {
     this.files.push(event.target.files[0]);
-    console.log(this.files);
   }
 
   getImage() {

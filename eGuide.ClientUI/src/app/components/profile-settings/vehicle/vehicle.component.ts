@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, VERSION } from '@angular/core';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
@@ -7,16 +7,23 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
+import { TranslateService } from '@ngx-translate/core';
+import { LogHelper } from '../../generic-helper/log/log-helper';
+
 
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.css'],
+  providers: [LogHelper],
 })
 export class VehicleComponent implements OnInit {
   vehicle: Vehicle = new Vehicle();
   vehicleList: Vehicle[] = [];
   uservehicle: UserVehicle = new UserVehicle();
+  userVehicleActive: UserVehicle = new UserVehicle();
 
   onSelectVehicle = false;
 
@@ -39,21 +46,39 @@ export class VehicleComponent implements OnInit {
   editModeVehicle = false;
   isUpdate = true;
 
+  dropdownVisible = false;
+  maxVisibleItems = 3;
+
+  vehicleState: Vehicle = new Vehicle();
+  vehicleNgrX = new Vehicle();
+
   constructor(
     private userVehicleService: UserVehicleService,
     private vehicleService: VehiclesService,
     private connectorService: ConnectorService,
-    private sanitizer: DomSanitizer
-  ) {}
+    private sanitizer: DomSanitizer,
+    private store: Store,
+    private logHelper: LogHelper,
+    public translateService: TranslateService
+  ) {
+    this.translateService.addLangs(['tr', 'en']);
+    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
+    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan}
+  }
 
   ngOnInit(): void {
     this.getBrands();
-    this.getVehicleById();
+    this.getVehicleByUserId();
     this.getConnector();
+    this.getVehicleActiveView();
   }
 
-  dropdownVisible = false;
-  maxVisibleItems = 3;
+  //dil değişimi
+
+  public onChange(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+  }
+  //dil değişimi
 
   onModeChangeVehicle() {
     this.editModeVehicle = !this.editModeVehicle;
@@ -66,28 +91,20 @@ export class VehicleComponent implements OnInit {
   getBrands() {
     this.vehicleService.getAllBrands().subscribe((data) => {
       this.brands = data;
-      console.log(this.brands);
     });
   }
 
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
-      console.log(this.connectorList);
     });
   }
 
-  // onConnectorSelected(event: any) {
-  //   const selectedConnectorId = event.target.value;
-  //   this.selectedConnectorId = selectedConnectorId;
-  //   localStorage.setItem('connectorId', selectedConnectorId);
-  // }
   onConnectorSelected(connector: any) {
     this.selectedConnector = connector;
     localStorage.setItem('connectorId', this.selectedConnector.id);
     this.dropdownVisible = false;
-    this.toggleDropdown(); 
-   
+    this.toggleDropdown();
   }
 
   toggleDropdown() {
@@ -95,11 +112,11 @@ export class VehicleComponent implements OnInit {
   }
 
   onBrandSelected(event: any) {
-    console.log(event.target.value);
     const selectedBrand = event.target.value;
     this.loadModelsByBrand(selectedBrand);
     localStorage.setItem('brand', selectedBrand);
   }
+
   selectVehicle(selectedVehicle: any) {
     localStorage.setItem('brand', selectedVehicle.brand);
     this.onCarSelected(selectedVehicle.brand, selectedVehicle.connector);
@@ -116,7 +133,6 @@ export class VehicleComponent implements OnInit {
   }
 
   onCarSelected(brand: string, connector: string) {
-    console.log('araba secme tıklamas');
     const selectedBrand = brand;
     this.selectedConnector = connector;
     this.loadModelsByBrand(selectedBrand);
@@ -142,11 +158,10 @@ export class VehicleComponent implements OnInit {
     if (selectedBrand && selectedBrand !== 'default') {
       this.vehicleService.getModelsByBrand(selectedBrand).subscribe(
         (models) => {
-          console.log('Ait modeller:', models);
-
           this.models = models;
         },
         (error) => {
+          this.logHelper.errorProcess('Get models by brand', error);
           console.error('Modelleri alma hatası:', error);
         }
       );
@@ -163,6 +178,10 @@ export class VehicleComponent implements OnInit {
             localStorage.setItem('vehicleId', primaryKey);
           },
           (error) => {
+            this.logHelper.errorProcess(
+              'Get primary key by brand and model',
+              error
+            );
             console.error('Anahtar alma hatası:', error);
           }
         );
@@ -181,14 +200,15 @@ export class VehicleComponent implements OnInit {
         userId: userId,
         vehicleId: vehicleId,
         connectorId: connectorId,
+        activeStatus: 0, //buraya dikkat cnm
       };
 
       this.userVehicleService.saveVehicle(userVehicle).subscribe(
         (response) => {
-          console.log('UserVehicle başarıyla kaydedildi:', response);
-          this.getVehicleById();
+          this.getVehicleByUserId();
         },
         (error) => {
+          this.logHelper.errorProcess('Save vehicle', error);
           console.error('UserVehicle kaydetme hatası:', error);
         }
       );
@@ -197,7 +217,7 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  getVehicleById() {
+  getVehicleByUserId() {
     const userId = localStorage.getItem('authToken');
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
@@ -207,7 +227,6 @@ export class VehicleComponent implements OnInit {
           const combinedVehicles = this.vehicleList.map((vehicle) => {
             return `${vehicle.brand}-${vehicle.model}`;
           });
-          console.log(combinedVehicles);
         },
         (error) => {
           console.error('Araç bilgileri alma hatası:', error);
@@ -215,20 +234,26 @@ export class VehicleComponent implements OnInit {
       );
     }
   }
+  updateVehicle() {
+    const vehicleId = localStorage.getItem('vehicleId');
+    const oldId = vehicleId;
+
+    if (oldId != null) {
+      localStorage.setItem('oldId', oldId);
+    }
+    this.isUpdate = false;
+  }
 
   deleteVehicle() {
     const vehicleId = localStorage.getItem('vehicleId');
     const userId = localStorage.getItem('authToken');
 
-    console.log(vehicleId);
-    console.log(userId);
     if (vehicleId !== null && userId !== null) {
       this.userVehicleService
         .deleteUserVehicleByVehicleId(userId, vehicleId)
         .subscribe(
           () => {
-            console.log('Araç başarıyla silindi.');
-            this.getVehicleById();
+            this.getVehicleByUserId();
           },
           (error) => {
             console.error('Araç silme hatası:', error);
@@ -239,14 +264,55 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  updateVehicle() {
-    const vehicleId = localStorage.getItem('vehicleId');
-    const oldId = vehicleId;
+  //<--NGRX METHODS FOR VEHICLE-->
+  setActiveVehicle(activeVehicle: Vehicle): void {
+    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
+  }
 
-    if (oldId != null) {
-      localStorage.setItem('oldId', oldId);
+  updateVehicleActiveStatus() {
+    const vehicleId = localStorage.getItem('vehicleId');
+    const userId = localStorage.getItem('authToken');
+
+    if (vehicleId != null && userId != null) {
+      this.userVehicleService
+        .updateVehicleActiveStatus(userId, vehicleId) //THIS METHOD RETURNS VEHICLE FOR RESPONSE
+        .subscribe(
+          (response) => {
+            this.vehicleNgrX = response;
+            this.setActiveVehicle(this.vehicleNgrX);
+            this.getVehicleActiveView();
+          },
+          (error) => {
+            console.error('Update error:', error);
+          }
+        );
     }
-    this.isUpdate = false;
+  }
+
+  getVehicleActiveView(): void {
+    const userId = localStorage.getItem('authToken');
+    if (userId != null) {
+      this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
+        (uservehicle) => {
+          this.userVehicleActive = uservehicle;
+
+          // this.vehicleList içindeki vehicleId'leri kontrol et
+          const matchingVehicle = this.vehicleList.find(
+            (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
+          );
+          if (matchingVehicle != null) this.vehicleState = matchingVehicle;
+
+          if (matchingVehicle) {
+            this.getVehicleByUserId();
+          } else {
+            console.log('Eşleşen VehicleId bulunamadı.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching active user vehicle:', error);
+        }
+      );
+    }
   }
 
   saveUpdate() {
@@ -265,8 +331,7 @@ export class VehicleComponent implements OnInit {
         .updateVehicle(userId, oldId, vehicleId, connectorId)
         .subscribe(
           (response) => {
-            console.log('Araç güncelleme başarılı:', response);
-            this.getVehicleById();
+            this.getVehicleByUserId();
           },
           (error) => {
             console.error('Araç güncelleme hatası:', error);

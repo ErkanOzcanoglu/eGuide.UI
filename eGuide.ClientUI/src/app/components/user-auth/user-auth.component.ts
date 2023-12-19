@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
 import { UserAuthService } from 'src/app/services/user-auth.service';
+import { LogHelper } from '../generic-helper/log/log-helper';
 
 @Component({
   selector: 'app-user-auth',
   templateUrl: './user-auth.component.html',
   styleUrls: ['./user-auth.component.css'],
+  providers: [LogHelper],
 })
 export class UserAuthComponent implements OnInit {
   user: User = new User();
@@ -18,7 +20,8 @@ export class UserAuthComponent implements OnInit {
     private router: Router,
     private userauthService: UserAuthService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private logHelper: LogHelper
   ) {}
 
   ngOnInit() {
@@ -36,17 +39,15 @@ export class UserAuthComponent implements OnInit {
   }
 
   register(): void {
-    console.log(this.registerForm.value);
     this.userauthService.registerUser(this.registerForm.value).subscribe({
       next: (response) => {
-        if (response && response.id) {
-          response.id = response.id.replace(/^"(.*)"$/, '$1');
-          localStorage.setItem('authToken', response.id);
-        }
+        this.toastr.success('User registered successfully.');
+        this.logHelper.successProcess('register');
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         this.toastr.error('Please fill out all the form information.');
-        console.log(error);
+        this.logHelper.errorProcess('register', error.error.error);
         console.error('Please fill out all the form information.');
       },
     });

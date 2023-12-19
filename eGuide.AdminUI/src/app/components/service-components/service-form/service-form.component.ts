@@ -22,6 +22,7 @@ export class ServiceFormComponent {
     name: '',
     description: '',
     image: '',
+    language: '',
     isSelected: false,
     layout: 0,
   };
@@ -46,6 +47,7 @@ export class ServiceFormComponent {
       id: [''],
       name: ['', Validators.required],
       description: ['', Validators.required],
+      language: ['', Validators.required],
       image: [''],
       layout: ['', Validators.required],
     });
@@ -64,7 +66,6 @@ export class ServiceFormComponent {
 
   getEditData() {
     this.store.pipe(select(selectServiceEditData)).subscribe((datas) => {
-      console.log(datas, 'getEditData');
       if (datas) {
         const data = datas.serviceEditData;
         this.serviceForm.patchValue({
@@ -84,8 +85,6 @@ export class ServiceFormComponent {
 
   onFileSelect(event: any) {
     this.files.push(event.target.files[0]);
-    console.log(this.files);
-
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event: any) => {
@@ -116,7 +115,10 @@ export class ServiceFormComponent {
         this.serviceService
           .createService(this.serviceForm.value)
           .subscribe(() => {
-            this.toastr.success('Service added successfully');
+            this.toastr.success(
+              'Service added successfully',
+              this.serviceForm.value
+            );
             setTimeout(() => {
               window.location.reload();
             }, 1500);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import { Admin } from 'src/app/models/admin';
 import { AdminService } from 'src/app/services/admin.service';
 import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
@@ -16,6 +17,7 @@ export class AddAdminComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private formBuilder: FormBuilder,
+    private toastr: ToastrService,
     private store: Store<{ refresh: boolean }>
   ) {}
 
@@ -43,7 +45,19 @@ export class AddAdminComponent implements OnInit {
     if (this.adminForm.valid) {
       this.admin = this.adminForm.value;
       this.admin.isMasterAdmin = false;
-      this.adminService.adminRegister(this.admin).subscribe();
+      this.adminService.adminRegister(this.admin).subscribe(
+        () => {
+          this.toastr.success('Admin başarıyla eklendi', 'Başarılı');
+          setTimeout(() => {
+            this.store.dispatch(setRefresh(true));
+            this.adminForm.reset();
+          }, 400);
+          this.store.dispatch(setRefresh(false));
+        },
+        () => {
+          this.toastr.error('Admin eklenirken hata oluştu', 'Hata');
+        }
+      );
       setTimeout(() => {
         this.store.dispatch(setRefresh(true));
       }, 400);

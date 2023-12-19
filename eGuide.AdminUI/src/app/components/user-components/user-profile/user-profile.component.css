@@ -1,0 +1,57 @@
+.custom-scrollbar::-webkit-scrollbar {
+  width: 1px; /* Kaydırma çubuğunun genişliği */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: grey; /* Kaydırma çubuğu rengini burada belirleyin */
+  border-radius: 6px; /* Kaydırma çubuğu yuvarlatılmış köşeleri */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: whitesmoke; /* Kaydırma çubuğu arka plan rengini burada belirleyin */
+}
+
+.connector-options {
+  max-height: 150px; /* Maksimum yükseklik belirleyin */
+  overflow-y: auto; /* Yatay scrollbar'ı otomatik gösterir */
+}
+.connector-options::-webkit-scrollbar {
+  width: 1px; /* Kaydırma çubuğunun genişliği */
+}
+
+.connector-options::-webkit-scrollbar-thumb {
+  background-color: grey; /* Kaydırma çubuğu rengi */
+  border-radius: 6px; /* Kaydırma çubuğu yuvarlatılmış köşeleri */
+}
+
+.connector-options::-webkit-scrollbar-track {
+  background-color: transparent; /* Kaydırma çubuğu arka plan rengi */
+}
+
+.connector-options::-webkit-scrollbar-corner {
+  background-color: transparent; /* Kaydırma çubuğu köşesinin arka plan rengi */
+}
+
+.vehicle-list-item:hover {
+  background-color: #444444;
+}
+
+.vehicle-list-item {
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid #313131;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: bold;
+  color:rgb(87, 87, 252)
+}
+
+.model {
+  font-size: 16px;
+  color: #888888;
+}

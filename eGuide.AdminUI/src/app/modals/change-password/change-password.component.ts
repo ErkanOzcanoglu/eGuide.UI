@@ -35,8 +35,6 @@ export class ChangePasswordComponent implements OnInit {
       const password = this.updatePasswordForm.value.password;
       const confirmPassword = this.updatePasswordForm.value.confirmPassword;
       if (password === confirmPassword) {
-        console.log(this.updatePasswordForm.value);
-        console.log(adminId);
         this.adminService
           .passChange(adminId, this.updatePasswordForm.value)
           .subscribe({

@@ -1,16 +1,15 @@
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
-import { StationService } from 'src/app/services/station.service';
-import Search from '@arcgis/core/widgets/Search';
-import * as reactiveUtils from '@arcgis/core/reactiveUtils';
-import Swal from 'sweetalert2';
-import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
-import { UserStationService } from 'src/app/services/user-station.service';
 import { UserStation } from 'src/app/models/user-station';
 import { basemapss } from './map-data';
 import { MapHelper } from './map-helper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Comment } from 'src/app/models/comment';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { StationService } from 'src/app/services/station.service';
+import { UserStationService } from 'src/app/services/user-station.service';
 
 interface Center {
   latitude: any;
@@ -29,23 +28,24 @@ export class MapComponent implements OnInit {
   userStation: UserStation = new UserStation();
   currentBasemapIndex: number;
   stations: Station[] = [];
+  comments: Comment[] = [];
   map: any;
   view: any;
   locate: any;
   nearLocate: any;
   basemapss: any[] = [];
-
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
 
-  connectorFilteredStations: Station[] = [];
+  FilteredStations: Station[] = [];
+  commentForm: FormGroup = new FormGroup({});
 
   constructor(
+    private formBuilder: FormBuilder,
+    private mapHelper: MapHelper,
     private stationService: StationService,
-    private lastVisitedStationsService: LastVisitedStationsService,
-    private userStationService: UserStationService,
-    private mapHelper: MapHelper
+    private userStationService: UserStationService
   ) {
     this.basemapss = basemapss;
     this.currentBasemapIndex = 0;
@@ -54,7 +54,7 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap();
     this.getStations();
-    // initialize map
+    this.initializeForm();
   }
 
   initializeMap() {
@@ -125,7 +125,7 @@ export class MapComponent implements OnInit {
   }
 
   calculateNearestStations(userP: any): void {
-    this.mapHelper.calculateNearestStations(userP, this.stations, this.view);
+    this.mapHelper.calculateNearestStations(userP, this.view);
   }
 
   calculateDistance(
@@ -146,215 +146,56 @@ export class MapComponent implements OnInit {
     this.currentBasemapIndex = basemap.id; // change current basemap index
   }
 
-  // get stations from api
-  getStations(): void {
-    this.stationService.getStations().subscribe((data) => {
-      this.stations = data;
-      const userId = localStorage.getItem('authToken');
-      if (userId !== null)
-        this.userStationService
-          .getStationProfiles(userId)
-          .subscribe((favoriteStations) => {
-            reactiveUtils.on(
-              () => this.view.popup,
-              'trigger-action',
-              (event: any) => {
-                if (event.action.id === 'add-favorite') {
-                  this.saveUserStation(event.action.stationId, userId);
-                } else if (event.action.id === 'go-location-action') {
-                  this.goLocation(event.action.stationId);
-                }
-              }
-            );
-            this.stations.forEach((element) => {
-              const isFavorite = favoriteStations.some(
-                (station) => station.id === element.id
-              );
-
-              const point = {
-                // create point
-                type: 'point',
-                longitude: element.longitude,
-                latitude: element.latitude,
-              };
-
-              const pinSymbol = {
-                // create symbol
-                type: 'picture-marker',
-                url: '../../assets/charging.svg',
-                width: '50px',
-                height: '50px',
-              };
-
-              // Yıldız rengi için sınıf ataması yap
-              const starColorClass = isFavorite
-                ? 'esri-icon-favorites-favorite'
-                : 'esri-icon-favorites';
-
-              const goLocationAction = {
-                id: 'go-location-action',
-                className: 'esri-icon-locate-circled',
-                stationId: element.id,
-              };
-
-              const addFavorite = {
-                id: 'add-favorite',
-                className: starColorClass,
-                stationId: element.id,
-              };
-
-              if (element.stationModel?.stationsChargingUnits) {
-                const chargingUnits =
-                  element.stationModel.stationsChargingUnits.map((unit) => ({
-                    name: unit.chargingUnit?.name,
-                  }));
-                this.chargingUnitList = chargingUnits;
-              }
-
-              if (element.stationModel?.stationsChargingUnits) {
-                const connectors =
-                  element.stationModel.stationsChargingUnits.map((unit) => ({
-                    type: unit.chargingUnit?.connector?.type,
-                  }));
-
-                this.connectorTypelist = connectors;
-              }
-
-              if (element.stationFacilities) {
-                const facilityList = element.stationFacilities.map((unit) => ({
-                  type: unit.facility?.type,
-                }));
-                this.facilityList = facilityList;
-              }
-
-              const pointGraphic = {
-                // create graphic
-                geometry: point,
-                symbol: pinSymbol,
-                attributes: {
-                  name: element.name,
-                  id: element.id,
-                  address: element.address,
-                  latitude: element.latitude,
-                  longitude: element.longitude,
-                  model: element.stationModel?.name,
-                  chargingUnit: this.chargingUnitList
-                    .map((chargingUnit) => chargingUnit.name)
-                    .join(', '),
-                  connector: this.connectorTypelist
-                    .map((chargingUnit) => chargingUnit.type)
-                    .join(', '),
-                  stationFacilities: this.facilityList
-                    .map((stationFacilities) => stationFacilities.type)
-                    .join(', '),
-                },
-
-                // open popup when graphic is clicked
-                popupTemplate: {
-                  title: '{name}',
-                  content: [
-                    {
-                      type: 'fields',
-                      fieldInfos: [
-                        {
-                          fieldName: 'name',
-                          label: 'Name',
-                        },
-                        {
-                          fieldName: 'address',
-                          label: 'Address',
-                        },
-                        {
-                          fieldName: 'model',
-                          label: 'Model',
-                        },
-                        {
-                          fieldName: 'chargingUnit',
-                          label: 'ChargingUnit',
-                        },
-                        {
-                          fieldName: 'connector',
-                          label: 'Connector Type',
-                        },
-                        {
-                          fieldName: 'stationFacilities',
-                          label: 'Facilities',
-                        },
-                      ],
-                    },
-                  ],
-                  actions: [goLocationAction, addFavorite],
-                },
-              };
-              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
-              this.view.graphics.add(pointGraphic); // add graphic to the view
-            });
-          });
-    });
+  FilteredStationsonMap(event: any) {
+    this.FilteredStations = event;
+    this.getStations();
   }
 
-  // get selected station from station list component
+  getStations() {
+    this.mapHelper.getStations(this.view, this.FilteredStations);
+  }
+  
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
   }
 
-  deneme(event: any) {
-    console.log('aaaaaaaa', event);
-    this.connectorFilteredStations = event;
-    console.log(this.connectorFilteredStations[0].id);
-    // if(this.connectorFilteredStations[0].id !== '')
-    // this.getStations();
+  FilteredStationsGet(event: any) {
+    this.FilteredStations = event;
   }
 
   // get search text from search component
   goLocation(stationId: any) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success m-1',
-        cancelButton: 'btn btn-danger m-1',
-      },
-      buttonsStyling: false,
+    this.mapHelper.goLocation(stationId);
+  }
+
+  initializeForm() {
+    this.commentForm = this.formBuilder.group({
+      text: [''],
+      rating: [''],
+      ownerId: [''],
+      stationId: [''],
     });
-    swalWithBootstrapButtons
-      .fire({
-        title: 'Are you sure?',
-        text: 'Gitmek istediğine emin misin!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Evet, Istiyorum!',
-        cancelButtonText: 'Hayır, Istemiyorum!',
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          const userId = localStorage.getItem('authToken');
-          if (userId != null) {
-            this.lastVisitedStations.userId = userId;
-            this.lastVisitedStations.stationId = stationId;
-            this.lastVisitedStationsService
-              .createLastVisitedStation(this.lastVisitedStations)
-              .subscribe();
-          }
-        }
-        // else bloğu kaldırıldı
-      });
+  }
+
+  getComments(stationId: any) {
+    this.mapHelper.getComments(stationId);
+  }
+
+  comment(stationId: any) {
+    this.mapHelper.comment(stationId);
+  }
+
+  submitComment(comment: string, rating: number, stationId: number) {
+    this.mapHelper.submitComment(comment, rating, stationId);
   }
 
   // search function
   search(enevt: any) {
-    this.searchType = enevt;
-    const search = new Search({
-      view: this.view,
-    });
-    console.log(this.searchType, 'aaa');
-    search.search(this.searchType);
+    this.mapHelper.search(enevt, this.view);
   }
 
   saveUserStation(elementId: string, userId: string): void {
-    this.userStation.userId = userId;
-    this.userStation.stationProfileId = elementId;
-    console.log(this.userStation);
-    this.userStationService.saveUserStation(this.userStation).subscribe();
+    this.mapHelper.saveUserStation(elementId, userId);
   }
 }

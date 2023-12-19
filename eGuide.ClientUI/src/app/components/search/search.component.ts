@@ -1,17 +1,44 @@
 import { Connector } from 'src/app/models/connector';
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  VERSION,
+} from '@angular/core';
 import { Station } from 'src/app/models/station';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { StationService } from 'src/app/services/station.service';
 import { ConnectorService } from 'src/app/services/connector.service';
 import { FacilityService } from 'src/app/services/facility.service';
 import { Facility } from 'src/app/models/facility';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { Vehicle } from 'src/app/models/vehicle';
+import { UserVehicleService } from 'src/app/services/user-vehicle.service';
+import { UserVehicle } from 'src/app/models/user-vehicle';
+import { Store } from '@ngrx/store';
+import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
+  animations: [
+    trigger('slideDown', [
+      state('void', style({ height: '0', opacity: 0 })),
+      transition(':enter, :leave', [animate('0.3s ease-in-out')]),
+    ]),
+  ],
 })
 export class SearchComponent implements OnInit {
   searchText = '';
@@ -22,17 +49,31 @@ export class SearchComponent implements OnInit {
   stations: Station[] = [];
   connectors: Connector[] = [];
   facilities: Facility[] = [];
+  vehicles: Vehicle[] = [];
   lastVisitedStations: LastVisitedStations[] = [];
   lastVisitedStations2: LastVisitedStations[] = [];
   selectedFacilities: Facility[] = [];
-  selectedConnectors: Connector[] = [];
+  selectedConnector: Connector[] = [];
+  selectedVehicle: Vehicle = new Vehicle();
   filteredFacilityStations: Station[] = [];
   filteredConnectorStations: Station[] = [];
+
+  vehicleState: Vehicle = new Vehicle();
+  userVehicleActive: UserVehicle = new UserVehicle();
+
+  isFilterEnabled = false;
+
+  vehicleNgrX = new Vehicle();
+
+  selectedLanguage = '';
+
+  language$: Observable<string>;
 
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
   @Output() stationFacilitySelected = new EventEmitter<Station[]>();
+  @Output() stationFilteredSelected = new EventEmitter<Station[]>();
 
   showConnectors = false;
 
@@ -40,8 +81,13 @@ export class SearchComponent implements OnInit {
     private stationService: StationService,
     private connectorService: ConnectorService,
     private lastVisitedStationsService: LastVisitedStationsService,
-    private facilityService: FacilityService
-  ) {}
+    private facilityService: FacilityService,
+    private userVehicleService: UserVehicleService,
+    private store: Store,
+    public translateService: TranslateService
+  ) {
+    this.language$ = this.store.select(selectLanguage);
+  }
 
   searchT(event: any) {
     this.searchTexts.emit(event.target.value);
@@ -51,20 +97,107 @@ export class SearchComponent implements OnInit {
     this.getStations();
     this.getConnectors();
     this.getFacilities();
+    this.getVehicles();
+    this.getVehicleActiveView();
+
+    this.language$.subscribe((currentState) => {
+      this.selectedLanguage = currentState;
+      console.log('deneme ngrx', this.selectedLanguage);
+    });
   }
+
+  //dil değişimi
+
+  public onChange(): void {
+    this.translateService.use(this.selectedLanguage);
+    console.log('navbarden searche geldi', this.selectedLanguage);
+  }
+  //dil değişimi
 
   onClick() {
     this.isClicked = true;
   }
 
-  aramaYap(text: string) {
+  searchByAddress(text: string) {
+    if (this.isClicked) {
+      // Eğer overlay açıksa, tekrar search ikonuna tıklanınca kapat
+      this.isClicked = false;
+    } else {
+      // Eğer overlay kapalıysa, overlay'ı aç
+      this.isClicked = true;
+    }
     this.searchTexts.emit(text);
-    // console.log(text, 'text in the search component');
   }
 
   closeSearch() {
     this.isClicked = false;
     this.isFilterClicked = false;
+    this.isFilterEnabled = false;
+  }
+
+  getVehicles() {
+    const userId = localStorage.getItem('authToken');
+    if (userId !== null) {
+      this.userVehicleService.getvehicleById(userId).subscribe(
+        (data) => {
+          this.vehicles = data;
+          const combinedVehicles = this.vehicles.map((vehicle) => {
+            return `${vehicle.brand}-${vehicle.model}`;
+          });
+        },
+        (error) => {
+          console.error('Araç bilgileri alma hatası:', error);
+        }
+      );
+    }
+  }
+
+  getVehicleActiveView(): void {
+    const userId = localStorage.getItem('authToken');
+    if (userId != null) {
+      this.userVehicleService.getUserVehicleWithActiveStatus(userId).subscribe(
+        (uservehicle) => {
+          this.userVehicleActive = uservehicle;
+
+          const matchingVehicle = this.vehicles.find(
+            (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
+          );
+          if (matchingVehicle != null) this.vehicleState = matchingVehicle;
+
+          if (matchingVehicle) {
+            console.log('Eşleşen xxxx :', matchingVehicle);
+            this.getVehicles();
+          } else {
+            console.log('Eşleşen VehicleId bulunamadı xxx.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching active user vehicle:', error);
+        }
+      );
+    }
+  }
+
+  setActiveVehicle(activeVehicle: Vehicle): void {
+    this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
+  }
+  onSelectVehicle(vehicle: Vehicle) {
+    const userId = localStorage.getItem('authToken');
+
+    if (vehicle.id != null && userId != null) {
+      this.userVehicleService
+        .updateVehicleActiveStatus(userId, vehicle.id) //THIS METHOD RETURNS VEHICLE FOR RESPONSE
+        .subscribe(
+          (response) => {
+            this.vehicleNgrX = response;
+            this.setActiveVehicle(this.vehicleNgrX);
+            this.getVehicleActiveView();
+          },
+          (error) => {
+            console.error('Update error:', error);
+          }
+        );
+    }
   }
 
   getStations() {
@@ -97,12 +230,15 @@ export class SearchComponent implements OnInit {
   onSelectStation(station: Station) {
     this.searchText = station.name;
     this.isClicked = false;
-    // console.log(this.searchText);
     this.stationSelected.emit(station);
   }
 
+  refreshFilter() {
+    console.log('Refreshten sonraki istasyonlar', this.stations);
+    this.stationFilteredSelected.emit(this.stations);
+  }
+
   onSelectFacility(facility: Facility) {
-    console.log(this.selectedFacilities, 'girdim mi ki');
     const index = this.selectedFacilities.findIndex(
       (selected) => selected.type === facility.type
     );
@@ -134,31 +270,49 @@ export class SearchComponent implements OnInit {
       );
     }
 
-    this.stationFacilitySelected.emit(this.filteredFacilityStations);
+    this.stationFilteredSelected.emit(this.filteredFacilityStations);
 
     console.log('Seçilen Tesisler:', this.selectedFacilities);
     console.log(
       'Seçilen İstasyonlar (Facility):',
       this.filteredFacilityStations
     );
+
+    this.stationFilteredSelected.emit(this.filteredFacilityStations);
+  }
+
+  toggleFilter() {
+    if (this.isFilterEnabled) {
+      this.filteredConnectorStations = this.stations.filter((station) =>
+        station.stationModel?.stationsChargingUnits.some(
+          (unit) =>
+            unit.chargingUnit?.connector?.id ===
+            this.userVehicleActive.connectorId
+        )
+      );
+      console.log('gitmesi gereken istasyon', this.filteredConnectorStations);
+      this.stationFilteredSelected.emit(this.filteredConnectorStations);
+      return;
+    }
   }
 
   onSelectConnector(connector: Connector) {
     this.searchText = connector.type;
     this.isClicked = false;
 
+    if (this.isFilterEnabled) {
+      return;
+    }
+
     if (this.filteredFacilityStations.length === 0) {
-      console.log(this.filteredFacilityStations, 'buraya girdim');
-      // filteredFacilityStations henüz tanımlanmadıysa veya null ise
+      
       this.filteredConnectorStations = this.stations.filter((station) =>
         station.stationModel?.stationsChargingUnits.some(
-          (unit) => unit.chargingUnit?.connector?.type === connector.type
+          (unit) => unit.chargingUnit?.connector?.id === connector.id
         )
       );
     } else {
       console.log('filteredFacilityStations:', this.filteredFacilityStations);
-      console.log('asdşlasdaskdlasdkalsdk');
-      // filteredFacilityStations tanımlıysa ve null değilse
       this.filteredConnectorStations = this.filteredFacilityStations.filter(
         (filteredFacilityStations) =>
           filteredFacilityStations.stationModel?.stationsChargingUnits.some(
@@ -167,8 +321,8 @@ export class SearchComponent implements OnInit {
       );
     }
 
-    // Filtrelenmiş istasyonları güncelle ve etkinlik yayınla
-    this.stationConnectorSelected.emit(this.filteredConnectorStations);
+    this.stationFilteredSelected.emit(this.filteredConnectorStations);
+
     console.log('Seçilen Connector:', connector);
     console.log(
       'Seçilen İstasyonlar (Connector):',
@@ -191,6 +345,18 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  isSelectedConnector(connector: Connector): boolean {
+    return this.selectedConnector.some(
+      (selected) => selected.type === connector.type
+    );
+  }
+
+  // isSelectedVehicle(vehicle: Vehicle): boolean {
+  //   return this.selectedVehicle.some(
+  //     (selected) => selected.type === vehcile.type
+  //   );
+  // }
+
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
     if (this.isFilteredForLastStations === false) this.getLastVisitedStations();
@@ -205,9 +371,6 @@ export class SearchComponent implements OnInit {
         .subscribe((lastVisitedStations) => {
           if (lastVisitedStations.length > 0) {
             this.lastVisitedStations = lastVisitedStations;
-            // console.log(this.lastVisitedStations, 'genel deneme');
-            // console.log(this.lastVisitedStations[0].stationId, 'station id');
-            // find station by station if for each last visited station
             this.lastVisitedStations.forEach((lastVisitedStation) => {
               this.stationService
                 .getStationById(lastVisitedStation.stationId)
@@ -221,7 +384,6 @@ export class SearchComponent implements OnInit {
                     station: station,
                   });
                 });
-              // console.log(this.lastVisitedStations2, 'last visited stations 2');
             });
           } else {
             // clear the last visited stations

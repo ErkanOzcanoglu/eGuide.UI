@@ -44,17 +44,17 @@ export class AdminLoginComponent implements OnInit {
           this.adminService.getAdminInfo(response?.id).subscribe({
             next: (response) => {
               if (response?.id) localStorage.setItem('authToken', response?.id);
+              this.toaster.success('Login successful');
+              setTimeout(() => {
+                this.router.navigate(['']);
+                this.loadingAfterLogin = false;
+              }, 1000);
             },
             error: (error) => {
               this.toaster.error('Invalid email or password');
               console.log(error);
             },
           });
-          this.toaster.success('Login successful');
-          setTimeout(() => {
-            this.router.navigate(['']);
-            this.loadingAfterLogin = false;
-          }, 1000);
         },
         error: (error) => {
           console.log(error);

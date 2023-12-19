@@ -49,9 +49,9 @@ export class UserAuthService {
     );
   }
 
-  public login(user: User): Observable<string> {
-    return this.http.post(`${environment.apiUrl}/${this.url}/login`, user, {
-      responseType: 'text',
+  public login(user: User): Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/User/login`, user, {
+      responseType: 'json',
     });
   }
 
@@ -67,13 +67,6 @@ export class UserAuthService {
     return this.http.post<string>(
       `${environment.apiUrl}/${this.url}//reset-password`,
       request
-    );
-  }
-
-  public login_Log(userLog: UserLog): Observable<UserLog> {
-    return this.http.post<UserLog>(
-      `${environment.apiUrl}/${this.url}/users-log`,
-      userLog
     );
   }
 }

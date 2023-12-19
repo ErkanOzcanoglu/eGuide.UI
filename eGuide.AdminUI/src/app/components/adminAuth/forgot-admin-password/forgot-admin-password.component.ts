@@ -24,7 +24,6 @@ export class ForgotAdminPasswordComponent {
   ngOnInit() {
     this.initializeForm();
     this.token = this.route.snapshot.params['token'];
-    console.log(this.token);
   }
 
   initializeForm() {
@@ -39,11 +38,9 @@ export class ForgotAdminPasswordComponent {
       .resetPasswordScreen(this.forgotPasswordForm.value, this.token)
       .subscribe(
         (response) => {
-          console.log('success', response);
           this.router.navigate(['/station']);
         },
         (error) => {
-          console.log('patos', error);
           this.router.navigate(['/station']);
         }
       );

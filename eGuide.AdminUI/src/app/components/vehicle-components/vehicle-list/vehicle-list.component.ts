@@ -29,9 +29,7 @@ export class VehicleListComponent {
     private store: Store
   ) {
     this.store.select(selectRefresh).subscribe((refresh: boolean) => {
-      console.log(refresh);
       if (refresh === true) {
-        console.log('refresh');
         this.getVehicleInfo();
       }
     });
@@ -73,14 +71,8 @@ export class VehicleListComponent {
   }
 
   onUpdate(vehicleId: any, model: any): void {
-    console.log(model);
-    console.log(vehicleId);
     if (vehicleId !== null && model !== null) {
-      console.log(vehicleId, model, 'asdds');
-      // item.id ve item.model tanımlı ise update işlemi yap
-      this.vehicleService.updateVehicle(vehicleId, model).subscribe((res) => {
-        console.log('asdasd');
-      });
+      this.vehicleService.updateVehicle(vehicleId, model).subscribe();
     } else {
       // id veya model undefined ise geçersiz ID hatası göster
       this.toastr.error('Invalid ID or Model for update', 'Error');
@@ -101,7 +93,6 @@ export class VehicleListComponent {
 
   onSave(item: Vehicle): void {
     if (item.isSelected) {
-      console.log(item);
       this.onUpdate(item.id, item.model);
     } else {
       this.onModeChange();

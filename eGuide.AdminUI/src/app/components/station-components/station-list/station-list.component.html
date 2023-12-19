@@ -1,4 +1,12 @@
 <div class="h-full w-full min-h-[500px]">
+  <div class="w-full flex justify-end">
+    <input
+      type="text"
+      class="input bg-primary border border-secondary"
+      [(ngModel)]="searchText"
+      placeholder="Search"
+    />
+  </div>
   <table class="table">
     <thead class="w-full">
       <tr>
@@ -15,7 +23,10 @@
         <th class="w-1/5"></th>
       </tr>
     </thead>
-    <tbody class="w-full" *ngFor="let item of stations">
+    <tbody
+      class="w-full"
+      *ngFor="let item of stations | stationFilter : searchText"
+    >
       <tr>
         <!-- <td class="">
           <label>
@@ -76,6 +87,9 @@
 
         <td class="">
           <div class="flex gap-x-2 items-center justify-center">
+             <button class="btn btn-ghost" (click)=" viewStationDetails(item.id)">
+              View Station 
+            </button>
             <button class="btn btn-ghost" (click)="editStation(item)">
               Edit
             </button>

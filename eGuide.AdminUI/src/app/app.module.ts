@@ -1,7 +1,7 @@
 import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -76,6 +76,25 @@ import { FooterCustomizationComponent } from './components/customization-compone
 import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
 import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
+
+import { UserFilterPipe } from './pipes/user.pipe';
+import { UserComponent } from './screens/user/user.component';
+import { UserListComponent } from './components/user-components/user-list/user-list.component';
+import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
+
+import { TabbarComponent } from './components/tabbar/tabbar.component';
+import { StationFilterPipe } from './pipes/station-filter.pipe';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { MessageModalComponent } from './modals/message-modal/message-modal.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,6 +123,7 @@ import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    StationFilterPipe,
     ChangePasswordComponent,
     AdminComponent,
     VehicleComponent,
@@ -129,6 +149,15 @@ import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
     FooterCustomizationComponent,
     ColorCustomizationComponent,
     CompanyInformationComponent,
+    UserFilterPipe,
+    UserComponent,
+    UserListComponent,
+    UserProfileComponent,
+    TabbarComponent,
+    PageNotFoundComponent,
+    MessageModalComponent,
+    TruncatePipe,
+    StationProfileComponent,
   ],
   imports: [
     ChartModule,
@@ -149,8 +178,17 @@ import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
       refresh: setRefreshReducer,
       serviceEditData: serviceEditDataReducer,
     }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+    }),
     MatTabsModule,
   ],
+  exports: [UserComponent, UserListComponent, UserProfileComponent],
   providers: [AuthService],
   bootstrap: [AppComponent],
 })

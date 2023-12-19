@@ -20,14 +20,12 @@ export class VerifyEmailComponent {
   }
 
   navigateToHome() {
-    this.router.navigate(['/']); 
+    this.router.navigate(['/']);
   }
 
   confirmAccount() {
-     console.log(this.token);
     this.userService.confirmAccount(this.token).subscribe(
       (response) => {
-        console.log('Hesap onaylandı.', response);
         this.router.navigate(['/home']);
       },
       (error) => {
