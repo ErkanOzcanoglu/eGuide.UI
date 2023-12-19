@@ -33,14 +33,10 @@ export class UserProfileComponent {
   ) {}
 
   ngOnInit(): void {
-    // ActivatedRoute servisini kullanarak id parametresini al
+    //Get id parameter using ActivatedRoute service
     this.route.params.subscribe((params) => {
       this.userId = params['id'];
 
-      // Burada userId'yi kullanabilirsiniz
-      console.log('User ID from route parameters:', this.userId);
-
-      // Kullanıcı bilgilerini almak için gerekli işlemleri gerçekleştirebilirsiniz
       this.getUserInfo(this.userId);
       this.getVehicleById(this.userId);
       this.getStationProfilesById(this.userId);
@@ -59,7 +55,6 @@ export class UserProfileComponent {
     );
   }
   removeUser(): void {
-    // Kaldırılacak kullanıcının ID'si
     this.userService.removeUser(this.userId).subscribe(
       (response) => {
         console.log('User removed successfully', response);
@@ -67,7 +62,6 @@ export class UserProfileComponent {
       },
       (error) => {
         console.error('Error removing user', error);
-        // Hata durumunda yapılacak işlemler buraya eklenir
       }
     );
   }

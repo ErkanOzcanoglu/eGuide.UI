@@ -17,12 +17,13 @@
       <div>
         <select
           #language
-          class="p-1 border rounded-md  bg-gray-100"
+          class="p-1 border rounded-md bg-gray-100"
           (change)="onChange(language.value)"
         >
           <option
             *ngFor="let lang of translateService.getLangs()"
             [value]="lang"
+            [selected]="lang === 'en' ? true : 'tr'"
           >
             {{ lang | translate }}
           </option>

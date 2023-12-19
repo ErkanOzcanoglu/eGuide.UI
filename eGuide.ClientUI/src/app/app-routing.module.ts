@@ -14,7 +14,7 @@ import { ServiceComponent } from './screens/service/service.component';
 import { ContactComponent } from './screens/contact/contact.component';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
-import { DenemeComponent } from './components/deneme/deneme.component';
+
 
 
 const routes: Routes = [
@@ -49,11 +49,7 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [PreventLoginGuardService],
   },
-  {
-    path: 'deneme',
-    component: DenemeComponent,
-    
-  },
+ 
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
