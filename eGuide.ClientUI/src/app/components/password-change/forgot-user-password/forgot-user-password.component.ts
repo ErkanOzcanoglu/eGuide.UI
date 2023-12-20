@@ -15,7 +15,7 @@ import { LogHelper } from '../../generic-helper/log/log-helper';
 export class ForgotUserPasswordComponent {
   resetPasswordModel: ResetPassword = new ResetPassword();
   forgotPasswordForm: FormGroup = new FormGroup({});
-  token = '';
+  token!: string;
 
   constructor(
     private router: Router,
@@ -27,7 +27,7 @@ export class ForgotUserPasswordComponent {
 
   ngOnInit() {
     this.initializeForm();
-    this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
+    this.token = this.route.snapshot.params['token'];
   }
 
   initializeForm() {

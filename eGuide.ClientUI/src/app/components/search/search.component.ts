@@ -1,12 +1,6 @@
 import { Connector } from 'src/app/models/connector';
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  VERSION,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Station } from 'src/app/models/station';
 import { LastVisitedStationsService } from 'src/app/services/last-visited-stations.service';
 import { StationService } from 'src/app/services/station.service';
@@ -41,10 +35,20 @@ import { selectLanguage } from 'src/app/state/language-state/language.selector';
   ],
 })
 export class SearchComponent implements OnInit {
-  searchText = '';
+  vehicleState: Vehicle = new Vehicle();
+  userVehicleActive: UserVehicle = new UserVehicle();
+  vehicleNgrX = new Vehicle();
+
+  searchText!: string;
+  selectedLanguage!: string;
+  language$: Observable<string>;
+
   isClicked = false;
   isFilterClicked = false;
   isFilteredForLastStations = false;
+  isFilterEnabled = false;
+  showConnectors = false;
+
   filteredStations: Station[] = [];
   stations: Station[] = [];
   connectors: Connector[] = [];
@@ -58,24 +62,11 @@ export class SearchComponent implements OnInit {
   filteredFacilityStations: Station[] = [];
   filteredConnectorStations: Station[] = [];
 
-  vehicleState: Vehicle = new Vehicle();
-  userVehicleActive: UserVehicle = new UserVehicle();
-
-  isFilterEnabled = false;
-
-  vehicleNgrX = new Vehicle();
-
-  selectedLanguage = '';
-
-  language$: Observable<string>;
-
   @Output() searchTexts = new EventEmitter<string>();
   @Output() stationSelected = new EventEmitter<Station>();
   @Output() stationConnectorSelected = new EventEmitter<Station[]>();
   @Output() stationFacilitySelected = new EventEmitter<Station[]>();
   @Output() stationFilteredSelected = new EventEmitter<Station[]>();
-
-  showConnectors = false;
 
   constructor(
     private stationService: StationService,
@@ -106,13 +97,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  //dil değişimi
-
   public onChange(): void {
     this.translateService.use(this.selectedLanguage);
     console.log('navbarden searche geldi', this.selectedLanguage);
   }
-  //dil değişimi
 
   onClick() {
     this.isClicked = true;
@@ -120,10 +108,8 @@ export class SearchComponent implements OnInit {
 
   searchByAddress(text: string) {
     if (this.isClicked) {
-      // Eğer overlay açıksa, tekrar search ikonuna tıklanınca kapat
       this.isClicked = false;
     } else {
-      // Eğer overlay kapalıysa, overlay'ı aç
       this.isClicked = true;
     }
     this.searchTexts.emit(text);
@@ -141,7 +127,7 @@ export class SearchComponent implements OnInit {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
           this.vehicles = data;
-          const combinedVehicles = this.vehicles.map((vehicle) => {
+          this.vehicles.map((vehicle) => {
             return `${vehicle.brand}-${vehicle.model}`;
           });
         },
@@ -165,10 +151,7 @@ export class SearchComponent implements OnInit {
           if (matchingVehicle != null) this.vehicleState = matchingVehicle;
 
           if (matchingVehicle) {
-            console.log('Eşleşen xxxx :', matchingVehicle);
             this.getVehicles();
-          } else {
-            console.log('Eşleşen VehicleId bulunamadı xxx.');
           }
         },
         (error) => {
@@ -305,7 +288,6 @@ export class SearchComponent implements OnInit {
     }
 
     if (this.filteredFacilityStations.length === 0) {
-      
       this.filteredConnectorStations = this.stations.filter((station) =>
         station.stationModel?.stationsChargingUnits.some(
           (unit) => unit.chargingUnit?.connector?.id === connector.id
@@ -351,12 +333,6 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  // isSelectedVehicle(vehicle: Vehicle): boolean {
-  //   return this.selectedVehicle.some(
-  //     (selected) => selected.type === vehcile.type
-  //   );
-  // }
-
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
     if (this.isFilteredForLastStations === false) this.getLastVisitedStations();
@@ -375,7 +351,6 @@ export class SearchComponent implements OnInit {
               this.stationService
                 .getStationById(lastVisitedStation.stationId)
                 .subscribe((station) => {
-                  // console.log(station, 'station');
                   this.lastVisitedStations2.push({
                     id: lastVisitedStation.id,
                     createdTime: lastVisitedStation.createdTime,

@@ -26,16 +26,18 @@ import * as LanguageActions from 'src/app/state/language-state/language.action';
 })
 export class NavbarComponent implements OnInit {
   navbar?: number;
-  user: User = new User();
+  currentState: Vehicle | null = null;
+  activeVehicle$: Observable<Vehicle | null>;
+  currentTheme = localStorage.getItem('theme');
+
   isLoggedIn = false;
   showUserMenu = false;
   hamburgerMenu = false;
+
+  user: User = new User();
   color = new Color();
   localColor = new ThemeColor();
-  currentTheme = localStorage.getItem('theme');
   vehicle: Vehicle = new Vehicle();
-  activeVehicle$: Observable<Vehicle | null>;
-  currentState: Vehicle | null = null;
   userVehicleActive: Vehicle = new Vehicle();
   savedActiveVehicle: Vehicle = new Vehicle();
 
@@ -52,8 +54,8 @@ export class NavbarComponent implements OnInit {
   ) {
     this.activeVehicle$ = this.store.select(selectActiveVehicle);
     this.translateService.addLangs(['tr', 'en']);
-    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
-    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
+    this.translateService.setDefaultLang('en');
+    this.translateService.use('en');
   }
 
   ngOnInit(): void {
