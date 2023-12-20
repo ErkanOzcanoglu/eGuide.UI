@@ -74,6 +74,7 @@ export class UserListComponent {
 
   openProfileCard(user: any) {
     this.selectedUser = user;
+    console.log(this.user.createdDate);
   }
 
   closeProfileCard() {
