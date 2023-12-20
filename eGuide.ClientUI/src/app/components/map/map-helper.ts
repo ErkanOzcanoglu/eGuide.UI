@@ -29,6 +29,8 @@ export class MapHelper {
   chargingUnitList: any;
   facilityList: any;
   connectorTypelist: any;
+  isLoaded = false;
+
   constructor(
     private lastVisitedStationsService: LastVisitedStationsService,
     private commentService: CommentService,
@@ -171,34 +173,170 @@ export class MapHelper {
   }
 
   getStations(view: any, FilteredStations: Station[]): void {
-    this.stationService.getStations().subscribe((data) => {
-      if (FilteredStations.length === 0) {
-        this.stations = data;
-      } else {
-        view.graphics.removeAll();
-        this.stations = FilteredStations;
-      }
+    this.stationService.getStations().subscribe({
+      next: (data) => {
+        if (FilteredStations.length === 0) {
+          this.stations = data;
+        } else {
+          view.graphics.removeAll();
+          this.stations = FilteredStations;
+        }
 
-      const userId: string | null = localStorage.getItem('authToken');
-      if (userId !== null) {
-        this.userStationService
-          .getStationProfiles(userId)
-          .subscribe((favoriteStations) => {
-            reactiveUtils.on(
-              () => view.popup,
-              'trigger-action',
-              (event: any) => {
-                if (event.action.id === 'add-favorite') {
-                  this.saveUserStation(event.action.stationId, userId);
-                } else if (event.action.id === 'go-location-action') {
-                  this.goLocation(event.action.stationId);
-                } else if (event.action.id === 'comment') {
-                  this.getComments(event.action.stationId);
-                  this.comment(event.action.stationId);
-                  this.initializeCommentForm();
+        const userId: string | null = localStorage.getItem('authToken');
+        if (userId !== null) {
+          this.userStationService
+            .getStationProfiles(userId)
+            .subscribe((favoriteStations) => {
+              this.isLoaded = true;
+              reactiveUtils.on(
+                () => view.popup,
+                'trigger-action',
+                (event: any) => {
+                  if (event.action.id === 'add-favorite') {
+                    this.saveUserStation(event.action.stationId, userId);
+                  } else if (event.action.id === 'go-location-action') {
+                    this.goLocation(event.action.stationId);
+                  } else if (event.action.id === 'comment') {
+                    this.getComments(event.action.stationId);
+                    this.comment(event.action.stationId);
+                    this.initializeCommentForm();
+                  }
                 }
-              }
-            );
+              );
+              this.stations.forEach((element) => {
+                const isFavorite = favoriteStations.some(
+                  (station) => station.id === element.id
+                );
+
+                const point = {
+                  // create point
+                  type: 'point',
+                  longitude: element.longitude,
+                  latitude: element.latitude,
+                };
+
+                const pinSymbol = {
+                  // create symbol
+                  type: 'picture-marker',
+                  url: '../../assets/charging.svg',
+                  width: '50px',
+                  height: '50px',
+                };
+
+                const starColorClass = isFavorite
+                  ? 'esri-icon-favorites-favorite'
+                  : 'esri-icon-favorites';
+
+                const goLocationAction = {
+                  id: 'go-location-action',
+                  className: 'esri-icon-locate-circled',
+                  stationId: element.id,
+                };
+
+                const addFavorite = {
+                  id: 'add-favorite',
+                  className: starColorClass,
+                  stationId: element.id,
+                };
+
+                const comment = {
+                  id: 'comment',
+                  className: 'esri-icon-comment',
+                  stationId: element.id,
+                };
+
+                if (element.stationModel?.stationsChargingUnits) {
+                  const chargingUnits =
+                    element.stationModel.stationsChargingUnits.map((unit) => ({
+                      name: unit.chargingUnit?.name,
+                    }));
+                  this.chargingUnitList = chargingUnits;
+                }
+
+                if (element.stationModel?.stationsChargingUnits) {
+                  const connectors =
+                    element.stationModel.stationsChargingUnits.map((unit) => ({
+                      type: unit.chargingUnit?.connector?.type,
+                    }));
+
+                  this.connectorTypelist = connectors;
+                }
+
+                if (element.stationFacilities) {
+                  const facilityList = element.stationFacilities.map(
+                    (unit) => ({
+                      type: unit.facility?.type,
+                    })
+                  );
+                  this.facilityList = facilityList;
+                }
+
+                const pointGraphic = {
+                  // create graphic
+                  geometry: point,
+                  symbol: pinSymbol,
+                  attributes: {
+                    name: element.name,
+                    id: element.id,
+                    address: element.address,
+                    latitude: element.latitude,
+                    longitude: element.longitude,
+                    model: element.stationModel?.name,
+                    chargingUnit: this.chargingUnitList
+                      .map((chargingUnit: any) => chargingUnit.name)
+                      .join(', '),
+                    connector: this.connectorTypelist
+                      .map((chargingUnit: any) => chargingUnit.type)
+                      .join(', '),
+                    stationFacilities: this.facilityList
+                      .map((stationFacilities: any) => stationFacilities.type)
+                      .join(', '),
+                  },
+
+                  // open popup when graphic is clicked
+                  popupTemplate: {
+                    title: '{name}',
+                    content: [
+                      {
+                        type: 'fields',
+                        fieldInfos: [
+                          {
+                            fieldName: 'name',
+                            label: 'Name',
+                          },
+                          {
+                            fieldName: 'address',
+                            label: 'Address',
+                          },
+                          {
+                            fieldName: 'model',
+                            label: 'Model',
+                          },
+                          {
+                            fieldName: 'chargingUnit',
+                            label: 'ChargingUnit',
+                          },
+                          {
+                            fieldName: 'connector',
+                            label: 'Connector Type',
+                          },
+                          {
+                            fieldName: 'stationFacilities',
+                            label: 'Facilities',
+                          },
+                        ],
+                      },
+                    ],
+                    actions: [goLocationAction, addFavorite, comment],
+                  },
+                };
+
+                view.graphics.add(pointGraphic); // add graphic to the view
+              });
+            });
+        } else {
+          this.stationService.getStations().subscribe((favoriteStations) => {
+            this.isLoaded = true;
             this.stations.forEach((element) => {
               const isFavorite = favoriteStations.some(
                 (station) => station.id === element.id
@@ -219,6 +357,7 @@ export class MapHelper {
                 height: '50px',
               };
 
+              // Yıldız rengi için sınıf ataması yap
               const starColorClass = isFavorite
                 ? 'esri-icon-favorites-favorite'
                 : 'esri-icon-favorites';
@@ -232,12 +371,6 @@ export class MapHelper {
               const addFavorite = {
                 id: 'add-favorite',
                 className: starColorClass,
-                stationId: element.id,
-              };
-
-              const comment = {
-                id: 'comment',
-                className: 'esri-icon-comment',
                 stationId: element.id,
               };
 
@@ -321,141 +454,16 @@ export class MapHelper {
                       ],
                     },
                   ],
-                  actions: [goLocationAction, addFavorite, comment],
+                  actions: [goLocationAction, addFavorite],
                 },
               };
-              
+              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
               view.graphics.add(pointGraphic); // add graphic to the view
             });
           });
-      } else {
-        this.stationService.getStations().subscribe((favoriteStations) => {
-          this.stations.forEach((element) => {
-            const isFavorite = favoriteStations.some(
-              (station) => station.id === element.id
-            );
-
-            const point = {
-              // create point
-              type: 'point',
-              longitude: element.longitude,
-              latitude: element.latitude,
-            };
-
-            const pinSymbol = {
-              // create symbol
-              type: 'picture-marker',
-              url: '../../assets/charging.svg',
-              width: '50px',
-              height: '50px',
-            };
-
-            // Yıldız rengi için sınıf ataması yap
-            const starColorClass = isFavorite
-              ? 'esri-icon-favorites-favorite'
-              : 'esri-icon-favorites';
-
-            const goLocationAction = {
-              id: 'go-location-action',
-              className: 'esri-icon-locate-circled',
-              stationId: element.id,
-            };
-
-            const addFavorite = {
-              id: 'add-favorite',
-              className: starColorClass,
-              stationId: element.id,
-            };
-
-            if (element.stationModel?.stationsChargingUnits) {
-              const chargingUnits =
-                element.stationModel.stationsChargingUnits.map((unit) => ({
-                  name: unit.chargingUnit?.name,
-                }));
-              this.chargingUnitList = chargingUnits;
-            }
-
-            if (element.stationModel?.stationsChargingUnits) {
-              const connectors = element.stationModel.stationsChargingUnits.map(
-                (unit) => ({
-                  type: unit.chargingUnit?.connector?.type,
-                })
-              );
-
-              this.connectorTypelist = connectors;
-            }
-
-            if (element.stationFacilities) {
-              const facilityList = element.stationFacilities.map((unit) => ({
-                type: unit.facility?.type,
-              }));
-              this.facilityList = facilityList;
-            }
-
-            const pointGraphic = {
-              // create graphic
-              geometry: point,
-              symbol: pinSymbol,
-              attributes: {
-                name: element.name,
-                id: element.id,
-                address: element.address,
-                latitude: element.latitude,
-                longitude: element.longitude,
-                model: element.stationModel?.name,
-                chargingUnit: this.chargingUnitList
-                  .map((chargingUnit: any) => chargingUnit.name)
-                  .join(', '),
-                connector: this.connectorTypelist
-                  .map((chargingUnit: any) => chargingUnit.type)
-                  .join(', '),
-                stationFacilities: this.facilityList
-                  .map((stationFacilities: any) => stationFacilities.type)
-                  .join(', '),
-              },
-
-              // open popup when graphic is clicked
-              popupTemplate: {
-                title: '{name}',
-                content: [
-                  {
-                    type: 'fields',
-                    fieldInfos: [
-                      {
-                        fieldName: 'name',
-                        label: 'Name',
-                      },
-                      {
-                        fieldName: 'address',
-                        label: 'Address',
-                      },
-                      {
-                        fieldName: 'model',
-                        label: 'Model',
-                      },
-                      {
-                        fieldName: 'chargingUnit',
-                        label: 'ChargingUnit',
-                      },
-                      {
-                        fieldName: 'connector',
-                        label: 'Connector Type',
-                      },
-                      {
-                        fieldName: 'stationFacilities',
-                        label: 'Facilities',
-                      },
-                    ],
-                  },
-                ],
-                actions: [goLocationAction, addFavorite],
-              },
-            };
-            // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
-            view.graphics.add(pointGraphic); // add graphic to the view
-          });
-        });
-      }
+        }
+      },
+      error: () => (this.isLoaded = false),
     });
   }
 

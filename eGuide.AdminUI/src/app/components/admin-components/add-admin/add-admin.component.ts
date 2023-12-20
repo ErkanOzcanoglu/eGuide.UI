@@ -47,15 +47,13 @@ export class AddAdminComponent implements OnInit {
       this.admin.isMasterAdmin = false;
       this.adminService.adminRegister(this.admin).subscribe(
         () => {
-          this.toastr.success('Admin başarıyla eklendi', 'Başarılı');
-          setTimeout(() => {
-            this.store.dispatch(setRefresh(true));
-            this.adminForm.reset();
-          }, 400);
+          this.toastr.success('Admin added successfully');
+          this.store.dispatch(setRefresh(true));
+          this.adminForm.reset();
           this.store.dispatch(setRefresh(false));
         },
         () => {
-          this.toastr.error('Admin eklenirken hata oluştu', 'Hata');
+          this.toastr.error('Admin could not be added');
         }
       );
       setTimeout(() => {

@@ -154,7 +154,7 @@ export class MapComponent implements OnInit {
   getStations() {
     this.mapHelper.getStations(this.view, this.FilteredStations);
   }
-  
+
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
@@ -180,6 +180,12 @@ export class MapComponent implements OnInit {
 
   getComments(stationId: any) {
     this.mapHelper.getComments(stationId);
+  }
+
+  // get isLoaded from map-helper
+  get isLoaded(): boolean {
+    return this.mapHelper.isLoaded;
+    console.log(this.mapHelper.isLoaded);
   }
 
   comment(stationId: any) {
