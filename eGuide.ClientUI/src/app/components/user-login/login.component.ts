@@ -75,11 +75,7 @@ export class LoginComponent implements OnInit {
               if (response?.id) localStorage.setItem('authToken', response?.id);
               this.toastr.success('Login successful!');
               this.logHelper.successLogin(this.loginForm.value.email);
-              // this.userauthService.userLog(this.logForm.value).subscribe();
-              setTimeout(() => {
-                this.router.navigate(['/']);
-                location.reload();
-              }, 1000);
+              this.router.navigate(['/']);
             },
             error: (error) => {
               this.toastr.error(

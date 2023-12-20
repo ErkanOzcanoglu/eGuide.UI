@@ -47,9 +47,7 @@ export class SocketFormComponent implements OnInit {
     } else {
       console.log('Form is not valid');
     }
-    setTimeout(() => {
-      this.store.dispatch(setRefresh(true));
-    }, 400);
+    this.store.dispatch(setRefresh(true));
     this.socketForm.reset();
   }
 

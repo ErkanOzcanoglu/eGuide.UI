@@ -112,20 +112,18 @@ export class ServiceFormComponent {
           id: 'd449f754-20a7-453f-aedf-f33a6f1eba9e',
           image: response.secure_url,
         });
-        this.serviceService
-          .createService(this.serviceForm.value)
-          .subscribe(() => {
-            this.toastr.success(
-              'Service added successfully',
-              this.serviceForm.value
-            );
+        this.serviceService.createService(this.serviceForm.value).subscribe({
+          next: () => {
+            this.toastr.success('Service added successfully');
             setTimeout(() => {
               window.location.reload();
-            }, 1500);
-          }),
-          (error: any) => {
+            }, 1000);
+          },
+          error: (error) => {
             this.toastr.error('Error while adding service');
-          };
+            console.log(error);
+          },
+        });
       }),
         (error: any) => {
           this.toastr.error('Error while uploading image');
@@ -141,7 +139,6 @@ export class ServiceFormComponent {
         .updateService(this.serviceForm.value.id, this.serviceForm.value)
         .subscribe(() => {
           this.toastr.success('Service updated successfully');
-          // timeout: 1000;
           setTimeout(() => {
             window.location.reload();
           }, 1500);

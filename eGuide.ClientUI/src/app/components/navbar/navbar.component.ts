@@ -62,9 +62,7 @@ export class NavbarComponent implements OnInit {
 
       this.currentTheme = localStorage.getItem('theme');
       this.colorHelper.getColors();
-      setTimeout(() => {
-        this.colorHelper.getLocalColors(this.localColor);
-      }, 50);
+      this.colorHelper.getLocalColors(this.localColor);
     }
     this.colorHelper.getColors();
     this.colorHelper.getLocalColors(this.localColor);
@@ -125,9 +123,7 @@ export class NavbarComponent implements OnInit {
     else if (theme === 'light') this.darkTheme();
     this.currentTheme = localStorage.getItem('theme');
     this.colorHelper.getColors();
-    setTimeout(() => {
-      this.colorHelper.getLocalColors(this.localColor);
-    }, 50);
+    this.colorHelper.getLocalColors(this.localColor);
     console.log(this.currentTheme, 'currentTheme');
     this.store.dispatch(setThemeData({ themeData: this.currentTheme }));
   }

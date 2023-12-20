@@ -12,19 +12,16 @@ import { selectThemeData } from 'src/app/state/theme.selector';
 })
 export class ServiceComponent implements OnInit {
   color: ThemeColor = new ThemeColor();
+  selectedTheme$ = this.store.select(selectThemeData);
 
-  constructor(
-    private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
-  ) {}
+  constructor(private colorHelper: ColorHelper, private store: Store) {}
 
   ngOnInit(): void {
     this.colorHelper.getLocalColors(this.color);
-    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
-      setTimeout(() => {
-        this.colorHelper.getColors();
-        this.colorHelper.getLocalColors(this.color);
-      }, 50);
+    // this.store.select(selectThemeData).subscribe((theme) => {
+    this.selectedTheme$.subscribe(() => {
+      this.colorHelper.getColors();
+      this.colorHelper.getLocalColors(this.color);
     });
   }
 }

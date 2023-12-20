@@ -17,6 +17,7 @@ export class FooterComponent implements OnInit {
   socialMedias: SocialMedia[] = [];
   footer?: number;
   color: ThemeColor = new ThemeColor();
+  theme$ = this.store.select(selectThemeData);
 
   constructor(
     private socialMediaService: SocialMediaService,
@@ -29,11 +30,10 @@ export class FooterComponent implements OnInit {
     this.getSocialMedias();
     this.getFooterType();
     this.getColor();
-    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
-      setTimeout(() => {
-        this.colorHelper.getColors();
-        this.colorHelper.getLocalColors(this.color);
-      }, 50);
+    // this.store.select(selectThemeData).subscribe((theme) => {
+    this.theme$.subscribe(() => {
+      this.colorHelper.getColors();
+      this.colorHelper.getLocalColors(this.color);
     });
   }
 

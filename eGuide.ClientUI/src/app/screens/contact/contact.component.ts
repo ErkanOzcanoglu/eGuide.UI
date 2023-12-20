@@ -12,6 +12,7 @@ import { selectThemeData } from 'src/app/state/theme.selector';
 })
 export class ContactComponent {
   color: ThemeColor = new ThemeColor();
+  selectedTheme$ = this.store.select(selectThemeData);
 
   constructor(
     private colorHelper: ColorHelper,
@@ -20,11 +21,9 @@ export class ContactComponent {
 
   ngOnInit(): void {
     this.getColor();
-    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
-      setTimeout(() => {
-        this.colorHelper.getColors();
-        this.colorHelper.getLocalColors(this.color);
-      }, 50);
+    this.selectedTheme$.subscribe(() => {
+      this.colorHelper.getColors();
+      this.colorHelper.getLocalColors(this.color);
     });
   }
 

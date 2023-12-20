@@ -22,6 +22,7 @@ export class ServiceListComponent implements OnInit {
   color = new ThemeColor();
   theme?: Theme;
   language$: Observable<string>;
+  selectedTheme$ = this.store.select(selectThemeData);
   selectedLanguage = '';
 
   @HostListener('window:resize', ['$event'])
@@ -31,7 +32,7 @@ export class ServiceListComponent implements OnInit {
   constructor(
     private serviceService: ServiceService,
     private colorHepler: ColorHelper,
-    private store: Store<{ theme: any }>
+    private store: Store
   ) {
     this.language$ = this.store.select(selectLanguage);
   }
@@ -43,21 +44,17 @@ export class ServiceListComponent implements OnInit {
       this.getServices(this.selectedLanguage);
     });
 
-    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
+    this.selectedTheme$.subscribe((theme) => {
       this.theme = theme;
-      setTimeout(() => {
-        this.colorHepler.getColors();
-        this.colorHepler.getLocalColors(this.color);
-      }, 20);
+      this.colorHepler.getColors();
+      this.colorHepler.getLocalColors(this.color);
       this.setColor();
     });
   }
 
   setColor(): void {
-    setTimeout(() => {
-      this.colorHepler.getLocalColors(this.color);
-      console.log(this.color, 'color');
-    }, 20);
+    this.colorHepler.getLocalColors(this.color);
+    console.log(this.color, 'color');
   }
 
   getWindowWidth() {
