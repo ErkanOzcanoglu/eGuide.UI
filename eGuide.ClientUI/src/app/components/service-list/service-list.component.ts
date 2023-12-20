@@ -4,7 +4,7 @@ import { Service } from 'src/app/models/service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
-import { selectThemeData } from 'src/app/state/theme.selector';
+import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 import { Observable } from 'rxjs';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
 export interface Theme {

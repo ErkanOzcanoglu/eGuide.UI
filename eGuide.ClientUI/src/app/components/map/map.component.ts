@@ -55,6 +55,13 @@ export class MapComponent implements OnInit {
     this.initializeMap();
     this.getStations();
     this.initializeForm();
+    setTimeout(() => {
+      this.clearCahce();
+    }, 5000);
+  }
+
+  clearCahce() {
+    this.stationService.clearStationCache().subscribe();
   }
 
   initializeMap() {
@@ -185,7 +192,6 @@ export class MapComponent implements OnInit {
   // get isLoaded from map-helper
   get isLoaded(): boolean {
     return this.mapHelper.isLoaded;
-    console.log(this.mapHelper.isLoaded);
   }
 
   comment(stationId: any) {

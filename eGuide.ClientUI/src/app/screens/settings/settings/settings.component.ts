@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ColorHelper } from 'src/app/components/generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
-import { selectThemeData } from 'src/app/state/theme.selector';
+import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
   selector: 'app-settings',

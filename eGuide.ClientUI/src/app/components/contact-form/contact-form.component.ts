@@ -8,7 +8,7 @@ import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
-import { selectThemeData } from 'src/app/state/theme.selector';
+import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 import { LogHelper } from '../generic-helper/log/log-helper';
 import * as signalR from '@microsoft/signalr';
 import { ReplayMail } from 'src/app/models/replayMail';

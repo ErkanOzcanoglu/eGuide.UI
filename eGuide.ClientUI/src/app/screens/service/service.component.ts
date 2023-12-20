@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { ColorHelper } from 'src/app/components/generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
-import { selectThemeData } from 'src/app/state/theme.selector';
+import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
   selector: 'app-service',
