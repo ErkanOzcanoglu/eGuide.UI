@@ -17,7 +17,7 @@
       <div>
         <select
           #language
-          class="p-1 border rounded-md bg-gray-100"
+          class="p-1 border rounded-md bg-violet-950"
           (change)="onChange(language.value)"
         >
           <option
@@ -58,15 +58,21 @@
         >
           <a
             class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
-            >{{ user.name }}</a
+            >{{ user.name }}
+            <ng-container
+              *ngIf="currentState?.brand; else savedActiveVehicleBrand"
+              class="ml-4"
+            >
+              {{ currentState?.brand }} {{ currentState?.model }}
+            </ng-container></a
           >
           <!-- currentState'ın brand özelliği varsa yanında göster -->
-          <ng-container
+          <!-- <ng-container
             *ngIf="currentState?.brand; else savedActiveVehicleBrand"
             class="ml-4"
           >
             {{ currentState?.brand }} {{ currentState?.model }}
-          </ng-container>
+          </ng-container> -->
 
           <ng-template #savedActiveVehicleBrand>
             {{ savedActiveVehicle?.brand }} {{ savedActiveVehicle?.model }}

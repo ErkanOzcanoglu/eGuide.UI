@@ -41,6 +41,9 @@ export class SearchComponent implements OnInit {
 
   searchText!: string;
   selectedLanguage!: string;
+  stationNumber?: number;
+  facilityNumber?: number;
+  connectorNumber?: number;
   language$: Observable<string>;
 
   isClicked = false;
@@ -187,12 +190,16 @@ export class SearchComponent implements OnInit {
     this.stationService.getStations().subscribe((stations) => {
       this.stations = stations;
       this.showConnectors = false;
+      this.stationNumber=this.stations.length;
     });
   }
 
   getFacilities() {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
+      this.facilityNumber = this.facilities.length;
+
+      console.log('hzimet sayısı', this.facilityNumber);
     });
   }
 
@@ -207,6 +214,7 @@ export class SearchComponent implements OnInit {
   getConnectors() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectors = connectors;
+      this.connectorNumber = this.connectors.length;
     });
   }
 
