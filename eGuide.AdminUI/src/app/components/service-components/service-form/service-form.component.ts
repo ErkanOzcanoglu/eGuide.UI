@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Service } from 'src/app/models/service';
 import { ServiceService } from 'src/app/services/service.service';
 import { UploadImageService } from 'src/app/services/upload-image.service';
 import { selectServiceEditData } from 'src/app/state/service-edit-data/service-edit-data.selector';
-import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 
 @Component({
   selector: 'app-service-form',
@@ -17,6 +16,7 @@ export class ServiceFormComponent {
   files: File[] = [];
   selectedLayout?: number;
   image?: string;
+  editData$ = this.store.select(selectServiceEditData);
   service: Service = {
     id: '',
     name: '',
@@ -65,7 +65,7 @@ export class ServiceFormComponent {
   }
 
   getEditData() {
-    this.store.pipe(select(selectServiceEditData)).subscribe((datas) => {
+    this.editData$.subscribe((datas) => {
       if (datas) {
         const data = datas.serviceEditData;
         this.serviceForm.patchValue({

@@ -18,7 +18,7 @@ export class AddAdminComponent implements OnInit {
     private adminService: AdminService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private store: Store<{ refresh: boolean }>
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -50,15 +50,11 @@ export class AddAdminComponent implements OnInit {
           this.toastr.success('Admin added successfully');
           this.store.dispatch(setRefresh(true));
           this.adminForm.reset();
-          this.store.dispatch(setRefresh(false));
         },
         () => {
           this.toastr.error('Admin could not be added');
         }
       );
-      setTimeout(() => {
-        this.store.dispatch(setRefresh(true));
-      }, 400);
     }
   }
 }

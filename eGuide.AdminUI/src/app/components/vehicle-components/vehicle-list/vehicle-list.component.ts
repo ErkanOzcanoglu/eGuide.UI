@@ -20,6 +20,7 @@ export class VehicleListComponent {
   updatedModel: string | undefined;
   searchTerm: any;
   showSearch: any;
+  refresh$ = this.store.select(selectRefresh);
 
   constructor(
     private router: Router,
@@ -28,7 +29,7 @@ export class VehicleListComponent {
     private vehicleService: VehicleService,
     private store: Store
   ) {
-    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+    this.refresh$.subscribe((refresh: boolean) => {
       if (refresh === true) {
         this.getVehicleInfo();
       }

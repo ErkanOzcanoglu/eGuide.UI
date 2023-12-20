@@ -50,17 +50,15 @@ export class VehicleFormComponent {
         (response) => {
           // Başarılı bir şekilde eklenirse yapılacak işlemler
           this.toastr.success('Araç başarıyla eklendi', 'Başarılı');
-          setTimeout(() => {
-            this.store.dispatch(setRefresh(true));
-            this.vehicleForm.reset();
-          }, 400);
-          this.store.dispatch(setRefresh(false));
+          this.store.dispatch(setRefresh(true));
+          this.vehicleForm.reset();
         },
         (error) => {
           // Hata durumunda yapılacak işlemler
           this.toastr.error('Araç eklenirken bir hata oluştu', 'Hata');
         }
       );
+      this.store.dispatch(setRefresh(false));
     } else {
       // Eğer form kontrol elemanları null ise, bir hata durumu olarak ele alınabilir.
       console.error('Form kontrol elemanları null.');

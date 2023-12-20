@@ -20,7 +20,7 @@ export class SocketFormComponent implements OnInit {
     private connectorService: ConnectorService,
     private chargingUnitService: ChargingUnitService,
     private formBuilder: FormBuilder,
-    private store: Store<{ refresh: boolean }>
+    private store: Store
   ) {}
 
   ngOnInit(): void {
