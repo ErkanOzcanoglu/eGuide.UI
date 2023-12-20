@@ -5,10 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Station } from 'src/app/models/station';
 import { Model } from 'src/app/models/stationInformationModel';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { CommentService } from 'src/app/services/comment.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
 import { UserStationService } from 'src/app/services/user-station.service';
 import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
+import { Comment } from 'src/app/models/comment';
 
 @Component({
   selector: 'app-station-profile',
@@ -29,6 +31,8 @@ export class StationProfileComponent {
   chargingUnits: any;
   connectorTypelist: any;
   facilityList: any;
+  comments: Comment[] = [];
+  stationUserCounts?: number;
 
   constructor(
     private stationService: StationService,
@@ -38,7 +42,8 @@ export class StationProfileComponent {
     private store: Store<{ stationEditData: any }>,
     private router: Router,
     private route: ActivatedRoute,
-    private userStationService: UserStationService
+    private userStationService: UserStationService,
+    private commentService: CommentService
   ) {}
 
   // ngOnInit(): void {
@@ -74,9 +79,6 @@ export class StationProfileComponent {
       this.stationService.getStationById(this.stationId).subscribe(
         (station: Station) => {
           this.station = station;
-          console.log('istasyon ismim', this.station);
-          console.log('sssss', this.station.stationModel?.name);
-          // stationsChargingUnits array'ini bastır
 
           if (
             this.station &&
@@ -85,8 +87,6 @@ export class StationProfileComponent {
             this.chargingUnits = this.station.stationModel.stationsChargingUnits
               .map((unit) => unit?.chargingUnit?.name)
               .join(', ');
-
-            console.log('Charging Units:', this.chargingUnits);
           }
           if (
             this.station &&
@@ -96,19 +96,14 @@ export class StationProfileComponent {
               this.station.stationModel.stationsChargingUnits
                 .map((unit) => unit.chargingUnit?.connector?.type)
                 .join(', ');
-
-            console.log('Connector Types:', this.connectorTypelist);
           }
-
-          console.log(this.station.stationFacilities);
 
           if (this.station.stationFacilities) {
             this.facilityList = this.station.stationFacilities.map(
               (unit) => unit.facility?.type
             );
-            console.log('hizmetler', this.facilityList);
+
             this.facilityList = this.facilityList.join(', ');
-            // console.log(this.station.stationFacilities[0].type);
           }
         },
         (error) => {
@@ -117,23 +112,30 @@ export class StationProfileComponent {
       );
     });
   }
-  stationUserCounts: number[] = [];
 
   getTotalUserCount(stationId: string) {
     this.userStationService
       .getTotalUserCountForStation(this.stationId)
       .subscribe(
         (totalUserCount) => {
-          this.stationUserCounts.push(totalUserCount);
-          console.log('aaaaaa', this.stationUserCounts);
+          this.stationUserCounts = totalUserCount;
+          console.log('total kullanıcı sayısı', this.stationUserCounts);
         },
         (error) => {
           console.error(
             `Error getting total user count for Station ${stationId}:`,
             error
           );
-          this.stationUserCounts.push(-1);
         }
       );
+  }
+
+  getComments(stationId: any) {
+    this.commentService.getComments(stationId).subscribe((data) => {
+      this.comments = data;
+    });
+  }
+  goBack(): void {
+    window.history.back();
   }
 }
