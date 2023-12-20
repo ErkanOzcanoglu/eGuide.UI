@@ -19,28 +19,23 @@ import { Comment } from 'src/app/models/comment';
 })
 export class StationProfileComponent {
   model: Model = new Model();
-  socket = '';
-  socketArray: any;
-  stations: Station[] = [];
-  stationInfo: Station = new Station();
-  showList: any;
-  selectedItem: any;
-  searchText = '';
   station: Station = new Station();
-  stationId = '';
-  chargingUnits: any;
-  connectorTypelist: any;
-  facilityList: any;
+  stations: Station[] = [];
   comments: Comment[] = [];
+
+  searchText?: string;
+
+  stationId!: string;
   stationUserCounts?: number;
+  socket?: string;
+
+  chargingUnits: string[] = [];
+  connectorTypelist: string[] = [];
+  facilityList: string[] = [];
 
   constructor(
     private stationService: StationService,
-    private chargingUnitService: ChargingUnitService,
-    private stationSocketService: StationSocketService,
     private toastr: ToastrService,
-    private store: Store<{ stationEditData: any }>,
-    private router: Router,
     private route: ActivatedRoute,
     private userStationService: UserStationService,
     private commentService: CommentService
@@ -50,67 +45,96 @@ export class StationProfileComponent {
   //   this.route.params.subscribe((params) => {
   //     this.stationId = params['id'];
 
-  //     // Burada userId'yi kullanabilirsiniz
   //     console.log('StationID from route parameters:', this.stationId);
+
+  //     this.getTotalUserCount(this.stationId);
 
   //     this.stationService.getStationById(this.stationId).subscribe(
   //       (station: Station) => {
   //         this.station = station;
-  //         // You can perform additional actions with the station data here if needed
-  //         console.log('istasyon ismim', this.station.name);
+
+  //         if (
+  //           this.station &&
+  //           this.station.stationModel?.stationsChargingUnits
+  //         ) {
+  //           this.chargingUnits = this.station.stationModel.stationsChargingUnits
+  //             .map((unit) => unit?.chargingUnit?.name)
+  //             .join(', ');
+  //         }
+  //         if (
+  //           this.station &&
+  //           this.station.stationModel?.stationsChargingUnits
+  //         ) {
+  //           this.connectorTypelist =
+  //             this.station.stationModel.stationsChargingUnits
+  //               .map((unit) => unit.chargingUnit?.connector?.type)
+  //               .join(', ');
+  //         }
+
+  //         if (this.station.stationFacilities) {
+  //           this.facilityList = this.station.stationFacilities.map(
+  //             (unit) => unit.facility?.type
+  //           );
+
+  //           this.facilityList = this.facilityList.join(', ');
+  //         }
   //       },
   //       (error) => {
   //         console.error('Error fetching station:', error);
-  //         // Handle the error as needed
   //       }
   //     );
   //   });
-
   // }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.stationId = params['id'];
-
       console.log('StationID from route parameters:', this.stationId);
-
       this.getTotalUserCount(this.stationId);
-
-      this.stationService.getStationById(this.stationId).subscribe(
-        (station: Station) => {
-          this.station = station;
-
-          if (
-            this.station &&
-            this.station.stationModel?.stationsChargingUnits
-          ) {
-            this.chargingUnits = this.station.stationModel.stationsChargingUnits
-              .map((unit) => unit?.chargingUnit?.name)
-              .join(', ');
-          }
-          if (
-            this.station &&
-            this.station.stationModel?.stationsChargingUnits
-          ) {
-            this.connectorTypelist =
-              this.station.stationModel.stationsChargingUnits
-                .map((unit) => unit.chargingUnit?.connector?.type)
-                .join(', ');
-          }
-
-          if (this.station.stationFacilities) {
-            this.facilityList = this.station.stationFacilities.map(
-              (unit) => unit.facility?.type
-            );
-
-            this.facilityList = this.facilityList.join(', ');
-          }
-        },
-        (error) => {
-          console.error('Error fetching station:', error);
-        }
-      );
+      this.fetchStationData();
     });
+  }
+
+  private fetchStationData(): void {
+    this.stationService.getStationById(this.stationId).subscribe(
+      (station: Station) => {
+        this.station = station;
+        this.processChargingUnits();
+        this.processConnectorTypes();
+        this.processFacilities();
+      },
+      (error) => {
+        console.error('Error fetching station:', error);
+      }
+    );
+  }
+
+  private processChargingUnits(): void {
+    if (this.station && this.station.stationModel?.stationsChargingUnits) {
+      this.chargingUnits = this.chargingUnits =
+        this.station.stationModel.stationsChargingUnits
+          .map((unit) => unit?.chargingUnit?.name)
+          .filter(Boolean) as string[];
+    }
+  }
+
+  private processConnectorTypes(): void {
+    if (this.station && this.station.stationModel?.stationsChargingUnits) {
+      this.connectorTypelist = this.connectorTypelist =
+        this.station.stationModel.stationsChargingUnits
+          .map((unit) => unit.chargingUnit?.connector?.type)
+          .filter(Boolean) as string[];
+
+      console.log(this.connectorTypelist);
+    }
+  }
+
+  private processFacilities(): void {
+    if (this.station.stationFacilities) {
+      this.facilityList = this.station.stationFacilities
+        .map((unit) => unit.facility?.type)
+        .filter(Boolean) as string[];
+    }
   }
 
   getTotalUserCount(stationId: string) {

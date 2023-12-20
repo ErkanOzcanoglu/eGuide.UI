@@ -13,13 +13,15 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
   styleUrls: ['./vehicle-list.component.css'],
 })
 export class VehicleListComponent {
+  updatedModel: string | undefined;
+  searchTerm!: string;
+  editMode = false;
+  showSearch = false;
+
   vehicle: Vehicle = new Vehicle();
   vehicles: Vehicle[] = [];
-  editMode = false;
+
   editForm: FormGroup;
-  updatedModel: string | undefined;
-  searchTerm: any;
-  showSearch: any;
 
   constructor(
     private router: Router,
@@ -41,9 +43,19 @@ export class VehicleListComponent {
   ngOnInit(): void {
     this.getVehicleInfo();
   }
+
   onModeChange() {
     this.editMode = !this.editMode;
   }
+  toggleSelection(item: Vehicle): void {
+    this.vehicles.forEach((v) => (v.isSelected = false));
+    item.isSelected = !item.isSelected;
+  }
+
+  toggleSearch(): void {
+    this.showSearch = !this.showSearch;
+  }
+
   getVehicleInfo() {
     this.vehicleService.getAllVehicles().subscribe(
       (data) => {
@@ -53,6 +65,14 @@ export class VehicleListComponent {
         console.error('Error getting vehicles:', error);
       }
     );
+  }
+
+  onSave(item: Vehicle): void {
+    if (item.isSelected) {
+      this.onUpdate(item.id, item.model);
+    } else {
+      this.onModeChange();
+    }
   }
 
   deleteVehicle(id: string | undefined): void {
@@ -65,7 +85,6 @@ export class VehicleListComponent {
         error: (err) => this.toastr.error(err, 'Error'),
       });
     } else {
-      // id undefined ise gerekli işlemi yapabilirsiniz, örneğin bir hata mesajı gösterebilirsiniz.
       this.toastr.error('Invalid ID', 'Error');
     }
   }
@@ -74,28 +93,7 @@ export class VehicleListComponent {
     if (vehicleId !== null && model !== null) {
       this.vehicleService.updateVehicle(vehicleId, model).subscribe();
     } else {
-      // id veya model undefined ise geçersiz ID hatası göster
       this.toastr.error('Invalid ID or Model for update', 'Error');
-    }
-  }
-
-  toggleSelection(item: Vehicle): void {
-    // Diğer tüm araçların seçimini kaldır
-    this.vehicles.forEach((v) => (v.isSelected = false));
-
-    // Şu anki aracın seçim durumunu tersine çevir
-    item.isSelected = !item.isSelected;
-  }
-
-  toggleSearch(): void {
-    this.showSearch = !this.showSearch;
-  }
-
-  onSave(item: Vehicle): void {
-    if (item.isSelected) {
-      this.onUpdate(item.id, item.model);
-    } else {
-      this.onModeChange();
     }
   }
 }

@@ -16,13 +16,12 @@ export class UserProfileComponent {
   user: User = new User();
   vehicleList: Vehicle[] = [];
   stations: Station[] = [];
+
   editMode = false;
-  userId = '';
 
-  numberOfVehicles: any;
-  numberOfStations: any;
-
-  kullaniciId: any;
+  userId!: string;
+  numberOfVehicles?: number;
+  numberOfStations?: number;
 
   constructor(
     private router: Router,
@@ -33,7 +32,6 @@ export class UserProfileComponent {
   ) {}
 
   ngOnInit(): void {
-    //Get id parameter using ActivatedRoute service
     this.route.params.subscribe((params) => {
       this.userId = params['id'];
 
@@ -46,7 +44,6 @@ export class UserProfileComponent {
   getUserInfo(userId: any) {
     this.userService.getUserById(userId).subscribe(
       (user) => {
-        console.log('User Info:', user);
         this.user = user;
       },
       (error) => {
@@ -54,10 +51,10 @@ export class UserProfileComponent {
       }
     );
   }
+
   removeUser(): void {
     this.userService.removeUser(this.userId).subscribe(
       (response) => {
-        console.log('User removed successfully', response);
         this.router.navigate(['/user']);
       },
       (error) => {
@@ -71,14 +68,10 @@ export class UserProfileComponent {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {
           this.vehicleList = data;
-          // Araç sayısını alma
           this.numberOfVehicles = this.vehicleList.length;
-          console.log('Toplam Araç Sayısı:', this.numberOfVehicles);
-
-          console.log(this.numberOfVehicles);
         },
         (error) => {
-          console.error('Araç bilgileri alma hatası:', error);
+          console.error('Error getting vehicle info:', error);
         }
       );
     }
@@ -90,7 +83,6 @@ export class UserProfileComponent {
         this.stations = stations;
         // İstasyon sayısını alma
         this.numberOfStations = this.stations.length;
-        console.log('Toplam İstasyon Sayısı:', this.numberOfStations);
       },
       (error) => {
         console.error('Error fetching station profiles:', error);

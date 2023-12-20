@@ -16,14 +16,14 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
 })
 export class UserListComponent {
   editMode = false;
-  searchTerm: any;
-  showSearch: any;
-  lastInitial = '';
+  showSearch = false;
+
+  searchTerm!: string;
+  lastInitial?: string;
+
   user: User = new User();
   users: User[] = [];
-  selectedUser: any;
-
-  // @Output() profileSelected = new EventEmitter<User>();
+  selectedUser?: User | null;
 
   constructor(
     private router: Router,
@@ -48,7 +48,6 @@ export class UserListComponent {
     this.userService.getAllUsers().subscribe(
       (data) => {
         this.users = data;
-        console.log('kullanıcılar', this.users);
       },
       (error) => {
         console.error('Error getting vehicles:', error);
@@ -70,7 +69,6 @@ export class UserListComponent {
   }
 
   viewProfileDetails(userId: any) {
-    console.log('VIEW KULLANICI', userId);
     this.router.navigate(['/user-profile', userId]);
   }
 

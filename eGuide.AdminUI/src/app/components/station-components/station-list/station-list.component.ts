@@ -9,6 +9,7 @@ import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { Router } from '@angular/router';
+import { ChargingUnit } from 'src/app/models/charging-unit';
 
 @Component({
   selector: 'app-station-list',
@@ -16,14 +17,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./station-list.component.css'],
 })
 export class StationListComponent implements OnInit {
+  socket?: string;
+  stationInfo?: Station;
+  selectedItem?: string;
+  searchText!: string;
+
+  showList = false;
+
   models: Model[] = [];
-  socket = '';
-  socketArray: any;
+  socketArray: ChargingUnit[] = [];
   stations: Station[] = [];
-  stationInfo: any;
-  showList: any;
-  selectedItem: any;
-  searchText = '';
 
   toggleList() {
     this.showList = !this.showList;
@@ -37,7 +40,6 @@ export class StationListComponent implements OnInit {
   constructor(
     private stationService: StationService,
     private chargingUnitService: ChargingUnitService,
-    private stationSocketService: StationSocketService,
     private toastr: ToastrService,
     private store: Store<{ stationEditData: any }>,
     private router: Router
