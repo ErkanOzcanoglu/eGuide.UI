@@ -7,7 +7,7 @@
     *ngIf="!isLoaded"
     class="w-screen h-screen bg-black absolute z-50 top-0 bottom-0 right-0 left-0 flex justify-center items-center bg-opacity-30"
   >
-    <span class="loading loading-dots loading-lg"></span>
+    <span class="loading loading-dots loading-lg text-white"></span>
   </div>
   <!-- ! Search -->
   <div class="absolute top-36 left-[3vw] rounded-xl">
@@ -53,10 +53,12 @@
       class="p-3 w-10 h-10 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
       (click)="locateS()"
     >
+      <!-- after click start to dönmeye -->
       <img
         src="../../../assets/target.svg"
         alt="target"
         class="w-full h-full object-cover"
+        [ngClass]="{ 'animate-spin': isFound }"
       />
       <p class="text-[8px] w-10 text-black">Locate</p>
     </button>
@@ -81,7 +83,7 @@
         alt="target"
         class="w-full h-full object-cover"
       />
-      <p class="text-[8px] w-10 text-black">Layers</p>
+      <p class="text-[8px] w-10 text-black">Base Maps</p>
       <ul class="absolute right-12 gap-y-2 flex top-48 flex-col px-1">
         <button
           class="asd rounded-xl border-black border bg-white p-2 h-full gap-y-2 bcd"

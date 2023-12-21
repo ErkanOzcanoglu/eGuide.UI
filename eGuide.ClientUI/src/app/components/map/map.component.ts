@@ -37,6 +37,7 @@ export class MapComponent implements OnInit {
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
+  isFound = false;
 
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
@@ -55,9 +56,6 @@ export class MapComponent implements OnInit {
     this.initializeMap();
     this.getStations();
     this.initializeForm();
-    setTimeout(() => {
-      this.clearCahce();
-    }, 5000);
   }
 
   clearCahce() {
@@ -122,6 +120,7 @@ export class MapComponent implements OnInit {
   }
 
   locateS(): void {
+    this.isFound = true;
     this.mapHelper.locateS(this.locate);
   }
 

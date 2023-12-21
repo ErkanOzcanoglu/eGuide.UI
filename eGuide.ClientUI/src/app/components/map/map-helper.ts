@@ -30,6 +30,7 @@ export class MapHelper {
   facilityList: any;
   connectorTypelist: any;
   isLoaded = false;
+  isFound = false;
 
   constructor(
     private lastVisitedStationsService: LastVisitedStationsService,
@@ -87,6 +88,9 @@ export class MapHelper {
       }
     });
 
+    // clg the nearest location in km
+    console.log(this.stations[0].distance);
+
     // Get nearest station
     const nearestStation = this.stations[0];
     // Display nearest station
@@ -101,10 +105,10 @@ export class MapHelper {
     lon2: number
   ): number {
     const R = 6371; // Radius of the earth in km
-    const dLat = this.deg2rad(lat2 - lat1);
-    const dLon = this.deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    const dLat = this.deg2rad(lat2 - lat1); // Convert degrees to radians
+    const dLon = this.deg2rad(lon2 - lon1); // Convert degrees to radians
+    const a = // Haversine formula
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) + // Calculate distance between two points on the earth in km
       Math.cos(this.deg2rad(lat1)) *
         Math.cos(this.deg2rad(lat2)) *
         Math.sin(dLon / 2) *
@@ -115,6 +119,7 @@ export class MapHelper {
   }
 
   deg2rad(deg: number): number {
+    // Convert degrees to radians
     return deg * (Math.PI / 180);
   }
 
@@ -129,11 +134,11 @@ export class MapHelper {
     swalWithBootstrapButtons
       .fire({
         title: 'Are you sure?',
-        text: 'Gitmek istediğine emin misin!',
+        text: 'Are you sure you want to go to this station?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Evet, Istiyorum!',
-        cancelButtonText: 'Hayır, Istemiyorum!',
+        confirmButtonText: 'Yes, go!',
+        cancelButtonText: 'No, cancel!',
         reverseButtons: true,
       })
       .then((result) => {
@@ -147,10 +152,10 @@ export class MapHelper {
               .subscribe();
           }
           swalWithBootstrapButtons.fire({
-            title: 'Başarılı!',
-            text: 'İstasyona başarıyla gittiniz.',
+            title: 'Success!',
+            text: 'You will be redirected to the station page.',
             icon: 'success',
-            confirmButtonText: 'Tamam',
+            confirmButtonText: 'Ok',
           });
         }
       });
@@ -570,7 +575,7 @@ export class MapHelper {
         .join('');
 
       const commentsContainerStyle = `
-    max-height: 300px; /* veya istediğiniz bir değer */
+    max-height: 300px;
     overflow-y: scroll;
   `;
 
