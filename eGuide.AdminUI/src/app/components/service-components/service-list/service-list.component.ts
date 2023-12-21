@@ -15,7 +15,7 @@ export class ServiceListComponent implements OnInit {
   serviceEditData$: Service[] = [];
   constructor(
     private serviceService: ServiceService,
-    private store: Store<{ serviceEditData: Service }>,
+    private store: Store,
     private toastr: ToastrService
   ) {}
 

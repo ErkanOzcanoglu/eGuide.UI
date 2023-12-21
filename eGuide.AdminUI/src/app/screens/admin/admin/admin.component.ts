@@ -12,9 +12,10 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
 export class AdminComponent implements OnInit {
   isOpen = false;
   adminInfo: Admin[] = [];
+  refresh$ = this.store.select(selectRefresh);
 
   constructor(private adminService: AdminService, private store: Store) {
-    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+    this.refresh$.subscribe((refresh: boolean) => {
       if (refresh === true) {
         this.getAdmins();
       }

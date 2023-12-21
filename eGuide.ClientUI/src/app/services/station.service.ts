@@ -34,4 +34,8 @@ export class StationService {
       responseType: 'json',
     });
   }
+
+  clearStationCache() {
+    return this.http.get(`${environment.apiUrl}/Station/clear`);
+  }
 }

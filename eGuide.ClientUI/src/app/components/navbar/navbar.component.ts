@@ -14,7 +14,7 @@ import { WebsiteService } from 'src/app/services/website.service';
 import { selectActiveVehicle } from 'src/app/state/vehicle-state/vehicle.selector';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 
-import { setThemeData } from 'src/app/state/theme.action';
+import { setThemeData } from 'src/app/state/theme-state/theme.action';
 import { TranslateService } from '@ngx-translate/core';
 import * as LanguageActions from 'src/app/state/language-state/language.action';
 
@@ -62,9 +62,7 @@ export class NavbarComponent implements OnInit {
 
       this.currentTheme = localStorage.getItem('theme');
       this.colorHelper.getColors();
-      setTimeout(() => {
-        this.colorHelper.getLocalColors(this.localColor);
-      }, 50);
+      this.colorHelper.getLocalColors(this.localColor);
     }
     this.colorHelper.getColors();
     this.colorHelper.getLocalColors(this.localColor);
@@ -125,9 +123,7 @@ export class NavbarComponent implements OnInit {
     else if (theme === 'light') this.darkTheme();
     this.currentTheme = localStorage.getItem('theme');
     this.colorHelper.getColors();
-    setTimeout(() => {
-      this.colorHelper.getLocalColors(this.localColor);
-    }, 50);
+    this.colorHelper.getLocalColors(this.localColor);
     console.log(this.currentTheme, 'currentTheme');
     this.store.dispatch(setThemeData({ themeData: this.currentTheme }));
   }

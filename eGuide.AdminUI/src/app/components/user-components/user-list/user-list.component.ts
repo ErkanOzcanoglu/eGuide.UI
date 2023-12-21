@@ -22,8 +22,7 @@ export class UserListComponent {
   user: User = new User();
   users: User[] = [];
   selectedUser: any;
-
-  // @Output() profileSelected = new EventEmitter<User>();
+  refresh$ = this.store.select(selectRefresh);
 
   constructor(
     private router: Router,
@@ -31,7 +30,7 @@ export class UserListComponent {
     private toastr: ToastrService,
     private store: Store
   ) {
-    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+    this.refresh$.subscribe((refresh: boolean) => {
       console.log(refresh);
       if (refresh === true) {
         console.log('refresh');

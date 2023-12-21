@@ -5,7 +5,7 @@ import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
-import { selectThemeData } from 'src/app/state/theme.selector';
+import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
   selector: 'app-footer',
@@ -17,6 +17,7 @@ export class FooterComponent implements OnInit {
   socialMedias: SocialMedia[] = [];
   footer?: number;
   color: ThemeColor = new ThemeColor();
+  theme$ = this.store.select(selectThemeData);
 
   constructor(
     private socialMediaService: SocialMediaService,
@@ -29,11 +30,10 @@ export class FooterComponent implements OnInit {
     this.getSocialMedias();
     this.getFooterType();
     this.getColor();
-    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
-      setTimeout(() => {
-        this.colorHelper.getColors();
-        this.colorHelper.getLocalColors(this.color);
-      }, 50);
+    // this.store.select(selectThemeData).subscribe((theme) => {
+    this.theme$.subscribe(() => {
+      this.colorHelper.getColors();
+      this.colorHelper.getLocalColors(this.color);
     });
   }
 

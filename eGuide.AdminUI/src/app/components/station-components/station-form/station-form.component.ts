@@ -10,15 +10,12 @@ import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
 import { ToastrService } from 'ngx-toastr';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   getClickedData,
   getFormAddressData,
 } from 'src/app/state/map-click-data/map-click-data.selector';
-import {
-  MapState,
-  setFormAddressData,
-} from 'src/app/state/map-click-data/map-click-data.action';
+import { MapState } from 'src/app/state/map-click-data/map-click-data.action';
 import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
@@ -45,6 +42,9 @@ export class StationFormComponent implements OnInit {
   selectedFacilitiesForm: FormGroup = new FormGroup({});
   apiLoginErrorMessages: string[] = [];
   submitted = false;
+  getFormAddressData$ = this.store.select(getFormAddressData);
+  getClickedData$ = this.store.select(getClickedData);
+  selectStationEditData$ = this.store.select(selectStationEditData);
   mapClickedData: any;
   editDatas?: Station;
   facilities: Facility[] = [];
@@ -58,10 +58,9 @@ export class StationFormComponent implements OnInit {
     private toastr: ToastrService,
     private facility: FacilityService,
     private stationFacilityService: StationFacilityService,
-    private store: Store<MapState>,
-    private store2: Store<{ stationEditData: any }>
+    private store: Store
   ) {
-    this.store.pipe(select(getFormAddressData)).subscribe();
+    this.getFormAddressData$.subscribe();
     this.stationForm = this.formBuilder.group({
       address: ['', Validators.required],
       latitude: ['', Validators.required],
@@ -76,7 +75,8 @@ export class StationFormComponent implements OnInit {
     this.initializeForm();
     this.getFacilities();
 
-    this.store.pipe(select(getClickedData)).subscribe((clickedData) => {
+    // this.store.select(getClickedData).subscribe((clickedData) => {
+    this.getClickedData$.subscribe((clickedData) => {
       if (clickedData) {
         this.stationForm.patchValue({
           address: clickedData.address,
@@ -85,39 +85,38 @@ export class StationFormComponent implements OnInit {
         });
       }
     });
-    this.store2
-      .pipe(select(selectStationEditData))
-      .subscribe((stationEditData) => {
-        if (stationEditData.stationEditData?.address !== undefined)
-          this.isEdited = true;
-        if (stationEditData) {
-          this.stationForm.patchValue({
-            address: stationEditData.stationEditData?.address,
-            latitude: stationEditData.stationEditData?.latitude,
-            longitude: stationEditData.stationEditData?.longitude,
-            name: stationEditData.stationEditData?.name,
-            stationStatus: stationEditData.stationEditData?.stationStatus,
-          });
-          this.setButtonColor(stationEditData.stationEditData?.stationStatus);
+    // this.store.select(selectStationEditData).subscribe((stationEditData) => {
+    this.selectStationEditData$.subscribe((stationEditData) => {
+      if (stationEditData.stationEditData?.address !== undefined)
+        this.isEdited = true;
+      if (stationEditData) {
+        this.stationForm.patchValue({
+          address: stationEditData.stationEditData?.address,
+          latitude: stationEditData.stationEditData?.latitude,
+          longitude: stationEditData.stationEditData?.longitude,
+          name: stationEditData.stationEditData?.name,
+          stationStatus: stationEditData.stationEditData?.stationStatus,
+        });
+        this.setButtonColor(stationEditData.stationEditData?.stationStatus);
 
-          this.editDatas = stationEditData.stationEditData;
+        this.editDatas = stationEditData.stationEditData;
 
-          this.stationModelForm.patchValue({
-            name: this.editDatas?.stationModel?.name,
-          });
+        this.stationModelForm.patchValue({
+          name: this.editDatas?.stationModel?.name,
+        });
 
-          this.stationChargingUnitForm.patchValue({
-            stationModelId: this.editDatas?.stationModel?.id,
-          });
+        this.stationChargingUnitForm.patchValue({
+          stationModelId: this.editDatas?.stationModel?.id,
+        });
 
-          this.selectedChargingUnitForm.patchValue({
-            chargingUnit:
-              this.editDatas?.stationModel?.stationsChargingUnits?.map(
-                (stationSocket) => stationSocket.charginUnitId
-              ),
-          });
-        }
-      });
+        this.selectedChargingUnitForm.patchValue({
+          chargingUnit:
+            this.editDatas?.stationModel?.stationsChargingUnits?.map(
+              (stationSocket) => stationSocket.charginUnitId
+            ),
+        });
+      }
+    });
   }
 
   setButtonColor(stationStatus: number | undefined): void {
