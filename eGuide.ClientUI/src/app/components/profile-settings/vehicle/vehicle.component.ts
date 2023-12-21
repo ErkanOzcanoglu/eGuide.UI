@@ -12,7 +12,6 @@ import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
 import { LogHelper } from '../../generic-helper/log/log-helper';
 
-
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
@@ -21,36 +20,29 @@ import { LogHelper } from '../../generic-helper/log/log-helper';
 })
 export class VehicleComponent implements OnInit {
   vehicle: Vehicle = new Vehicle();
-  vehicleList: Vehicle[] = [];
   uservehicle: UserVehicle = new UserVehicle();
   userVehicleActive: UserVehicle = new UserVehicle();
+  vehicleState: Vehicle = new Vehicle();
+  vehicleNgrX = new Vehicle();
+
+  selectedBrand?: string;
+  selectedModel!: string;
+  selectedConnector: any;
+  primaryKey?: string;
+
+  selectedConnectorId?: string;
+  selectedConnectorType?: string;
 
   onSelectVehicle = false;
+  editModeVehicle = false;
+  dropdownVisible = false;
+  isUpdate = true;
 
+  vehicleList: Vehicle[] = [];
   brands: string[] = [];
   models: string[] = [];
   vehicles: Vehicle[] = [];
-
-  selectedBrand = '';
-  selectedModel = '';
-  selectedConnector: any;
-  primaryKey = '';
-
   connectorList: Connector[] = [];
-  selectedConnectorId = '';
-  selectedConnectorType = '';
-  vehicleMode = false;
-  vehicleMode2 = false;
-  vehicleMode3 = false;
-
-  editModeVehicle = false;
-  isUpdate = true;
-
-  dropdownVisible = false;
-  maxVisibleItems = 3;
-
-  vehicleState: Vehicle = new Vehicle();
-  vehicleNgrX = new Vehicle();
 
   constructor(
     private userVehicleService: UserVehicleService,
@@ -62,8 +54,8 @@ export class VehicleComponent implements OnInit {
     public translateService: TranslateService
   ) {
     this.translateService.addLangs(['tr', 'en']);
-    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
-    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan}
+    this.translateService.setDefaultLang('en');
+    this.translateService.use('en');
   }
 
   ngOnInit(): void {
@@ -73,12 +65,9 @@ export class VehicleComponent implements OnInit {
     this.getVehicleActiveView();
   }
 
-  //dil değişimi
-
   public onChange(selectedLanguage: string): void {
     this.translateService.use(selectedLanguage);
   }
-  //dil değişimi
 
   onModeChangeVehicle() {
     this.editModeVehicle = !this.editModeVehicle;
@@ -136,7 +125,7 @@ export class VehicleComponent implements OnInit {
     const selectedBrand = brand;
     this.selectedConnector = connector;
     this.loadModelsByBrand(selectedBrand);
-    this.getConnector(); //buraya dikkat
+    this.getConnector();
     localStorage.setItem('brand', selectedBrand);
   }
 
@@ -149,7 +138,6 @@ export class VehicleComponent implements OnInit {
 
   onKeyDown(event: KeyboardEvent, vehicle: Vehicle) {
     if (event.key === 'Enter') {
-      // yanlıs calısıyor
       this.selectVehicle(vehicle);
     }
   }
@@ -296,7 +284,6 @@ export class VehicleComponent implements OnInit {
         (uservehicle) => {
           this.userVehicleActive = uservehicle;
 
-          // this.vehicleList içindeki vehicleId'leri kontrol et
           const matchingVehicle = this.vehicleList.find(
             (vehicle) => vehicle.id === this.userVehicleActive.vehicleId
           );
@@ -305,7 +292,7 @@ export class VehicleComponent implements OnInit {
           if (matchingVehicle) {
             this.getVehicleByUserId();
           } else {
-            console.log('Eşleşen VehicleId bulunamadı.');
+            console.log('Error fetching active user vehicle.');
           }
         },
         (error) => {

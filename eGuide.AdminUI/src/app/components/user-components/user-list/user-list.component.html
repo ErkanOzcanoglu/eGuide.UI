@@ -100,7 +100,7 @@
       {{ selectedUser.name }} {{ selectedUser.surname }}
     </h2>
     <p>Email: {{ selectedUser.email }}</p>
-    <p>Register Date: {{ selectedUser.createdDate }}</p>
+    <p>Register Date: {{ selectedUser.createdDate | date:'yyyy-MM-dd' }}</p>
     <div class="card-actions justify-end">
       <div
         class="btn bg-primary border-secondary"

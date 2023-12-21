@@ -29,17 +29,26 @@ import { StationFacilityService } from 'src/app/services/station-facility.servic
   styleUrls: ['./station-form.component.css'],
 })
 export class StationFormComponent implements OnInit {
+  mapClickedData?: Station;
+  editDatas?: Station;
+
   switchStatus = false;
   isEdited = false;
-  customButton: any;
+  submitted = false;
+  customButton?: number;
+  stationId!: string;
+
+  apiLoginErrorMessages: string[] = [];
   chargingUnit: ChargingUnit[] = [];
-  stationId = '';
-  selectedChargingUnits: any[] = [];
+  facilities: Facility[] = [];
+  selectedChargingUnits: ChargingUnit[] = [];
+
   stationForm: FormGroup = new FormGroup({});
   stationModelForm: FormGroup = new FormGroup({});
   stationChargingUnitForm: FormGroup = new FormGroup({});
   selectedChargingUnitForm: FormGroup = new FormGroup({});
   selectedFacilitiesForm: FormGroup = new FormGroup({});
+
   apiLoginErrorMessages: string[] = [];
   submitted = false;
   getFormAddressData$ = this.store.select(getFormAddressData);
@@ -120,9 +129,12 @@ export class StationFormComponent implements OnInit {
   }
 
   setButtonColor(stationStatus: number | undefined): void {
-    this.customButton = document.getElementById('customButton');
-    if (this.customButton) {
+    const element = document.getElementById('customButton');
+
+    if (element instanceof HTMLElement) {
       this.customButton = stationStatus;
+    } else {
+      this.customButton = undefined;
     }
   }
 

@@ -162,7 +162,7 @@
                 class="w-80 border p-2 rounded bg-white"
                 (change)="onModelSelected($event)"
               >
-                <option [value]="selectedModel" [selected]="vehicleMode2">
+                <option [value]="selectedModel">
                   {{
                     selectedModel ||
                       (selectedModel ? "default" : "Please select a model")
@@ -206,7 +206,7 @@
                 <div *ngIf="dropdownVisible" class="connector-options">
                   <div
                     *ngFor="
-                      let connector of connectorList.slice(0, maxVisibleItems)
+                      let connector of connectorList.slice(0, 3)
                     "
                     (click)="onConnectorSelected(connector)"
                     (keydown.enter)="onConnectorSelected(connector)"

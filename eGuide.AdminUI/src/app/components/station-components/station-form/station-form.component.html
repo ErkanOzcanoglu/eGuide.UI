@@ -40,7 +40,7 @@
           type="text"
           formControlName="latitude"
           placeholder="Enter Latitude"
-          [value]="mapClickedData?.lat"
+          [value]="mapClickedData?.latitude"
           [class.is-invalid]="submitted && stationForm.get('latitude')?.errors"
         />
       </div>
@@ -62,7 +62,7 @@
         type="text"
         formControlName="longitude"
         placeholder="Enter Longitude"
-        [value]="mapClickedData?.lng"
+        [value]="mapClickedData?.longitude"
         [class.is-invalid]="submitted && stationForm.get('longitude')?.errors"
       />
     </div>
