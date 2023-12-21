@@ -1,4 +1,3 @@
-import { StationFilterPipe } from './../../../pipes/station-filter.pipe';
 import { Model } from 'src/app/models/stationInformationModel';
 import { Component, OnInit } from '@angular/core';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -41,7 +40,7 @@ export class StationListComponent implements OnInit {
     private stationService: StationService,
     private chargingUnitService: ChargingUnitService,
     private toastr: ToastrService,
-    private store: Store<{ stationEditData: any }>,
+    private store: Store,
     private router: Router
   ) {}
 

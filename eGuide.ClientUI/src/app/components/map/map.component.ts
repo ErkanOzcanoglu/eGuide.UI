@@ -37,6 +37,7 @@ export class MapComponent implements OnInit {
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
+  isFound = false;
 
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
@@ -55,6 +56,10 @@ export class MapComponent implements OnInit {
     this.initializeMap();
     this.getStations();
     this.initializeForm();
+  }
+
+  clearCahce() {
+    this.stationService.clearStationCache().subscribe();
   }
 
   initializeMap() {
@@ -115,6 +120,7 @@ export class MapComponent implements OnInit {
   }
 
   locateS(): void {
+    this.isFound = true;
     this.mapHelper.locateS(this.locate);
   }
 
@@ -154,7 +160,7 @@ export class MapComponent implements OnInit {
   getStations() {
     this.mapHelper.getStations(this.view, this.FilteredStations);
   }
-  
+
   onStationSelected(selectedStation: Center) {
     this.view.center = [selectedStation.longitude, selectedStation.latitude]; // center the view to the selected station
     this.view.zoom = 12; // zoom in to the selected station
@@ -180,6 +186,11 @@ export class MapComponent implements OnInit {
 
   getComments(stationId: any) {
     this.mapHelper.getComments(stationId);
+  }
+
+  // get isLoaded from map-helper
+  get isLoaded(): boolean {
+    return this.mapHelper.isLoaded;
   }
 
   comment(stationId: any) {

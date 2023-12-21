@@ -50,11 +50,8 @@ export class VehicleFormComponent {
       this.vehicleService.addVehicle(this.vehicle).subscribe(
         (response) => {
           this.toastr.success('Vehicle added successfully', 'Successful');
-          setTimeout(() => {
-            this.store.dispatch(setRefresh(true));
-            this.vehicleForm.reset();
-          }, 400);
-          this.store.dispatch(setRefresh(false));
+          this.store.dispatch(setRefresh(true));
+          this.vehicleForm.reset();
         },
         (error) => {
           this.toastr.error(
@@ -63,6 +60,7 @@ export class VehicleFormComponent {
           );
         }
       );
+      this.store.dispatch(setRefresh(false));
     } else {
       console.error('Form control elements are null.');
     }

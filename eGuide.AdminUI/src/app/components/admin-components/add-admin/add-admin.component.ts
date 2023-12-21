@@ -18,7 +18,7 @@ export class AddAdminComponent implements OnInit {
     private adminService: AdminService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private store: Store<{ refresh: boolean }>
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -47,20 +47,14 @@ export class AddAdminComponent implements OnInit {
       this.admin.isMasterAdmin = false;
       this.adminService.adminRegister(this.admin).subscribe(
         () => {
-          this.toastr.success('Admin başarıyla eklendi', 'Başarılı');
-          setTimeout(() => {
-            this.store.dispatch(setRefresh(true));
-            this.adminForm.reset();
-          }, 400);
-          this.store.dispatch(setRefresh(false));
+          this.toastr.success('Admin added successfully');
+          this.store.dispatch(setRefresh(true));
+          this.adminForm.reset();
         },
         () => {
-          this.toastr.error('Admin eklenirken hata oluştu', 'Hata');
+          this.toastr.error('Admin could not be added');
         }
       );
-      setTimeout(() => {
-        this.store.dispatch(setRefresh(true));
-      }, 400);
     }
   }
 }

@@ -38,21 +38,23 @@ export class ColorHelper {
   }
 
   getLocalColors(localColor: ThemeColor): void {
-    if (
-      localStorage.getItem('color1') != null &&
-      localStorage.getItem('color2') != null &&
-      localStorage.getItem('color3') != null &&
-      localStorage.getItem('color4') != null
-    ) {
-      localColor.color1 = localStorage.getItem('color1')!;
-      localColor.color2 = localStorage.getItem('color2')!;
-      localColor.color3 = localStorage.getItem('color3')!;
-      localColor.color4 = localStorage.getItem('color4')!;
-    } else {
-      localColor.color1 = '#007bff';
-      localColor.color2 = '#6c757d';
-      localColor.color3 = '#ffffff';
-      localColor.color4 = '#6c757d';
-    }
+    setTimeout(() => {
+      if (
+        localStorage.getItem('color1') != null &&
+        localStorage.getItem('color2') != null &&
+        localStorage.getItem('color3') != null &&
+        localStorage.getItem('color4') != null
+      ) {
+        localColor.color1 = localStorage.getItem('color1')!;
+        localColor.color2 = localStorage.getItem('color2')!;
+        localColor.color3 = localStorage.getItem('color3')!;
+        localColor.color4 = localStorage.getItem('color4')!;
+      } else {
+        localColor.color1 = '#007bff';
+        localColor.color2 = '#6c757d';
+        localColor.color3 = '#ffffff';
+        localColor.color4 = '#6c757d';
+      }
+    }, 50);
   }
 }

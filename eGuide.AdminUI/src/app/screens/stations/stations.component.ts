@@ -17,18 +17,17 @@ export class StationsComponent {
   screenType = true;
   mapClickedData: any;
   mapFormAddressData: any;
+  selectStationEditData$ = this.store.select(selectStationEditData);
 
   editData: any;
 
-  constructor(private store: Store<{ stationEditData: any }>) {
-    this.store
-      .pipe(select(selectStationEditData))
-      .subscribe((stationEditData) => {
-        if (stationEditData) {
-          this.editData = stationEditData;
-          this.screenType = true;
-        }
-      });
+  constructor(private store: Store) {
+    this.selectStationEditData$.subscribe((stationEditData) => {
+      if (stationEditData) {
+        this.editData = stationEditData;
+        this.screenType = true;
+      }
+    });
   }
 
   setScreenType() {

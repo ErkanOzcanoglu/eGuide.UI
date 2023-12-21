@@ -40,9 +40,7 @@ export class ChangePasswordComponent implements OnInit {
           .subscribe({
             next: () => {
               this.toast.success('Password changed successfully');
-              setTimeout(() => {
-                window.location.reload();
-              }, 1400);
+              window.location.reload();
             },
             error: (error) => {
               this.toast.error('Password change failed');
