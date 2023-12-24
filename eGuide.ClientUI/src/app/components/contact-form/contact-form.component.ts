@@ -8,7 +8,7 @@ import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { Store, select } from '@ngrx/store';
-import { selectThemeData } from 'src/app/state/theme.selector';
+import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 import { LogHelper } from '../generic-helper/log/log-helper';
 import * as signalR from '@microsoft/signalr';
 import { ReplayMail } from 'src/app/models/replayMail';
@@ -24,6 +24,7 @@ export class ContactFormComponent implements OnInit {
   websites: Website[] = [];
   isSending = false;
   color: ThemeColor = new ThemeColor();
+  theme$ = this.store.select(selectThemeData);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +32,7 @@ export class ContactFormComponent implements OnInit {
     private websiteService: WebsiteService,
     private toastrService: ToastrService,
     private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>,
+    private store: Store,
     private logHelper: LogHelper
   ) {
     this.contactForm = this.formBuilder.group({
@@ -58,11 +59,10 @@ export class ContactFormComponent implements OnInit {
         return console.error(err.toString());
       });
 
-    this.store.pipe(select(selectThemeData)).subscribe((theme) => {
-      setTimeout(() => {
-        this.colorHelper.getColors();
-        this.colorHelper.getLocalColors(this.color);
-      }, 50);
+    // this.store.select(selectThemeData).subscribe((theme) => {
+    this.theme$.subscribe(() => {
+      this.colorHelper.getColors();
+      this.colorHelper.getLocalColors(this.color);
     });
   }
   getColor() {

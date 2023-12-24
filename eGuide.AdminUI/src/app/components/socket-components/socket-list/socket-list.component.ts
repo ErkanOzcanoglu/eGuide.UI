@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Connector } from 'src/app/models/connector';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';

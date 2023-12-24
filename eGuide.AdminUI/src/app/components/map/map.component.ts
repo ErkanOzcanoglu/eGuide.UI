@@ -86,11 +86,8 @@ export class MapComponent implements OnInit {
     this.mapView.graphics.add(pointGraphic);
   }
 
-  constructor(
-    private stationService: StationService,
-    private store: Store<MapState>
-  ) {
-    this.store.pipe(select(getClickedData)).subscribe();
+  constructor(private stationService: StationService, private store: Store) {
+    this.store.select(getClickedData);
   }
 
   ngOnInit() {

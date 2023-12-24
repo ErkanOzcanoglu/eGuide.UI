@@ -26,7 +26,22 @@ export class MessageModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getMails();
     this.initializeForm();
+    this.connectHub();
+  }
+
+  initializeForm() {
+    this.replyForm = this.formBuilder.group({
+      name: [''],
+      email: [''],
+      message: [''],
+      adminMail: [''],
+    });
+  }
+
+  connectHub() {
+    this.getMails();
     const connection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:7297/myHub')
       .build();
@@ -43,17 +58,8 @@ export class MessageModalComponent implements OnInit {
     connection.on('BroadcastMessage', () => {
       setTimeout(() => {
         this.getMails();
-      }, 10000);
-    });
-    this.getMails();
-  }
-
-  initializeForm() {
-    this.replyForm = this.formBuilder.group({
-      name: [''],
-      email: [''],
-      message: [''],
-      adminMail: [''],
+      }, 3000);
+      // this.getMails();
     });
   }
 
@@ -70,9 +76,7 @@ export class MessageModalComponent implements OnInit {
   }
 
   deleteMail(id: any) {
-    console.log(id);
     this.contactService.deleteMail(id).subscribe((response) => {
-      console.log(response);
       this.getMails();
     });
   }

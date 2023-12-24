@@ -45,10 +45,8 @@ export class AdminLoginComponent implements OnInit {
             next: (response) => {
               if (response?.id) localStorage.setItem('authToken', response?.id);
               this.toaster.success('Login successful');
-              setTimeout(() => {
-                this.router.navigate(['']);
-                this.loadingAfterLogin = false;
-              }, 1000);
+              this.router.navigate(['']);
+              this.loadingAfterLogin = false;
             },
             error: (error) => {
               this.toaster.error('Invalid email or password');

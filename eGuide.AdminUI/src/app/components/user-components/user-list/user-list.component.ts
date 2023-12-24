@@ -25,13 +25,15 @@ export class UserListComponent {
   users: User[] = [];
   selectedUser?: User | null;
 
+  refresh$ = this.store.select(selectRefresh);
+
   constructor(
     private router: Router,
     private userService: UserService,
     private toastr: ToastrService,
     private store: Store
   ) {
-    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+    this.refresh$.subscribe((refresh: boolean) => {
       console.log(refresh);
       if (refresh === true) {
         console.log('refresh');
