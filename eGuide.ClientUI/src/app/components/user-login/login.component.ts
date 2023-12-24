@@ -76,6 +76,7 @@ export class LoginComponent implements OnInit {
               this.toastr.success('Login successful!');
               this.logHelper.successLogin(this.loginForm.value.email);
               this.router.navigate(['/']);
+              location.reload();
             },
             error: (error) => {
               this.toastr.error(

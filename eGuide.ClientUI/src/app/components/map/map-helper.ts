@@ -57,7 +57,10 @@ export class MapHelper {
   }
 
   locateS(locate: any): void {
-    locate.locate();
+    this.isFound = true;
+    locate.locate().then(() => {
+      this.isFound = false;
+    });
   }
 
   calculateNearestStations(userP: any, view: any): void {
@@ -87,9 +90,6 @@ export class MapHelper {
         return a.distance - b.distance; // Normal comparison when both distances are defined
       }
     });
-
-    // clg the nearest location in km
-    console.log(this.stations[0].distance);
 
     // Get nearest station
     const nearestStation = this.stations[0];
@@ -498,13 +498,13 @@ export class MapHelper {
               'aria-label': 'Type your comment here',
             },
             html: `<p>Rating</p>
-    <div class="rating" id="swal-rating">
-      <input type="radio" name="rating-2" value="1" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="2" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="3" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="4" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="5" class="mask mask-star-2 bg-orange-400" />
-    </div>`,
+              <div class="rating" id="swal-rating">
+                <input type="radio" name="rating-2" value="1" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="2" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="3" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="4" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="5" class="mask mask-star-2 bg-orange-400" />
+              </div>`,
             showCancelButton: true,
             confirmButtonText: 'Submit',
             cancelButtonText: 'Cancel',
@@ -559,10 +559,10 @@ export class MapHelper {
               <div class="container justify-content-center mt-5 border-left border-right p-4">
                 <div class="flex justify-content-center py-2">
                   <div class="second py-2 px-2 bg-white rounded-lg shadow-md w-96">
-                    <span class="text1 text-gray-700">${comment.text}</span>
+                    <span class="text1 text-gray-700 text-start flex">${comment.text}</span>
                     <div class="flex justify-between py-1 pt-2">
-                      <div class="flex items-center">
-                          <span class="text2 text-gray-700">${comment.rating}</span>
+                      <div class="flex items-center justify-end w-full">
+                          <span class="text2 text-gray-700">⭐${comment.rating}</span>
                       </div>
                     </div>
                   </div>

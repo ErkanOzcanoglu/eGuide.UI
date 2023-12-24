@@ -37,7 +37,6 @@ export class MapComponent implements OnInit {
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
-  isFound = false;
 
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
@@ -120,7 +119,6 @@ export class MapComponent implements OnInit {
   }
 
   locateS(): void {
-    this.isFound = true;
     this.mapHelper.locateS(this.locate);
   }
 
@@ -193,6 +191,11 @@ export class MapComponent implements OnInit {
     return this.mapHelper.isLoaded;
   }
 
+  // get isFound from map-helper
+  get isFound(): boolean {
+    return this.mapHelper.isFound;
+  }
+
   comment(stationId: any) {
     this.mapHelper.comment(stationId);
   }
@@ -202,8 +205,8 @@ export class MapComponent implements OnInit {
   }
 
   // search function
-  search(enevt: any) {
-    this.mapHelper.search(enevt, this.view);
+  search(event: any) {
+    this.mapHelper.search(event, this.view);
   }
 
   saveUserStation(elementId: string, userId: string): void {

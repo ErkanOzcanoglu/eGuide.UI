@@ -56,9 +56,9 @@ export class MessageModalComponent implements OnInit {
       });
 
     connection.on('BroadcastMessage', () => {
-      setTimeout(() => {
-        this.getMails();
-      }, 3000);
+      // setTimeout(() => {
+      //   this.getMails();
+      // }, 5000);
       // this.getMails();
     });
   }
