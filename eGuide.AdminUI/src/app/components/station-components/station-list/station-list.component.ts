@@ -46,46 +46,44 @@ export class StationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getStations();
+    // this.getStations();
     this.getStaInfo();
   }
 
   getStaInfo() {
-    this.stationService.getStations().subscribe({
-      next: (stations) => {
-        this.stations = stations;
-      },
+    this.stationService.getStations().subscribe((response) => {
+      this.stations = response;
     });
   }
 
-  getStations(): void {
-    this.stationService.getAllStaiton().subscribe(
-      (res) => {
-        this.models = res;
+  // getStations(): void {
+  //   this.stationService.getAllStaiton().subscribe(
+  //     (res) => {
+  //       this.models = res;
 
-        this.models.forEach((item) => {
-          if (typeof item.socket === 'string') {
-            item.socket = JSON.parse(item.socket);
-          }
-        });
-        this.stationService.getStations().subscribe({
-          next: (stations) => {
-            this.stations = stations;
-            this.chargingUnitService.getChargingUnits().subscribe({
-              error: (err) => console.error(err),
-            });
-          },
-        });
-      },
-      (err) => console.error(err)
-    );
-  }
+  //       this.models.forEach((item) => {
+  //         if (typeof item.socket === 'string') {
+  //           item.socket = JSON.parse(item.socket);
+  //         }
+  //       });
+  //       this.stationService.getStations().subscribe({
+  //         next: (stations) => {
+  //           this.stations = stations;
+  //           this.chargingUnitService.getChargingUnits().subscribe({
+  //             error: (err) => console.error(err),
+  //           });
+  //         },
+  //       });
+  //     },
+  //     (err) => console.error(err)
+  //   );
+  // }
 
   deleteStation(id: string): void {
     this.stationService.deleteStation(id).subscribe({
       next: () => {
         this.toastr.success('Deleted successfully');
-        this.getStations();
+        this.getStaInfo();
       },
       error: (err) => this.toastr.error(err, 'Error'),
     });

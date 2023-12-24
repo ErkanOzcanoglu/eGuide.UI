@@ -188,18 +188,17 @@ export class VehicleComponent implements OnInit {
         userId: userId,
         vehicleId: vehicleId,
         connectorId: connectorId,
-        activeStatus: 0, //buraya dikkat cnm
+        activeStatus: 0, //attention
       };
 
-      this.userVehicleService.saveVehicle(userVehicle).subscribe(
-        (response) => {
+      this.userVehicleService.saveVehicle(userVehicle).subscribe({
+        next: () => {
           this.getVehicleByUserId();
         },
-        (error) => {
-          this.logHelper.errorProcess('Save vehicle', error);
-          console.error('UserVehicle kaydetme hatası:', error);
-        }
-      );
+        error: (error) => {
+          console.error('Araç ekleme hatası:', error);
+        },
+      });
     } else {
       console.error('Kullanıcı kimliği veya araç kimliği eksik.');
     }
@@ -209,10 +208,10 @@ export class VehicleComponent implements OnInit {
     const userId = localStorage.getItem('authToken');
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
-        (data) => {
+        (data: Vehicle[]) => {
           this.vehicleList = data;
 
-          const combinedVehicles = this.vehicleList.map((vehicle) => {
+          this.vehicleList.map((vehicle) => {
             return `${vehicle.brand}-${vehicle.model}`;
           });
         },
@@ -239,19 +238,18 @@ export class VehicleComponent implements OnInit {
     if (vehicleId !== null && userId !== null) {
       this.userVehicleService
         .deleteUserVehicleByVehicleId(userId, vehicleId)
-        .subscribe(
-          () => {
+        .subscribe({
+          next: () => {
             this.getVehicleByUserId();
           },
-          (error) => {
+          error: (error) => {
             console.error('Araç silme hatası:', error);
-          }
-        );
+          },
+        });
     } else {
       console.error('vehicleId eksik.');
     }
   }
-
   //<--NGRX METHODS FOR VEHICLE-->
   setActiveVehicle(activeVehicle: Vehicle): void {
     this.store.dispatch(VehicleActions.setActiveVehicle({ activeVehicle }));
@@ -316,14 +314,14 @@ export class VehicleComponent implements OnInit {
     ) {
       this.userVehicleService
         .updateVehicle(userId, oldId, vehicleId, connectorId)
-        .subscribe(
-          (response) => {
+        .subscribe({
+          next: () => {
             this.getVehicleByUserId();
           },
-          (error) => {
-            console.error('Araç güncelleme hatası:', error);
-          }
-        );
+          error: (error) => {
+            console.error('Araç silme hatası:', error);
+          },
+        });
     }
 
     this.isUpdate = true;

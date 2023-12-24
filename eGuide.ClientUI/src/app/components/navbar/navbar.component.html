@@ -66,13 +66,6 @@
               {{ currentState?.brand }} {{ currentState?.model }}
             </ng-container></a
           >
-          <!-- currentState'ın brand özelliği varsa yanında göster -->
-          <!-- <ng-container
-            *ngIf="currentState?.brand; else savedActiveVehicleBrand"
-            class="ml-4"
-          >
-            {{ currentState?.brand }} {{ currentState?.model }}
-          </ng-container> -->
 
           <ng-template #savedActiveVehicleBrand>
             {{ savedActiveVehicle?.brand }} {{ savedActiveVehicle?.model }}
