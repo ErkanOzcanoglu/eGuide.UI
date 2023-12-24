@@ -61,11 +61,6 @@ export class UserListComponent {
     return name.charAt(0);
   }
 
-  toggleSelection(item: User): void {
-    this.users.forEach((v) => (v.isSelected = false));
-    item.isSelected = !item.isSelected;
-  }
-
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
   }

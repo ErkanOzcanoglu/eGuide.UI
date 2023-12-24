@@ -45,10 +45,7 @@
     </thead>
     <tbody class="w-full">
       <!-- User Rows -->
-      <tr
-        *ngFor="let user of users | userFilter : searchTerm"
-        (click)="toggleSelection(user)"
-      >
+      <tr *ngFor="let user of users | userFilter : searchTerm">
         <!-- Checkbox Column -->
         <div class="avatar">
           <div
@@ -100,7 +97,7 @@
       {{ selectedUser.name }} {{ selectedUser.surname }}
     </h2>
     <p>Email: {{ selectedUser.email }}</p>
-    <p>Register Date: {{ selectedUser.createdDate | date:'yyyy-MM-dd' }}</p>
+    <p>Register Date: {{ selectedUser.createdDate | date : "yyyy-MM-dd" }}</p>
     <div class="card-actions justify-end">
       <div
         class="btn bg-primary border-secondary"

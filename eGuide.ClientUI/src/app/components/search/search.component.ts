@@ -190,7 +190,7 @@ export class SearchComponent implements OnInit {
     this.stationService.getStations().subscribe((stations) => {
       this.stations = stations;
       this.showConnectors = false;
-      this.stationNumber=this.stations.length;
+      this.stationNumber = this.stations.length;
     });
   }
 
@@ -326,18 +326,6 @@ export class SearchComponent implements OnInit {
     const allSelectedTypes = [facilityTypes];
     this.searchText = allSelectedTypes.join(', ');
   }
-
-  // isSelectedFacility(facility: Facility): boolean {
-  //   return this.selectedFacilities.some(
-  //     (selected) => selected.type === facility.type,
-  //   );
-  // }
-
-  // isSelectedConnector(connector: Connector): boolean {
-  //   return this.selectedConnector.some(
-  //     (selected) => selected.type === connector.type
-  //   );
-  // }
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;
