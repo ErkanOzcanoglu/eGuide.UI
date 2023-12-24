@@ -190,17 +190,15 @@
         </li>
 
         <!--? Customization -->
-        <li
-          class="menu-list items-center flex flex-col"
-          (click)="hideCustomization()"
-          tabindex="0"
-          (keyup)="handleKeyup($event)"
-        >
+        <li class="menu-list items-center flex flex-col">
           <div
+            (click)="hideCustomization()"
+            tabindex="0"
+            (keyup)="handleKeyup($event)"
             [ngClass]="collapseSideNav ? 'justify-center' : 'w-[335px]'"
             class="flex justify-between hover:bg-secondary hover:rounded-2xl"
           >
-            <a routerLink="/customization" class="cursor-pointer">
+            <a class="cursor-pointer">
               <i class="fa-solid fa-sliders"></i>
               <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
                 >Customization</span
@@ -251,16 +249,18 @@
         </li>
 
         <!--? Chat -->
-        <li
-          class="menu-list hover:bg-secondary hover:rounded-2xl items-center flex"
-        >
-          <a class="cursor-pointer">
-            <i class="fas fa-comments"></i>
-            <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''"
-              >Chat</span
-            >
-          </a>
-        </li>
+        <label for="my-drawer-4" class="cursor-pointer">
+          <li
+            class="menu-list hover:bg-secondary hover:rounded-2xl items-center flex"
+          >
+            <a class="cursor-pointer">
+              <i class="fas fa-comments"></i>
+              <span class="mt-1" [ngClass]="collapseSideNav ? 'hidden' : ''">
+                Chat
+              </span>
+            </a>
+          </li>
+        </label>
 
         <!--? Settings -->
         <li

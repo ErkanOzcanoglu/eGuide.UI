@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ import { Comment } from 'src/app/models/comment';
   templateUrl: './station-profile.component.html',
   styleUrls: ['./station-profile.component.css'],
 })
-export class StationProfileComponent {
+export class StationProfileComponent implements OnInit {
   model: Model = new Model();
   station: Station = new Station();
   stations: Station[] = [];
@@ -92,6 +92,7 @@ export class StationProfileComponent {
       console.log('StationID from route parameters:', this.stationId);
       this.getTotalUserCount(this.stationId);
       this.fetchStationData();
+      this.getComments(this.stationId);
     });
   }
 
@@ -157,6 +158,7 @@ export class StationProfileComponent {
   getComments(stationId: any) {
     this.commentService.getComments(stationId).subscribe((data) => {
       this.comments = data;
+      console.log('comments', this.comments);
     });
   }
   goBack(): void {

@@ -23,9 +23,6 @@ export class VehicleListComponent {
 
   editForm: FormGroup;
 
-  updatedModel: string | undefined;
-  searchTerm: any;
-  showSearch: any;
   refresh$ = this.store.select(selectRefresh);
 
   constructor(

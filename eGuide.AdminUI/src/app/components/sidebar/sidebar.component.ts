@@ -17,6 +17,10 @@ export class SidebarComponent implements OnInit {
   adminInfo?: Admin;
   isEdited?: boolean = false;
 
+  collapseManagement = false;
+  collapseCustomization = false;
+  collapseSideNav = false;
+
   @Output() closeSidenav = new EventEmitter<SideNavToggle>();
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -27,15 +31,15 @@ export class SidebarComponent implements OnInit {
     this.collapseSideNav = window.innerWidth < 1450;
   }
 
+  ngOnInit() {
+    this.getAdminInfo();
+  }
+
   handleKeyup(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.collapseSideNav = true;
     }
   }
-
-  collapseManagement = false;
-  collapseCustomization = false;
-  collapseSideNav = false;
 
   hideManagement() {
     this.collapseManagement = !this.collapseManagement;
@@ -55,10 +59,6 @@ export class SidebarComponent implements OnInit {
       screenWidth,
       collapseSideNav: this.collapseSideNav,
     });
-  }
-
-  ngOnInit() {
-    this.getAdminInfo();
   }
 
   getAdminInfo() {

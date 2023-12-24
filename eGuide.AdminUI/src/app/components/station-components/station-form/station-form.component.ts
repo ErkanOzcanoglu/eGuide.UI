@@ -49,14 +49,9 @@ export class StationFormComponent implements OnInit {
   selectedChargingUnitForm: FormGroup = new FormGroup({});
   selectedFacilitiesForm: FormGroup = new FormGroup({});
 
-  apiLoginErrorMessages: string[] = [];
-  submitted = false;
   getFormAddressData$ = this.store.select(getFormAddressData);
   getClickedData$ = this.store.select(getClickedData);
   selectStationEditData$ = this.store.select(selectStationEditData);
-  mapClickedData: any;
-  editDatas?: Station;
-  facilities: Facility[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
