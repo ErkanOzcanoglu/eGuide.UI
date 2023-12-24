@@ -14,8 +14,8 @@ export class UserVehicleService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  public saveVehicle(uservehicle: UserVehicle): Observable<UserVehicle[]> {
-    return this.http.post<UserVehicle[]>(
+  public saveVehicle(uservehicle: UserVehicle): Observable<UserVehicle> {
+    return this.http.post<UserVehicle>(
       `${environment.apiUrl}/${this.url}`,
       uservehicle
     );

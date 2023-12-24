@@ -40,7 +40,7 @@ export class UserAuthComponent implements OnInit {
 
   register(): void {
     this.userauthService.registerUser(this.registerForm.value).subscribe({
-      next: (response) => {
+      next: () => {
         this.toastr.success('User registered successfully.');
         this.logHelper.successProcess('register');
         this.router.navigate(['/login']);

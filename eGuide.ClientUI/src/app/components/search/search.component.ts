@@ -198,8 +198,6 @@ export class SearchComponent implements OnInit {
     this.facilityService.getFacilities().subscribe((facilities) => {
       this.facilities = facilities;
       this.facilityNumber = this.facilities.length;
-
-      console.log('hzimet sayısı', this.facilityNumber);
     });
   }
 
@@ -329,17 +327,17 @@ export class SearchComponent implements OnInit {
     this.searchText = allSelectedTypes.join(', ');
   }
 
-  isSelectedFacility(facility: Facility): boolean {
-    return this.selectedFacilities.some(
-      (selected) => selected.type === facility.type
-    );
-  }
+  // isSelectedFacility(facility: Facility): boolean {
+  //   return this.selectedFacilities.some(
+  //     (selected) => selected.type === facility.type,
+  //   );
+  // }
 
-  isSelectedConnector(connector: Connector): boolean {
-    return this.selectedConnector.some(
-      (selected) => selected.type === connector.type
-    );
-  }
+  // isSelectedConnector(connector: Connector): boolean {
+  //   return this.selectedConnector.some(
+  //     (selected) => selected.type === connector.type
+  //   );
+  // }
 
   openFilter() {
     this.isFilterClicked = !this.isFilterClicked;

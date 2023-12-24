@@ -414,15 +414,15 @@ export class MapHelper {
                   latitude: element.latitude,
                   longitude: element.longitude,
                   model: element.stationModel?.name,
-                  chargingUnit: this.chargingUnitList
-                    .map((chargingUnit: any) => chargingUnit.name)
-                    .join(', '),
-                  connector: this.connectorTypelist
-                    .map((chargingUnit: any) => chargingUnit.type)
-                    .join(', '),
-                  stationFacilities: this.facilityList
-                    .map((stationFacilities: any) => stationFacilities.type)
-                    .join(', '),
+                  chargingUnit: this.chargingUnitList.map(
+                    (chargingUnit: any) => chargingUnit.name
+                  ),
+                  connector: this.connectorTypelist.map(
+                    (chargingUnit: any) => chargingUnit.type
+                  ),
+                  stationFacilities: this.facilityList.map(
+                    (stationFacilities: any) => stationFacilities.type
+                  ),
                 },
 
                 // open popup when graphic is clicked
@@ -462,7 +462,6 @@ export class MapHelper {
                   actions: [goLocationAction, addFavorite],
                 },
               };
-              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
               view.graphics.add(pointGraphic); // add graphic to the view
             });
           });

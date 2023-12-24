@@ -46,14 +46,22 @@
     <div
       class="ml-2 flex items-center rounded-lg"
       *ngIf="isFilterClicked"
-      style="flex-direction: row-reverse; padding: 5px; border: 1px solid #9eb0ff"
+      style="
+        flex-direction: row-reverse;
+        padding: 5px;
+        border: 1px solid #9eb0ff;
+      "
     >
       {{ connectorNumber }} Connectors
     </div>
     <div
       class="ml-2 flex items-center rounded-lg"
       *ngIf="isFilterClicked"
-      style="flex-direction: row-reverse; padding: 5px; border: 1px solid #9eb0ff"
+      style="
+        flex-direction: row-reverse;
+        padding: 5px;
+        border: 1px solid #9eb0ff;
+      "
     >
       {{ stationNumber }} Stations
     </div>
@@ -117,7 +125,6 @@
               (click)="onSelectConnector(connector)"
               (keyup.enter)="onSelectConnector(connector)"
               tabindex="0"
-              [ngClass]="{ selected: isSelectedConnector(connector) }"
             >
               <div class="connector-item">
                 <img
@@ -144,7 +151,6 @@
               (click)="onSelectFacility(facility)"
               (keyup.enter)="onSelectFacility(facility)"
               tabindex="0"
-              [ngClass]="{ selected: isSelectedFacility(facility) }"
             >
               <i class="facility-icon" [ngClass]="facility.icon"></i>
               {{ facility.type }}
