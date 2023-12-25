@@ -205,6 +205,7 @@ input:checked + .slider:before {
   
 }
 
+ /* EXPAND */
 .overflow-scroll {
   background-color: #f9f9f9; 
   border: 1px solid #313de7; 
@@ -268,3 +269,32 @@ input:checked + .slider:before {
 .scrollable-content::-webkit-scrollbar-track {
   background-color: transparent; 
 }
+
+.transition-dropdown {
+  transition: max-height 0.5s ease-in-out; 
+}
+
+
+.transition-close{
+ transition: min-height 0.5s ease-in-out; 
+  min-height: 0; 
+}
+
+.drop1{
+  max-height: 30px; 
+}
+
+.drop2 {
+  max-height: 400px; 
+}
+
+.up1{
+  max-height: 400px; 
+}
+
+.up2 {
+  max-height: 30px; 
+}
+
+
+

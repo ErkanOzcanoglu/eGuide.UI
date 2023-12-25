@@ -106,10 +106,13 @@ export class SearchComponent implements OnInit {
   }
 
   onClick() {
+    this.isFilterClicked = false;
     this.isClicked = true;
+   
   }
 
   searchByAddress(text: string) {
+    this.isFilterClicked=false;
     if (this.isClicked) {
       this.isClicked = false;
     } else {
@@ -328,7 +331,9 @@ export class SearchComponent implements OnInit {
   }
 
   openFilter() {
+    this.isClicked = false;
     this.isFilterClicked = !this.isFilterClicked;
+    
     if (this.isFilteredForLastStations === false) this.getLastVisitedStations();
     this.isFilteredForLastStations = true;
   }
