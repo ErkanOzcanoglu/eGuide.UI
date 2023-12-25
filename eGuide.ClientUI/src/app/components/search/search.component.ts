@@ -106,10 +106,13 @@ export class SearchComponent implements OnInit {
   }
 
   onClick() {
+    this.isFilterClicked = false;
     this.isClicked = true;
+   
   }
 
   searchByAddress(text: string) {
+    this.isFilterClicked=false;
     if (this.isClicked) {
       this.isClicked = false;
     } else {
@@ -327,20 +330,10 @@ export class SearchComponent implements OnInit {
     this.searchText = allSelectedTypes.join(', ');
   }
 
-  // isSelectedFacility(facility: Facility): boolean {
-  //   return this.selectedFacilities.some(
-  //     (selected) => selected.type === facility.type,
-  //   );
-  // }
-
-  // isSelectedConnector(connector: Connector): boolean {
-  //   return this.selectedConnector.some(
-  //     (selected) => selected.type === connector.type
-  //   );
-  // }
-
   openFilter() {
+    this.isClicked = false;
     this.isFilterClicked = !this.isFilterClicked;
+    
     if (this.isFilteredForLastStations === false) this.getLastVisitedStations();
     this.isFilteredForLastStations = true;
   }
