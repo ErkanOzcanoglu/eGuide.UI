@@ -5,6 +5,7 @@ import { ConnectorService } from 'src/app/services/connector.service';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { Store } from '@ngrx/store';
 import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-socket-form',
@@ -20,7 +21,8 @@ export class SocketFormComponent implements OnInit {
     private connectorService: ConnectorService,
     private chargingUnitService: ChargingUnitService,
     private formBuilder: FormBuilder,
-    private store: Store
+    private store: Store,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -43,12 +45,19 @@ export class SocketFormComponent implements OnInit {
     if (this.socketForm.valid) {
       this.chargingUnitService
         .addChargingUnit(this.socketForm.value)
-        .subscribe();
+        .subscribe({
+          next: () => {
+            this.toastr.success('Socket added successfully');
+            this.store.dispatch(setRefresh(true));
+            this.socketForm.reset();
+          },
+          error: () => {
+            this.toastr.error('Socket could not be added');
+          },
+        });
     } else {
       console.log('Form is not valid');
     }
-    this.store.dispatch(setRefresh(true));
-    this.socketForm.reset();
   }
 
   getConnector(): void {

@@ -37,7 +37,6 @@ export class MapComponent implements OnInit {
   chargingUnitList: any[] = [];
   connectorTypelist: any[] = [];
   facilityList: any[] = [];
-  isFound = false;
 
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
@@ -89,6 +88,12 @@ export class MapComponent implements OnInit {
         zoom: 5,
         container: 'viewDiv',
       });
+
+      // set max and min zoom
+      this.view.constraints = {
+        minZoom: 2,
+      };
+
       // add locate widget
       this.locate = new Locate({
         view: this.view,
@@ -101,6 +106,7 @@ export class MapComponent implements OnInit {
           return view.goTo(options.target);
         },
       });
+
       // find only user location do not zoom in
       this.nearLocate = new Locate({
         view: this.view,
@@ -120,7 +126,6 @@ export class MapComponent implements OnInit {
   }
 
   locateS(): void {
-    this.isFound = true;
     this.mapHelper.locateS(this.locate);
   }
 
@@ -193,6 +198,11 @@ export class MapComponent implements OnInit {
     return this.mapHelper.isLoaded;
   }
 
+  // get isFound from map-helper
+  get isFound(): boolean {
+    return this.mapHelper.isFound;
+  }
+
   comment(stationId: any) {
     this.mapHelper.comment(stationId);
   }
@@ -202,8 +212,8 @@ export class MapComponent implements OnInit {
   }
 
   // search function
-  search(enevt: any) {
-    this.mapHelper.search(enevt, this.view);
+  search(event: any) {
+    this.mapHelper.search(event, this.view);
   }
 
   saveUserStation(elementId: string, userId: string): void {

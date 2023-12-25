@@ -60,14 +60,18 @@ export class ColorCustomizationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.colorService.updateColor(this.colorId, this.colorForm.value).subscribe(
-      () => {
-        this.toastrService.success('Color updated successfully');
-        this.getColor();
-      },
-      () => {
-        this.toastrService.error('Color update failed');
-      }
-    );
+    if (this.colorId != null) {
+      this.colorService
+        .updateColor(this.colorId, this.colorForm.value)
+        .subscribe({
+          next: () => {
+            this.toastrService.success('Color updated successfully');
+            this.getColor();
+          },
+          error: () => {
+            this.toastrService.error('Color update failed');
+          },
+        });
+    }
   }
 }

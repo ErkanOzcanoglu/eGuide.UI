@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { Website } from './../../models/website';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -6,12 +5,11 @@ import { ToastrService } from 'ngx-toastr';
 import { ContactFormService } from 'src/app/services/contact-form.service';
 import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
-import { Color, ThemeColor } from 'src/app/models/color';
-import { Store, select } from '@ngrx/store';
+import { ThemeColor } from 'src/app/models/color';
+import { Store } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 import { LogHelper } from '../generic-helper/log/log-helper';
 import * as signalR from '@microsoft/signalr';
-import { ReplayMail } from 'src/app/models/replayMail';
 
 @Component({
   selector: 'app-contact-form',
@@ -73,14 +71,14 @@ export class ContactFormComponent implements OnInit {
   onSubmit(): void {
     this.isSending = true;
     this.contactFormService.sendEmail(this.contactForm.value).subscribe({
-      next: (response) => {
+      next: () => {
         this.toastrService.success('Email sent successfully');
         this.contactFormService.storeMail(this.contactForm.value).subscribe({
-          next: (response) => {
+          next: () => {
             this.contactFormService
               .replayMail(this.contactForm.value)
               .subscribe({
-                next: (response) => {
+                next: () => {
                   this.reset();
                 },
                 error: (error) => {
@@ -104,15 +102,15 @@ export class ContactFormComponent implements OnInit {
   }
 
   getWebsites(): void {
-    this.websiteService.getWebsite().subscribe(
-      (response) => {
+    this.websiteService.getWebsite().subscribe({
+      next: (response) => {
         this.websites = response;
       },
-      (error) => {
+      error: (error) => {
         this.logHelper.errorProcess('getWebsites', error);
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   reset(): void {

@@ -13,11 +13,12 @@ import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
   styleUrls: ['./vehicle-form.component.css'],
 })
 export class VehicleFormComponent {
+  brandControl?: string;
+  modelControl?: string;
+
   vehicle: Vehicle = new Vehicle();
   vehicleForm: FormGroup = new FormGroup({});
   vehicles: Vehicle[] = [];
-  brandControl = '';
-  modelControl = '';
 
   constructor(
     private router: Router,
@@ -48,20 +49,20 @@ export class VehicleFormComponent {
 
       this.vehicleService.addVehicle(this.vehicle).subscribe(
         (response) => {
-          // Başarılı bir şekilde eklenirse yapılacak işlemler
-          this.toastr.success('Araç başarıyla eklendi', 'Başarılı');
+          this.toastr.success('Vehicle added successfully', 'Successful');
           this.store.dispatch(setRefresh(true));
           this.vehicleForm.reset();
         },
         (error) => {
-          // Hata durumunda yapılacak işlemler
-          this.toastr.error('Araç eklenirken bir hata oluştu', 'Hata');
+          this.toastr.error(
+            'An error occurred while adding the vehicle',
+            'Error'
+          );
         }
       );
       this.store.dispatch(setRefresh(false));
     } else {
-      // Eğer form kontrol elemanları null ise, bir hata durumu olarak ele alınabilir.
-      console.error('Form kontrol elemanları null.');
+      console.error('Form control elements are null.');
     }
   }
 

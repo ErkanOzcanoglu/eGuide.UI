@@ -8,6 +8,7 @@ import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { Router } from '@angular/router';
+import { ChargingUnit } from 'src/app/models/charging-unit';
 
 @Component({
   selector: 'app-station-list',
@@ -15,14 +16,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./station-list.component.css'],
 })
 export class StationListComponent implements OnInit {
+  socket?: string;
+  stationInfo?: Station;
+  selectedItem?: string;
+  searchText!: string;
+
+  showList = false;
+
   models: Model[] = [];
-  socket = '';
-  socketArray: any;
+  socketArray: ChargingUnit[] = [];
   stations: Station[] = [];
-  stationInfo: any;
-  showList: any;
-  selectedItem: any;
-  searchText = '';
 
   toggleList() {
     this.showList = !this.showList;
@@ -36,53 +39,54 @@ export class StationListComponent implements OnInit {
   constructor(
     private stationService: StationService,
     private chargingUnitService: ChargingUnitService,
-    private stationSocketService: StationSocketService,
     private toastr: ToastrService,
     private store: Store,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getStations();
+    // this.getStations();
     this.getStaInfo();
   }
 
   getStaInfo() {
-    this.stationService.getStations().subscribe({
-      next: (stations) => {
-        this.stations = stations;
-      },
+    this.stationService.getStations().subscribe((response) => {
+      this.stations = response;
     });
   }
 
-  getStations(): void {
-    this.stationService.getAllStaiton().subscribe(
-      (res) => {
-        this.models = res;
+  // getStations(): void {
+  //   this.stationService.getAllStaiton().subscribe(
+  //     (res) => {
+  //       this.models = res;
 
-        this.models.forEach((item) => {
-          if (typeof item.socket === 'string') {
-            item.socket = JSON.parse(item.socket);
-          }
-        });
-        this.stationService.getStations().subscribe({
-          next: (stations) => {
-            this.stations = stations;
-            this.chargingUnitService.getChargingUnits().subscribe({
-              error: (err) => console.error(err),
-            });
-          },
-        });
-      },
-      (err) => console.error(err)
-    );
-  }
+  //       this.models.forEach((item) => {
+  //         if (typeof item.socket === 'string') {
+  //           item.socket = JSON.parse(item.socket);
+  //         }
+  //       });
+  //       this.stationService.getStations().subscribe({
+  //         next: (stations) => {
+  //           this.stations = stations;
+  //           this.chargingUnitService.getChargingUnits().subscribe({
+  //             error: (err) => console.error(err),
+  //           });
+  //         },
+  //       });
+  //     },
+  //     (err) => console.error(err)
+  //   );
+  // }
 
   deleteStation(id: string): void {
     this.stationService.deleteStation(id).subscribe({
       next: () => {
         this.toastr.success('Deleted successfully');
-        this.getStations();
+        this.stationService.clearCache().subscribe({
+          next: () => {
+            this.getStaInfo();
+          },
+        });
       },
       error: (err) => this.toastr.error(err, 'Error'),
     });

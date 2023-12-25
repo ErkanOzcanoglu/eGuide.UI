@@ -29,7 +29,7 @@ export class VehicleService {
     );
   }
 
-  public updateVehicle(vehicleId: any, model:string) {
+  public updateVehicle(vehicleId: any, model: string) {
     return this.http.put(
       `${environment.apiUrl}/${this.url}/${vehicleId}`,
       vehicleId

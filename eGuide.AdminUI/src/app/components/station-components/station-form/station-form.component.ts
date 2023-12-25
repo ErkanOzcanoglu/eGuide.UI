@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -15,7 +10,6 @@ import {
   getClickedData,
   getFormAddressData,
 } from 'src/app/state/map-click-data/map-click-data.selector';
-import { MapState } from 'src/app/state/map-click-data/map-click-data.action';
 import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
@@ -29,25 +23,30 @@ import { StationFacilityService } from 'src/app/services/station-facility.servic
   styleUrls: ['./station-form.component.css'],
 })
 export class StationFormComponent implements OnInit {
+  mapClickedData?: Station;
+  editDatas?: Station;
+
   switchStatus = false;
   isEdited = false;
-  customButton: any;
+  submitted = false;
+  customButton?: number;
+  stationId!: string;
+  stationModelId?: string;
+
+  apiLoginErrorMessages: string[] = [];
   chargingUnit: ChargingUnit[] = [];
-  stationId = '';
-  selectedChargingUnits: any[] = [];
+  facilities: Facility[] = [];
+  selectedChargingUnits: ChargingUnit[] = [];
+
   stationForm: FormGroup = new FormGroup({});
   stationModelForm: FormGroup = new FormGroup({});
   stationChargingUnitForm: FormGroup = new FormGroup({});
   selectedChargingUnitForm: FormGroup = new FormGroup({});
   selectedFacilitiesForm: FormGroup = new FormGroup({});
-  apiLoginErrorMessages: string[] = [];
-  submitted = false;
+
   getFormAddressData$ = this.store.select(getFormAddressData);
   getClickedData$ = this.store.select(getClickedData);
   selectStationEditData$ = this.store.select(selectStationEditData);
-  mapClickedData: any;
-  editDatas?: Station;
-  facilities: Facility[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -120,9 +119,12 @@ export class StationFormComponent implements OnInit {
   }
 
   setButtonColor(stationStatus: number | undefined): void {
-    this.customButton = document.getElementById('customButton');
-    if (this.customButton) {
+    const element = document.getElementById('customButton');
+
+    if (element instanceof HTMLElement) {
       this.customButton = stationStatus;
+    } else {
+      this.customButton = undefined;
     }
   }
 
@@ -243,11 +245,11 @@ export class StationFormComponent implements OnInit {
                     }
                   );
 
-                  // this.stationModelForm.reset();
-                  // this.stationForm.reset();
-                  // this.selectedChargingUnitForm.reset();
-                  // this.stationChargingUnitForm.reset();
-                  // this.selectedFacilitiesForm.reset();
+                  this.stationModelForm.reset();
+                  this.stationForm.reset();
+                  this.selectedChargingUnitForm.reset();
+                  this.stationChargingUnitForm.reset();
+                  this.selectedFacilitiesForm.reset();
                 },
                 error: (err) => {
                   console.log(err);
@@ -264,11 +266,15 @@ export class StationFormComponent implements OnInit {
   }
 
   onUpdate() {
-    const stationModelId = this.editDatas?.stationModel?.id;
-    this.stationModelService.hardDeleteStationModel(stationModelId).subscribe({
-      next: () => {
-        this.onSubmit();
-      },
-    });
+    this.stationModelId = this.editDatas?.stationModel?.id;
+    if (this.stationModelId != null) {
+      this.stationModelService
+        .hardDeleteStationModel(this.stationModelId)
+        .subscribe({
+          next: () => {
+            this.onSubmit();
+          },
+        });
+    }
   }
 }

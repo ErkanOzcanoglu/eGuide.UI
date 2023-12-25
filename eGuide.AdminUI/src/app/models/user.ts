@@ -7,7 +7,6 @@ export class User {
     confirmPassword = '';
     createdDate='';
     isSelected?: boolean;
-
     
   }
   

@@ -11,7 +11,7 @@ import { Connector } from '../models/connector';
 export class ConnectorService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  getConnectors() {
+  getConnectors(): Observable<Connector[]> {
     return this.http.get<Connector[]>(`${environment.apiUrl}/UserConnector`);
   }
 }

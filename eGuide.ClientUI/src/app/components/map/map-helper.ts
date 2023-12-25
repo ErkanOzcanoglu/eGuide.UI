@@ -10,9 +10,11 @@ import { UserStationService } from 'src/app/services/user-station.service';
 import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
-import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Comment } from 'src/app/models/comment';
 import { ToastrService } from 'ngx-toastr';
+import { ChargingUnit } from 'src/app/models/charging-unit';
+import { Facility } from 'src/app/models/facility';
+import { Connector } from 'src/app/models/connector';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 export class MapHelper {
   lastVisitedStations: LastVisitedStations = new LastVisitedStations();
   commentForm: FormGroup = new FormGroup({});
-  searchType: any;
+  searchType?: string;
   view: any;
   userStation: UserStation = new UserStation();
   stations: Station[] = [];
@@ -42,6 +44,7 @@ export class MapHelper {
   ) {}
 
   zoomIn(view: any): void {
+    console.log(view, 'view');
     view.goTo({ zoom: view.zoom + 1 });
   }
 
@@ -57,7 +60,10 @@ export class MapHelper {
   }
 
   locateS(locate: any): void {
-    locate.locate();
+    this.isFound = true;
+    locate.locate().then(() => {
+      this.isFound = false;
+    });
   }
 
   calculateNearestStations(userP: any, view: any): void {
@@ -87,9 +93,6 @@ export class MapHelper {
         return a.distance - b.distance; // Normal comparison when both distances are defined
       }
     });
-
-    // clg the nearest location in km
-    console.log(this.stations[0].distance);
 
     // Get nearest station
     const nearestStation = this.stations[0];
@@ -161,8 +164,10 @@ export class MapHelper {
       });
   }
 
-  search(enevt: any, view: any) {
+  search(enevt: string, view: any) {
+    console.log(enevt, 'event');
     this.searchType = enevt;
+    console.log(this.searchType, 'searchType');
     const search = new Search({
       view: view,
     });
@@ -414,15 +419,15 @@ export class MapHelper {
                   latitude: element.latitude,
                   longitude: element.longitude,
                   model: element.stationModel?.name,
-                  chargingUnit: this.chargingUnitList
-                    .map((chargingUnit: any) => chargingUnit.name)
-                    .join(', '),
-                  connector: this.connectorTypelist
-                    .map((chargingUnit: any) => chargingUnit.type)
-                    .join(', '),
-                  stationFacilities: this.facilityList
-                    .map((stationFacilities: any) => stationFacilities.type)
-                    .join(', '),
+                  chargingUnit: this.chargingUnitList.map(
+                    (chargingUnit: any) => chargingUnit.name
+                  ),
+                  connector: this.connectorTypelist.map(
+                    (chargingUnit: any) => chargingUnit.type
+                  ),
+                  stationFacilities: this.facilityList.map(
+                    (stationFacilities: any) => stationFacilities.type
+                  ),
                 },
 
                 // open popup when graphic is clicked
@@ -462,7 +467,6 @@ export class MapHelper {
                   actions: [goLocationAction, addFavorite],
                 },
               };
-              // console.log(element.stationModel?.stationsChargingUnits[0].chargingUnit?.name ,"x");
               view.graphics.add(pointGraphic); // add graphic to the view
             });
           });
@@ -499,13 +503,13 @@ export class MapHelper {
               'aria-label': 'Type your comment here',
             },
             html: `<p>Rating</p>
-    <div class="rating" id="swal-rating">
-      <input type="radio" name="rating-2" value="1" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="2" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="3" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="4" class="mask mask-star-2 bg-orange-400" />
-      <input type="radio" name="rating-2" value="5" class="mask mask-star-2 bg-orange-400" />
-    </div>`,
+              <div class="rating" id="swal-rating">
+                <input type="radio" name="rating-2" value="1" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="2" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="3" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="4" class="mask mask-star-2 bg-orange-400" />
+                <input type="radio" name="rating-2" value="5" class="mask mask-star-2 bg-orange-400" />
+              </div>`,
             showCancelButton: true,
             confirmButtonText: 'Submit',
             cancelButtonText: 'Cancel',
@@ -560,10 +564,10 @@ export class MapHelper {
               <div class="container justify-content-center mt-5 border-left border-right p-4">
                 <div class="flex justify-content-center py-2">
                   <div class="second py-2 px-2 bg-white rounded-lg shadow-md w-96">
-                    <span class="text1 text-gray-700">${comment.text}</span>
+                    <span class="text1 text-gray-700 text-start flex">${comment.text}</span>
                     <div class="flex justify-between py-1 pt-2">
-                      <div class="flex items-center">
-                          <span class="text2 text-gray-700">${comment.rating}</span>
+                      <div class="flex items-center justify-end w-full">
+                          <span class="text2 text-gray-700">⭐${comment.rating}</span>
                       </div>
                     </div>
                   </div>

@@ -57,6 +57,16 @@
               adminInfo.isMasterAdmin ? "Admin Master" : "Admin"
             }}</span>
           </td>
+          <td>
+            <div class="flex justify-end">
+              <button
+                class="btn btn-pr bg-primary hover:bg-primary border-secondary ml-2"
+                (click)="deleteAdmin(adminInfo)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -24,7 +24,7 @@ export class SocialMediaService {
   }
 
   updateSocialMedia(
-    id: any,
+    id: string,
     socialMedia: SocialMedia
   ): Observable<SocialMedia> {
     return this.httpClient.put<SocialMedia>(
@@ -36,7 +36,7 @@ export class SocialMediaService {
     );
   }
 
-  deleteSocialMedia(id: any) {
+  deleteSocialMedia(id: string) {
     return this.httpClient.delete<SocialMedia>(
       `${environment.apiUrl}/SocialMedia/${id}`
     );

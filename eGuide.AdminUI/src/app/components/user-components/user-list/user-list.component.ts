@@ -16,12 +16,15 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
 })
 export class UserListComponent {
   editMode = false;
-  searchTerm: any;
-  showSearch: any;
-  lastInitial = '';
+  showSearch = false;
+
+  searchTerm!: string;
+  lastInitial?: string;
+
   user: User = new User();
   users: User[] = [];
-  selectedUser: any;
+  selectedUser?: User | null;
+
   refresh$ = this.store.select(selectRefresh);
 
   constructor(
@@ -47,7 +50,6 @@ export class UserListComponent {
     this.userService.getAllUsers().subscribe(
       (data) => {
         this.users = data;
-        console.log('kullanıcılar', this.users);
       },
       (error) => {
         console.error('Error getting vehicles:', error);
@@ -59,22 +61,17 @@ export class UserListComponent {
     return name.charAt(0);
   }
 
-  toggleSelection(item: User): void {
-    this.users.forEach((v) => (v.isSelected = false));
-    item.isSelected = !item.isSelected;
-  }
-
   toggleSearch(): void {
     this.showSearch = !this.showSearch;
   }
 
   viewProfileDetails(userId: any) {
-    console.log('VIEW KULLANICI', userId);
     this.router.navigate(['/user-profile', userId]);
   }
 
   openProfileCard(user: any) {
     this.selectedUser = user;
+    console.log(this.user.createdDate);
   }
 
   closeProfileCard() {

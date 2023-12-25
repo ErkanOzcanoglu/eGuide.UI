@@ -53,7 +53,7 @@ export class StationSocketService {
     );
   }
 
-  updateStationSocket(id: any, stationSocket: StationChargingUnit) {
+  updateStationSocket(id: string, stationSocket: StationChargingUnit) {
     return this.http.put<StationChargingUnit>(
       `${environment.apiUrl}/StationsChargingUnit/${id}`,
       stationSocket,

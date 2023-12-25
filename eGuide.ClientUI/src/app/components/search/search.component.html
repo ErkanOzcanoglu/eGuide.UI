@@ -5,7 +5,7 @@
       aria-describedby="search-text"
       placeholder="Search"
       [(ngModel)]="searchText"
-      class="search bg-white w-56 h-10 p-2 pr-10 rounded-l-xl outline-none"
+      class="search bg-white w-64 h-10 p-2 pr-10 rounded-l-xl outline-none"
       (click)="onClick()"
     />
 
@@ -22,11 +22,18 @@
   </button>
 </div>
 
-<div
+<!-- <div
   class="pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
   [ngClass]="{
-    'h-20 bg-transparent z- overflow-hidden': !isClicked || !isFilterClicked,
+    'h-30 bg-transparent z- overflow-hidden': !isClicked || !isFilterClicked,
     'min-h-[400px] max-h-[400px] h-full overflow-scroll': isClicked || isFilterClicked,
+  }"
+> -->
+<div
+  class="pt-2 rounded-lg overflow-y-auto scroll "
+  [ngClass]="{
+    'bg-transparent drop1 transition-dropdown  z-overflow-hidden': !isClicked || !isFilterClicked, 
+    'drop2 overflow-scroll ': isClicked || isFilterClicked,
   }"
 >
   <!-- Toggle Eklenen Kısım -->
@@ -42,15 +49,39 @@
       {{ c.name }}
     </li>
   </ul>
+  <div class="flex flex-row">
+    <div
+      class="ml-2 flex items-center rounded-lg"
+      *ngIf="isFilterClicked"
+      style="
+        flex-direction: row-reverse;
+        padding: 5px;
+        border: 1px solid #9eb0ff;
+      "
+    >
+      {{ connectorNumber }} Connectors
+    </div>
+    <div
+      class="ml-2 flex items-center rounded-lg"
+      *ngIf="isFilterClicked"
+      style="
+        flex-direction: row-reverse;
+        padding: 5px;
+        border: 1px solid #9eb0ff;
+      "
+    >
+      {{ stationNumber }} Stations
+    </div>
 
-  <div
-    class="ml-2 flex items-center"
-    *ngIf="isFilterClicked"
-    style="flex-direction: row-reverse"
-  >
-    <button (click)="refreshFilter()" class="refresh-button">
-      <i class="fas fa-sync-alt"></i>{{ "Close" | translate }}
-    </button>
+    <div
+      class="ml-2 flex items-center rounded-lg"
+      *ngIf="isFilterClicked"
+      style="flex-direction: row-reverse; border: 1px solid #9eb0ff"
+    >
+      <button (click)="refreshFilter()" class="refresh-button">
+        <i class="fas fa-sync-alt"></i>{{ "Close" | translate }}
+      </button>
+    </div>
   </div>
 
   <!-- Filter penceresi içeriği -->
@@ -71,20 +102,22 @@
         </div>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <ul class="connectors-list">
-          <li
-            *ngFor="let vehicle of vehicles"
-            (click)="onSelectVehicle(vehicle)"
-            (keyup.enter)="onSelectVehicle(vehicle)"
-            tabindex="0"
-          >
-            <div class="connector-item">
-              <span class="connector-type"
-                >{{ vehicle.brand }}-{{ vehicle.model }}</span
-              >
-            </div>
-          </li>
-        </ul>
+        <div class="scrollable-content">
+          <ul class="connectors-list">
+            <li
+              *ngFor="let vehicle of vehicles"
+              (click)="onSelectVehicle(vehicle)"
+              (keyup.enter)="onSelectVehicle(vehicle)"
+              tabindex="0"
+            >
+              <div class="connector-item">
+                <span class="connector-type"
+                  >{{ vehicle.brand }}-{{ vehicle.model }}</span
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
       </mat-panel-description>
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle>
@@ -99,7 +132,6 @@
               (click)="onSelectConnector(connector)"
               (keyup.enter)="onSelectConnector(connector)"
               tabindex="0"
-              [ngClass]="{ selected: isSelectedConnector(connector) }"
             >
               <div class="connector-item">
                 <img
@@ -119,18 +151,19 @@
         <mat-panel-title> {{ "Facilities" | translate }} </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <ul class="facilities-list">
-          <li
-            *ngFor="let facility of facilities"
-            (click)="onSelectFacility(facility)"
-            (keyup.enter)="onSelectFacility(facility)"
-            tabindex="0"
-            [ngClass]="{ selected: isSelectedFacility(facility) }"
-          >
-            <i class="facility-icon" [ngClass]="facility.icon"></i>
-            {{ facility.type }}
-          </li>
-        </ul>
+        <div class="scrollable-content">
+          <ul class="facilities-list">
+            <li
+              *ngFor="let facility of facilities"
+              (click)="onSelectFacility(facility)"
+              (keyup.enter)="onSelectFacility(facility)"
+              tabindex="0"
+            >
+              <i class="facility-icon" [ngClass]="facility.icon"></i>
+              {{ facility.type }}
+            </li>
+          </ul>
+        </div>
       </mat-panel-description>
     </mat-expansion-panel>
   </mat-accordion>

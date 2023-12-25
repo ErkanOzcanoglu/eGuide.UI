@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ColorHelper } from 'src/app/components/generic-helper/color/color-helper';
-import { Color, ThemeColor } from 'src/app/models/color';
+import { ThemeColor } from 'src/app/models/color';
 import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
@@ -10,14 +10,11 @@ import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
   styleUrls: ['./contact.component.css'],
   providers: [ColorHelper],
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit {
   color: ThemeColor = new ThemeColor();
   selectedTheme$ = this.store.select(selectThemeData);
 
-  constructor(
-    private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
-  ) {}
+  constructor(private colorHelper: ColorHelper, private store: Store) {}
 
   ngOnInit(): void {
     this.getColor();

@@ -1,12 +1,11 @@
-import { Component, HostListener, OnInit, VERSION } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LogHelper } from './../generic-helper/log/log-helper';
 import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { User } from 'src/app/models/user';
 import { ColorService } from 'src/app/services/color.service';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
-import { UserVehicle } from 'src/app/models/user-vehicle';
+import { Observable } from 'rxjs';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';
@@ -26,16 +25,18 @@ import * as LanguageActions from 'src/app/state/language-state/language.action';
 })
 export class NavbarComponent implements OnInit {
   navbar?: number;
-  user: User = new User();
+  currentState: Vehicle | null = null;
+  activeVehicle$: Observable<Vehicle | null>;
+  currentTheme = localStorage.getItem('theme');
+
   isLoggedIn = false;
   showUserMenu = false;
   hamburgerMenu = false;
+
+  user: User = new User();
   color = new Color();
   localColor = new ThemeColor();
-  currentTheme = localStorage.getItem('theme');
   vehicle: Vehicle = new Vehicle();
-  activeVehicle$: Observable<Vehicle | null>;
-  currentState: Vehicle | null = null;
   userVehicleActive: Vehicle = new Vehicle();
   savedActiveVehicle: Vehicle = new Vehicle();
 
@@ -52,8 +53,8 @@ export class NavbarComponent implements OnInit {
   ) {
     this.activeVehicle$ = this.store.select(selectActiveVehicle);
     this.translateService.addLangs(['tr', 'en']);
-    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
-    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
+    this.translateService.setDefaultLang('en');
+    this.translateService.use('en');
   }
 
   ngOnInit(): void {

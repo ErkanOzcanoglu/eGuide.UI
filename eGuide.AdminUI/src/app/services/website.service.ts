@@ -16,7 +16,7 @@ export class WebsiteService {
     });
   }
 
-  updateWebsite(id: any, website: Website): Observable<Website> {
+  updateWebsite(id: string, website: Website): Observable<Website> {
     return this.httpClient.put<Website>(
       `${environment.apiUrl}/Website/${id}`,
       website
@@ -40,15 +40,15 @@ export class WebsiteService {
     );
   }
 
-  updateNavbar(id: any, num: any): Observable<any> {
-    return this.httpClient.put<any>(
+  updateNavbar(id: string, num: number): Observable<Website> {
+    return this.httpClient.put<Website>(
       `${environment.apiUrl}/Website/updateNavbar/${id}?num=${num}`,
       num
     );
   }
 
-  updateFooter(id: any, num: any): Observable<any> {
-    return this.httpClient.put<any>(
+  updateFooter(id: string, num: number): Observable<Website> {
+    return this.httpClient.put<Website>(
       `${environment.apiUrl}/Website/updateFooter/${id}?num=${num}`,
       num
     );

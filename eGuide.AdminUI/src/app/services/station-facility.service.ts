@@ -29,7 +29,7 @@ export class StationFacilityService {
     );
   }
 
-  updateStationFacility(id: any, stationFacility: StationFacility) {
+  updateStationFacility(id: string, stationFacility: StationFacility) {
     return this.httpClient.put(
       `${environment.apiUrl}/StationFacility/${id}`,
       stationFacility

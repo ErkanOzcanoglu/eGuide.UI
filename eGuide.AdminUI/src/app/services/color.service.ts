@@ -16,7 +16,7 @@ export class ColorService {
     });
   }
 
-  updateColor(id: any, color: Color): Observable<Color> {
+  updateColor(id: string, color: Color): Observable<Color> {
     return this.httpClient.put<Color>(
       environment.apiUrl + '/Color/' + id,
       color,

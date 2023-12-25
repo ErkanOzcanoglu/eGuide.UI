@@ -17,9 +17,8 @@ export class UserSettingsComponent implements OnInit {
   user: User = new User();
   resetPasswordModel: ResetPassword = new ResetPassword();
   editMode = false;
-  userId = '';
-
   showForgotPasswordButton = true;
+  userId!: string;
 
   constructor(
     private router: Router,
@@ -28,12 +27,9 @@ export class UserSettingsComponent implements OnInit {
     public translateService: TranslateService
   ) {
     this.translateService.addLangs(['tr', 'en']);
-    this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce
-    this.translateService.use('en'); // Başlangıçta İngilizce olarak kullan
+    this.translateService.setDefaultLang('en');
+    this.translateService.use('en');
   }
-
-
-
 
   ngOnInit(): void {
     const userId = localStorage.getItem('authToken');
@@ -51,12 +47,11 @@ export class UserSettingsComponent implements OnInit {
 
     this.userId = localStorage.getItem('authToken') || '';
   }
-//dil değişimi
 
   public onChange(selectedLanguage: string): void {
     this.translateService.use(selectedLanguage);
   }
-//dil değişimi
+
   onModeChange() {
     this.editMode = !this.editMode;
   }
@@ -81,7 +76,7 @@ export class UserSettingsComponent implements OnInit {
     this.userService
       .resetPassword(this.resetPasswordModel, this.userId)
       .subscribe(
-        (response: string) => {
+        () => {
           localStorage.removeItem('authToken');
           this.router.navigate(['/login']);
         },

@@ -14,14 +14,14 @@ export class UserStationService {
   constructor(private http: HttpClient, private router: Router) {}
 
   saveUserStation(userstation: UserStation): Observable<UserStation> {
-    return this.http.post<any>(
+    return this.http.post<UserStation>(
       `${environment.apiUrl}/${this.url}`,
       userstation
     );
   }
 
-   deleteStationProfile(id: string): Observable<any> {
-    return this.http.delete<any>(
+  deleteStationProfile(id: string): Observable<UserStation> {
+    return this.http.delete<UserStation>(
       `${environment.apiUrl}/${this.url}/DeleteStationProfile/${id}`
     );
   }
