@@ -10,9 +10,11 @@ import { UserStationService } from 'src/app/services/user-station.service';
 import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
-import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Comment } from 'src/app/models/comment';
 import { ToastrService } from 'ngx-toastr';
+import { ChargingUnit } from 'src/app/models/charging-unit';
+import { Facility } from 'src/app/models/facility';
+import { Connector } from 'src/app/models/connector';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 export class MapHelper {
   lastVisitedStations: LastVisitedStations = new LastVisitedStations();
   commentForm: FormGroup = new FormGroup({});
-  searchType: any;
+  searchType?: string;
   view: any;
   userStation: UserStation = new UserStation();
   stations: Station[] = [];
@@ -42,6 +44,7 @@ export class MapHelper {
   ) {}
 
   zoomIn(view: any): void {
+    console.log(view, 'view');
     view.goTo({ zoom: view.zoom + 1 });
   }
 
@@ -161,8 +164,10 @@ export class MapHelper {
       });
   }
 
-  search(enevt: any, view: any) {
+  search(enevt: string, view: any) {
+    console.log(enevt, 'event');
     this.searchType = enevt;
+    console.log(this.searchType, 'searchType');
     const search = new Search({
       view: view,
     });

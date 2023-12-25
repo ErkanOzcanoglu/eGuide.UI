@@ -12,12 +12,14 @@
       class="h-28 duration-500 w-full flex items-center"
       [ngClass]="collapseSideNav ? 'ml-3 gap-5 ' : 'justify-between p-5'"
     >
-      <p
-        class="font-bold duration-300"
-        [ngClass]="collapseSideNav ? 'ml-4 text-xl' : 'ml-10 text-3xl'"
-      >
-        eGuide
-      </p>
+      <a routerLink="">
+        <p
+          class="font-bold duration-300"
+          [ngClass]="collapseSideNav ? 'ml-4 text-xl' : 'ml-10 text-3xl'"
+        >
+          eGuide
+        </p>
+      </a>
       <!--? hamburger icon -->
       <div
         (click)="setSideNav()"

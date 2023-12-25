@@ -88,6 +88,12 @@ export class MapComponent implements OnInit {
         zoom: 5,
         container: 'viewDiv',
       });
+
+      // set max and min zoom
+      this.view.constraints = {
+        minZoom: 2,
+      };
+
       // add locate widget
       this.locate = new Locate({
         view: this.view,
@@ -100,6 +106,7 @@ export class MapComponent implements OnInit {
           return view.goTo(options.target);
         },
       });
+
       // find only user location do not zoom in
       this.nearLocate = new Locate({
         view: this.view,

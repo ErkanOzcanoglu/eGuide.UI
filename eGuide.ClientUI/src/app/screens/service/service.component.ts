@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ColorHelper } from 'src/app/components/generic-helper/color/color-helper';
-import { Color, ThemeColor } from 'src/app/models/color';
+import { ThemeColor } from 'src/app/models/color';
 import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
@@ -18,7 +18,6 @@ export class ServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.colorHelper.getLocalColors(this.color);
-    // this.store.select(selectThemeData).subscribe((theme) => {
     this.selectedTheme$.subscribe(() => {
       this.colorHelper.getColors();
       this.colorHelper.getLocalColors(this.color);

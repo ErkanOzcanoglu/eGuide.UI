@@ -82,7 +82,11 @@ export class StationListComponent implements OnInit {
     this.stationService.deleteStation(id).subscribe({
       next: () => {
         this.toastr.success('Deleted successfully');
-        this.getStaInfo();
+        this.stationService.clearCache().subscribe({
+          next: () => {
+            this.getStaInfo();
+          },
+        });
       },
       error: (err) => this.toastr.error(err, 'Error'),
     });

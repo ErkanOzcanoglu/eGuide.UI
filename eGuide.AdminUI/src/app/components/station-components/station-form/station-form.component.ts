@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
@@ -15,7 +10,6 @@ import {
   getClickedData,
   getFormAddressData,
 } from 'src/app/state/map-click-data/map-click-data.selector';
-import { MapState } from 'src/app/state/map-click-data/map-click-data.action';
 import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
@@ -37,6 +31,7 @@ export class StationFormComponent implements OnInit {
   submitted = false;
   customButton?: number;
   stationId!: string;
+  stationModelId?: string;
 
   apiLoginErrorMessages: string[] = [];
   chargingUnit: ChargingUnit[] = [];
@@ -250,11 +245,11 @@ export class StationFormComponent implements OnInit {
                     }
                   );
 
-                  // this.stationModelForm.reset();
-                  // this.stationForm.reset();
-                  // this.selectedChargingUnitForm.reset();
-                  // this.stationChargingUnitForm.reset();
-                  // this.selectedFacilitiesForm.reset();
+                  this.stationModelForm.reset();
+                  this.stationForm.reset();
+                  this.selectedChargingUnitForm.reset();
+                  this.stationChargingUnitForm.reset();
+                  this.selectedFacilitiesForm.reset();
                 },
                 error: (err) => {
                   console.log(err);
@@ -271,11 +266,15 @@ export class StationFormComponent implements OnInit {
   }
 
   onUpdate() {
-    const stationModelId = this.editDatas?.stationModel?.id;
-    this.stationModelService.hardDeleteStationModel(stationModelId).subscribe({
-      next: () => {
-        this.onSubmit();
-      },
-    });
+    this.stationModelId = this.editDatas?.stationModel?.id;
+    if (this.stationModelId != null) {
+      this.stationModelService
+        .hardDeleteStationModel(this.stationModelId)
+        .subscribe({
+          next: () => {
+            this.onSubmit();
+          },
+        });
+    }
   }
 }

@@ -1,12 +1,11 @@
-import { Component, HostListener, OnInit, VERSION } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LogHelper } from './../generic-helper/log/log-helper';
 import { Router } from '@angular/router';
 import { Color, ThemeColor } from 'src/app/models/color';
 import { User } from 'src/app/models/user';
 import { ColorService } from 'src/app/services/color.service';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
-import { UserVehicle } from 'src/app/models/user-vehicle';
+import { Observable } from 'rxjs';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { UserService } from 'src/app/services/user.service';

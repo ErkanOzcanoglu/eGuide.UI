@@ -36,7 +36,7 @@ export class StationService {
     });
   }
 
-  updateStation(id: any, station: Station): Observable<Station> {
+  updateStation(id: string, station: Station): Observable<Station> {
     return this.http.put<Station>(
       `${environment.apiUrl}/Station/${id}`,
       station,
@@ -52,5 +52,9 @@ export class StationService {
 
   hardDeleteStation(id: string) {
     return this.http.patch(`${environment.apiUrl}/Station/${id}`, null);
+  }
+
+  clearCache(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/Station/clear`);
   }
 }

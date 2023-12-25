@@ -30,7 +30,7 @@ export class PasswordSettingsComponent implements OnInit {
     this.userService
       .resetPassword(this.resetPasswordModel, this.userId)
       .subscribe(
-        (response: string) => {
+        (response) => {
           localStorage.removeItem('authToken');
           this.router.navigate(['/login']);
         },

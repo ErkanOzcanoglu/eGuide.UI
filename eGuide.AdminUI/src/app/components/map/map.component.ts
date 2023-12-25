@@ -2,7 +2,13 @@ import {
   MapState,
   setClickedData,
 } from './../../state/map-click-data/map-click-data.action';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnChanges,
+} from '@angular/core';
 import { loadModules } from 'esri-loader';
 import Graphic from '@arcgis/core/Graphic';
 import Point from '@arcgis/core/geometry/Point';
@@ -32,7 +38,7 @@ interface Options {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
   @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
 
   public lat = 0;

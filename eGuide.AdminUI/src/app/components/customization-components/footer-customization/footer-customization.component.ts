@@ -29,17 +29,21 @@ export class FooterCustomizationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.websiteService.updateFooter(this.website[0].id, this.value).subscribe(
-      () => {
-        this.toast.success('Footer type updated successfully');
-      },
-      () => {
-        this.toast.error('Footer type update failed');
-      }
-    );
+    if (this.website[0].id != null && this.value != null) {
+      this.websiteService
+        .updateFooter(this.website[0].id, this.value)
+        .subscribe({
+          next: () => {
+            this.toast.success('Footer type updated successfully');
+          },
+          error: () => {
+            this.toast.error('Footer type update failed');
+          },
+        });
+    }
   }
 
-  footerType(value: any) {
+  footerType(value: number) {
     this.value = value;
   }
 }

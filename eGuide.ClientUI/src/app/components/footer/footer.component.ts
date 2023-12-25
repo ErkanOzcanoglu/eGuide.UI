@@ -3,8 +3,8 @@ import { SocialMedia } from 'src/app/models/social-media';
 import { SocialMediaService } from 'src/app/services/social-media.service';
 import { WebsiteService } from 'src/app/services/website.service';
 import { ColorHelper } from '../generic-helper/color/color-helper';
-import { Color, ThemeColor } from 'src/app/models/color';
-import { Store, select } from '@ngrx/store';
+import { ThemeColor } from 'src/app/models/color';
+import { Store } from '@ngrx/store';
 import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
@@ -23,7 +23,7 @@ export class FooterComponent implements OnInit {
     private socialMediaService: SocialMediaService,
     private websiteService: WebsiteService,
     private colorHelper: ColorHelper,
-    private store: Store<{ theme: any }>
+    private store: Store
   ) {}
 
   ngOnInit(): void {

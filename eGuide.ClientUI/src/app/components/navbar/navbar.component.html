@@ -68,7 +68,7 @@
           >
 
           <ng-template #savedActiveVehicleBrand>
-            {{ savedActiveVehicle?.brand }} {{ savedActiveVehicle?.model }}
+            {{ savedActiveVehicle.brand }} {{ savedActiveVehicle.model }}
           </ng-template>
           <div
             *ngIf="showUserMenu"
@@ -106,7 +106,7 @@
       <i class="fas fa-bars"></i>
       <button
         *ngIf="hamburgerMenu"
-        class="absolute right-0 mt-2 border rounded shadow-lg rounded-xl z-auto"
+        class="absolute right-0 mt-2 border shadow-lg rounded-xl z-auto"
         (click)="$event.stopPropagation()"
         role="button"
         tabindex="0"
@@ -138,7 +138,7 @@
             >
             <div
               *ngIf="showUserMenu"
-              class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
+              class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
               [style]="{
                 color: localColor.color2,
                 'background-color': localColor.color3
@@ -153,6 +153,14 @@
             </div>
           </button>
         </ng-container>
+        <div>
+          <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+            <i class="fa-solid fa-sun fa-xl"></i>
+          </button>
+          <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+            <i class="fa-solid fa-moon fa-xl"></i>
+          </button>
+        </div>
       </button>
     </button>
   </div>
@@ -194,7 +202,11 @@
   *ngIf="navbar === 1"
 >
   <div
-    class="navbar h-[80px] bg-[#ffffff] top-0 w-full flex justify-between px-10"
+    class="navbar h-[80px] top-0 w-full flex justify-between px-10"
+    [style]="{
+      color: localColor.color2,
+      'background-color': localColor.color3
+    }"
   >
     <div>
       <a
@@ -222,7 +234,7 @@
           >
           <div
             *ngIf="showUserMenu"
-            class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
+            class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
           >
             <button (click)="logout()" class="block px-4 py-2 rounded-xl">
               {{ "Logout" | translate }}
@@ -233,6 +245,14 @@
           </div>
         </button>
       </ng-container>
+      <div>
+        <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+          <i class="fa-solid fa-sun fa-xl"></i>
+        </button>
+        <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+          <i class="fa-solid fa-moon fa-xl"></i>
+        </button>
+      </div>
     </div>
     <button
       id="hamburgerIcon"
@@ -242,7 +262,11 @@
       <i class="fas fa-bars"></i>
       <button
         *ngIf="hamburgerMenu"
-        class="absolute right-0 mt-2 border rounded shadow-lg rounded-xl z-auto"
+        class="absolute right-0 mt-2 border shadow-lg rounded-xl z-auto"
+        [style]="{
+          color: localColor.color2,
+          'background-color': localColor.color3
+        }"
         (click)="$event.stopPropagation()"
       >
         <a
@@ -263,7 +287,7 @@
             >
             <div
               *ngIf="showUserMenu"
-              class="absolute left-0 mt-2 border rounded shadow-lg rounded-xl z-50"
+              class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
             >
               <button (click)="logout()" class="block px-4 py-2 rounded-xl">
                 {{ "Logout" | translate }}
@@ -274,6 +298,14 @@
             </div>
           </button>
         </ng-container>
+        <div>
+          <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+            <i class="fa-solid fa-sun fa-xl"></i>
+          </button>
+          <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+            <i class="fa-solid fa-moon fa-xl"></i>
+          </button>
+        </div>
       </button>
     </button>
   </div>

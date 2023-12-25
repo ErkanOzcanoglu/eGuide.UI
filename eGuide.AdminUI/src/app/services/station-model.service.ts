@@ -22,7 +22,7 @@ export class StationModelService {
   }
 
   updateStationModel(
-    id: any,
+    id: string,
     stationModel: StationModel
   ): Observable<StationModel> {
     return this.http.put<StationModel>(
@@ -34,11 +34,11 @@ export class StationModelService {
     );
   }
 
-  deleteStationModel(id: any) {
+  deleteStationModel(id: string) {
     return this.http.delete(`${environment.apiUrl}/StationModel/${id}`);
   }
 
-  hardDeleteStationModel(id: any) {
+  hardDeleteStationModel(id: string) {
     return this.http.delete(`${environment.apiUrl}/StationModel/${id}`);
   }
 }

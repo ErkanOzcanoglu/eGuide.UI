@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.css'],
 })
-export class VerifyEmailComponent {
+export class VerifyEmailComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
@@ -24,14 +24,13 @@ export class VerifyEmailComponent {
   }
 
   confirmAccount() {
-    this.userService.confirmAccount(this.token).subscribe(
-      (response) => {
+    this.userService.confirmAccount(this.token).subscribe({
+      next: () => {
         this.router.navigate(['/home']);
       },
-      (error) => {
-        console.error('Hesap onayı başarısız.', error);
+      error: () => {
         this.router.navigate(['/']);
-      }
-    );
+      },
+    });
   }
 }
