@@ -20,14 +20,14 @@ export class ContactService {
     );
   }
 
-  readMail(id: any): Observable<Mail> {
+  readMail(id: string): Observable<Mail> {
     return this.httpClient.put<Mail>(
       `${environment.apiUrl}/ContactForm?id=${id}`,
       {}
     );
   }
 
-  deleteMail(id: any): Observable<Mail> {
+  deleteMail(id: string): Observable<Mail> {
     return this.httpClient.delete<Mail>(
       `${environment.apiUrl}/ContactForm/${id}`
     );

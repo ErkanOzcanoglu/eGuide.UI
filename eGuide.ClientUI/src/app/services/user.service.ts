@@ -1,11 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { ResetPassword } from '../models/resetPassword';
 import { environment } from '../environments/environment.prod';
-import { UserLog } from '../models/user-log';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +11,16 @@ import { UserLog } from '../models/user-log';
 export class UserService {
   private url = 'User';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   public getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiUrl}/${this.url}`);
   }
 
-  public removeUser(userId: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/${this.url}?id=${userId}`);
+  public removeUser(userId: string): Observable<User> {
+    return this.http.delete<User>(
+      `${environment.apiUrl}/${this.url}/${userId}`
+    );
   }
 
   public getUserById(userId: string): Observable<User> {
@@ -29,12 +29,15 @@ export class UserService {
     );
   }
 
-  public updateUser(userId: string, user: User): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/${this.url}/${userId}`, user);
+  public updateUser(userId: string, user: User): Observable<User> {
+    return this.http.put<User>(
+      `${environment.apiUrl}/${this.url}/${userId}`,
+      user
+    );
   }
 
-  public forgotPassword(userId: string): Observable<any> {
-    return this.http.post<any>(
+  public forgotPassword(userId: string): Observable<User> {
+    return this.http.post<User>(
       `${environment.apiUrl}/${this.url}/forgot-password?userId=${userId}`,
       {}
     );
@@ -43,17 +46,16 @@ export class UserService {
   public resetPassword(
     resetPasswordModel: ResetPassword,
     userId: string
-  ): Observable<any> {
-    return this.http.post(
+  ): Observable<User> {
+    return this.http.post<User>(
       `${environment.apiUrl}/${this.url}/reset-password?userId=${userId}`,
-      resetPasswordModel,
-      { responseType: 'text' }
+      resetPasswordModel
     );
   }
 
-  public forgotPasswordScreen(userEmail: string): Observable<any> {
+  public forgotPasswordScreen(userEmail: string): Observable<User> {
     const encodedEmail = userEmail.replace('@', '%40');
-    return this.http.post<any>(
+    return this.http.post<User>(
       `${environment.apiUrl}/${this.url}/forgot-password/${encodedEmail}`,
       encodedEmail
     );
@@ -62,8 +64,8 @@ export class UserService {
   public resetPasswordScreen(
     resetInfo: ResetPassword,
     token: string
-  ): Observable<any> {
-    return this.http.post<any>(
+  ): Observable<User> {
+    return this.http.post<User>(
       `${environment.apiUrl}/${this.url}/reset-password-screen?token=${token}`,
       resetInfo
     );

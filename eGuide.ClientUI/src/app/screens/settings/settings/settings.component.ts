@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ColorHelper } from 'src/app/components/generic-helper/color/color-helper';
-import { Color, ThemeColor } from 'src/app/models/color';
+import { ThemeColor } from 'src/app/models/color';
 import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
 
 @Component({
@@ -11,7 +11,7 @@ import { selectThemeData } from 'src/app/state/theme-state/theme.selector';
   styleUrls: ['./settings.component.css'],
   providers: [ColorHelper],
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
   currentPage = 'user-settings';
   color: ThemeColor = new ThemeColor();
   selectedTheme$ = this.store.select(selectThemeData);
@@ -19,7 +19,7 @@ export class SettingsComponent {
   constructor(
     private colorHelper: ColorHelper,
     public translateService: TranslateService,
-    private store: Store<{ theme: any }>
+    private store: Store
   ) {
     this.translateService.addLangs(['tr', 'en']);
     this.translateService.setDefaultLang('en'); // Varsayılan dil İngilizce

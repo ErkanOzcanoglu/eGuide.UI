@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { Station } from '../models/station';
 import { Observable } from 'rxjs';
@@ -9,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class StationService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   getStations(): Observable<Station[]> {
     return this.http.get<Station[]>(`${environment.apiUrl}/Station`, {
@@ -29,7 +28,7 @@ export class StationService {
     });
   }
 
-  getStationById(id: any): Observable<Station> {
+  getStationById(id: string): Observable<Station> {
     return this.http.get<Station>(`${environment.apiUrl}/Station/${id}`, {
       responseType: 'json',
     });

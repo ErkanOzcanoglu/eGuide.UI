@@ -20,7 +20,7 @@ import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { selectLanguage } from 'src/app/state/language-state/language.selector';
 
 @Component({
@@ -347,17 +347,18 @@ export class SearchComponent implements OnInit {
           if (lastVisitedStations.length > 0) {
             this.lastVisitedStations = lastVisitedStations;
             this.lastVisitedStations.forEach((lastVisitedStation) => {
-              this.stationService
-                .getStationById(lastVisitedStation.stationId)
-                .subscribe((station) => {
-                  this.lastVisitedStations2.push({
-                    id: lastVisitedStation.id,
-                    createdTime: lastVisitedStation.createdTime,
-                    userId: lastVisitedStation.userId,
-                    stationId: lastVisitedStation.stationId,
-                    station: station,
+              if (lastVisitedStation.stationId != null)
+                this.stationService
+                  .getStationById(lastVisitedStation.stationId)
+                  .subscribe((station) => {
+                    this.lastVisitedStations2.push({
+                      id: lastVisitedStation.id,
+                      createdTime: lastVisitedStation.createdTime,
+                      userId: lastVisitedStation.userId,
+                      stationId: lastVisitedStation.stationId,
+                      station: station,
+                    });
                   });
-                });
             });
           } else {
             // clear the last visited stations
@@ -367,7 +368,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  removeLastVisitedStations(id: any) {
+  removeLastVisitedStations(id: string) {
     this.lastVisitedStationsService
       .removeLastVisitedStation(id)
       .subscribe(() => {

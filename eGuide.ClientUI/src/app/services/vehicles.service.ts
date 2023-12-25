@@ -21,7 +21,7 @@ export class VehiclesService {
     return this.http.get<Vehicle[]>(`${environment.apiUrl}/${this.url}`);
   }
 
-  public createVehicle(entity: Vehicle): Observable<any> {
+  public createVehicle(entity: Vehicle): Observable<Vehicle> {
     return this.http.post(`${environment.apiUrl}/Create`, entity);
   }
 

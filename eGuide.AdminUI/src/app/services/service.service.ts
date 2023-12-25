@@ -26,7 +26,7 @@ export class ServiceService {
     );
   }
 
-  updateService(id: any, service: Service): Observable<Service> {
+  updateService(id: string, service: Service): Observable<Service> {
     return this.httpClient.put<Service>(
       `${environment.apiUrl}/Service?id=${id}`,
       service,

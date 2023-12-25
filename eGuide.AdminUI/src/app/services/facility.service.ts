@@ -21,7 +21,7 @@ export class FacilityService {
     );
   }
 
-  updateFacility(facilityId: any, facility: Facility): Observable<Facility> {
+  updateFacility(facilityId: string, facility: Facility): Observable<Facility> {
     return this.httpClient.put<Facility>(
       environment.apiUrl + '/Facility?id=' + facilityId,
       facility

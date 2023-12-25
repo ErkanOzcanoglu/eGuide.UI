@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { getFormAddressData } from 'src/app/state/map-click-data/map-click-data.selector';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 
 interface Point {
@@ -23,9 +22,9 @@ export class StationsComponent {
 
   constructor(private store: Store) {
     this.selectStationEditData$.subscribe((stationEditData) => {
-      if (stationEditData) {
+      if (stationEditData.stationEditData) {
         this.editData = stationEditData;
-        this.screenType = true;
+        this.screenType = false;
       }
     });
   }

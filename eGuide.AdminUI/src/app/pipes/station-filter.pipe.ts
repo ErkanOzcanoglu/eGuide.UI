@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Station } from '../models/station';
 
 @Pipe({
   name: 'stationFilter',
@@ -11,7 +12,7 @@ export class StationFilterPipe implements PipeTransform {
    * @param searchText search string
    * @returns list of elements filtered by search text or []
    */
-  transform(items: any[], searchText: string): any[] {
+  transform(items: Station[], searchText: string): Station[] {
     if (!items) {
       return [];
     }
@@ -24,7 +25,7 @@ export class StationFilterPipe implements PipeTransform {
       return (
         it.name.toLowerCase().includes(searchText.toLowerCase()) ||
         it.address.toLowerCase().includes(searchText.toLowerCase()) ||
-        it.stationModel.name.toLowerCase().includes(searchText.toLowerCase())
+        it.stationModel?.name.toLowerCase().includes(searchText.toLowerCase())
       );
     });
   }

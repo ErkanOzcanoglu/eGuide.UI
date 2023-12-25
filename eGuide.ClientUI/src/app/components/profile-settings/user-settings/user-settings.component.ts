@@ -76,7 +76,7 @@ export class UserSettingsComponent implements OnInit {
     this.userService
       .resetPassword(this.resetPasswordModel, this.userId)
       .subscribe(
-        (response: string) => {
+        () => {
           localStorage.removeItem('authToken');
           this.router.navigate(['/login']);
         },

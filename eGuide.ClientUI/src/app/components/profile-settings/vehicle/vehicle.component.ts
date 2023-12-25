@@ -1,12 +1,11 @@
-import { Component, OnInit, VERSION } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserVehicle } from 'src/app/models/user-vehicle';
 import { Vehicle } from 'src/app/models/vehicle';
 import { UserVehicleService } from 'src/app/services/user-vehicle.service';
 import { VehiclesService } from 'src/app/services/vehicles.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import * as VehicleActions from 'src/app/state/vehicle-state/vehicle.actions';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +26,7 @@ export class VehicleComponent implements OnInit {
 
   selectedBrand?: string;
   selectedModel!: string;
-  selectedConnector: any;
+  selectedConnector?: Connector;
   primaryKey?: string;
 
   selectedConnectorId?: string;
@@ -91,7 +90,8 @@ export class VehicleComponent implements OnInit {
 
   onConnectorSelected(connector: any) {
     this.selectedConnector = connector;
-    localStorage.setItem('connectorId', this.selectedConnector.id);
+    if (this.selectedConnector != null)
+      localStorage.setItem('connectorId', this.selectedConnector.id);
     this.dropdownVisible = false;
     this.toggleDropdown();
   }
@@ -123,7 +123,8 @@ export class VehicleComponent implements OnInit {
 
   onCarSelected(brand: string, connector: string) {
     const selectedBrand = brand;
-    this.selectedConnector = connector;
+
+    this.selectedConnectorId = connector;
     this.loadModelsByBrand(selectedBrand);
     this.getConnector();
     localStorage.setItem('brand', selectedBrand);

@@ -85,4 +85,8 @@ export class AdminService {
       admin
     );
   }
+
+  deleteAdmin(id: string): Observable<Admin> {
+    return this.http.delete<Admin>(`${environment.apiUrl}/Admin?id=${id}`);
+  }
 }

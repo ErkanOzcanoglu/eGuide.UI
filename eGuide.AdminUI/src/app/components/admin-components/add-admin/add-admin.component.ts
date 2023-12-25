@@ -42,6 +42,7 @@ export class AddAdminComponent implements OnInit {
     const password = `${surname}.${name}`;
     this.adminForm.get('password')?.setValue(password);
     this.adminForm.get('confirmPassword')?.setValue(password);
+    console.log(this.adminForm.value);
     if (this.adminForm.valid) {
       this.admin = this.adminForm.value;
       this.admin.isMasterAdmin = false;

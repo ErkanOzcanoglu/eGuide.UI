@@ -69,26 +69,29 @@ export class FacilityListComponent implements OnInit {
 
   editFacility(facility: Facility) {
     const facilityId = facility.id;
-    this.facilityService
-      .updateFacility(facilityId, this.facilityForm.value)
-      .subscribe(
-        (data) => {
-          this.getFacilities();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    if (facilityId != null) {
+      this.facilityService
+        .updateFacility(facilityId, this.facilityForm.value)
+        .subscribe({
+          next: () => {
+            this.getFacilities();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+    }
   }
 
-  deleteFacility(id: any) {
-    this.facilityService.deleteFacility(id).subscribe(
-      () => {
-        this.getFacilities();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  deleteFacility(id: string | undefined) {
+    if (id != null)
+      this.facilityService.deleteFacility(id).subscribe({
+        next: () => {
+          this.getFacilities();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 }

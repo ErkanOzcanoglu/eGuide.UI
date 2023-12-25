@@ -29,17 +29,21 @@ export class NavbarCustomizationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.websiteService.updateNavbar(this.website[0].id, this.value).subscribe(
-      () => {
-        this.toast.success('Navbar type updated successfully');
-      },
-      () => {
-        this.toast.error('Navbar type update failed');
-      }
-    );
+    if (this.website[0].id != null && this.value != null) {
+      this.websiteService
+        .updateNavbar(this.website[0].id, this.value)
+        .subscribe({
+          next: () => {
+            this.toast.success('Navbar type updated successfully');
+          },
+          error: () => {
+            this.toast.error('Navbar type update failed');
+          },
+        });
+    }
   }
 
-  navbarType(value: any) {
+  navbarType(value: number) {
     this.value = value;
   }
 }

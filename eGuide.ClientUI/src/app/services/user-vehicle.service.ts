@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserVehicle } from '../models/user-vehicle';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
@@ -12,7 +11,7 @@ import { Vehicle } from '../models/vehicle';
 export class UserVehicleService {
   private url = 'UserVehicle';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   public saveVehicle(uservehicle: UserVehicle): Observable<UserVehicle> {
     return this.http.post<UserVehicle>(
@@ -57,7 +56,7 @@ export class UserVehicleService {
   }
 
   getUserVehicleWithActiveStatus(userId: string): Observable<UserVehicle> {
-    return this.http.get<any>(
+    return this.http.get<UserVehicle>(
       `${environment.apiUrl}/${this.url}/GetUserVehicleWithActiveStatus/${userId}`
     );
   }
@@ -65,11 +64,12 @@ export class UserVehicleService {
   deleteUserVehicleByVehicleId(
     userId: string,
     vehicleId: string
-  ): Observable<any> {
-    return this.http.delete(
+  ): Observable<UserVehicle> {
+    return this.http.delete<UserVehicle>(
       `${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}?userid=${userId}`
     );
   }
+
   public getActiveVehicle(userId: string): Observable<Vehicle> {
     return this.http.get<Vehicle>(
       `${environment.apiUrl}/${this.url}/GetActiveVehicle/${userId}`
