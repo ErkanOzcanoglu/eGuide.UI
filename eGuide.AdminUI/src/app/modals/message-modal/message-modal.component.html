@@ -10,7 +10,7 @@
       class="menu p-4 w-[500px] min-h-full bg-black flex flex-col text-base-content"
     >
       <li class="flex flex-col w-full" *ngFor="let mail of mails">
-        <div class="w-full flex justify-between">
+        <div *ngIf="mail.id" class="w-full flex justify-between">
           <!-- onclick="my_modal_1.showModal()" -->
           <div
             (keydown)="getMailId(mail.id)"

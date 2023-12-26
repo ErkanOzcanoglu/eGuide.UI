@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Station } from 'src/app/models/station';
 import { Model } from 'src/app/models/stationInformationModel';
-import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { CommentService } from 'src/app/services/comment.service';
-import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
 import { UserStationService } from 'src/app/services/user-station.service';
-import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
 import { Comment } from 'src/app/models/comment';
 
 @Component({
@@ -155,7 +151,7 @@ export class StationProfileComponent implements OnInit {
       );
   }
 
-  getComments(stationId: any) {
+  getComments(stationId: string) {
     this.commentService.getComments(stationId).subscribe((data) => {
       this.comments = data;
       console.log('comments', this.comments);

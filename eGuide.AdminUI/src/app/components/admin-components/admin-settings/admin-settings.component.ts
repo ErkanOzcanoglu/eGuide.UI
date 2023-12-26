@@ -59,7 +59,7 @@ export class AdminSettingsComponent implements OnInit {
     this.isEdited = !this.isEdited;
   }
 
-  editProfile(adminId: any) {
+  editProfile(adminId: string) {
     this.isEdited = !this.isEdited;
     if (this.isEdited) {
       console.log('');
@@ -71,7 +71,7 @@ export class AdminSettingsComponent implements OnInit {
             next: (response) => {
               this.toaster.success(`${response.name} updated successfully`);
             },
-            error: (error) => {
+            error: () => {
               this.toaster.error('Error updating profile');
             },
           });
@@ -80,6 +80,7 @@ export class AdminSettingsComponent implements OnInit {
   }
 
   createResetToken() {
-    this.adminService.adminForgotPassword(this.adminInfo?.id).subscribe({});
+    if (this.adminInfo?.id)
+      this.adminService.adminForgotPassword(this.adminInfo?.id).subscribe({});
   }
 }

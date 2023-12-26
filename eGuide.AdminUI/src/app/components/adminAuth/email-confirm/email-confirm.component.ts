@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
@@ -7,11 +8,12 @@ import { AdminService } from 'src/app/services/admin.service';
   templateUrl: './email-confirm.component.html',
   styleUrls: ['./email-confirm.component.css'],
 })
-export class EmailConfirmComponent {
+export class EmailConfirmComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: AdminService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toaster: ToastrService
   ) {}
   token = '';
 
@@ -24,14 +26,14 @@ export class EmailConfirmComponent {
   }
 
   confirmAccount() {
-    this.userService.confirmAccount(this.token).subscribe(
-      (response) => {
+    this.userService.confirmAccount(this.token).subscribe({
+      next: () => {
+        this.toaster.success('Account confirmed successfully');
         this.router.navigate(['/home']);
       },
-      (error) => {
-        console.error('Hesap onayı başarısız.', error);
-        this.router.navigate(['/']);
-      }
-    );
+      error: () => {
+        this.toaster.error('Account confirmation failed');
+      },
+    });
   }
 }

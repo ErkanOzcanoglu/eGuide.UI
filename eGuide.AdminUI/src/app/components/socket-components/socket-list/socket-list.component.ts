@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Connector } from 'src/app/models/connector';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
-import { RefreshState } from 'src/app/state/refresh-list/refresh-list.reducer';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
 
 @Component({
@@ -19,12 +18,14 @@ export class SocketListComponent implements OnInit {
   socketUpdteForm: FormGroup = new FormGroup({});
   socketUpdateControl = new FormControl('');
   isDisable = true;
+  refreshState$ = this.store.select(selectRefresh);
+
   constructor(
     private chargingUnitService: ChargingUnitService,
     private formBuilder: FormBuilder,
     private store: Store
   ) {
-    this.store.select(selectRefresh).subscribe((refresh: boolean) => {
+    this.refreshState$.subscribe((refresh: boolean) => {
       if (refresh === true) {
         this.getChargingUnitList();
       }
@@ -73,7 +74,7 @@ export class SocketListComponent implements OnInit {
     this.chargingUnitService
       .updateChargingUnit(id, this.socketUpdteForm.value)
       .subscribe({
-        next: (data) => {
+        next: () => {
           this.getChargingUnitList();
         },
         error: (error) => {

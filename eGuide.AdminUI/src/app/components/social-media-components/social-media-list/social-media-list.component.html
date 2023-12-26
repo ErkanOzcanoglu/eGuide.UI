@@ -144,6 +144,7 @@
             </button>
             <div class="flex gap-2" *ngIf="socialMedia.editingMode">
               <button
+                *ngIf="socialMedia.id"
                 (click)="editSocialMedia(socialMedia.id)"
                 class="btn btn-sm btn-success"
               >
@@ -159,6 +160,7 @@
           </td>
           <td>
             <button
+              *ngIf="socialMedia.id"
               (click)="deleteSocialMedia(socialMedia.id)"
               class="btn btn-error"
             >

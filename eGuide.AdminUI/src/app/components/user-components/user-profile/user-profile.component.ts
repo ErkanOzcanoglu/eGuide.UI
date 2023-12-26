@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Station } from 'src/app/models/station';
 import { User } from 'src/app/models/user';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   user: User = new User();
   vehicleList: Vehicle[] = [];
   stations: Station[] = [];
@@ -41,20 +41,20 @@ export class UserProfileComponent {
     });
   }
 
-  getUserInfo(userId: any) {
-    this.userService.getUserById(userId).subscribe(
-      (user) => {
+  getUserInfo(userId: string) {
+    this.userService.getUserById(userId).subscribe({
+      next: (user) => {
         this.user = user;
       },
-      (error) => {
-        console.error('Error getting user info:', error);
-      }
-    );
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   removeUser(): void {
     this.userService.removeUser(this.userId).subscribe(
-      (response) => {
+      () => {
         this.router.navigate(['/user']);
       },
       (error) => {
@@ -63,7 +63,7 @@ export class UserProfileComponent {
     );
   }
 
-  getVehicleById(userId: any) {
+  getVehicleById(userId: string) {
     if (userId !== null) {
       this.userVehicleService.getvehicleById(userId).subscribe(
         (data) => {

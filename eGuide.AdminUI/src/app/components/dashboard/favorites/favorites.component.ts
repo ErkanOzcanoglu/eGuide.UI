@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Station } from 'src/app/models/station';
 import { StationService } from 'src/app/services/station.service';
 import { UserStationService } from 'src/app/services/user-station.service';
@@ -8,7 +8,7 @@ import { UserStationService } from 'src/app/services/user-station.service';
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.css'],
 })
-export class FavoritesComponent {
+export class FavoritesComponent implements OnInit {
   stations: Station[] = [];
   stationIds: string[] = [];
   stationNames: string[] = [];

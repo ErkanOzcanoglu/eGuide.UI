@@ -54,7 +54,7 @@ export class StationService {
     return this.http.patch(`${environment.apiUrl}/Station/${id}`, null);
   }
 
-  clearCache(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/Station/clear`);
+  clearCache(): Observable<Station> {
+    return this.http.get<Station>(`${environment.apiUrl}/Station/clear`);
   }
 }

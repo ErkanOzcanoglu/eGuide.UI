@@ -34,7 +34,7 @@ export class ChangePasswordComponent implements OnInit {
     if (this.updatePasswordForm.valid) {
       const password = this.updatePasswordForm.value.password;
       const confirmPassword = this.updatePasswordForm.value.confirmPassword;
-      if (password === confirmPassword) {
+      if (password === confirmPassword && adminId) {
         this.adminService
           .passChange(adminId, this.updatePasswordForm.value)
           .subscribe({
@@ -53,6 +53,6 @@ export class ChangePasswordComponent implements OnInit {
 
   getAdminToken() {
     const adminToken = localStorage.getItem('authToken');
-    this.adminService.getAdminInfo(adminToken).subscribe();
+    if (adminToken) this.adminService.getAdminInfo(adminToken).subscribe();
   }
 }
