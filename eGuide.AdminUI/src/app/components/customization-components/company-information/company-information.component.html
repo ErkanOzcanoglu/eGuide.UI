@@ -5,24 +5,20 @@
       This information will be displayed in the footer of the application.
     </p>
   </div>
-  <form
-    class="gap-4 mt-5"
-    [formGroup]="companyInformationForm"
-    *ngFor="let website of website"
-  >
+  <form class="gap-4 mt-5" [formGroup]="companyInformationForm" *ngIf="website">
     <div class="grid grid-cols-2 gap-4">
       <div>
         <label for="">Company Name</label>
         <input
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           formControlName="name"
           [(ngModel)]="website.name"
           *ngIf="isEdit"
         />
         <div
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           *ngIf="!isEdit"
         >
           {{ website.name }}
@@ -32,14 +28,14 @@
         <label for="">Company Mail</label>
         <input
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           formControlName="email"
           [(ngModel)]="website.email"
           *ngIf="isEdit"
         />
         <div
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           *ngIf="!isEdit"
         >
           {{ website.email }}
@@ -51,14 +47,14 @@
         <label for="">Company Phone Number</label>
         <input
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           formControlName="phoneNumber"
           [(ngModel)]="website.phoneNumber"
           *ngIf="isEdit"
         />
         <div
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           *ngIf="!isEdit"
         >
           {{ website.phoneNumber }}
@@ -68,14 +64,14 @@
         <label for="">Company Address</label>
         <input
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           formControlName="address"
           [(ngModel)]="website.address"
           *ngIf="isEdit"
         />
         <div
           type="text"
-          class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
           *ngIf="!isEdit"
         >
           {{ website.address }}
@@ -86,14 +82,14 @@
       <label for="">Description</label>
       <textarea
         type="text"
-        class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm h-32"
+        class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm h-32"
         formControlName="description"
         [(ngModel)]="website.description"
         *ngIf="isEdit"
       ></textarea>
       <div
         type="text"
-        class="w-full border border-secondary bg-primary rounded-md p-2 input text-sm h-32"
+        class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm h-32"
         *ngIf="!isEdit"
       >
         {{ website.description }}
@@ -116,6 +112,63 @@
       <button *ngIf="!isEdit" (click)="editWebsite()" class="btn bg-primary">
         Edit
       </button>
+    </div>
+  </form>
+  <form
+    class="gap-4 mt-5"
+    [formGroup]="companyInformationForm"
+    *ngIf="!website"
+  >
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label for="">Company Name</label>
+        <input
+          type="text"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
+          formControlName="name"
+        />
+      </div>
+      <div>
+        <label for="">Company Mail</label>
+        <input
+          type="text"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
+          formControlName="email"
+        />
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mt-5">
+      <div>
+        <label for="">Company Phone Number</label>
+        <input
+          type="text"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
+          formControlName="phoneNumber"
+        />
+      </div>
+      <div>
+        <label for="">Company Address</label>
+        <input
+          type="text"
+          class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm"
+          formControlName="address"
+        />
+      </div>
+    </div>
+    <div class="mt-5">
+      <label for="">Description</label>
+      <textarea
+        type="text"
+        class="w-full border border-secondary bg-primary rounded-md p-2 input input-bordered text-sm h-32"
+        formControlName="description"
+      ></textarea>
+    </div>
+    <div class="flex justify-end mt-5">
+      <div class="flex gap-x-3">
+        <button *ngIf="!website" (click)="onSubmit()" class="btn bg-primary">
+          Save
+        </button>
+      </div>
     </div>
   </form>
 </div>

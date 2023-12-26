@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-socket',
-  templateUrl: './socket.component.html',
-  styleUrls: ['./socket.component.css'],
+  selector: 'app-charging-unit',
+  templateUrl: './charging-unit.component.html',
+  styleUrls: ['./charging-unit.component.css'],
 })
-export class SocketComponent {
+export class ChargingUnitComponent {
   isOpen = false;
   isConnectorListOpen = false;
 

@@ -2,7 +2,6 @@ import { CustomizationComponent } from './screens/customization/customization.co
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StationsComponent } from './screens/stations/stations.component';
-import { SocketComponent } from './screens/socket/socket.component';
 import { MapComponent } from './components/map/map.component';
 import { SettingsComponent } from './screens/settings/settings.component';
 import { SignComponent } from './screens/sign/sign.component';
@@ -22,6 +21,7 @@ import { PageNotFoundComponent } from './components/error-pages/page-not-found/p
 import { UserComponent } from './screens/user/user.component';
 import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
 import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
+import { ChargingUnitComponent } from './screens/charging-unit/charging-unit.component';
 
 const routes: Routes = [
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'station', component: StationsComponent },
-      { path: 'charging-unit', component: SocketComponent },
+      { path: 'charging-unit', component: ChargingUnitComponent },
       { path: 'map', component: MapComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'change-password', component: ChangePasswordComponent },

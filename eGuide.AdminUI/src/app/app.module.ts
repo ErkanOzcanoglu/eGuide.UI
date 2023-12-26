@@ -12,7 +12,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MapComponent } from './components/map/map.component';
 import { StationsComponent } from './screens/stations/stations.component';
 import { ConnectorModalComponent } from './modals/connector-modal/connector-modal.component';
-import { SocketComponent } from './screens/socket/socket.component';
 
 import { MatSelectModule } from '@angular/material/select';
 
@@ -90,6 +89,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
+import { ChargingUnitComponent } from './screens/charging-unit/charging-unit.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -104,7 +104,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StationsComponent,
     StationFormComponent,
     ConnectorModalComponent,
-    SocketComponent,
+    ChargingUnitComponent,
     SocketFormComponent,
     StationSocketsComponent,
     StationListComponent,

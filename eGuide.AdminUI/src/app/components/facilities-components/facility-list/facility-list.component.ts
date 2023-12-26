@@ -33,6 +33,7 @@ export class FacilityListComponent implements OnInit {
 
   openForm() {
     this.isOpen = !this.isOpen;
+    this.facilityForm.reset();
   }
 
   getFacilities() {
@@ -57,6 +58,7 @@ export class FacilityListComponent implements OnInit {
 
   toggleEdit(facility: Facility) {
     // other sockets should be disabled
+    this.isOpen = false;
     this.facilities.forEach((element) => {
       element.editingMode = false;
     });
@@ -65,6 +67,7 @@ export class FacilityListComponent implements OnInit {
 
   closeEdit(facility: Facility) {
     facility.editingMode = false;
+    this.facilityForm.reset();
   }
 
   editFacility(facility: Facility) {
