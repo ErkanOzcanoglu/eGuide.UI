@@ -1,7 +1,4 @@
-import {
-  MapState,
-  setClickedData,
-} from './../../state/map-click-data/map-click-data.action';
+import { setClickedData } from './../../state/map-click-data/map-click-data.action';
 import {
   Component,
   OnInit,
@@ -14,8 +11,9 @@ import Graphic from '@arcgis/core/Graphic';
 import Point from '@arcgis/core/geometry/Point';
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
 import { StationService } from 'src/app/services/station.service';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { getClickedData } from 'src/app/state/map-click-data/map-click-data.selector';
+import { Station } from 'src/app/models/station';
 export interface Points {
   lat: number;
   lng: number;
@@ -44,8 +42,8 @@ export class MapComponent implements OnInit, OnChanges {
   public lat = 0;
   public lng = 0;
   public coord: Points[] = [];
+  public points: Station[] = [];
   public mapView: any;
-  public points: any[] = [];
   public locator: any;
 
   ngOnChanges(event: any) {
@@ -104,9 +102,7 @@ export class MapComponent implements OnInit, OnChanges {
       'esri/widgets/Locate',
       'esri/widgets/Track',
       'esri/Graphic',
-      'esri/layers/FeatureLayer',
       'esri/widgets/BasemapToggle',
-      'esri/widgets/BasemapGallery',
       'esri/geometry/Point',
       'esri/symbols/SimpleMarkerSymbol',
       'esri/rest/locator',
@@ -119,9 +115,7 @@ export class MapComponent implements OnInit, OnChanges {
         Locate,
         Track,
         Graphic,
-        FeatureLayer,
         BasemapToggle,
-        BasemapGallery,
         Point,
         SimpleMarkerSymbol,
         locator,

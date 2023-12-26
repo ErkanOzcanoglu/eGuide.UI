@@ -1,8 +1,7 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subscribable } from 'rxjs';
 import { fadeIn } from 'src/app/models/fade-in.animation';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -14,7 +13,7 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
   styleUrls: ['./user-list.component.css'],
   animations: [fadeIn],
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
   editMode = false;
   showSearch = false;
 
@@ -65,11 +64,11 @@ export class UserListComponent {
     this.showSearch = !this.showSearch;
   }
 
-  viewProfileDetails(userId: any) {
+  viewProfileDetails(userId: string) {
     this.router.navigate(['/user-profile', userId]);
   }
 
-  openProfileCard(user: any) {
+  openProfileCard(user: User) {
     this.selectedUser = user;
     console.log(this.user.createdDate);
   }

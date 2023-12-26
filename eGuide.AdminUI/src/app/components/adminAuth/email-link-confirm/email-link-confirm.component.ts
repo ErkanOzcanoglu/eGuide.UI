@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-
 
 import { ToastrService } from 'ngx-toastr';
 import { Admin } from 'src/app/models/admin';
@@ -12,7 +11,7 @@ import { AdminService } from 'src/app/services/admin.service';
   templateUrl: './email-link-confirm.component.html',
   styleUrls: ['./email-link-confirm.component.css'],
 })
-export class EmailLinkConfirmComponent {
+export class EmailLinkConfirmComponent implements OnInit {
   admin: Admin = new Admin();
   confirmEmailForm: FormGroup = new FormGroup({});
 
@@ -37,7 +36,7 @@ export class EmailLinkConfirmComponent {
     this.adminService
       .forgotPasswordScreen(this.confirmEmailForm.value.email)
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.toastr.success(
             'Email verification request sent successfully.',
             'Successful'

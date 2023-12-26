@@ -39,7 +39,7 @@ export class AdminService {
     );
   }
 
-  getAdminInfo(adminId: any): Observable<Admin> {
+  getAdminInfo(adminId: string): Observable<Admin> {
     return this.http.get(`${environment.apiUrl}/Admin/getbyId?id=${adminId}`, {
       responseType: 'json',
     });
@@ -50,16 +50,19 @@ export class AdminService {
     return this.http.get(url);
   }
 
-  resetPasswordScreen(resetInfo: ResetPassword, userId: any): Observable<any> {
-    return this.http.post<any>(
+  resetPasswordScreen(
+    resetInfo: ResetPassword,
+    userId: string
+  ): Observable<Admin> {
+    return this.http.post<Admin>(
       `${environment.apiUrl}/${this.url}/reset-password?userId=${userId}`,
       resetInfo
     );
   }
 
-  forgotPasswordScreen(userEmail: string): Observable<any> {
+  forgotPasswordScreen(userEmail: string): Observable<Admin> {
     const encodedEmail = userEmail.replace('@', '%40');
-    return this.http.post<any>(
+    return this.http.post<Admin>(
       `${environment.apiUrl}/${this.url}/forgot-password/${encodedEmail}`,
       encodedEmail
     );
@@ -72,15 +75,15 @@ export class AdminService {
     );
   }
 
-  adminForgotPassword(adminId: any): Observable<Admin> {
+  adminForgotPassword(adminId: string): Observable<Admin> {
     return this.http.post<Admin>(
       `${environment.apiUrl}/Admin/forgot-password?userId=${adminId}`,
       adminId
     );
   }
 
-  passChange(adminId: any, admin: any): Observable<any> {
-    return this.http.post<any>(
+  passChange(adminId: string, admin: Admin): Observable<Admin> {
+    return this.http.post<Admin>(
       `${environment.apiUrl}/Admin/pass-change?id=${adminId}`,
       admin
     );

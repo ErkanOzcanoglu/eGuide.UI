@@ -1,4 +1,3 @@
-import { Facility } from './facility';
 import { StationFacility } from './station-facility';
 import { StationModel } from './stationModel';
 

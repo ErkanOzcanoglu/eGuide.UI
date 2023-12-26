@@ -53,7 +53,7 @@ export class CompanyInformationComponent implements OnInit {
       .subscribe();
   }
 
-  onUpdate(id: any) {
+  onUpdate(id: string) {
     this.websiteService
       .updateWebsite(id, this.companyInformationForm.value)
       .subscribe({

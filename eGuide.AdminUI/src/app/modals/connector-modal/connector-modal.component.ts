@@ -62,7 +62,7 @@ export class ConnectorModalComponent implements OnInit {
               this.connectorForm.reset();
               this.toaster.success('Connector added');
             },
-            error: (err) => {
+            error: () => {
               this.toaster.error('Error while adding connector');
             },
           });

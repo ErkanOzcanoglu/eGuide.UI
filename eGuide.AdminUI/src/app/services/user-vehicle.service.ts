@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserVehicle } from '../models/user-vehicle';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../models/vehicle';
@@ -12,7 +11,7 @@ import { environment } from '../environments/environment';
 export class UserVehicleService {
   private url = 'UserVehicle';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   public saveVehicle(uservehicle: UserVehicle): Observable<UserVehicle[]> {
     return this.http.post<UserVehicle[]>(
@@ -32,14 +31,14 @@ export class UserVehicleService {
     vehicleId: string,
     idNew: string,
     connectorId: string
-  ): Observable<any> {
+  ): Observable<UserVehicle> {
     const data = {
       userId: userId,
       vehicleId: vehicleId,
       idNew: idNew,
       connectorId: connectorId,
     };
-    return this.http.put(
+    return this.http.put<UserVehicle>(
       `${environment.apiUrl}/${this.url}/update-vehicle?userid=${userId}&vehicleId=${vehicleId}&idNew=${idNew}&connectorId=${connectorId}`,
       data
     );
@@ -48,8 +47,8 @@ export class UserVehicleService {
   deleteUserVehicleByVehicleId(
     userId: string,
     vehicleId: string
-  ): Observable<any> {
-    return this.http.delete(
+  ): Observable<UserVehicle> {
+    return this.http.delete<UserVehicle>(
       `${environment.apiUrl}/${this.url}/DeleteByVehicleId/${vehicleId}?userid=${userId}`
     );
   }

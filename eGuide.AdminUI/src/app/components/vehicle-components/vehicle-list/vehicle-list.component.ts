@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Vehicle } from 'src/app/models/vehicle';
@@ -12,7 +11,7 @@ import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector'
   templateUrl: './vehicle-list.component.html',
   styleUrls: ['./vehicle-list.component.css'],
 })
-export class VehicleListComponent {
+export class VehicleListComponent implements OnInit {
   updatedModel: string | undefined;
   searchTerm!: string;
   editMode = false;
@@ -26,7 +25,6 @@ export class VehicleListComponent {
   refresh$ = this.store.select(selectRefresh);
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private vehicleService: VehicleService,
@@ -70,7 +68,7 @@ export class VehicleListComponent {
   }
 
   onSave(item: Vehicle): void {
-    if (item.isSelected) {
+    if (item.isSelected && item.id != null && item.model != null) {
       this.onUpdate(item.id, item.model);
     } else {
       this.onModeChange();
@@ -91,7 +89,7 @@ export class VehicleListComponent {
     }
   }
 
-  onUpdate(vehicleId: any, model: any): void {
+  onUpdate(vehicleId: string, model: string): void {
     if (vehicleId !== null && model !== null) {
       this.vehicleService.updateVehicle(vehicleId, model).subscribe();
     } else {
