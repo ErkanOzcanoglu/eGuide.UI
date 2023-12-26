@@ -34,6 +34,7 @@ export class SocialMediaListComponent implements OnInit {
 
   openForm() {
     this.isOpen = !this.isOpen;
+    this.socialMediaForm.reset();
   }
 
   getSocialMedias() {
@@ -45,20 +46,22 @@ export class SocialMediaListComponent implements OnInit {
   submitForm() {
     this.socialMediaService
       .addSocialMedia(this.socialMediaForm.value)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.socialMedias.push(response);
           this.isOpen = false;
           this.socialMediaForm.reset();
         },
-        (error) => {
-          console.log(error);
-        }
-      );
+        error: () => {
+          console.log('Social media not added');
+        },
+      });
   }
 
   toggleEdit(socialMedia: SocialMedia) {
     // other sockets should be disabled
+    this.socialMediaForm.reset();
+    this.isOpen = false;
     this.socialMedias.forEach((element) => {
       element.editingMode = false;
     });
