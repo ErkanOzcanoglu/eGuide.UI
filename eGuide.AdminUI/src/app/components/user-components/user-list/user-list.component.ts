@@ -64,6 +64,11 @@ export class UserListComponent implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
+  toggleSelection(item: User): void {
+    this.users.forEach((u) => (u.isSelected = false));
+    item.isSelected = !item.isSelected;
+  }
+
   viewProfileDetails(userId: string) {
     this.router.navigate(['/user-profile', userId]);
   }
