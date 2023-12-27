@@ -29,10 +29,15 @@ export class ServiceListComponent implements OnInit {
     });
   }
 
-  deleteService(id: any) {
-    this.serviceService.deleteService(id).subscribe((data) => {
-      this.getService();
-      this.toastr.success('Service deleted successfully');
+  deleteService(id: string) {
+    this.serviceService.deleteService(id).subscribe({
+      next: () => {
+        this.getService();
+        this.toastr.success('Service deleted successfully');
+      },
+      error: () => {
+        this.toastr.error('Service not deleted');
+      },
     });
   }
 

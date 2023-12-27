@@ -48,10 +48,10 @@
         <td class="bg-primary">
           {{ item.stationModel?.name }}
         </td>
-        <td class="bg-primary">
+        <td class="bg-primary h-full">
           <button
             (click)="toggleList()"
-            class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
+            class="btn flex justify-start items-center bg-transparent cursor-pointer w-full h-full p-2"
           >
             <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="flex flex-col justify-start text-xs">
@@ -87,8 +87,8 @@
 
         <td class="">
           <div class="flex gap-x-2 items-center justify-center">
-             <button class="btn btn-ghost" (click)=" viewStationDetails(item.id)">
-              View Station 
+            <button class="btn btn-ghost" (click)="viewStationDetails(item.id)">
+              View Station
             </button>
             <button class="btn btn-ghost" (click)="editStation(item)">
               Edit

@@ -270,10 +270,34 @@
       <button
         class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
+        (click)="clearForm()"
+        *ngIf="
+          stationForm.value.latitude ||
+          stationForm.value.longitude ||
+          stationForm.value.name ||
+          stationForm.value.stationStatus ||
+          stationForm.value.address ||
+          selectedChargingUnitForm.value.sockets ||
+          selectedFacilitiesForm.value.facilities
+        "
+      >
+        Clear
+      </button>
+      <button
+        class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
         (click)="onSubmit()"
         *ngIf="!isEdited"
       >
         Submit
+      </button>
+      <button
+        class="hover:bg-primary text-white bg-primary border border-secondary py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+        (click)="clearForm()"
+        *ngIf="isEdited"
+      >
+        Clear
       </button>
       <button
         *ngIf="isEdited"

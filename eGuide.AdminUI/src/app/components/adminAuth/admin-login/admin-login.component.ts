@@ -41,18 +41,20 @@ export class AdminLoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           this.loadingAfterLogin = true;
-          this.adminService.getAdminInfo(response?.id).subscribe({
-            next: (response) => {
-              if (response?.id) localStorage.setItem('authToken', response?.id);
-              this.toaster.success('Login successful');
-              this.router.navigate(['']);
-              this.loadingAfterLogin = false;
-            },
-            error: (error) => {
-              this.toaster.error('Invalid email or password');
-              console.log(error);
-            },
-          });
+          if (response?.id)
+            this.adminService.getAdminInfo(response?.id).subscribe({
+              next: (response) => {
+                if (response?.id)
+                  localStorage.setItem('authToken', response?.id);
+                this.toaster.success('Login successful');
+                this.router.navigate(['']);
+                this.loadingAfterLogin = false;
+              },
+              error: (error) => {
+                this.toaster.error('Invalid email or password');
+                console.log(error);
+              },
+            });
         },
         error: (error) => {
           console.log(error);

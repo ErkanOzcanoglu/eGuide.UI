@@ -64,6 +64,7 @@
     </div>
     <div class="flex justify-end flex-row gap-x-3 w-full">
       <button
+        *ngIf="adminInfo.id"
         (click)="editProfile(adminInfo.id)"
         type="submit"
         class="btn bg-primary border-secondary"

@@ -1,12 +1,10 @@
 import { Model } from 'src/app/models/stationInformationModel';
 import { Component, OnInit } from '@angular/core';
-import { StationSocketService } from 'src/app/services/station-socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { setStationEditData } from 'src/app/state/station-edit-data/station-edit-data.action';
 import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
-import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { Router } from '@angular/router';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 
@@ -31,14 +29,8 @@ export class StationListComponent implements OnInit {
     this.showList = !this.showList;
   }
 
-  selectItem(socketItem: any) {
-    this.selectedItem = socketItem.socketName;
-    this.showList = false;
-  }
-
   constructor(
     private stationService: StationService,
-    private chargingUnitService: ChargingUnitService,
     private toastr: ToastrService,
     private store: Store,
     private router: Router
@@ -96,8 +88,7 @@ export class StationListComponent implements OnInit {
     this.store.dispatch(setStationEditData({ stationEditData: model }));
   }
 
-  viewStationDetails(stationId: any) {
-    console.log('VIEW KULLANICI', stationId);
+  viewStationDetails(stationId: string) {
     this.router.navigate(['/station-profile', stationId]);
   }
 }

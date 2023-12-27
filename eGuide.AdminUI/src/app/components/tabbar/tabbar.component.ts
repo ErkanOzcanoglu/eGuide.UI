@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Mail } from 'src/app/models/mail';
 import { ContactService } from 'src/app/services/contact.service';
 @Component({
   selector: 'app-tabbar',

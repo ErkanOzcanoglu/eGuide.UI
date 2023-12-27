@@ -1,9 +1,7 @@
 import { Mail, ReplyMail } from './../../models/mail';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { environment } from 'src/app/environments/environment';
+import { Component, OnInit } from '@angular/core';
 import { ContactService } from 'src/app/services/contact.service';
 import * as signalR from '@microsoft/signalr';
-import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin.service';
@@ -15,8 +13,8 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class MessageModalComponent implements OnInit {
   mails: Mail[] = [];
-  adminMail: any;
-  id: any;
+  adminMail?: ReplyMail;
+  id?: string;
   replyForm: FormGroup = new FormGroup({});
 
   constructor(
@@ -69,33 +67,35 @@ export class MessageModalComponent implements OnInit {
     });
   }
 
-  readMail(id: any) {
-    this.contactService.readMail(id).subscribe((response) => {
+  readMail(id: string) {
+    this.contactService.readMail(id).subscribe(() => {
       this.getMails();
     });
   }
 
-  deleteMail(id: any) {
-    this.contactService.deleteMail(id).subscribe((response) => {
+  deleteMail(id: string) {
+    this.contactService.deleteMail(id).subscribe(() => {
       this.getMails();
     });
   }
 
   replyTo(mail: any, answerMessage: string) {
     const adminId = localStorage.getItem('authToken');
-    this.adminService.getAdminInfo(adminId).subscribe((response) => {
-      this.replyForm.patchValue({
-        name: mail.name,
-        email: mail.email,
-        message: answerMessage,
-        adminMail: response.email,
+    if (adminId != null) {
+      this.adminService.getAdminInfo(adminId).subscribe((response) => {
+        this.replyForm.patchValue({
+          name: mail.name,
+          email: mail.email,
+          message: answerMessage,
+          adminMail: response.email,
+        });
+        console.log(this.replyForm.value, 'reply form value');
+        this.contactService.replyTo(this.replyForm.value).subscribe();
       });
-      console.log(this.replyForm.value, 'reply form value');
-      this.contactService.replyTo(this.replyForm.value).subscribe();
-    });
+    }
   }
 
-  getMailId(id: any) {
+  getMailId(id: string) {
     console.log(id);
     this.id = id;
     Swal.fire({
