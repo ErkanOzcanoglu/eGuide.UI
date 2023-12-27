@@ -10,11 +10,6 @@
   <table class="table">
     <thead class="w-full">
       <tr>
-        <!-- <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th> -->
         <th class="w-1/5 bg-primary">Station Status</th>
         <th class="w-1/5">Station</th>
         <th class="w-1/5 bg-primary">Station Model</th>
@@ -28,11 +23,6 @@
       *ngFor="let item of stations | stationFilter : searchText"
     >
       <tr>
-        <!-- <td class="">
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </td> -->
         <td class="bg-primary">
           <div class="font-bold">
             {{ item.stationStatus === 1 ? "Active" : "Off" }}
