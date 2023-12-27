@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialMedia } from 'src/app/models/social-media';
 import { SocialMediaService } from 'src/app/services/social-media.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-social-media-list',
@@ -34,6 +35,7 @@ export class SocialMediaListComponent implements OnInit {
 
   openForm() {
     this.isOpen = !this.isOpen;
+    this.socialMediaForm.reset();
   }
 
   getSocialMedias() {
@@ -45,20 +47,22 @@ export class SocialMediaListComponent implements OnInit {
   submitForm() {
     this.socialMediaService
       .addSocialMedia(this.socialMediaForm.value)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.socialMedias.push(response);
           this.isOpen = false;
           this.socialMediaForm.reset();
         },
-        (error) => {
-          console.log(error);
-        }
-      );
+        error: () => {
+          console.log('Social media not added');
+        },
+      });
   }
 
   toggleEdit(socialMedia: SocialMedia) {
     // other sockets should be disabled
+    this.socialMediaForm.reset();
+    this.isOpen = false;
     this.socialMedias.forEach((element) => {
       element.editingMode = false;
     });
@@ -85,15 +89,32 @@ export class SocialMediaListComponent implements OnInit {
   }
 
   deleteSocialMedia(id: string) {
-    this.socialMediaService.deleteSocialMedia(id).subscribe({
-      next: () => {
-        this.socialMedias = this.socialMedias.filter(
-          (socialMedia) => socialMedia.id != id
-        );
-      },
-      error: () => {
-        console.log('Social media not deleted');
-      },
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.socialMediaService.deleteSocialMedia(id).subscribe({
+          next: () => {
+            this.socialMedias = this.socialMedias.filter(
+              (socialMedia) => socialMedia.id != id
+            );
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          },
+          error: () => {
+            console.log('Social media not deleted');
+          },
+        });
+      }
     });
   }
 }

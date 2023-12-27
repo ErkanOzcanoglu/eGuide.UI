@@ -12,7 +12,7 @@ import { WebsiteService } from 'src/app/services/website.service';
 export class CompanyInformationComponent implements OnInit {
   isEdit = false;
   companyInformationForm: FormGroup = new FormGroup({});
-  website: Website[] = [];
+  website?: Website;
 
   constructor(
     private websiteService: WebsiteService,
@@ -50,7 +50,15 @@ export class CompanyInformationComponent implements OnInit {
     });
     this.websiteService
       .addWebsite(this.companyInformationForm.value)
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.toast.success('Website added successfully');
+          this.getWebsite();
+        },
+        error: () => {
+          this.toast.error('There was an error!');
+        },
+      });
   }
 
   onUpdate(id: string) {

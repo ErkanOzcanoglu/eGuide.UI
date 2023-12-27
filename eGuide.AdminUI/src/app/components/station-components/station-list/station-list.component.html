@@ -1,20 +1,32 @@
 <div class="h-full w-full min-h-[500px]">
-  <div class="w-full flex justify-end">
-    <input
-      type="text"
-      class="input bg-primary border border-secondary"
-      [(ngModel)]="searchText"
-      placeholder="Search"
-    />
+  <div class="w-full flex justify-end mb-4">
+    <div class="input input-bordered mb-1 bg-primary border-secondary">
+      <input
+        type="text"
+        class="input bg-transparent"
+        [(ngModel)]="searchText"
+        (input)="onSearchInput()"
+        placeholder="Search"
+      />
+      <!-- clear button -->
+      <button
+        *ngIf="!searchText"
+        class="btn btn-ghost opacity-0 cursor-default"
+      >
+        s
+      </button>
+      <button
+        *ngIf="searchText"
+        class="btn btn-ghost opacity-100 bg-transparent hover:bg-transparent"
+        (click)="searchText = ''; onSearchInput()"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
   </div>
   <table class="table">
     <thead class="w-full">
       <tr>
-        <!-- <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th> -->
         <th class="w-1/5 bg-primary">Station Status</th>
         <th class="w-1/5">Station</th>
         <th class="w-1/5 bg-primary">Station Model</th>
@@ -25,15 +37,14 @@
     </thead>
     <tbody
       class="w-full"
-      *ngFor="let item of stations | stationFilter : searchText"
+      *ngFor="
+        let item of stations
+          | stationFilter : searchText
+          | paginate : { itemsPerPage: 15, currentPage: page }
+      "
     >
       <tr>
-        <!-- <td class="">
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </td> -->
-        <td class="bg-primary">
+        <td class="bg-primary h-28">
           <div class="font-bold">
             {{ item.stationStatus === 1 ? "Active" : "Off" }}
           </div>
@@ -59,7 +70,7 @@
                 *ngFor="
                   let socketItem of item.stationModel?.stationsChargingUnits
                 "
-                class="flex justify-start mt-1"
+                class="flex justify-start text-start mt-1"
               >
                 {{ socketItem.chargingUnit?.name }}
               </li>
@@ -102,3 +113,7 @@
     </tbody>
   </table>
 </div>
+<pagination-controls
+  class="my-pagination"
+  (pageChange)="page = $event"
+></pagination-controls>

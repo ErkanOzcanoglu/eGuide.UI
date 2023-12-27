@@ -68,11 +68,7 @@
           >
             {{ editMode && vehicle.isSelected ? "Save" : "Edit" }}
           </button>
-          <button
-            class="btn btn-ghost"
-            (click)="deleteVehicle(vehicle.id)"
-            [disabled]="!vehicle.isSelected"
-          >
+          <button class="btn btn-ghost" (click)="deleteVehicle(vehicle.id)">
             Delete
           </button>
         </td>
