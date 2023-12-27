@@ -67,18 +67,18 @@
         *ngIf="adminInfo.id"
         (click)="editProfile(adminInfo.id)"
         type="submit"
-        class="btn"
+        class="btn bg-primary border-secondary"
       >
         {{ isEdited ? "Update Profile" : "Edit Profile" }}
       </button>
       <button
         (click)="createResetToken()"
-        class="btn bg-slate-700"
+        class="btn bg-primary border-secondary"
         onclick="my_modal_5.showModal()"
       >
         Change Password
       </button>
-      <button class="btn btn-error">Delete Account</button>
+      <button class="btn bg-primary border-secondary">Delete Account</button>
     </div>
   </div>
 </form>

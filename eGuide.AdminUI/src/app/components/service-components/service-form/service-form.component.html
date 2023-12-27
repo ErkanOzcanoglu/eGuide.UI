@@ -287,18 +287,22 @@
     <button
       (click)="onSubmit()"
       *ngIf="!image || !isEdit"
-      class="btn btn-success"
+      class="btn bg-primary border-secondary"
     >
       Save
     </button>
     <button
       (click)="onUpdate()"
       *ngIf="image && isEdit"
-      class="btn btn-success"
+      class="btn bg-primary border-secondary"
     >
       Update
     </button>
-    <button (click)="clearForm()" *ngIf="image && isEdit" class="btn btn-error">
+    <button
+      (click)="clearForm()"
+      *ngIf="image && isEdit"
+      class="btn bg-primary border-secondary"
+    >
       Cancel
     </button>
   </div>
