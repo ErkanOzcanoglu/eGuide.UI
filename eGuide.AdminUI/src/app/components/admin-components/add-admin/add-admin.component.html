@@ -1,6 +1,6 @@
 <form
   [formGroup]="adminForm"
-  class="pt-16 mx-10 flex justify-between border-b bg-primary"
+  class="pt-16 mx-10 flex justify-between border-b bg-primary h-full"
 >
   <table class="table">
     <thead>
@@ -41,7 +41,9 @@
           </div>
         </td>
         <th>
-          <button (click)="onSubmit()" class="btn btn-success">Save</button>
+          <button (click)="onSubmit()" class="btn bg-primary border-secondary">
+            Save
+          </button>
         </th>
       </tr>
     </tbody>

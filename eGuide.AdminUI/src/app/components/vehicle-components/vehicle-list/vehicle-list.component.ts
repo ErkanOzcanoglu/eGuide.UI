@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Vehicle } from 'src/app/models/vehicle';
 import { VehicleService } from 'src/app/services/vehicle.service';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -75,18 +76,34 @@ export class VehicleListComponent implements OnInit {
     }
   }
 
-  deleteVehicle(id: string | undefined): void {
-    if (id) {
-      this.vehicleService.hardDeleteVehicle(id).subscribe({
-        next: () => {
-          this.toastr.success('Deleted successfully');
-          this.getVehicleInfo();
-        },
-        error: (err) => this.toastr.error(err, 'Error'),
-      });
-    } else {
-      this.toastr.error('Invalid ID', 'Error');
-    }
+  deleteVehicle(id: string): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (id) {
+          this.vehicleService.hardDeleteVehicle(id).subscribe({
+            next: () => {
+              this.getVehicleInfo();
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                icon: 'success',
+              });
+            },
+            error: (err) => this.toastr.error(err, 'Error'),
+          });
+        } else {
+          this.toastr.error('Invalid ID', 'Error');
+        }
+      }
+    });
   }
 
   onUpdate(vehicleId: string, model: string): void {

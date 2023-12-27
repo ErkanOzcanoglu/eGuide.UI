@@ -1,3 +1,4 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,7 +13,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MapComponent } from './components/map/map.component';
 import { StationsComponent } from './screens/stations/stations.component';
 import { ConnectorModalComponent } from './modals/connector-modal/connector-modal.component';
-import { SocketComponent } from './screens/socket/socket.component';
 
 import { MatSelectModule } from '@angular/material/select';
 
@@ -67,7 +67,6 @@ import { serviceEditDataReducer } from './state/service-edit-data/service-edit-d
 import { FacilityListComponent } from './components/facilities-components/facility-list/facility-list.component';
 import { FacilityFormComponent } from './components/facilities-components/facility-form/facility-form.component';
 import { FacilityComponent } from './screens/facility/facility.component';
-import { SocialMediaFormComponent } from './components/social-media-components/social-media-form/social-media-form.component';
 import { SocialMediaListComponent } from './components/social-media-components/social-media-list/social-media-list.component';
 import { SocialMediaComponent } from './screens/social-media/social-media.component';
 import { CustomizationComponent } from './screens/customization/customization.component';
@@ -90,6 +89,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
+import { ChargingUnitComponent } from './screens/charging-unit/charging-unit.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -104,7 +104,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StationsComponent,
     StationFormComponent,
     ConnectorModalComponent,
-    SocketComponent,
+    ChargingUnitComponent,
     SocketFormComponent,
     StationSocketsComponent,
     StationListComponent,
@@ -141,7 +141,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FacilityListComponent,
     FacilityFormComponent,
     FacilityComponent,
-    SocialMediaFormComponent,
     SocialMediaListComponent,
     SocialMediaComponent,
     CustomizationComponent,
@@ -160,6 +159,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StationProfileComponent,
   ],
   imports: [
+    NgxPaginationModule,
     ChartModule,
     BrowserModule,
     AppRoutingModule,

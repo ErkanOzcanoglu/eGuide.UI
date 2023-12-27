@@ -2,6 +2,7 @@ import { FacilityService } from 'src/app/services/facility.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Facility } from 'src/app/models/facility';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facility-list',
@@ -33,6 +34,7 @@ export class FacilityListComponent implements OnInit {
 
   openForm() {
     this.isOpen = !this.isOpen;
+    this.facilityForm.reset();
   }
 
   getFacilities() {
@@ -57,6 +59,7 @@ export class FacilityListComponent implements OnInit {
 
   toggleEdit(facility: Facility) {
     // other sockets should be disabled
+    this.isOpen = false;
     this.facilities.forEach((element) => {
       element.editingMode = false;
     });
@@ -65,6 +68,7 @@ export class FacilityListComponent implements OnInit {
 
   closeEdit(facility: Facility) {
     facility.editingMode = false;
+    this.facilityForm.reset();
   }
 
   editFacility(facility: Facility) {
@@ -83,15 +87,31 @@ export class FacilityListComponent implements OnInit {
     }
   }
 
-  deleteFacility(id: string | undefined) {
-    if (id != null)
-      this.facilityService.deleteFacility(id).subscribe({
-        next: () => {
-          this.getFacilities();
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+  deleteFacility(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.facilityService.deleteFacility(id).subscribe({
+          next: () => {
+            this.getFacilities();
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      }
+    });
   }
 }

@@ -10,7 +10,7 @@ import { WebsiteService } from 'src/app/services/website.service';
 })
 export class FooterCustomizationComponent implements OnInit {
   value?: number;
-  website: Website[] = [];
+  website?: Website;
 
   constructor(
     private websiteService: WebsiteService,
@@ -24,22 +24,20 @@ export class FooterCustomizationComponent implements OnInit {
   getNavbarType() {
     this.websiteService.getWebsite().subscribe((website) => {
       this.website = website;
-      this.value = this.website[0].footer;
+      this.value = this.website?.footer;
     });
   }
 
   onSubmit() {
-    if (this.website[0].id != null && this.value != null) {
-      this.websiteService
-        .updateFooter(this.website[0].id, this.value)
-        .subscribe({
-          next: () => {
-            this.toast.success('Footer type updated successfully');
-          },
-          error: () => {
-            this.toast.error('Footer type update failed');
-          },
-        });
+    if (this.website?.id != null && this.value != null) {
+      this.websiteService.updateFooter(this.website?.id, this.value).subscribe({
+        next: () => {
+          this.toast.success('Footer type updated successfully');
+        },
+        error: () => {
+          this.toast.error('Footer type update failed');
+        },
+      });
     }
   }
 

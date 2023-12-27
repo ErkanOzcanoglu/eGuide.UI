@@ -7,6 +7,7 @@ import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import { Router } from '@angular/router';
 import { ChargingUnit } from 'src/app/models/charging-unit';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-station-list',
@@ -25,8 +26,17 @@ export class StationListComponent implements OnInit {
   socketArray: ChargingUnit[] = [];
   stations: Station[] = [];
 
+  page?: number = 1;
+
   toggleList() {
     this.showList = !this.showList;
+  }
+
+  onSearchInput() {
+    // If searchText is not empty, set the current page to 1
+    if (this.searchText && this.searchText.trim() !== '') {
+      this.page = 1;
+    }
   }
 
   constructor(
@@ -47,40 +57,34 @@ export class StationListComponent implements OnInit {
     });
   }
 
-  // getStations(): void {
-  //   this.stationService.getAllStaiton().subscribe(
-  //     (res) => {
-  //       this.models = res;
-
-  //       this.models.forEach((item) => {
-  //         if (typeof item.socket === 'string') {
-  //           item.socket = JSON.parse(item.socket);
-  //         }
-  //       });
-  //       this.stationService.getStations().subscribe({
-  //         next: (stations) => {
-  //           this.stations = stations;
-  //           this.chargingUnitService.getChargingUnits().subscribe({
-  //             error: (err) => console.error(err),
-  //           });
-  //         },
-  //       });
-  //     },
-  //     (err) => console.error(err)
-  //   );
-  // }
-
   deleteStation(id: string): void {
-    this.stationService.deleteStation(id).subscribe({
-      next: () => {
-        this.toastr.success('Deleted successfully');
-        this.stationService.clearCache().subscribe({
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.stationService.deleteStation(id).subscribe({
           next: () => {
-            this.getStaInfo();
+            this.toastr.success('Deleted successfully');
+            this.stationService.clearCache().subscribe({
+              next: () => {
+                this.getStaInfo();
+                Swal.fire({
+                  title: 'Deleted!',
+                  text: 'Your file has been deleted.',
+                  icon: 'success',
+                });
+              },
+            });
           },
+          error: (err) => this.toastr.error(err, 'Error'),
         });
-      },
-      error: (err) => this.toastr.error(err, 'Error'),
+      }
     });
   }
 
