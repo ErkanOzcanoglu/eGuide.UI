@@ -135,6 +135,7 @@
           </td>
           <td>
             <button
+              *ngIf="facility.id"
               (click)="deleteFacility(facility.id)"
               class="btn btn-ghost btn-sm"
             >

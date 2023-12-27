@@ -5,6 +5,7 @@ import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Connector } from 'src/app/models/connector';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-socket-list',
@@ -86,14 +87,31 @@ export class SocketListComponent implements OnInit {
   }
 
   deleteChargingUnit(id: string) {
-    this.chargingUnitService.deleteChargingUnit(id).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.getChargingUnitList();
-      },
-      error: (error) => {
-        console.log(error);
-      },
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.chargingUnitService.deleteChargingUnit(id).subscribe({
+          next: (data) => {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+            console.log(data);
+            this.getChargingUnitList();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      }
     });
   }
 }

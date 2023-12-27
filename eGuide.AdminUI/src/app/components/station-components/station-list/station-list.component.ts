@@ -7,6 +7,7 @@ import { StationService } from 'src/app/services/station.service';
 import { Station } from 'src/app/models/station';
 import { Router } from '@angular/router';
 import { ChargingUnit } from 'src/app/models/charging-unit';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-station-list',
@@ -71,16 +72,33 @@ export class StationListComponent implements OnInit {
   // }
 
   deleteStation(id: string): void {
-    this.stationService.deleteStation(id).subscribe({
-      next: () => {
-        this.toastr.success('Deleted successfully');
-        this.stationService.clearCache().subscribe({
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.stationService.deleteStation(id).subscribe({
           next: () => {
-            this.getStaInfo();
+            this.toastr.success('Deleted successfully');
+            this.stationService.clearCache().subscribe({
+              next: () => {
+                this.getStaInfo();
+                Swal.fire({
+                  title: 'Deleted!',
+                  text: 'Your file has been deleted.',
+                  icon: 'success',
+                });
+              },
+            });
           },
+          error: (err) => this.toastr.error(err, 'Error'),
         });
-      },
-      error: (err) => this.toastr.error(err, 'Error'),
+      }
     });
   }
 
