@@ -1,3 +1,4 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -158,6 +159,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StationProfileComponent,
   ],
   imports: [
+    NgxPaginationModule,
     ChartModule,
     BrowserModule,
     AppRoutingModule,

@@ -26,8 +26,17 @@ export class StationListComponent implements OnInit {
   socketArray: ChargingUnit[] = [];
   stations: Station[] = [];
 
+  page?: number = 1;
+
   toggleList() {
     this.showList = !this.showList;
+  }
+
+  onSearchInput() {
+    // If searchText is not empty, set the current page to 1
+    if (this.searchText && this.searchText.trim() !== '') {
+      this.page = 1;
+    }
   }
 
   constructor(
@@ -47,29 +56,6 @@ export class StationListComponent implements OnInit {
       this.stations = response;
     });
   }
-
-  // getStations(): void {
-  //   this.stationService.getAllStaiton().subscribe(
-  //     (res) => {
-  //       this.models = res;
-
-  //       this.models.forEach((item) => {
-  //         if (typeof item.socket === 'string') {
-  //           item.socket = JSON.parse(item.socket);
-  //         }
-  //       });
-  //       this.stationService.getStations().subscribe({
-  //         next: (stations) => {
-  //           this.stations = stations;
-  //           this.chargingUnitService.getChargingUnits().subscribe({
-  //             error: (err) => console.error(err),
-  //           });
-  //         },
-  //       });
-  //     },
-  //     (err) => console.error(err)
-  //   );
-  // }
 
   deleteStation(id: string): void {
     Swal.fire({
