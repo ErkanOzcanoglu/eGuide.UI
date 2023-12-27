@@ -29,8 +29,8 @@ import { HomeComponent } from './screens/home/home.component';
 import { SettingsComponent } from './screens/settings/settings/settings.component';
 
 // Services
-import { AuthGuard } from './models/auth-guard';
-import { AuthService } from './services/auth.service';
+
+
 import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -51,6 +51,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { languageReducer } from './state/language-state/language.reducer';
+import { PreventLoginGuardService } from './services/prevent-login-guard.service';
+
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -110,7 +112,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       defaultLanguage: 'en',
     }),
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [PreventLoginGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

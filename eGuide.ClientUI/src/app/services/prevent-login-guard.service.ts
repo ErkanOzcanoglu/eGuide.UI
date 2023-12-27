@@ -1,18 +1,32 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PreventLoginGuardService implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private router: Router) {
+    this.checkLoginStatus();
+  }
+  loggedIn = false;
+
+  isAuthenticated() {
+    return this.loggedIn;
+  }
+
+  private checkLoginStatus() {
+    const authToken = localStorage.getItem('authToken');
+    this.loggedIn = authToken !== null;
+    if (this.loggedIn) {
+      this.router.navigate(['/']); // Kullanıcı zaten giriş yapmışsa ana sayfaya yönlendir
+    }
+  }
 
   canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
+    if (this.loggedIn) {
       this.router.navigate(['/']);
       return false;
     }
-    return true; 
+    return true;
   }
 }
