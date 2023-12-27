@@ -18,7 +18,7 @@ export class PreventLoginGuardService implements CanActivate {
     const authToken = localStorage.getItem('authToken');
     this.loggedIn = authToken !== null;
     if (this.loggedIn) {
-      this.router.navigate(['/']); // Kullanıcı zaten giriş yapmışsa ana sayfaya yönlendir
+      this.router.navigate(['/']);
     }
   }
 
