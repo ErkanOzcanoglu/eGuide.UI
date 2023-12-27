@@ -100,6 +100,12 @@ export class NavbarComponent implements OnInit {
     location.reload();
   }
 
+  settings(){
+    console.log("tiklandi");
+    this.router.navigate(['/settings']);
+    
+  }
+
   navigateToSettings(): void {
     this.router.navigate(['/settings']);
   }
