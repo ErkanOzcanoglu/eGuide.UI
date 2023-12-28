@@ -16,10 +16,15 @@
             for=""
             >Latitude</label
           >
-          <label class="switch">
-            <input (click)="setSwitch()" type="checkbox" />
-            <span class="slider round"></span>
-          </label>
+          <div class="flex gap-2">
+            <div>{{ !switchStatus ? "Address" : "Coordinate" }}</div>
+            <div>
+              <label class="switch">
+                <input (click)="setSwitch()" type="checkbox" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
         </div>
         <input
           *ngIf="switchStatus"

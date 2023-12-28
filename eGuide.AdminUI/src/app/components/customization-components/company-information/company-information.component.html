@@ -5,8 +5,12 @@
       This information will be displayed in the footer of the application.
     </p>
   </div>
-  <form class="gap-4 mt-5" [formGroup]="companyInformationForm" *ngIf="website">
-    <div class="grid grid-cols-2 gap-4">
+  <form
+    class="gap-4 mt-5"
+    [formGroup]="companyInformationForm"
+    *ngFor="let website of website"
+  >
+    <div class="grid grid-cols-2 gap-4" *ngIf="!isWebsiteEmpty">
       <div>
         <label for="">Company Name</label>
         <input
@@ -117,7 +121,7 @@
   <form
     class="gap-4 mt-5"
     [formGroup]="companyInformationForm"
-    *ngIf="!website"
+    *ngIf="isWebsiteEmpty"
   >
     <div class="grid grid-cols-2 gap-4">
       <div>
@@ -165,7 +169,11 @@
     </div>
     <div class="flex justify-end mt-5">
       <div class="flex gap-x-3">
-        <button *ngIf="!website" (click)="onSubmit()" class="btn bg-primary">
+        <button
+          *ngIf="isWebsiteEmpty"
+          (click)="onSubmit()"
+          class="btn bg-primary"
+        >
           Save
         </button>
       </div>
