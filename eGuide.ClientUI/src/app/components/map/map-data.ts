@@ -19,4 +19,9 @@ export const basemapss = [
     name: 'arcgis-dark-gray',
     title: 'Dark Gray',
   },
+  {
+    id: 4,
+    name: 'arcgis-imagery',
+    title: 'Imagery',
+  },
 ];

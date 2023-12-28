@@ -1,3 +1,18 @@
 .mat-tab-group {
   margin-bottom: 48px;
 }
+.station-item {
+  margin-bottom: 20px; /* İstenilen boşluk miktarını ayarlayabilirsiniz */
+}
+.station-list {
+  max-height: 500px; /* Scrollbar'ın görünebilmesi için bir maksimum yükseklik belirtin */
+  overflow-y: auto; /* Yalnızca yükseklik aşıldığında dikey scrollbar'ı göster */
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #fff !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #b8b8b8 !important;
+}

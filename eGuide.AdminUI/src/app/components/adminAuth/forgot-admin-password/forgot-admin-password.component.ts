@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPassword } from 'src/app/models/resetPassword';
@@ -9,7 +9,7 @@ import { AdminService } from 'src/app/services/admin.service';
   templateUrl: './forgot-admin-password.component.html',
   styleUrls: ['./forgot-admin-password.component.css'],
 })
-export class ForgotAdminPasswordComponent {
+export class ForgotAdminPasswordComponent implements OnInit {
   resetPasswordModel: ResetPassword = new ResetPassword();
   forgotPasswordForm: FormGroup = new FormGroup({});
   token = '';
@@ -24,7 +24,6 @@ export class ForgotAdminPasswordComponent {
   ngOnInit() {
     this.initializeForm();
     this.token = this.route.snapshot.params['token'];
-    console.log(this.token);
   }
 
   initializeForm() {
@@ -37,15 +36,13 @@ export class ForgotAdminPasswordComponent {
   resetPassword() {
     this.userService
       .resetPasswordScreen(this.forgotPasswordForm.value, this.token)
-      .subscribe(
-        (response) => {
-          console.log('success', response);
+      .subscribe({
+        next: () => {
           this.router.navigate(['/station']);
         },
-        (error) => {
-          console.log('patos', error);
+        error: () => {
           this.router.navigate(['/station']);
-        }
-      );
+        },
+      });
   }
 }

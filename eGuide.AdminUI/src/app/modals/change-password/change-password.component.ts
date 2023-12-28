@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class ChangePasswordComponent implements OnInit {
   resetToken?: string;
   constructor(
     private adminService: AdminService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -28,26 +30,29 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    const adminToken = localStorage.getItem('authToken');
-    if (adminToken != null) {
-      this.adminService.getAdminInfo(adminToken).subscribe((res) => {
-        this.resetToken = res.passwordResetToken;
-
-        if (this.updatePasswordForm.valid && this.resetToken != null) {
-          this.adminService.resetPasswordScreen(
-            this.updatePasswordForm.value,
-            this.resetToken
-          );
-        }
-      }),
-        (err: any) => {
-          console.log(err);
-        };
+    const adminId = localStorage.getItem('authToken');
+    if (this.updatePasswordForm.valid) {
+      const password = this.updatePasswordForm.value.password;
+      const confirmPassword = this.updatePasswordForm.value.confirmPassword;
+      if (password === confirmPassword && adminId) {
+        this.adminService
+          .passChange(adminId, this.updatePasswordForm.value)
+          .subscribe({
+            next: () => {
+              this.toast.success('Password changed successfully');
+              window.location.reload();
+            },
+            error: (error) => {
+              this.toast.error('Password change failed');
+              console.log(error);
+            },
+          });
+      }
     }
   }
 
   getAdminToken() {
     const adminToken = localStorage.getItem('authToken');
-    this.adminService.getAdminInfo(adminToken).subscribe();
+    if (adminToken) this.adminService.getAdminInfo(adminToken).subscribe();
   }
 }

@@ -11,49 +11,62 @@
   }
 </style>
 
-<div class="bg-gray-100 h-screen flex justify-center items-center">
+<div class="bg-[#F3F4F6] h-screen flex justify-center items-center">
   <div id="customPanel" class="w-4/6">
     <div class="grid-container">
-      <div class="user-profile">
-        <div class="custom-panel bg-white rounded-lg shadow p-4">
+      <div class="user-profile bg-white">
+        <div class="custom-panel rounded-lg shadow p-4">
           <h1 class="text-3xl font-semibold text">
-            FAVOURITES<i class="fas fa-star fa-2xs ml-5"></i>
+            {{ "FAVOURITES" | translate
+            }}<i class="fas fa-star fa-2xs ml-5"></i>
           </h1>
           <div class="flex items-center justify-between overflow-x-auto">
-            <table class="table w-3/5 ml-20 mt-10 mb-10">
+            <table class="table w-4/5 ml-5 mt-10 mb-10">
               <!-- head -->
               <thead>
-                <tr>
-                  <th class="text-xl font-bold text-green-500">Station Name</th>
-                  <th class="text-xl font-bold text-green-500">Address</th>
-                  <th class="text-xl font-bold text-green-500">Model</th>
-                  <th class="text-xl font-bold text-green-500">
-                    Charging unit
+                <tr
+                  [style]="{
+                    color: color.color2
+                  }"
+                >
+                  <th class="text-xl font-bold">
+                    {{ "Station Name" | translate }}
                   </th>
-                  <th class="text-xl font-bold text-green-500">Connector</th>
+                  <th class="text-xl font-bold">{{ "Address" | translate }}</th>
+                  <th class="text-xl font-bold">{{ "Model" | translate }}</th>
+                  <th class="text-xl font-bold">
+                    {{ "Charging unit" | translate }}
+                  </th>
+                  <th class="text-xl font-bold">
+                    {{ "Connector" | translate }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <!-- row 1 -->
-                <tr *ngFor="let station of stations; let i = index">
-                  <td class="text-xl">{{ station.name }}</td>
-                  <td class="text-xl">{{ station.address }}</td>
-                  <td class="text-xl">{{ station.stationModel?.name }}</td>
-                  <td class="text-xl">
+                <tr
+                  class="text-center"
+                  [style]="{
+                    color: color.color2
+                  }"
+                  *ngFor="let station of stations"
+                >
+                  <td>{{ station.name }}</td>
+                  <td>{{ station.address }}</td>
+                  <td>{{ station.stationModel?.name }}</td>
+                  <td>
                     <div
                       *ngFor="
-                        let unit of station.stationModel?.stationsChargingUnits;
-                        let i = index
+                        let unit of station.stationModel?.stationsChargingUnits
                       "
                     >
                       {{ unit?.chargingUnit?.name }}
                     </div>
                   </td>
-                  <td class="text-xl">
+                  <td>
                     <div
                       *ngFor="
-                        let unit of station.stationModel?.stationsChargingUnits;
-                        let i = index
+                        let unit of station.stationModel?.stationsChargingUnits
                       "
                     >
                       {{ unit?.chargingUnit?.connector?.type }}
@@ -62,12 +75,14 @@
                   <td>
                     <!-- Delete Button -->
                     <button
-                      class="bg-red-300 text-white px-4 py-2 rounded"
-                      (click)="
-                        onDeleteStationProfile(station.userStations[i].id)
-                      "
+                      [style]="{
+                        'background-color': color.color2,
+                        color: color.color4
+                      }"
+                      class="px-4 py-2 rounded"
+                      (click)="onDeleteStationProfile(station.id)"
                     >
-                      Delete
+                      {{ "Delete" | translate }}
                     </button>
                   </td>
                 </tr>

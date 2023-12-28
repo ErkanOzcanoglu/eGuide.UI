@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Vehicle } from '../models/vehicle';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
@@ -10,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class VehicleService {
   private url = 'Vehicle';
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   public addVehicle(vehicle: Vehicle): Observable<Vehicle> {
     return this.http.post<Vehicle>(
@@ -29,7 +28,7 @@ export class VehicleService {
     );
   }
 
-  public updateVehicle(vehicleId: any, model:string) {
+  public updateVehicle(vehicleId: string, model: string) {
     return this.http.put(
       `${environment.apiUrl}/${this.url}/${vehicleId}`,
       vehicleId

@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import { setRefresh } from './refresh-list.action';
 
-export const initialRefreshState = {
-  refresh: false,
-};
+export interface RefreshState {
+  refresh: boolean;
+}
 
-export const refreshReducer = createReducer(
-  initialRefreshState,
+export const setRefreshReducer = createReducer(
+  { refresh: false },
   on(setRefresh, (state, { refresh }) => ({ ...state, refresh }))
 );

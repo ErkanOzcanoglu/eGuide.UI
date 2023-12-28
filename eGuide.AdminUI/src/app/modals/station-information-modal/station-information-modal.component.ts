@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Station } from 'src/app/models/station';
 
 @Component({
   selector: 'app-station-information-modal',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./station-information-modal.component.css'],
 })
 export class StationInformationModalComponent {
-  @Input() editedData: any;
+  @Input() editedData?: Station;
 }

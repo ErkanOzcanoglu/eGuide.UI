@@ -4,29 +4,30 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { LogHelper } from '../../generic-helper/log/log-helper';
 
 @Component({
   selector: 'app-forgot-user-password',
   templateUrl: './forgot-user-password.component.html',
   styleUrls: ['./forgot-user-password.component.css'],
+  providers: [LogHelper],
 })
 export class ForgotUserPasswordComponent {
   resetPasswordModel: ResetPassword = new ResetPassword();
   forgotPasswordForm: FormGroup = new FormGroup({});
-  token = '';
+  token!: string;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private logHelper: LogHelper
   ) {}
 
   ngOnInit() {
-    this.initializeForm(); 
-      this.token = this.route.snapshot.params['token']; // ActivatedRoute ile tokeni alın
-      console.log(this.token); // Token'i konsola yazdırabilirsiniz
-
+    this.initializeForm();
+    this.token = this.route.snapshot.params['token'];
   }
 
   initializeForm() {
@@ -41,11 +42,10 @@ export class ForgotUserPasswordComponent {
       .resetPasswordScreen(this.forgotPasswordForm.value, this.token)
       .subscribe(
         (response) => {
-          console.log('success',response);
-           this.router.navigate(['/login']);
+          this.router.navigate(['/login']);
         },
         (error) => {
-          console.log('patos',error);
+          this.logHelper.errorProcess('resetPassword', error);
           this.router.navigate(['/login']);
         }
       );

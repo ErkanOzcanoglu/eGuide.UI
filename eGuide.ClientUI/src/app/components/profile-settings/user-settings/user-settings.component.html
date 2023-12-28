@@ -65,47 +65,49 @@
   }
 
   @media (max-width: 1280px) {
-  #customPanel {
-    width: 83.33%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
+    #customPanel {
+      width: 83.33%; /* Dar ekranlarda daha büyük genişlik (5/6 oranı) */
+    }
+    .text-3xl {
+      font-size: 1.5rem; /* Dar ekranlarda 1.5rem boyutunda */
+    }
   }
-  .text-3xl {
-    font-size: 1.5rem; /* Dar ekranlarda 1.5rem boyutunda */
-  }
-}
 </style>
 
 <div class="bg-gray-100 h-screen flex justify-center items-center">
-  <div id=customPanel class="w-4/6">
+  <div id="customPanel" class="w-4/6">
     <div class="grid-container">
       <div class="user-profile">
         <div class="custom-panel bg-white rounded-lg shadow p-4">
           <div class="flex items-center justify-between">
-            <h1 class="text-3xl font-semibold text">USER PROFILE<i class="fas fa-user fa-2xs ml-5"></i></h1>
+            <h1 class="text-3xl font-semibold text">
+              {{ 'USER_PROFILE' | translate }}<i class="fas fa-user fa-2xs ml-5"></i>
+            </h1>
             <button
               *ngIf="editMode"
               (click)="onSaveClick()"
               class="bg-slate-400 text-white px-2 py-1 rounded hover-bg-blue-600 focus:outline-none"
             >
-              Save
+              {{'Save'| translate}}
             </button>
             <button
               *ngIf="!editMode"
               (click)="onModeChange()"
               class="bg-slate-400 text-white px-2 py-1 rounded hover-bg-blue-600 focus:outline-none"
             >
-              Edit
+              {{'Edit' | translate}}
             </button>
             <button
               *ngIf="editMode"
               (click)="onCancelClick()"
               class="bg-red-400 text-white px-2 py-1 rounded hover-red-600 focus:outline-none"
             >
-              Cancel
+              {{'Cancel'| translate}}
             </button>
           </div>
           <div class="mt-4" *ngIf="user">
             <p>
-              <span class="field-label text-xl">Name: </span>
+              <span class="field-label text-xl"> {{'Name' | translate}}: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -115,7 +117,7 @@
               />
             </p>
             <p>
-              <span class="field-label text-xl">Surname: </span>
+              <span class="field-label text-xl"> {{'Surname'| translate}}: </span>
               <input
                 class="bg-white input-text"
                 type="text"
@@ -125,9 +127,9 @@
               />
             </p>
             <p>
-              <span class="field-label text-xl">E-mail: </span>
+              <span class="field-label text-xl"> {{'Email'| translate}}: </span>
               <input
-                class="bg-white input-text"
+                class="bg-white input-text w-96"
                 type="text"
                 [value]="user.email"
                 [(ngModel)]="user.email"
@@ -137,11 +139,11 @@
           </div>
           <div class="mt-4 w-50 flex">
             <span>
-              Forgot your password?
+             {{'Forgot your password?'| translate}}
               <a
                 routerLink="/email-confirm"
                 class="text-blue-600 hover:text-blue-800 hover:underline"
-                >Change Password</a
+                > {{ 'Change Password' | translate }}</a
               >
             </span>
           </div>
@@ -150,4 +152,3 @@
     </div>
   </div>
 </div>
-

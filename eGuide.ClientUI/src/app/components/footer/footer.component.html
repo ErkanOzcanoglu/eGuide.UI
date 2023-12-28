@@ -1,11 +1,15 @@
 <footer
-  class="footer footer-center p-10 bg-[#232332] text-base-content rounded"
+  class="footer duration-200 footer-center bg-transparent p-10 text-base-content rounded"
+  *ngIf="footer === 0"
 >
-  <nav class="grid grid-flow-col gap-4">
-    <a class="link link-hover">About us</a>
-    <a class="link link-hover">Contact</a>
-    <a class="link link-hover">Jobs</a>
-    <a class="link link-hover">Press kit</a>
+  <nav
+    [style]="{
+      color: color.color4
+    }"
+    class="grid grid-flow-col gap-4"
+  >
+    <a routerLink="" class="link link-hover">Home</a>
+    <a routerLink="/contact" class="link link-hover">Contact</a>
   </nav>
   <nav>
     <div class="grid grid-flow-col gap-4">
@@ -13,12 +17,47 @@
         *ngFor="let socialMedia of socialMedias"
         [href]="socialMedia.link"
         target="_blank"
+        [style]="{
+          color: color.color4
+        }"
       >
         <i class="{{ socialMedia.icon }} fa-2xl"></i>
       </a>
     </div>
   </nav>
   <aside>
+    <p
+      [style]="{
+        color: color.color3
+      }"
+    >
+      Copyright © 2023 - All right reserved by eGuide
+    </p>
+  </aside>
+</footer>
+
+<footer
+  class="footer items-center w-full flex justify-around p-4 border-t border-w text-neutral-content"
+  *ngIf="footer === 1"
+  [style]="{
+    'background-color': color.color1
+  }"
+>
+  <aside
+    class="items-center grid-flow-col"
+    [style]="{
+      color: color.color3
+    }"
+  >
     <p>Copyright © 2023 - All right reserved by eGuide</p>
   </aside>
+  <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+    <a
+      *ngFor="let socialMedia of socialMedias"
+      [href]="socialMedia.link"
+      target="_blank"
+    >
+      <i class="{{ socialMedia.icon }} fa-2xl"></i>
+    </a>
+  </nav>
 </footer>

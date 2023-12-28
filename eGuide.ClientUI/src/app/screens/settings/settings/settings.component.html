@@ -24,32 +24,50 @@
   }
 </style>
 
-<div class="flex bg-white min-h-screen h-full">
-  <div id="sideBar" class="bg-slate-400 w-1/5 p-4 border-r-2 border-r-sky-900">
-    <ul id="options" class="mt-40">
+<div
+  class="flex min-h-screen h-full"
+  [style]="{
+    'background-color': color.color1
+  }"
+>
+  <div
+    id="sideBar"
+    [style]="{
+      'background-color': color.color1
+    }"
+    class="w-1/5 p-4 border-r-2 border-r-sky-900"
+  >
+    <ul
+      [style]="{
+        'background-color': color.color1,
+        color: color.color4
+      }"
+      id="options"
+      class="mt-40"
+    >
       <li
-        class="block cursor-pointer text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        class="block cursor-pointer hover:text-blue-200 transition duration-300 py-4 px-4 text-center hover:border hover:border-gray-300"
         tabindex="0"
         (keydown.enter)="showPage('user-settings')"
         (click)="showPage('user-settings')"
       >
-        User Profile
+        {{ "User Profile" | translate }}
       </li>
       <li
         (click)="showPage('vehicle')"
-        class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        class="block cursor-pointer hover:text-blue-200 transition duration-300 py-4 px-4 text-center hover:border hover:border-gray-300"
         tabindex="0"
         (keydown.enter)="showPage('vehicle')"
       >
-        Vehicle
+        {{ "Vehicle" | translate }}
       </li>
-       <li
+      <li
         (click)="showPage('favourites')"
-        class="block text-white hover:text-blue-200 transition duration-300 py-4 px-4 text-center bg-slate-400 hover:border hover:border-gray-300"
+        class="block cursor-pointer hover:text-blue-200 transition duration-300 py-4 px-4 text-center hover:border hover:border-gray-300"
         tabindex="0"
         (keydown.enter)="showPage('favourites')"
       >
-        Favourites
+        {{ "Favourites" | translate }}
       </li>
     </ul>
   </div>

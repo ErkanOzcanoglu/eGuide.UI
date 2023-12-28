@@ -1,23 +1,19 @@
+import { setClickedData } from './../../state/map-click-data/map-click-data.action';
 import {
-  MapState,
-  setClickedData,
-} from './../../state/map-click-data/map-click-data.action';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnChanges,
+} from '@angular/core';
 import { loadModules } from 'esri-loader';
-import MapView from '@arcgis/core/views/MapView';
-import Map from '@arcgis/core/Map';
 import Graphic from '@arcgis/core/Graphic';
 import Point from '@arcgis/core/geometry/Point';
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
-import Basemap from '@arcgis/core/Basemap';
-import TileLayer from '@arcgis/core/layers/TileLayer';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-import { MapService } from 'src/app/services/map.service';
 import { StationService } from 'src/app/services/station.service';
-import PopupTemplate from '@arcgis/core/PopupTemplate';
-import Search from '@arcgis/core/widgets/Search';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { getClickedData } from 'src/app/state/map-click-data/map-click-data.selector';
+import { Station } from 'src/app/models/station';
 export interface Points {
   lat: number;
   lng: number;
@@ -40,14 +36,14 @@ interface Options {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
   @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
 
   public lat = 0;
   public lng = 0;
   public coord: Points[] = [];
+  public points: Station[] = [];
   public mapView: any;
-  public points: any[] = [];
   public locator: any;
 
   ngOnChanges(event: any) {
@@ -91,15 +87,11 @@ export class MapComponent implements OnInit {
       symbol: markerSymbol,
     });
 
-    // this.mapView.graphics.removeAll();
     this.mapView.graphics.add(pointGraphic);
   }
 
-  constructor(
-    private stationService: StationService,
-    private store: Store<MapState>
-  ) {
-    this.store.pipe(select(getClickedData)).subscribe();
+  constructor(private stationService: StationService, private store: Store) {
+    this.store.select(getClickedData);
   }
 
   ngOnInit() {
@@ -110,9 +102,7 @@ export class MapComponent implements OnInit {
       'esri/widgets/Locate',
       'esri/widgets/Track',
       'esri/Graphic',
-      'esri/layers/FeatureLayer',
       'esri/widgets/BasemapToggle',
-      'esri/widgets/BasemapGallery',
       'esri/geometry/Point',
       'esri/symbols/SimpleMarkerSymbol',
       'esri/rest/locator',
@@ -125,9 +115,7 @@ export class MapComponent implements OnInit {
         Locate,
         Track,
         Graphic,
-        FeatureLayer,
         BasemapToggle,
-        BasemapGallery,
         Point,
         SimpleMarkerSymbol,
         locator,
@@ -167,7 +155,6 @@ export class MapComponent implements OnInit {
                 lat: point.latitude,
                 lng: point.longitude,
               };
-              // this.mapClick.emit(clickedData);
               this.store.dispatch(setClickedData({ clickedData }));
             },
             (err: any) => {
@@ -206,13 +193,13 @@ export class MapComponent implements OnInit {
         const basemapToggle = new BasemapToggle({
           view: view,
           nextBasemap: 'arcgis-imagery',
-          container: document.createElement('div'), // Yeni bir div oluşturur
-          titleVisible: true, // Başlık görünürlüğünü ayarlar
+          container: document.createElement('div'),
+          titleVisible: true,
           visibleElements: {
-            title: true, // Başlığın görünürlüğünü kontrol eder
-            toggleButton: true, // Toggle butonunun görünürlüğünü kontrol eder
+            title: true,
+            toggleButton: true,
           },
-          theme: 'light', // Arayüz temasını ayarlar (dark veya light)
+          theme: 'light',
         });
 
         view.ui.add(basemapToggle, 'bottom-right');

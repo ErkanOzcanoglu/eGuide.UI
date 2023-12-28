@@ -3,7 +3,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'searchFilter',
+  name: 'searchFilterVehicle',
 })
 export class SearchFilterPipe implements PipeTransform {
   transform(items: any[], searchTerm: string): any[] {

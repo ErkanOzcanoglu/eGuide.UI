@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AdminService } from 'src/app/services/admin.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class AdminLoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private adminService: AdminService,
     private router: Router,
     private toaster: ToastrService
   ) {}
@@ -39,12 +41,20 @@ export class AdminLoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           this.loadingAfterLogin = true;
-          if (response?.id) localStorage.setItem('authToken', response?.id);
-          this.toaster.success('Login successful');
-          setTimeout(() => {
-            this.router.navigate(['/station']);
-            this.loadingAfterLogin = false;
-          }, 1000);
+          if (response?.id)
+            this.adminService.getAdminInfo(response?.id).subscribe({
+              next: (response) => {
+                if (response?.id)
+                  localStorage.setItem('authToken', response?.id);
+                this.toaster.success('Login successful');
+                this.router.navigate(['']);
+                this.loadingAfterLogin = false;
+              },
+              error: (error) => {
+                this.toaster.error('Invalid email or password');
+                console.log(error);
+              },
+            });
         },
         error: (error) => {
           console.log(error);

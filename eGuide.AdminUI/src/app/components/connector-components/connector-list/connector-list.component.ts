@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Connector } from 'src/app/models/connector';
 import { ConnectorService } from 'src/app/services/connector.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-connector-list',
@@ -35,17 +36,20 @@ export class ConnectorListComponent implements OnInit {
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
-      console.log(this.connectorList);
     });
   }
 
   updateConnector(id: string) {
     this.connectorService
       .updateConnector(id, this.connectorForm.value)
-      .subscribe();
-    setTimeout(() => {
-      this.getConnector();
-    }, 100);
+      .subscribe({
+        next: () => {
+          this.getConnector();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   editConnector(id: string) {
@@ -64,9 +68,30 @@ export class ConnectorListComponent implements OnInit {
   }
 
   deleteConnector(id: string) {
-    this.connectorService.deleteConnector(id).subscribe();
-    setTimeout(() => {
-      this.getConnector();
-    }, 100);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.connectorService.deleteConnector(id).subscribe({
+          next: () => {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+            this.getConnector();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      }
+    });
   }
 }

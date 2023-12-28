@@ -30,7 +30,7 @@
           <th>
             <input
               type="text"
-              class="input"
+              class="input font-normal"
               formControlName="type"
               placeholder="Please Enter a type"
             />
@@ -38,7 +38,7 @@
           <th>
             <input
               type="text"
-              class="input"
+              class="input font-normal"
               formControlName="name"
               placeholder="Please Enter a name"
             />
@@ -46,7 +46,7 @@
           <th>
             <input
               type="text"
-              class="input"
+              class="input font-normal"
               formControlName="icon"
               placeholder="Please Enter a icon"
             />
@@ -114,9 +114,9 @@
             <button
               *ngIf="!facility.editingMode"
               (click)="toggleEdit(facility)"
-              class="btn btn-warning"
+              class="btn btn-ghost btn-sm"
             >
-              <i class="fas fa-edit"></i>
+              Edit
             </button>
             <div class="flex gap-2" *ngIf="facility.editingMode">
               <button
@@ -134,8 +134,12 @@
             </div>
           </td>
           <td>
-            <button (click)="deleteFacility(facility.id)" class="btn btn-error">
-              <i class="fas fa-trash"></i>
+            <button
+              *ngIf="facility.id"
+              (click)="deleteFacility(facility.id)"
+              class="btn btn-ghost btn-sm"
+            >
+              Delete
             </button>
           </td>
         </tr>

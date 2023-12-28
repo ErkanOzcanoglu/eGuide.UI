@@ -1,66 +1,52 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { StationModelService } from 'src/app/services/station-model.service';
 import { StationSocketService } from 'src/app/services/station-socket.service';
 import { StationService } from 'src/app/services/station.service';
 import { ToastrService } from 'ngx-toastr';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   getClickedData,
   getFormAddressData,
 } from 'src/app/state/map-click-data/map-click-data.selector';
-import {
-  MapState,
-  setFormAddressData,
-} from 'src/app/state/map-click-data/map-click-data.action';
 import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 import { Station } from 'src/app/models/station';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { Facility } from 'src/app/models/facility';
+import { FacilityService } from 'src/app/services/facility.service';
+import { StationFacilityService } from 'src/app/services/station-facility.service';
 
-interface Point {
-  lat: number;
-  lng: number;
-}
 @Component({
   selector: 'app-station-form',
   templateUrl: './station-form.component.html',
   styleUrls: ['./station-form.component.css'],
 })
 export class StationFormComponent implements OnInit {
+  mapClickedData?: Station;
+  editDatas?: Station;
+
   switchStatus = false;
   isEdited = false;
+  submitted = false;
+  customButton?: number;
+  stationId!: string;
+  stationModelId?: string;
 
-  toppings = new FormControl('');
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
-
-  customButton:any
+  apiLoginErrorMessages: string[] = [];
   chargingUnit: ChargingUnit[] = [];
-  stationId = '';
-  selectedChargingUnits: any[] = [];
+  facilities: Facility[] = [];
+  selectedChargingUnits: ChargingUnit[] = [];
 
   stationForm: FormGroup = new FormGroup({});
   stationModelForm: FormGroup = new FormGroup({});
   stationChargingUnitForm: FormGroup = new FormGroup({});
   selectedChargingUnitForm: FormGroup = new FormGroup({});
+  selectedFacilitiesForm: FormGroup = new FormGroup({});
 
-  apiLoginErrorMessages: string[] = [];
-  submitted = false;
-
-  mapClickedData: any;
-  editDatas?: Station;
+  getFormAddressData$ = this.store.select(getFormAddressData);
+  getClickedData$ = this.store.select(getClickedData);
+  selectStationEditData$ = this.store.select(selectStationEditData);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,25 +55,27 @@ export class StationFormComponent implements OnInit {
     private stationModelService: StationModelService,
     private stationSocketService: StationSocketService,
     private toastr: ToastrService,
-    private store: Store<MapState>,
-    private store2: Store<{ stationEditData: any }>
+    private facility: FacilityService,
+    private stationFacilityService: StationFacilityService,
+    private store: Store
   ) {
-    this.store.pipe(select(getFormAddressData)).subscribe();
-
+    this.getFormAddressData$.subscribe();
     this.stationForm = this.formBuilder.group({
       address: ['', Validators.required],
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
       stationModelId: ['', Validators.required],
-      stationStatus:['']
+      stationStatus: [0, Validators.required],
     });
   }
 
   ngOnInit(): void {
     this.getSockets();
     this.initializeForm();
+    this.getFacilities();
 
-    this.store.pipe(select(getClickedData)).subscribe((clickedData) => {
+    // this.store.select(getClickedData).subscribe((clickedData) => {
+    this.getClickedData$.subscribe((clickedData) => {
       if (clickedData) {
         this.stationForm.patchValue({
           address: clickedData.address,
@@ -96,47 +84,47 @@ export class StationFormComponent implements OnInit {
         });
       }
     });
-    this.store2
-      .pipe(select(selectStationEditData))
-      .subscribe((stationEditData) => {
-        console.log(stationEditData.stationEditData, 'stationEditData');
+    // this.store.select(selectStationEditData).subscribe((stationEditData) => {
+    this.selectStationEditData$.subscribe((stationEditData) => {
+      if (stationEditData.stationEditData?.address !== undefined)
         this.isEdited = true;
-        if (stationEditData) {
-          this.stationForm.patchValue({
-            address: stationEditData.stationEditData?.address,
-            latitude: stationEditData.stationEditData?.latitude,
-            longitude: stationEditData.stationEditData?.longitude,
-            name: stationEditData.stationEditData?.name,
-            stationStatus:stationEditData.stationEditData?.stationStatus,
-          });
-          this.setButtonColor(stationEditData.stationEditData?.stationStatus);
-          
-          this.editDatas = stationEditData.stationEditData;
+      if (stationEditData) {
+        this.stationForm.patchValue({
+          address: stationEditData.stationEditData?.address,
+          latitude: stationEditData.stationEditData?.latitude,
+          longitude: stationEditData.stationEditData?.longitude,
+          name: stationEditData.stationEditData?.name,
+          stationStatus: stationEditData.stationEditData?.stationStatus,
+        });
+        this.setButtonColor(stationEditData.stationEditData?.stationStatus);
 
-          console.log(this.editDatas?.stationModel?.id, 'stationModelId');
-          this.stationModelForm.patchValue({
-            name: this.editDatas?.stationModel?.name,
-          });
+        this.editDatas = stationEditData.stationEditData;
 
-          this.stationChargingUnitForm.patchValue({
-            stationModelId: this.editDatas?.stationModel?.id,
-          });
+        this.stationModelForm.patchValue({
+          name: this.editDatas?.stationModel?.name,
+        });
 
-          this.selectedChargingUnitForm.patchValue({
-            chargingUnit:
-              this.editDatas?.stationModel?.stationsChargingUnits?.map(
-                (stationSocket) => stationSocket.charginUnitId
-              ),
-          });
-        }
-      });
+        this.stationChargingUnitForm.patchValue({
+          stationModelId: this.editDatas?.stationModel?.id,
+        });
+
+        this.selectedChargingUnitForm.patchValue({
+          chargingUnit:
+            this.editDatas?.stationModel?.stationsChargingUnits?.map(
+              (stationSocket) => stationSocket.charginUnitId
+            ),
+        });
+      }
+    });
   }
-  
+
   setButtonColor(stationStatus: number | undefined): void {
-      this. customButton = document.getElementById('customButton');
-    if (this.customButton) {
-      this.customButton=stationStatus;
-      console.log(this.customButton,"rer");
+    const element = document.getElementById('customButton');
+
+    if (element instanceof HTMLElement) {
+      this.customButton = stationStatus;
+    } else {
+      this.customButton = undefined;
     }
   }
 
@@ -146,7 +134,6 @@ export class StationFormComponent implements OnInit {
         (chargingUnit) => chargingUnit.id === chargingUnitId
       )?.name;
     });
-    console.log(this.selectedChargingUnits, 'selectedSockets');
   }
 
   setSwitch(): void {
@@ -166,7 +153,7 @@ export class StationFormComponent implements OnInit {
       latitude: [''],
       longitude: [''],
       stationModelId: [''],
-      stationStatus:['']
+      stationStatus: [0],
     });
 
     this.stationModelForm = this.formBuilder.group({
@@ -181,6 +168,16 @@ export class StationFormComponent implements OnInit {
       chargingUnitId: ['', Validators.required],
       stationModelId: [''],
     });
+
+    this.selectedFacilitiesForm = this.formBuilder.group({
+      facilities: ['', Validators.required],
+    });
+  }
+
+  getFacilities(): void {
+    this.facility.getFacilities().subscribe((facilities) => {
+      this.facilities = facilities;
+    });
   }
 
   onSubmit() {
@@ -189,9 +186,9 @@ export class StationFormComponent implements OnInit {
       this.stationForm.invalid &&
       this.stationModelForm.invalid &&
       this.selectedChargingUnitForm.invalid &&
-      this.stationChargingUnitForm.invalid
+      this.stationChargingUnitForm.invalid &&
+      this.selectedFacilitiesForm.invalid
     ) {
-      console.log('invalid form');
       this.toastr.error('Station creation failed!');
       return;
     } else {
@@ -200,7 +197,6 @@ export class StationFormComponent implements OnInit {
         .subscribe({
           next: (stationModel) => {
             this.stationForm.patchValue({ stationModelId: stationModel.id });
-            console.log(this.stationForm.value);
             // conver lat and lng to string
             this.stationForm.value.latitude =
               this.stationForm.value.latitude.toString();
@@ -212,17 +208,30 @@ export class StationFormComponent implements OnInit {
                 next: (station) => {
                   this.toastr.success('Station created successfully!');
                   this.stationId = station.id;
+                  this.selectedFacilitiesForm.value.facilities.forEach(
+                    (facilityId: number) => {
+                      this.stationFacilityService
+                        .createStationFacility({
+                          facilityId: facilityId,
+                          stationId: this.stationId,
+                        })
+                        .subscribe({
+                          error: (err) => {
+                            console.log(err);
+                            this.toastr.error(
+                              'Station Facility creation failed!'
+                            );
+                          },
+                        });
+                    }
+                  );
+
                   this.selectedChargingUnitForm.value.sockets.forEach(
                     (chargingUnitId: number) => {
-                      console.log(stationModel.id, 'stationModelId');
                       this.stationChargingUnitForm.patchValue({
                         chargingUnitId: chargingUnitId,
                         stationModelId: stationModel.id,
                       });
-                      console.log(
-                        this.stationChargingUnitForm.value,
-                        'socketForm'
-                      );
                       this.stationSocketService
                         .createStationSocket(this.stationChargingUnitForm.value)
                         .subscribe({
@@ -231,18 +240,6 @@ export class StationFormComponent implements OnInit {
                             this.toastr.error(
                               'Station Socket creation failed!'
                             );
-                            // this.stationModelService
-                            //   .hardDeleteStationModel(
-                            //     this.stationForm.value.stationModelId
-                            //   )
-                            //   .subscribe({
-                            //     next: (res) => {
-                            //       console.log(res);
-                            //     },
-                            //     error: (err) => {
-                            //       console.log(err);
-                            //     },
-                            //   });
                           },
                         });
                     }
@@ -252,6 +249,7 @@ export class StationFormComponent implements OnInit {
                   this.stationForm.reset();
                   this.selectedChargingUnitForm.reset();
                   this.stationChargingUnitForm.reset();
+                  this.selectedFacilitiesForm.reset();
                 },
                 error: (err) => {
                   console.log(err);
@@ -267,16 +265,24 @@ export class StationFormComponent implements OnInit {
     }
   }
 
-  submitForm() {
-    this.onFormSubmit();
+  onUpdate() {
+    this.stationModelId = this.editDatas?.stationModel?.id;
+    if (this.stationModelId != null) {
+      this.stationModelService
+        .hardDeleteStationModel(this.stationModelId)
+        .subscribe({
+          next: () => {
+            this.onSubmit();
+          },
+        });
+    }
   }
 
-  onFormSubmit() {
-    const addressData = {
-      address: this.stationForm.value.address,
-      lat: this.stationForm.value.latitude,
-      lng: this.stationForm.value.longitude,
-    };
-    this.store.dispatch(setFormAddressData({ formAddressData: addressData }));
+  clearForm() {
+    this.stationModelForm.reset();
+    this.stationForm.reset();
+    this.selectedChargingUnitForm.reset();
+    this.stationChargingUnitForm.reset();
+    this.selectedFacilitiesForm.reset();
   }
 }

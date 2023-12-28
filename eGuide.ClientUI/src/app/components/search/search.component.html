@@ -1,77 +1,206 @@
-<div class="">
-  <div class="flex justify-center items-center">
-    <button class="form-group flex" (click)="onClick()">
-      <input
-        type="text"
-        aria-describedby="search-text"
-        placeholder="Search"
-        [(ngModel)]="searchText"
-        class="bg-white w-52 h-10 p-2 pr-0 rounded-l-xl outline-none"
-      />
-      <!-- ! search button -->
-      <button class="bg-white w-10 h-10" (click)="aramaYap(searchText)">
-        <img
-          src="../../../assets/search.svg"
-          alt="search"
-          class="w-7 h-7 object-cover"
-        />
-      </button>
-    </button>
-    <button class="bg-white w-7 h-10 rounded-r-xl" (click)="openFilter()">
-      <i
-        class="fa-solid fa-filter text-black w-5 h-10 flex justify-center items-center"
-      ></i>
+<div class="flex justify-center items-center">
+  <div class="relative flex items-center">
+    <input
+      type="text"
+      aria-describedby="search-text"
+      placeholder="Search"
+      [(ngModel)]="searchText"
+      class="search bg-white w-64 h-10 p-2 pr-10 rounded-l-xl outline-none"
+      (click)="onClick()"
+    />
+
+    <button
+      class="search-button w-10 h-10"
+      (click)="searchByAddress(searchText)"
+    >
+      <i class="fas fa-search text-black"></i>
     </button>
   </div>
-  <!-- search click -->
-  <div
-    class="mt-2 pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
-    [ngClass]="{
-      'h-20 bg-transparent overflow-hidden': !isClicked || !isFilterClicked,
-      'min-h-[400px] max-h-[400px] h-full bg-white overflow-scroll': isClicked || isFilterClicked,
-    }"
+
+  <button class="filter-button bg-white w-10 h-10" (click)="openFilter()">
+    <i class="fas fa-filter text-black"></i>
+  </button>
+</div>
+
+<!-- <div
+  class="pt-2 rounded-lg duration-500 ease-in-out overflow-y-auto scroll"
+  [ngClass]="{
+    'h-30 bg-transparent z- overflow-hidden': !isClicked || !isFilterClicked,
+    'min-h-[400px] max-h-[400px] h-full overflow-scroll': isClicked || isFilterClicked,
+  }"
+> -->
+<div
+  class="pt-2 rounded-lg overflow-y-auto scroll "
+  [ngClass]="{
+    'bg-transparent drop1 transition-dropdown  z-overflow-hidden': !isClicked || !isFilterClicked, 
+    'drop2 overflow-scroll ': isClicked || isFilterClicked,
+  }"
+>
+  <!-- Toggle Eklenen Kısım -->
+  <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
+    <li
+      class="list-group-item text-black p-3 pb-0 border-b"
+      *ngFor="let c of stations | appFilter : searchText"
+      value="{{ c.id }}"
+      (click)="onSelectStation(c)"
+      (keyup)="onSelectStation(c)"
+      tabindex="0"
+    >
+      {{ c.name }}
+    </li>
+  </ul>
+  <div class="flex flex-row">
+    <div
+      class="ml-2 flex items-center rounded-lg"
+      *ngIf="isFilterClicked"
+      style="
+        flex-direction: row-reverse;
+        padding: 5px;
+        border: 1px solid #9eb0ff;
+      "
+    >
+      {{ connectorNumber }} Connectors
+    </div>
+    <div
+      class="ml-2 flex items-center rounded-lg"
+      *ngIf="isFilterClicked"
+      style="
+        flex-direction: row-reverse;
+        padding: 5px;
+        border: 1px solid #9eb0ff;
+      "
+    >
+      {{ stationNumber }} Stations
+    </div>
+
+    <div
+      class="ml-2 flex items-center rounded-lg"
+      *ngIf="isFilterClicked"
+      style="flex-direction: row-reverse; border: 1px solid #9eb0ff"
+    >
+      <button (click)="refreshFilter()" class="refresh-button">
+        <i class="fas fa-sync-alt"></i>{{ "Close" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter penceresi içeriği -->
+  <mat-accordion *ngIf="isFilterClicked">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="accordion-header-connector">
+        <mat-panel-title>{{ "Vehicles" | translate }}</mat-panel-title>
+        <div class="ml-2 flex items-center" *ngIf="isFilterClicked">
+          <label class="switch">
+            <input
+              type="checkbox"
+              [(ngModel)]="isFilterEnabled"
+              (ngModelChange)="toggleFilter()"
+            />
+            <span class="slider"></span>
+          </label>
+          <span class="ml-2">.</span>
+        </div>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="scrollable-content">
+          <ul class="connectors-list">
+            <li
+              *ngFor="let vehicle of vehicles"
+              (click)="onSelectVehicle(vehicle)"
+              (keyup.enter)="onSelectVehicle(vehicle)"
+              tabindex="0"
+            >
+              <div class="connector-item">
+                <span class="connector-type"
+                  >{{ vehicle.brand }}-{{ vehicle.model }}</span
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="accordion-header-connector">
+        <mat-panel-title>{{ "Connectors" | translate }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="scrollable-content">
+          <ul class="connectors-list">
+            <li
+              *ngFor="let connector of connectors"
+              (click)="onSelectConnector(connector)"
+              (keyup.enter)="onSelectConnector(connector)"
+              tabindex="0"
+            >
+              <div class="connector-item">
+                <img
+                  class="connector-image"
+                  [src]="connector.imageData"
+                  alt=""
+                />
+                <span class="connector-type">{{ connector.type }}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="accordion-header-facilty">
+        <mat-panel-title> {{ "Facilities" | translate }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="scrollable-content">
+          <ul class="facilities-list">
+            <li
+              *ngFor="let facility of facilities"
+              (click)="onSelectFacility(facility)"
+              (keyup.enter)="onSelectFacility(facility)"
+              tabindex="0"
+            >
+              <i class="facility-icon" [ngClass]="facility.icon"></i>
+              {{ facility.type }}
+            </li>
+          </ul>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- Last Visited Stations Listesi -->
+  <ul
+    class="list-group cursor-pointer list-group-flush"
+    *ngIf="isFilterClicked"
   >
-    <ul class="list-group cursor-pointer list-group-flush" *ngIf="isClicked">
-      <li
-        class="list-group-item text-black p-3 pb-0 border-b"
-        *ngFor="let c of stations | appFilter : searchText"
-        value="{{ c.id }}"
-        (click)="onSelect(c)"
-        (keyup)="onSelect(c)"
+    <li
+      class="list-group-item text-black p-3 pb-0 border-b flex justify-between"
+      *ngFor="
+        let lvs of lastVisitedStations2 | appFilter : searchText | slice : 0 : 5
+      "
+    >
+      <p
+        (click)="onSelectStation(lvs.station)"
+        (keyup)="onSelectStation(lvs.station)"
         tabindex="0"
       >
-        {{ c.name }}
-      </li>
-    </ul>
-    <ul
-      class="list-group cursor-pointer list-group-flush"
-      *ngIf="isFilterClicked"
-    >
-      <li
-        class="list-group-item text-black p-3 pb-0 border-b flex justify-between"
-        *ngFor="
-          let lvs of lastVisitedStations2
-            | appFilter : searchText
-            | slice : 0 : 5
-        "
-        value="{{ lvs.station.id }}"
+        {{ lvs.station.name | titlecase }}
+      </p>
+      <button
+        class="text-red-500 hover:text-red-700"
+        (click)="removeLastVisitedStations(lvs.id)"
       >
-        <p
-          (click)="onSelect(lvs.station)"
-          (keyup)="onSelect(lvs.station)"
-          tabindex="0"
-        >
-          {{ lvs.station.name | titlecase }}
-        </p>
-        <button (click)="removeLastVisitedStations(lvs.id)">Remove</button>
-      </li>
-    </ul>
-    <button
-      class="w-full text-black items-end absolute bottom-0 cursor-pointer justify-center flex text-center"
-      [ngClass]="{ hidden: !isClicked && !isFilterClicked }"
-      (click)="closeSearch()"
-    >
-      <i class="fa-solid fa-circle-xmark fa-2xl"></i>
-    </button>
-  </div>
+        {{ " Remove" | translate }}
+      </button>
+    </li>
+  </ul>
+
+  <!-- Kapatma Butonu -->
+  <button
+    class="w-full text-black items-end absolute bottom-0 cursor-pointer justify-center flex text-center"
+    [ngClass]="{ hidden: !isClicked && !isFilterClicked }"
+    (click)="closeSearch()"
+  >
+    <i class="fas fa-times-circle text-cyan-950 text-2xl"></i>
+  </button>
 </div>

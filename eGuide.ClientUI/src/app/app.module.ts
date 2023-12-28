@@ -1,8 +1,7 @@
-import { ConnectorComponent } from './../../../eGuide.AdminUI/src/app/components/connector-components/connector/connector.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -25,14 +24,13 @@ import { ForgotUserPasswordComponent } from './components/password-change/forgot
 import { EmailLinkConfirmComponent } from './components/password-change/email-link-confirm/email-link-confirm.component';
 import { UserAuthComponent } from './components/user-auth/user-auth.component';
 
-
 // Secreens
 import { HomeComponent } from './screens/home/home.component';
 import { SettingsComponent } from './screens/settings/settings/settings.component';
 
 // Services
-import { AuthGuard } from './models/auth-guard';
-import { AuthService } from './services/auth.service';
+
+
 import { SearchComponent } from './components/search/search.component';
 import { VerifyEmailComponent } from './screens/verify-email/verify-email.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -42,7 +40,23 @@ import { StoreModule } from '@ngrx/store';
 import { ServiceListComponent } from './components/service-list/service-list.component';
 import { ServiceComponent } from './screens/service/service.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ContactFormComponent } from './components/contact-form/contact-form.component';
+import { ContactComponent } from './screens/contact/contact.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { vehicleReducer } from './state/vehicle-state/vehicle.reducer';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { themeReducer } from './state/theme-state/theme.reducer';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { languageReducer } from './state/language-state/language.reducer';
+import { PreventLoginGuardService } from './services/prevent-login-guard.service';
+
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -65,7 +79,9 @@ import { FooterComponent } from './components/footer/footer.component';
     ServiceListComponent,
     ServiceComponent,
     FooterComponent,
-
+    ContactFormComponent,
+    ContactComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,9 +95,24 @@ import { FooterComponent } from './components/footer/footer.component';
     BrowserAnimationsModule,
     FontAwesomeModule,
     MatDialogModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({
+      theme: themeReducer,
+      activeVehicle: vehicleReducer,
+
+      language: languageReducer,
+    }),
+    MatExpansionModule,
+    MatListModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+    }),
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [PreventLoginGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,149 @@
+<div class="w-full bg-primary flex justify-center flex-col p-10">
+  <div class="h-full flex flex-col p-5">
+    <div
+      class="border-b mx-5 flex justify-between text-white border-sectext-secondary pb-2 text-3xl font-bold w-full"
+    >
+      <h1 class="">Station Profile</h1>
+    </div>
+
+    <div class="bg-primary">
+      <div class="mx-10">
+        <div class="mb-8 mt-8">
+          <div class="flex flex-row items-center">
+            <h2 class="text-2xl font-semibold text-white">
+              Station Statistics
+            </h2>
+            <div class="flex flex-row">
+              <div class="ml-4 flex items-center">
+                <div
+                  class="mr-5 p-2 pt-3 w-10 input border rounded-md input-disabled"
+                >
+                  {{ "5" }}
+                </div>
+                <div
+                  for="totalVehicles"
+                  class="block text-sm font-medium text-white"
+                >
+                  Total Comment
+                </div>
+              </div>
+              <div class="ml-4 flex items-center">
+                <div
+                  class="mr-5 p-2 pt-3 w-10 input border rounded-md input-disabled"
+                >
+                  {{ "4.5" }}
+                </div>
+                <div
+                  for="totalFavoriteStations"
+                  class="block text-sm font-medium text-white"
+                >
+                  Total Grade
+                </div>
+              </div>
+              <div class="ml-4 flex items-center">
+                <div
+                  class="mr-5 p-2 pt-3 w-10 input border rounded-md input-disabled"
+                >
+                  {{ stationUserCounts }}
+                </div>
+                <div
+                  for="totalFavoriteStations"
+                  class="block text-sm font-medium text-white"
+                >
+                  Total Favorite
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="name"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Station Name</label
+              >
+              <div
+                class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+              >
+                {{ station.name }}
+              </div>
+            </div>
+            <div>
+              <label
+                for="surname"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Station Address</label
+              >
+              <div
+                class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+              >
+                {{ station.address }}
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="name"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Charging Units</label
+              >
+              <div
+                class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+              >
+                {{ chargingUnits }}
+              </div>
+            </div>
+            <div>
+              <label
+                for="surname"
+                class="block ml-2 text-sm font-medium text-gray-600"
+                >Connector Types</label
+              >
+              <div
+                class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+              >
+                {{ connectorTypelist }}
+              </div>
+            </div>
+          </div>
+         
+          <div class="mt-4">
+            <label
+              for="email"
+              class="block ml-2 text-sm font-medium text-gray-600"
+              >Facilities</label
+            >
+            <p
+              class="mt-1 p-2 pt-3 w-full input border rounded-md input-disabled"
+            >
+              {{ facilityList }}
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div class="col-span-1">
+              <label
+                for="vehicle"
+                class="block text-sm font-medium text-gray-600"
+                >Comments</label
+              >
+              <div
+                class="mr-16 overflow-auto custom-scrollbar"
+                style="max-height: 160px; width: 455px"
+              >
+                <ng-container *ngFor="let comment of comments; let i = index">
+                  <div class="comment-list-item">
+                    <p class="comment">{{ comment.text }}</p>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end flex-row gap-x-3 w-full">
+          <!-- <button class="btn btn-error" (click)="removeUser()">Delete Account</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

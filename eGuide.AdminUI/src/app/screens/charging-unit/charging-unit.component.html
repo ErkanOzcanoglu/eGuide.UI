@@ -1,0 +1,76 @@
+<div class="w-full bg-primary flex justify-center flex-col p-10">
+  <div class="h-full flex flex-col p-5">
+    <div class="w-full justify-start">
+      <h1
+        class="border-b mx-5 flex justify-between text-slate-300 border-slate-300 pb-2 text-3xl font-bold"
+      >
+        <!-- if isConnectorListOpen Socket else Connector -->
+        <div *ngIf="!isConnectorListOpen">Charging Unit</div>
+        <div *ngIf="isConnectorListOpen">Connector</div>
+        <div class="mb-2 z-40 flex gap-2">
+          <!-- if isOpen Add Socket else close -->
+          <button
+            *ngIf="!isConnectorListOpen"
+            class="btn flex justify-center m-1 items-center"
+            (click)="addSocket()"
+          >
+            <span class="flex justify-center items-center">
+              {{ !isOpen ? "Add Charging Unit" : "Close Form" }}
+            </span>
+          </button>
+          <button
+            class="btn flex justify-center m-1 items-center"
+            (click)="connectorListIsOpen()"
+            *ngIf="isConnectorListOpen"
+          >
+            <span class="flex justify-center items-center">
+              Charging Unit List
+            </span>
+          </button>
+
+          <div class="dropdown" *ngIf="!isConnectorListOpen">
+            <button class="btn m-1">Connectors</button>
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <button
+                  class="cursor-pointer text-sm"
+                  (click)="connectorListIsOpen()"
+                >
+                  Connector List
+                </button>
+              </li>
+              <li>
+                <div class="drawer-content">
+                  <!-- Page content here -->
+                  <label for="my-drawer-3" class="cursor-pointer text-sm"
+                    >Add Connector</label
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+          <app-connector-modal></app-connector-modal>
+        </div>
+      </h1>
+    </div>
+    <div class="flex mt-10 gap-x-5 justify-between px-5 w-full h-full">
+      <div *ngIf="!isConnectorListOpen" class="z-30 relative w-full">
+        <div
+          class="bg-primary z-20 relative w-full right-0 left-0 duration-500 ease-in-out"
+          [ngClass]="{ 'mt-80': isOpen, 'mt-0': !isOpen }"
+        >
+          <app-socket-list></app-socket-list>
+        </div>
+        <div class="bg-primary absolute p-2 top-0 right-0 left-0">
+          <app-socket-form></app-socket-form>
+        </div>
+      </div>
+      <div *ngIf="isConnectorListOpen" class="z-30 relative w-full">
+        <app-connector-list></app-connector-list>
+      </div>
+    </div>
+  </div>
+</div>

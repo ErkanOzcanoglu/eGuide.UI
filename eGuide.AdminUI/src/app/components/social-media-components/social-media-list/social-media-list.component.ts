@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialMedia } from 'src/app/models/social-media';
 import { SocialMediaService } from 'src/app/services/social-media.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-social-media-list',
   templateUrl: './social-media-list.component.html',
   styleUrls: ['./social-media-list.component.css'],
 })
-export class SocialMediaListComponent {
+export class SocialMediaListComponent implements OnInit {
   socialMediaForm: FormGroup = new FormGroup({});
   isOpen?: boolean = false;
   socialMedias: SocialMedia[] = [];
@@ -34,33 +35,34 @@ export class SocialMediaListComponent {
 
   openForm() {
     this.isOpen = !this.isOpen;
-    console.log('open form');
+    this.socialMediaForm.reset();
   }
 
   getSocialMedias() {
     this.socialMediaService.getSocialMedias().subscribe((response) => {
       this.socialMedias = response;
-      console.log(this.socialMedias);
     });
   }
 
   submitForm() {
     this.socialMediaService
       .addSocialMedia(this.socialMediaForm.value)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.socialMedias.push(response);
           this.isOpen = false;
-          // this.socialMediaForm.reset();
+          this.socialMediaForm.reset();
         },
-        (error) => {
-          console.log(error);
-        }
-      );
+        error: () => {
+          console.log('Social media not added');
+        },
+      });
   }
 
   toggleEdit(socialMedia: SocialMedia) {
     // other sockets should be disabled
+    this.socialMediaForm.reset();
+    this.isOpen = false;
     this.socialMedias.forEach((element) => {
       element.editingMode = false;
     });
@@ -71,33 +73,48 @@ export class SocialMediaListComponent {
     socialMedia.editingMode = false;
   }
 
-  editSocialMedia(id: any) {
+  editSocialMedia(id: string) {
     this.socialMediaService
       .updateSocialMedia(id, this.socialMediaForm.value)
-      .subscribe(
-        (response) => {
-          this.socialMedias.forEach((element) => {
-            if (element.id == id) {
-              element = response;
-            }
-          });
+      .subscribe({
+        next: () => {
+          this.getSocialMedias();
+          this.isOpen = false;
+          this.socialMediaForm.reset();
         },
-        (error) => {
-          console.log(error);
-        }
-      );
+        error: () => {
+          console.log('Social media not edited');
+        },
+      });
   }
 
-  deleteSocialMedia(id: any) {
-    this.socialMediaService.deleteSocialMedia(id).subscribe(
-      (response) => {
-        this.socialMedias = this.socialMedias.filter(
-          (socialMedia) => socialMedia.id != id
-        );
-      },
-      (error) => {
-        console.log(error);
+  deleteSocialMedia(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.socialMediaService.deleteSocialMedia(id).subscribe({
+          next: () => {
+            this.socialMedias = this.socialMedias.filter(
+              (socialMedia) => socialMedia.id != id
+            );
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          },
+          error: () => {
+            console.log('Social media not deleted');
+          },
+        });
       }
-    );
+    });
   }
 }

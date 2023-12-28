@@ -23,7 +23,8 @@ button:hover .asd {
   background-color: #555;
 }
 .active {
-  background-color: #ff0000; /* Örnek olarak kırmızı arka plan rengi */
+  background-color: #969696;
+  color: white;
 }
 
 /* ::ng-deep .esri-popup__header-container--button {
@@ -47,7 +48,7 @@ button:hover .asd {
  
 } */
 ::ng-deep.esri-icon-favorites::before {
-  color: rgb(107, 107, 107)!important;
+  color: rgb(107, 107, 107) !important;
   content: "\2605"; /* Gri renk, isteğe bağlı olarak değiştirilebilir */
 }
 
@@ -55,4 +56,12 @@ button:hover .asd {
 ::ng-deep.esri-icon-favorites-favorite::after {
   color: rgb(255, 0, 162) !important;
   content: "\2605"; /* Renkli, isteğe bağlı olarak değiştirilebilir */
+}
+
+.mat-tab-container {
+  /* Özel stillerinizi burada tanımlayın */
+  /* Örneğin: */
+  margin-top: 20px;
+  background-color: black;
+  /* Diğer özel stiller... */
 }

@@ -1,31 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Service } from 'src/app/models/service';
 import { ServiceService } from 'src/app/services/service.service';
 import { UploadImageService } from 'src/app/services/upload-image.service';
 import { selectServiceEditData } from 'src/app/state/service-edit-data/service-edit-data.selector';
-import { selectStationEditData } from 'src/app/state/station-edit-data/station-edit-data.selector';
 
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
   styleUrls: ['./service-form.component.css'],
 })
-export class ServiceFormComponent {
+export class ServiceFormComponent implements OnInit {
   files: File[] = [];
   selectedLayout?: number;
   image?: string;
+  editData$ = this.store.select(selectServiceEditData);
   service: Service = {
     id: '',
     name: '',
     description: '',
     image: '',
+    language: '',
     isSelected: false,
     layout: 0,
   };
   serviceForm: FormGroup = new FormGroup({});
+  isEdit = false;
 
   ngOnInit(): void {
     this.initializeForm();
@@ -45,6 +47,7 @@ export class ServiceFormComponent {
       id: [''],
       name: ['', Validators.required],
       description: ['', Validators.required],
+      language: ['', Validators.required],
       image: [''],
       layout: ['', Validators.required],
     });
@@ -62,8 +65,7 @@ export class ServiceFormComponent {
   }
 
   getEditData() {
-    this.store.pipe(select(selectServiceEditData)).subscribe((datas) => {
-      console.log(datas, 'getEditData');
+    this.editData$.subscribe((datas) => {
       if (datas) {
         const data = datas.serviceEditData;
         this.serviceForm.patchValue({
@@ -73,6 +75,8 @@ export class ServiceFormComponent {
           image: data.image,
           layout: data.layout,
         });
+        if (this.serviceForm.value.id != '') this.isEdit = true;
+
         if (data.layout != '') this.selectedLayout = data.layout;
         this.image = data.image;
       }
@@ -81,8 +85,6 @@ export class ServiceFormComponent {
 
   onFileSelect(event: any) {
     this.files.push(event.target.files[0]);
-    console.log(this.files);
-
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event: any) => {
@@ -92,9 +94,9 @@ export class ServiceFormComponent {
 
   onSubmit() {
     if (
-      this.serviceForm.value.layout === 1 &&
-      this.serviceForm.value.layout === 2 &&
-      this.serviceForm.value.layout === 3 &&
+      (this.serviceForm.value.layout === 1 ||
+        this.serviceForm.value.layout === 2 ||
+        this.serviceForm.value.layout === 3) &&
       this.serviceForm.valid &&
       this.files[0]
     ) {
@@ -105,21 +107,32 @@ export class ServiceFormComponent {
       data.append('upload_preset', 'eGuide_cloudinary');
       data.append('cloud_name', 'dg7apl0rh');
 
-      this.imageService.uploadImage(data).subscribe((response) => {
-        this.serviceForm.patchValue({
-          image: response.secure_url,
-        });
-        this.serviceService
-          .createService(this.serviceForm.value)
-          .subscribe((response) => {
-            console.log(response);
-          }),
-          (error: any) => {
-            this.toastr.error('Error while adding service');
-          };
-      }),
-        (error: any) => {
+      this.imageService.uploadImage(data).subscribe({
+        next: (response) => {
+          this.serviceForm.patchValue({
+            id: 'd449f754-20a7-453f-aedf-f33a6f1eba9e',
+            image: response.secure_url,
+          });
+          this.serviceService.createService(this.serviceForm.value).subscribe({
+            next: () => {
+              this.toastr.success('Service added successfully');
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            },
+            error: (error) => {
+              this.toastr.error('Error while adding service');
+              console.log(error);
+            },
+          });
+        },
+        error: (error) => {
           this.toastr.error('Error while uploading image');
+          console.log(error);
+        },
+      }),
+        () => {
+          this.toastr.error('Error while adding service');
         };
     } else {
       console.log('Form is not valid');
@@ -130,12 +143,18 @@ export class ServiceFormComponent {
     if (this.serviceForm.valid) {
       this.serviceService
         .updateService(this.serviceForm.value.id, this.serviceForm.value)
-        .subscribe((response) => {
-          console.log(response);
-        }),
-        (error: any) => {
-          this.toastr.error('Error while updating service');
-        };
+        .subscribe({
+          next: () => {
+            this.toastr.success('Service updated successfully');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          },
+          error: (error) => {
+            this.toastr.error('Error while updating service');
+            console.log(error);
+          },
+        });
     }
   }
 
