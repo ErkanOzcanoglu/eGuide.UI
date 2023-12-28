@@ -1,7 +1,7 @@
+import { CustomizationComponent } from './screens/customization/customization.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StationsComponent } from './screens/stations/stations.component';
-import { SocketComponent } from './screens/socket/socket.component';
 import { MapComponent } from './components/map/map.component';
 import { SettingsComponent } from './screens/settings/settings.component';
 import { SignComponent } from './screens/sign/sign.component';
@@ -17,6 +17,11 @@ import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { ServiceComponent } from './screens/service/service.component';
 import { FacilityComponent } from './screens/facility/facility.component';
 import { SocialMediaComponent } from './screens/social-media/social-media.component';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { UserComponent } from './screens/user/user.component';
+import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
+import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
+import { ChargingUnitComponent } from './screens/charging-unit/charging-unit.component';
 
 const routes: Routes = [
   {
@@ -26,7 +31,7 @@ const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'station', component: StationsComponent },
-      { path: 'charging-unit', component: SocketComponent },
+      { path: 'charging-unit', component: ChargingUnitComponent },
       { path: 'map', component: MapComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'change-password', component: ChangePasswordComponent },
@@ -36,6 +41,10 @@ const routes: Routes = [
       { path: 'service', component: ServiceComponent },
       { path: 'facility', component: FacilityComponent },
       { path: 'social-media', component: SocialMediaComponent },
+      { path: 'customization', component: CustomizationComponent },
+      { path: 'user', component: UserComponent },
+      { path: 'user-profile/:id', component: UserProfileComponent },
+      { path: 'station-profile/:id', component: StationProfileComponent },
     ],
   },
   { path: 'sign-in', component: SignComponent },
@@ -48,6 +57,7 @@ const routes: Routes = [
     component: ForgotAdminPasswordComponent,
   },
   { path: 'verify-email/:token', component: EmailConfirmComponent },
+  { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
 @NgModule({

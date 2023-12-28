@@ -1,17 +1,17 @@
-<div class="relative">
+<div class="relative bg-primary min-h-full w-full">
   <div
-    class="overflow-x-auto pt-16 mx-10 border-b border-white flex justify-between"
+    class="overflow-x-auto pt-16 mx-10 border-b border-secondary flex justify-between"
   >
     <div class="font-bold text-2xl">Admin Settings</div>
     <button (click)="openForm()" class="btn btn-pr">
       {{ isOpen ? "Close" : "Add Admin" }}
     </button>
   </div>
-  <div class="">
+  <div class="bg-primary">
     <app-add-admin></app-add-admin>
   </div>
   <div
-    class="p-10 absolute w-full h-full z-10 bg-base-100 duration-500 ease-in-out transition-all"
+    class="p-10 absolute w-full z-10 bg-primary duration-500 ease-in-out transition-all"
     [ngClass]="isOpen ? 'top-[300px]' : 'top-[150px]'"
   >
     <table class="table">
@@ -34,26 +34,39 @@
                   class="mask mask-squircle p-2 flex justify-center items-center bg-black"
                 >
                   <p
-                    class="text-white text-xl flex justify-center items-center font-bold"
+                    class="text-seconborder-secondary text-xl flex justify-center items-center font-bold"
                   >
-                    {{ adminInfo.name?.charAt(0)
-                    }}{{ adminInfo.surname?.charAt(0) }}
+                    {{ adminInfo.name?.charAt(0) | uppercase
+                    }}{{ adminInfo.surname?.charAt(0) | uppercase }}
                   </p>
                 </div>
               </div>
               <div>
-                <div class="font-bold">{{ adminInfo.name }}</div>
-                <div class="text-sm opacity-50">{{ adminInfo.surname }}</div>
+                <div class="font-bold">{{ adminInfo.name | titlecase }}</div>
+                <div class="text-sm opacity-50">
+                  {{ adminInfo.surname | titlecase }}
+                </div>
               </div>
             </div>
           </td>
           <td>
             <span class="">{{ adminInfo.email }}</span>
           </td>
-          <td>Admin Master</td>
-          <th>
-            <button class="btn btn-ghost btn-xs">details</button>
-          </th>
+          <td>
+            <span class="text-sm opacity-50">{{
+              adminInfo.isMasterAdmin ? "Admin Master" : "Admin"
+            }}</span>
+          </td>
+          <td>
+            <div class="flex justify-end">
+              <button
+                class="btn btn-pr bg-primary hover:bg-primary border-secondary ml-2"
+                (click)="deleteAdmin(adminInfo)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

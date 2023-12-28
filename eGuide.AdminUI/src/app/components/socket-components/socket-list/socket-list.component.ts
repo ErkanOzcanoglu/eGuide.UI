@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { ChargingUnit } from 'src/app/models/charging-unit';
+import { Connector } from 'src/app/models/connector';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
+import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-socket-list',
@@ -10,20 +14,31 @@ import { ChargingUnitService } from 'src/app/services/charging-unit.service';
 })
 export class SocketListComponent implements OnInit {
   socketList: ChargingUnit[] = [];
+  connectorList: Connector[] = [];
+  refData = false;
   socketUpdteForm: FormGroup = new FormGroup({});
   socketUpdateControl = new FormControl('');
   isDisable = true;
+  refreshState$ = this.store.select(selectRefresh);
+
   constructor(
     private chargingUnitService: ChargingUnitService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private store: Store
+  ) {
+    this.refreshState$.subscribe((refresh: boolean) => {
+      if (refresh === true) {
+        this.getChargingUnitList();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.getStationList();
+    this.getChargingUnitList();
     this.initializeForm();
   }
 
-  getStationList() {
+  getChargingUnitList() {
     this.chargingUnitService.getChargingUnits().subscribe({
       next: (data) => {
         this.socketList = data;
@@ -60,15 +75,43 @@ export class SocketListComponent implements OnInit {
     this.chargingUnitService
       .updateChargingUnit(id, this.socketUpdteForm.value)
       .subscribe({
-        next: (data) => {
-          console.log(data);
-          this.getStationList();
+        next: () => {
+          this.getChargingUnitList();
         },
         error: (error) => {
           console.log(error);
         },
       });
     // refresh the list
-    this.getStationList();
+    this.getChargingUnitList();
+  }
+
+  deleteChargingUnit(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.chargingUnitService.deleteChargingUnit(id).subscribe({
+          next: (data) => {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+            console.log(data);
+            this.getChargingUnitList();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      }
+    });
   }
 }

@@ -35,17 +35,20 @@ export class ConnectorListComponent implements OnInit {
   getConnector() {
     this.connectorService.getConnectors().subscribe((connectors) => {
       this.connectorList = connectors;
-      console.log(this.connectorList);
     });
   }
 
   updateConnector(id: string) {
     this.connectorService
       .updateConnector(id, this.connectorForm.value)
-      .subscribe();
-    setTimeout(() => {
-      this.getConnector();
-    }, 100);
+      .subscribe({
+        next: () => {
+          this.getConnector();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   editConnector(id: string) {
@@ -64,9 +67,13 @@ export class ConnectorListComponent implements OnInit {
   }
 
   deleteConnector(id: string) {
-    this.connectorService.deleteConnector(id).subscribe();
-    setTimeout(() => {
-      this.getConnector();
-    }, 100);
+    this.connectorService.deleteConnector(id).subscribe(
+      () => {
+        this.getConnector();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

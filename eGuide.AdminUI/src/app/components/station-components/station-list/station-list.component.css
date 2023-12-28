@@ -1,3 +1,26 @@
 .asd {
   width: 100% !important;
 }
+
+.my-pagination ::ng-deep .ngx-pagination {
+  background-color: #030712;
+  margin-top: 10px !important;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+
+.my-pagination ::ng-deep .ngx-pagination li.current {
+  background-color: #3d3d3d;
+}
+
+.my-pagination ::ng-deep .ngx-pagination li a,
+.my-pagination ::ng-deep .ngx-pagination li span {
+  color: #fff !important;
+}
+
+.my-pagination ::ng-deep .ngx-pagination li a:hover,
+.my-pagination ::ng-deep .ngx-pagination li a.active {
+  background-color: #3d3d3d;
+  color: #fff !important;
+}

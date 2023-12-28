@@ -1,32 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Vehicle } from 'src/app/models/vehicle';
 import { VehicleService } from 'src/app/services/vehicle.service';
+import { setRefresh } from 'src/app/state/refresh-list/refresh-list.action';
 
 @Component({
   selector: 'app-vehicle-form',
   templateUrl: './vehicle-form.component.html',
   styleUrls: ['./vehicle-form.component.css'],
 })
-export class VehicleFormComponent {
+export class VehicleFormComponent implements OnInit {
+  brandControl?: string;
+  modelControl?: string;
+
   vehicle: Vehicle = new Vehicle();
   vehicleForm: FormGroup = new FormGroup({});
-  vehicles:Vehicle[]=[]
-  brandControl = '';
-  modelControl = '';
+  vehicles: Vehicle[] = [];
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private store: Store
   ) {}
 
   ngOnInit() {
     this.initializeForm();
-
   }
 
   initializeForm() {
@@ -44,31 +45,33 @@ export class VehicleFormComponent {
       this.vehicle.brand = brandControl.value;
       this.vehicle.model = modelControl.value;
 
-      this.vehicleService.addVehicle(this.vehicle).subscribe(
-        (response) => {
-          // Başarılı bir şekilde eklenirse yapılacak işlemler
-          this.toastr.success('Araç başarıyla eklendi', 'Başarılı');
-          this.getVehicleInfo();
+      this.vehicleService.addVehicle(this.vehicle).subscribe({
+        next: () => {
+          this.toastr.success('Vehicle added successfully', 'Successful');
+          this.store.dispatch(setRefresh(true));
+          this.vehicleForm.reset();
         },
-        (error) => {
-          // Hata durumunda yapılacak işlemler
-          this.toastr.error('Araç eklenirken bir hata oluştu', 'Hata');
-        }
-      );
+        error: () => {
+          this.toastr.error(
+            'An error occurred while adding the vehicle',
+            'Error'
+          );
+        },
+      });
+      this.store.dispatch(setRefresh(false));
     } else {
-      // Eğer form kontrol elemanları null ise, bir hata durumu olarak ele alınabilir.
-      console.error('Form kontrol elemanları null.');
+      console.error('Form control elements are null.');
     }
   }
 
   getVehicleInfo() {
-    this.vehicleService.getAllVehicles().subscribe(
-      (data) => {
+    this.vehicleService.getAllVehicles().subscribe({
+      next: (data) => {
         this.vehicles = data;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error getting vehicles:', error);
-      }
-    );
+      },
+    });
   }
 }

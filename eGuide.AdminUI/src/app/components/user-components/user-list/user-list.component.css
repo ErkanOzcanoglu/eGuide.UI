@@ -1,0 +1,51 @@
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.user-list {
+  position: relative;
+  /* Diğer stil ayarları */
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  right: 30%; /* Sağa doğru 40 piksel kaydırma */
+  transform: translate(0, -50%);
+  z-index: 1000;
+  background-color: rgb(0, 0, 15);
+  border: 2px solid rgb(49, 49, 51); /* 2 piksel kalınlığında ve mavi renkte kenarlık ekleyin */
+
+  /* Diğer stil ayarları */
+}
+
+.card-actions .badge:hover {
+  cursor: pointer;
+}
+
+.badge:hover {
+  background-color: #3a393a; /* Hover durumunda renk değişimi */
+}
+
+.badge {
+  background-color: #0b0233; /* View Profile Details butonunun arkaplan rengi */
+  color: #ffffff; /* View Profile Details butonunun yazı rengi */
+  padding: 8px 16px; /* içerikten padding */
+  border-radius: 5px; /* Köşe yuvarlama */
+  cursor: pointer;
+}
+
+.form-control {
+  margin-left: 80px; /* Arama kutucuğunu sağa kaydırma */
+  width: 300px; /* Arama kutucuğu genişliği */
+  height: 40px;
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s;
+}
+

@@ -23,7 +23,8 @@ button:hover .asd {
   background-color: #555;
 }
 .active {
-  background-color: #ff0000; /* Örnek olarak kırmızı arka plan rengi */
+  background-color: #969696;
+  color: white;
 }
 
 /* ::ng-deep .esri-popup__header-container--button {

@@ -1,47 +1,68 @@
 <div class="h-full w-full min-h-[500px]">
+  <div class="w-full flex justify-end mb-4">
+    <div class="input input-bordered mb-1 bg-primary border-secondary">
+      <input
+        type="text"
+        class="input bg-transparent"
+        [(ngModel)]="searchText"
+        (input)="onSearchInput()"
+        placeholder="Search"
+      />
+      <!-- clear button -->
+      <button
+        *ngIf="!searchText"
+        class="btn btn-ghost opacity-0 cursor-default"
+      >
+        s
+      </button>
+      <button
+        *ngIf="searchText"
+        class="btn btn-ghost opacity-100 bg-transparent hover:bg-transparent"
+        (click)="searchText = ''; onSearchInput()"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
   <table class="table">
     <thead class="w-full">
       <tr>
-        <!-- <th>
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </th> -->
-        <th class="w-1/5  bg-[#202c3f]">Station Status</th>
+        <th class="w-1/5 bg-primary">Station Status</th>
         <th class="w-1/5">Station</th>
-        <th class="w-1/5 bg-[#202c3f]">Station Model</th>
+        <th class="w-1/5 bg-primary">Station Model</th>
         <th class="w-1/5">Socket</th>
-        <th class="w-1/5 bg-[#202c3f]">Connectors</th>
+        <th class="w-1/5 bg-primary">Connectors</th>
         <th class="w-1/5"></th>
       </tr>
     </thead>
-    <tbody class="w-full" *ngFor="let item of stations">
+    <tbody
+      class="w-full"
+      *ngFor="
+        let item of stations
+          | stationFilter : searchText
+          | paginate : { itemsPerPage: 15, currentPage: page }
+      "
+    >
       <tr>
-        <!-- <td class="">
-          <label>
-            <input type="checkbox" class="checkbox" />
-          </label>
-        </td> -->
-        <td class="bg-[#1E293B]">
+        <td class="bg-primary h-28">
           <div class="font-bold">
-            {{ item.stationStatus === 1 ? 'Active' : 'Off' }}
+            {{ item.stationStatus === 1 ? "Active" : "Off" }}
           </div>
-          <div class="text-sm opacity-50">
-          </div>
+          <div class="text-sm opacity-50"></div>
         </td>
-        <td class="bg-[#1E293B]">
+        <td class="bg-primary">
           <div class="font-bold">{{ item.name }}</div>
           <div class="text-sm opacity-50">
             {{ item.address | getFirstTwoParts }}
           </div>
         </td>
-        <td class="bg-[#202c3f]">
+        <td class="bg-primary">
           {{ item.stationModel?.name }}
         </td>
-        <td class="bg-[#1E293B]">
+        <td class="bg-primary h-full">
           <button
             (click)="toggleList()"
-            class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
+            class="btn flex justify-start items-center bg-transparent cursor-pointer w-full h-full p-2"
           >
             <!-- <span *ngIf="!showList">List of sockets</span> -->
             <ul class="flex flex-col justify-start text-xs">
@@ -49,14 +70,14 @@
                 *ngFor="
                   let socketItem of item.stationModel?.stationsChargingUnits
                 "
-                class="flex justify-start mt-1"
+                class="flex justify-start text-start mt-1"
               >
                 {{ socketItem.chargingUnit?.name }}
               </li>
             </ul>
           </button>
         </td>
-        <td class="bg-[#202c3f]">
+        <td class="bg-primary">
           <button
             (click)="toggleList()"
             class="btn flex justify-start items-center bg-transparent cursor-pointer w-full"
@@ -75,15 +96,24 @@
           </button>
         </td>
 
-        <td class="gap-x-2 flex">
-          <button class="btn btn-ghost" (click)="editStation(item)">
-            Edit
-          </button>
-          <button class="btn btn-ghost" (click)="deleteStation(item.id)">
-            Delete
-          </button>
+        <td class="">
+          <div class="flex gap-x-2 items-center justify-center">
+            <button class="btn btn-ghost" (click)="viewStationDetails(item.id)">
+              View Station
+            </button>
+            <button class="btn btn-ghost" (click)="editStation(item)">
+              Edit
+            </button>
+            <button class="btn btn-ghost" (click)="deleteStation(item.id)">
+              Delete
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+<pagination-controls
+  class="my-pagination"
+  (pageChange)="page = $event"
+></pagination-controls>

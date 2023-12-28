@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Service } from 'src/app/models/service';
 import { setServiceEditData } from 'src/app/state/service-edit-data/service-edit-data.action';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-service-list',
@@ -15,7 +16,7 @@ export class ServiceListComponent implements OnInit {
   serviceEditData$: Service[] = [];
   constructor(
     private serviceService: ServiceService,
-    private store: Store<{ serviceEditData: Service }>,
+    private store: Store,
     private toastr: ToastrService
   ) {}
 
@@ -29,10 +30,32 @@ export class ServiceListComponent implements OnInit {
     });
   }
 
-  deleteService(id: any) {
-    this.serviceService.deleteService(id).subscribe((data) => {
-      this.getService();
-      this.toastr.success('Service deleted successfully');
+  deleteService(id: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.serviceService.deleteService(id).subscribe({
+          next: () => {
+            this.getService();
+            this.toastr.success('Service deleted successfully');
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          },
+          error: (err) => {
+            this.toastr.error(err.error);
+          },
+        });
+      }
     });
   }
 

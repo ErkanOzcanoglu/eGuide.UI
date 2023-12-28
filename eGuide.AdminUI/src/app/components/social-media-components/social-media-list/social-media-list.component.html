@@ -138,12 +138,13 @@
             <button
               *ngIf="!socialMedia.editingMode"
               (click)="toggleEdit(socialMedia)"
-              class="btn btn-warning"
+              class="btn btn-ghost btn-sm"
             >
-              <i class="fas fa-edit"></i>
+              Edit
             </button>
             <div class="flex gap-2" *ngIf="socialMedia.editingMode">
               <button
+                *ngIf="socialMedia.id"
                 (click)="editSocialMedia(socialMedia.id)"
                 class="btn btn-sm btn-success"
               >
@@ -159,10 +160,11 @@
           </td>
           <td>
             <button
+              *ngIf="socialMedia.id"
               (click)="deleteSocialMedia(socialMedia.id)"
-              class="btn btn-error"
+              class="btn btn-ghost btn-sm"
             >
-              <i class="fas fa-trash"></i>
+              Delete
             </button>
           </td>
         </tr>

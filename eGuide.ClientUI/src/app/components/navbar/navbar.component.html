@@ -1,103 +1,182 @@
-<div class="flex justify-center sticky top-5 z-20">
+<div class="flex justify-center sticky top-5 mt-5 z-20" *ngIf="navbar === 0">
   <div
-    class="navbar h-[80px] bg-[#ffffff] rounded-full w-[95vw] flex justify-between px-10"
+    class="navbar duration-200 h-[80px] rounded-full w-[95vw] flex justify-between px-10"
+    [style]="{
+      'background-color': localColor.color3
+    }"
   >
     <div>
       <a
-        href="/"
-        class="text-xl text-black hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        routerLink="/"
+        class="text-xl hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        [style]="{
+          color: localColor.color2
+        }"
         >eGuide</a
       >
+      <div>
+        <select
+          #language
+          class="p-1 border rounded-md bg-violet-950"
+          (change)="onChange(language.value)"
+        >
+          <option
+            *ngFor="let lang of translateService.getLangs()"
+            [value]="lang"
+            [selected]="lang === 'en' ? true : 'tr'"
+          >
+            {{ lang | translate }}
+          </option>
+        </select>
+      </div>
     </div>
+
     <div id="userMenu" class="laptop:flex-row flex flex-col">
       <a
+        [style]="{
+          color: localColor.color2
+        }"
         routerLink=""
-        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-        >Home</a
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >{{ "Home" | translate }}</a
       >
       <a
-        routerLink="services"
-        class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-        >Services</a
+        [style]="{
+          color: localColor.color2
+        }"
+        routerLink="/services"
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >{{ "Services" | translate }}</a
       >
       <ng-container *ngIf="isLoggedIn; else loginRegister">
-        <div class="relative group" (click)="showUserMenu = !showUserMenu">
+        <button
+          [style]="{
+            color: localColor.color2
+          }"
+          class="relative group"
+          (click)="showUserMenu = !showUserMenu"
+        >
           <a
-            class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            >{{ user.name }}
+            <ng-container
+              *ngIf="currentState?.brand; else savedActiveVehicleBrand"
+              class="ml-4"
+            >
+              {{ currentState?.brand }} {{ currentState?.model }}
+            </ng-container></a
+          >
+
+          <ng-template #savedActiveVehicleBrand>
+            {{ savedActiveVehicle.brand }} {{ savedActiveVehicle.model }}
+          </ng-template>
+          <div
+            *ngIf="showUserMenu"
+            class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
+            [style]="{
+              color: localColor.color2,
+              'background-color': localColor.color3
+            }"
+          >
+            <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+              {{ "Settings" | translate }}
+            </button>
+            <button (click)="logout()" class="block px-4 py-2 rounded-xl">
+              {{ "Logout" | translate }}
+            </button>
+          </div>
+        </button>
+      </ng-container>
+      <div>
+        <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+          <i class="fa-solid fa-sun fa-xl"></i>
+        </button>
+        <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+          <i class="fa-solid fa-moon fa-xl"></i>
+        </button>
+      </div>
+    </div>
+    <button
+      id="hamburgerIcon"
+      class="hidden relative group"
+      (click)="toggleHamburgerMenu()"
+      role="button"
+      tabindex="0"
+    >
+      <i class="fas fa-bars"></i>
+      <button
+        *ngIf="hamburgerMenu"
+        class="absolute right-0 mt-2 border shadow-lg rounded-xl z-auto"
+        (click)="$event.stopPropagation()"
+        role="button"
+        tabindex="0"
+        [style]="{
+          color: localColor.color2,
+          'background-color': localColor.color3
+        }"
+      >
+        <a
+          routerLink="/"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          >{{ "Home" | translate }}</a
+        >
+        <a
+          routerLink="/services"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          >{{ "Services" | translate }}</a
+        >
+        <ng-container *ngIf="isLoggedIn; else loginRegister">
+          <a
+            class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
             >{{ user.name }}</a
           >
           <div
             *ngIf="showUserMenu"
-            class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
+            class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
+            [style]="{
+              color: localColor.color2,
+              'background-color': localColor.color3
+            }"
           >
-            <a
-              (click)="logout()"
-              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-              >Logout</a
-            >
-            <a
-              (click)="navigateToSettings()"
-              class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-              >Settings</a
-            >
-          </div>
-        </div>
-      </ng-container>
-    </div>
-    <div
-      id="hamburgerIcon"
-      class="hidden relative group"
-      (click)="toggleHamburgerMenu()"
-    >
-      <i class="fas fa-bars"></i>
-      <div
-        *ngIf="hamburgerMenu"
-        class="absolute right-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
-        (click)="$event.stopPropagation()"
-      >
-        <a
-          href="/"
-          class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-          >Home</a
-        >
-        <ng-container *ngIf="isLoggedIn; else loginRegister">
-          <div class="relative group" (click)="showUserMenu = !showUserMenu">
-            <a
-              class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
-              >{{ user.name }}</a
-            >
-            <div
-              *ngIf="showUserMenu"
-              class="absolute left-0 mt-2 bg-white border rounded shadow-lg rounded-xl z-50"
-            >
-              <a
-                (click)="logout()"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-                >Logout</a
-              >
-              <a
-                (click)="navigateToSettings()"
-                class="block px-4 py-2 text-black hover:bg-gray-100 rounded-xl"
-                >Settings</a
-              >
-            </div>
+            <!-- <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+              {{ "Settings" | translate }}
+            </button>
+            <button (click)="logout()" class="block px-4 py-2 rounded-xl">
+              {{ "Logout" | translate }}
+            </button> -->
           </div>
         </ng-container>
-      </div>
-    </div>
+        <div>
+          <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+            <i class="fa-solid fa-sun fa-xl"></i>
+          </button>
+          <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+            <i class="fa-solid fa-moon fa-xl"></i>
+          </button>
+        </div>
+      </button>
+    </button>
   </div>
 </div>
 
 <ng-template #loginRegister>
   <a
+    [style]="{
+      color: localColor.color2,
+      'background-color': localColor.color3
+    }"
     routerLink="/login"
-    class="text-lg text-black font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
-    >Login</a
+    class="text-lg font-bold p-5 hover:border-b flex justify-center items-center bg-opacity-95"
+    >{{ "Login" | translate }}</a
   >
   <a
+    [style]="{
+      color: localColor.color2,
+      'background-color': localColor.color3
+    }"
     routerLink="/register"
-    class="text-lg text-black font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
-    >Register</a
+    class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+    >{{ "Register" | translate }}</a
   >
 </ng-template>
 <style>
@@ -110,3 +189,117 @@
     }
   }
 </style>
+
+<div
+  class="flex justify-center sticky top-0 z-20 w-screen"
+  *ngIf="navbar === 1"
+>
+  <div
+    class="navbar h-[80px] top-0 w-full flex justify-between px-10"
+    [style]="{
+      color: localColor.color2,
+      'background-color': localColor.color3
+    }"
+  >
+    <div>
+      <a
+        routerLink="/"
+        class="text-xl hover:text-yellow-400 duration-300 ease-in-out font-bold p-5 flex justify-center items-center bg-opacity-95"
+        >eGuide</a
+      >
+    </div>
+    <div id="userMenu" class="laptop:flex-row flex flex-col">
+      <a
+        routerLink=""
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >{{ "Home" | translate }}</a
+      >
+      <a
+        routerLink="/services"
+        class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+        >{{ "Services" | translate }}</a
+      >
+      <ng-container *ngIf="isLoggedIn; else loginRegister">
+        <button class="relative group" (click)="showUserMenu = !showUserMenu">
+          <a
+            class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            >{{ user.name }}</a
+          >
+          <div
+            *ngIf="showUserMenu"
+            class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
+          >
+            <!-- <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+              {{ "Settings" | translate }}
+            </button>
+            <button (click)="logout()" class="block px-4 py-2 rounded-xl">
+              {{ "Logout" | translate }}
+            </button> -->
+          </div>
+        </button>
+      </ng-container>
+      <div>
+        <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+          <i class="fa-solid fa-sun fa-xl"></i>
+        </button>
+        <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+          <i class="fa-solid fa-moon fa-xl"></i>
+        </button>
+      </div>
+    </div>
+    <button
+      id="hamburgerIcon"
+      class="hidden relative group"
+      (click)="toggleHamburgerMenu()"
+    >
+      <i class="fas fa-bars"></i>
+      <button
+        *ngIf="hamburgerMenu"
+        class="absolute right-0 mt-2 border shadow-lg rounded-xl z-auto"
+        [style]="{
+          color: localColor.color2,
+          'background-color': localColor.color3
+        }"
+        (click)="$event.stopPropagation()"
+      >
+        <a
+          routerLink="/"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          >{{ "Home" | translate }}</a
+        >
+        <a
+          routerLink="/services"
+          class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 hover:border-b"
+          >{{ "Services" | translate }}</a
+        >
+        <ng-container *ngIf="isLoggedIn; else loginRegister">
+          <button class="relative group" (click)="showUserMenu = !showUserMenu">
+            <a
+              class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+              >{{ user.name }}</a
+            >
+            <div
+              *ngIf="showUserMenu"
+              class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
+            >
+              <!-- <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+                {{ "Settings" | translate }}
+              </button>
+              <button (click)="logout()" class="block px-4 py-2 rounded-xl">
+                {{ "Logout" | translate }}
+              </button> -->
+            </div>
+          </button>
+        </ng-container>
+        <div>
+          <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
+            <i class="fa-solid fa-sun fa-xl"></i>
+          </button>
+          <button *ngIf="currentTheme === 'dark'" (click)="changeTheme()">
+            <i class="fa-solid fa-moon fa-xl"></i>
+          </button>
+        </div>
+      </button>
+    </button>
+  </div>
+</div>

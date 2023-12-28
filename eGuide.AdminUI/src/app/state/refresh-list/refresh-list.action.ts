@@ -1,10 +1,6 @@
 import { createAction } from '@ngrx/store';
 
-export interface RefreshState {
-  refresh: boolean;
-}
-
 export const setRefresh = createAction(
-  '[Refresh List] Set Refresh',
+  '[Refresh List] Set Refresh List',
   (refresh: boolean) => ({ refresh })
 );

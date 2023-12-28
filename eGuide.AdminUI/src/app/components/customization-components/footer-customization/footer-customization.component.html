@@ -1,1 +1,71 @@
-<p>footer-customization works!</p>
+<div class="border border-secondary p-10 rounded-xl">
+  <div>
+    <h1 class="text-2xl font-bold">Footer Customization</h1>
+    <p class="text-sm text-gray-500">
+      Customize the footer of the application.
+    </p>
+  </div>
+  <form>
+    <div class="gap-5 mt-5 flex flex-col laptop:flex-row">
+      <button
+        class="btn laptop:w-1/2 flex justify-start items-end h-full pt-5 px-0"
+        (click)="footerType(0)"
+        [ngClass]="value === 0 ? 'checkbox-primary' : ''"
+      >
+        <footer
+          class="footer footer-center p-10 bg-[#232332] text-base-content rounded"
+        >
+          <nav class="grid grid-flow-col gap-4">
+            <a class="link link-hover">Home</a>
+            <a class="link link-hover">Contact</a>
+          </nav>
+          <nav>
+            <div class="grid grid-flow-col gap-4">
+              <!-- *ngFor="let socialMedia of socialMedias"
+      [href]="socialMedia.link" -->
+              <a>
+                <i class="fa-brands fa-instagram fa-lg"></i>
+              </a>
+              <a>
+                <i class="fa-brands fa-facebook fa-lg"></i>
+              </a>
+            </div>
+          </nav>
+          <aside>
+            <p>Copyright © 2023 - All right reserved by eGuide</p>
+          </aside>
+        </footer>
+      </button>
+      <button
+        class="btn laptop:w-1/2 h-28 flex justify-center items-end p-0"
+        (click)="footerType(1)"
+        [ngClass]="value === 1 ? 'checkbox-primary' : ''"
+      >
+        <footer class="footer items-center p-4 bg-neutral text-neutral-content">
+          <aside class="items-center grid-flow-col normal-case">
+            <p>Copyright © 2023 - All right reserved by eGuide</p>
+          </aside>
+          <nav
+            class="grid-flow-col gap-4 md:place-self-center md:justify-self-end"
+          >
+            <div class="grid grid-flow-col gap-4">
+              <!-- *ngFor="let socialMedia of socialMedias"
+      [href]="socialMedia.link" -->
+              <a>
+                <i class="fa-brands fa-instagram fa-lg"></i>
+              </a>
+              <a>
+                <i class="fa-brands fa-facebook fa-lg"></i>
+              </a>
+            </div>
+          </nav>
+        </footer>
+      </button>
+    </div>
+    <div class="w-full flex justify-end mt-5">
+      <button (click)="onSubmit()" class="btn bg-primary border-secondary">
+        <p class="text-white">Save</p>
+      </button>
+    </div>
+  </form>
+</div>

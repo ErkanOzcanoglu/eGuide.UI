@@ -1,7 +1,8 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import { mapReducer } from './state/map-click-data/map-click-data.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,7 +13,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MapComponent } from './components/map/map.component';
 import { StationsComponent } from './screens/stations/stations.component';
 import { ConnectorModalComponent } from './modals/connector-modal/connector-modal.component';
-import { SocketComponent } from './screens/socket/socket.component';
 
 import { MatSelectModule } from '@angular/material/select';
 
@@ -46,7 +46,6 @@ import { AdminLoginComponent } from './components/adminAuth/admin-login/admin-lo
 import { EmailConfirmComponent } from './components/adminAuth/email-confirm/email-confirm.component';
 import { ForgotAdminPasswordComponent } from './components/adminAuth/forgot-admin-password/forgot-admin-password.component';
 import { EmailLinkConfirmComponent } from './components/adminAuth/email-link-confirm/email-link-confirm.component';
-import { AuthGuard } from './models/auth-guard';
 import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from './modals/change-password/change-password.component';
 import { AdminComponent } from './screens/admin/admin/admin.component';
@@ -68,7 +67,6 @@ import { serviceEditDataReducer } from './state/service-edit-data/service-edit-d
 import { FacilityListComponent } from './components/facilities-components/facility-list/facility-list.component';
 import { FacilityFormComponent } from './components/facilities-components/facility-form/facility-form.component';
 import { FacilityComponent } from './screens/facility/facility.component';
-import { SocialMediaFormComponent } from './components/social-media-components/social-media-form/social-media-form.component';
 import { SocialMediaListComponent } from './components/social-media-components/social-media-list/social-media-list.component';
 import { SocialMediaComponent } from './screens/social-media/social-media.component';
 import { CustomizationComponent } from './screens/customization/customization.component';
@@ -76,6 +74,27 @@ import { NavbarCustomizationComponent } from './components/customization-compone
 import { FooterCustomizationComponent } from './components/customization-components/footer-customization/footer-customization.component';
 import { ColorCustomizationComponent } from './components/customization-components/color-customization/color-customization.component';
 import { CompanyInformationComponent } from './components/customization-components/company-information/company-information.component';
+import { setRefreshReducer } from './state/refresh-list/refresh-list.reducer';
+
+import { UserFilterPipe } from './pipes/user.pipe';
+import { UserComponent } from './screens/user/user.component';
+import { UserListComponent } from './components/user-components/user-list/user-list.component';
+import { UserProfileComponent } from './components/user-components/user-profile/user-profile.component';
+
+import { TabbarComponent } from './components/tabbar/tabbar.component';
+import { StationFilterPipe } from './pipes/station-filter.pipe';
+import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { MessageModalComponent } from './modals/message-modal/message-modal.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { StationProfileComponent } from './components/station-components/station-profile/station-profile.component';
+import { ChargingUnitComponent } from './screens/charging-unit/charging-unit.component';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,7 +104,7 @@ import { CompanyInformationComponent } from './components/customization-componen
     StationsComponent,
     StationFormComponent,
     ConnectorModalComponent,
-    SocketComponent,
+    ChargingUnitComponent,
     SocketFormComponent,
     StationSocketsComponent,
     StationListComponent,
@@ -104,6 +123,7 @@ import { CompanyInformationComponent } from './components/customization-componen
     AdminLoginComponent,
     AddAdminComponent,
     SignComponent,
+    StationFilterPipe,
     ChangePasswordComponent,
     AdminComponent,
     VehicleComponent,
@@ -121,7 +141,6 @@ import { CompanyInformationComponent } from './components/customization-componen
     FacilityListComponent,
     FacilityFormComponent,
     FacilityComponent,
-    SocialMediaFormComponent,
     SocialMediaListComponent,
     SocialMediaComponent,
     CustomizationComponent,
@@ -129,8 +148,18 @@ import { CompanyInformationComponent } from './components/customization-componen
     FooterCustomizationComponent,
     ColorCustomizationComponent,
     CompanyInformationComponent,
+    UserFilterPipe,
+    UserComponent,
+    UserListComponent,
+    UserProfileComponent,
+    TabbarComponent,
+    PageNotFoundComponent,
+    MessageModalComponent,
+    TruncatePipe,
+    StationProfileComponent,
   ],
   imports: [
+    NgxPaginationModule,
     ChartModule,
     BrowserModule,
     AppRoutingModule,
@@ -146,12 +175,21 @@ import { CompanyInformationComponent } from './components/customization-componen
     StoreModule.forRoot({
       map: mapReducer,
       stationEditData: stationEditDataReducer,
-      refresh: stationEditDataReducer,
+      refresh: setRefreshReducer,
       serviceEditData: serviceEditDataReducer,
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
     }),
     MatTabsModule,
   ],
-  providers: [AuthGuard, AuthService],
+  exports: [UserComponent, UserListComponent, UserProfileComponent],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

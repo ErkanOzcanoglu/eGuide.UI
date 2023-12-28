@@ -1,4 +1,7 @@
-<form [formGroup]="socketUpdteForm" class="h-full w-full min-h-[500px]">
+<form
+  [formGroup]="socketUpdteForm"
+  class="h-full w-full min-h-[500px] bg-primary"
+>
   <table class="table">
     <thead class="text-lg">
       <tr class="">
@@ -7,16 +10,19 @@
           <p class="pl-2">Name</p>
         </th>
         <th>
+          <p class="pl-2">Type</p>
+        </th>
+        <th>
           <p class="pl-2">Power</p>
         </th>
         <th>
           <p class="pl-2">Current</p>
         </th>
         <th>
-          <p class="pl-2">Type</p>
+          <p class="pl-2">Voltage</p>
         </th>
         <th>
-          <p class="pl-2">Voltage</p>
+          <p class="pl-2">Connector</p>
         </th>
       </tr>
     </thead>
@@ -87,6 +93,19 @@
             [ngModel]="socket.voltage"
           />
         </td>
+        <td>
+          <p class="w-full p-2 input input-ghost" *ngIf="!socket.editingMode">
+            {{ socket.connector?.type }}
+          </p>
+          <input
+            *ngIf="socket.editingMode"
+            type="text"
+            class="w-full input input-bordered bg-transparent"
+            formControlName="connector"
+            [ngModel]="socket.connector?.type"
+          />
+        </td>
+
         <td class="flex justify-center mt-2 items-center">
           <div class="flex">
             <button
@@ -111,7 +130,12 @@
               Edit
             </button>
           </div>
-          <button class="btn btn-ghost btn-sm">Delete</button>
+          <button
+            (click)="deleteChargingUnit(socket.id)"
+            class="btn btn-ghost btn-sm"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>

@@ -1,6 +1,10 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { RefreshState } from './refresh-list.reducer';
 
-export const getRefresh = createSelector(
-  (state: any) => state.refresh,
-  (refresh) => refresh.refresh
+export const selectRefreshState =
+  createFeatureSelector<RefreshState>('refresh');
+
+export const selectRefresh = createSelector(
+  selectRefreshState,
+  (state: RefreshState) => state.refresh
 );

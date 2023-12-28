@@ -82,12 +82,15 @@
       >
         <div class="w-full sm:w-1/2">
           <h1 class="text-3xl font-semibold text">
-            VEHICLE<i class="fas fa-cars ml-5"></i>
+            {{ "VEHICLE" | translate }}<i class="fa-solid fa-car ml-5"></i>
           </h1>
           <div class="flex items-center justify-between">
-            <div class="ml-5">
-              <h2 class="text-xl font-semibold mt-5 mb-3 field-label">
-                Vehicle
+            <div class="ml-1">
+              <h2
+                class="text-xl font-semibold mt-5 mb-3 field-label"
+                id="vehicle-list-label"
+              >
+                {{ "Vehicle" | translate }}
               </h2>
             </div>
           </div>
@@ -96,22 +99,40 @@
             style="max-height: 160px"
           >
             <ng-container *ngFor="let vehicle of vehicleList; let i = index">
-              <p
+              <div
                 (click)="selectVehicle(vehicle)"
                 (keydown)="onKeyDown($event, vehicle)"
                 tabindex="0"
-                class="vehicle-list-item text-2xl font-medium"
+                class="vehicle-list-item"
+                [ngClass]="{
+                  'selected-vehicle': userVehicleActive.vehicleId === vehicle.id
+                }"
               >
-                {{ vehicle.brand }} - {{ vehicle.model }}
-              </p>
+                <p class="brand">
+                  {{ vehicle.brand }}
+                  <span
+                    *ngIf="userVehicleActive.vehicleId === vehicle.id"
+                    class="selected-indicator"
+                    ><i class="fa-solid fa-road"></i
+                  ></span>
+                </p>
+                <p class="model">{{ vehicle.model }}</p>
+              </div>
             </ng-container>
           </div>
         </div>
         <div class="w-full sm:w-1/2 mt-12 sm:mt-0">
-          <h2 class="text-xl font-semibold field-label">Vehicle Options</h2>
+          <h2
+            class="text-xl font-semibold field-label mt-2"
+            id="vehicle-options-label"
+          >
+            {{ "Vehicle Options" | translate }}
+          </h2>
           <form>
             <div class="mt-4 ml-7 field-label">
-              <label for="brand">Brand:</label>
+              <div>
+                <label for="brand">{{ "Brand" | translate }}:</label>
+              </div>
               <select
                 id="brand"
                 class="w-80 border p-2 rounded bg-white"
@@ -133,13 +154,15 @@
               </select>
             </div>
             <div class="mt-4 ml-7 field-label">
-              <label for="model">Model:</label>
+              <div>
+                <label for="model">{{ "Model" | translate }}:</label>
+              </div>
               <select
                 id="model"
                 class="w-80 border p-2 rounded bg-white"
                 (change)="onModelSelected($event)"
               >
-                <option [value]="selectedModel" [selected]="vehicleMode2">
+                <option [value]="selectedModel">
                   {{
                     selectedModel ||
                       (selectedModel ? "default" : "Please select a model")
@@ -154,8 +177,10 @@
                 </option>
               </select>
             </div>
-            <div class="mt-4 flex field-label">
-              <label for="connector">Connector:</label>
+            <div class="mt-4 ml-7 field-label">
+              <div class="w-full h-fit">
+                <label for="connector">{{ "Connector" | translate }}:</label>
+              </div>
               <div
                 id="connectorList"
                 class="w-80 border p-2 rounded bg-white"
@@ -170,15 +195,17 @@
                   {{ selectedConnector.type }}
                 </div>
                 <ng-template #noConnector>
-                  <div class="default-message" >
-                    Please select a Connector <i class="fas fa-chevron-down" style="margin-left: 99px;  font-size: 11px;" ></i>
+                  <div class="default-message">
+                    {{ "Please select a Connector" | translate }}
+                    <i
+                      class="fas fa-chevron-down"
+                      style="margin-left: 99px; font-size: 11px"
+                    ></i>
                   </div>
                 </ng-template>
                 <div *ngIf="dropdownVisible" class="connector-options">
                   <div
-                    *ngFor="
-                      let connector of connectorList.slice(0, maxVisibleItems)
-                    "
+                    *ngFor="let connector of connectorList.slice(0, 3)"
                     (click)="onConnectorSelected(connector)"
                     (keydown.enter)="onConnectorSelected(connector)"
                     (keydown.space)="onConnectorSelected(connector)"
@@ -198,7 +225,15 @@
                 *ngIf="!editModeVehicle"
                 (click)="onModeChangeVehicle()"
               >
-                Edit
+                {{ "Edit" | translate }}
+              </button>
+              <button
+                type="button"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
+                *ngIf="editModeVehicle"
+                (click)="updateVehicleActiveStatus()"
+              >
+                {{ "Active Vehicle" | translate }}
               </button>
               <button
                 type="submit"
@@ -206,7 +241,7 @@
                 *ngIf="editModeVehicle"
                 (click)="addVehicle()"
               >
-                Add
+                {{ "Add" | translate }}
               </button>
               <button
                 type="submit"
@@ -214,7 +249,7 @@
                 *ngIf="editModeVehicle"
                 (click)="deleteVehicle()"
               >
-                Delete
+                {{ "Delete" | translate }}
               </button>
               <button
                 type="submit"
@@ -230,7 +265,7 @@
                 *ngIf="editModeVehicle"
                 (click)="cancelVehicleEdit()"
               >
-                Cancel
+                {{ "Cancel" | translate }}
               </button>
             </div>
           </form>
