@@ -30,6 +30,7 @@
                 *ngIf="showSearch"
                 type="text"
                 class="form-control transparent-input"
+                [(ngModel)]="searchTerm"
                 placeholder="Search for Users"
               />
             </div>
@@ -45,8 +46,10 @@
     </thead>
     <tbody class="w-full">
       <!-- User Rows -->
-      <tr *ngFor="let user of users | userFilter : searchTerm">
-        <!-- Checkbox Column -->
+      <tr
+        *ngFor="let user of users | userFilter : searchTerm"
+        (click)="toggleSelection(user)"
+      >
         <div class="avatar">
           <div
             class="mask mask-squircle p-2 flex justify-center items-center bg-black"
@@ -61,7 +64,7 @@
         </div>
         <!-- User Name Column -->
         <td class="bg-primary">
-          <div class="font-bold">{{ user.name + " " + user.surname }}</div>
+          <div class="font-bold">{{ user.name + " " + user.surname | titlecase}}</div>
         </td>
         <!-- User Email Column -->
 
@@ -70,7 +73,7 @@
           <input
             class="bg-transparent border-none outline-none font-bold"
             type="text"
-            [value]="user.name"
+            [value]="user.email"
             [disabled]="!editMode"
           />
         </td>

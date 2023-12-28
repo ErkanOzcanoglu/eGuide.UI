@@ -90,7 +90,7 @@
                 class="text-xl font-semibold mt-5 mb-3 field-label"
                 id="vehicle-list-label"
               >
-               {{ "Vehicle" | translate }}
+                {{ "Vehicle" | translate }}
               </h2>
             </div>
           </div>
@@ -205,9 +205,7 @@
                 </ng-template>
                 <div *ngIf="dropdownVisible" class="connector-options">
                   <div
-                    *ngFor="
-                      let connector of connectorList.slice(0, 3)
-                    "
+                    *ngFor="let connector of connectorList.slice(0, 3)"
                     (click)="onConnectorSelected(connector)"
                     (keydown.enter)="onConnectorSelected(connector)"
                     (keydown.space)="onConnectorSelected(connector)"
@@ -222,20 +220,20 @@
             </div>
             <div id="buttonMenu">
               <button
-                type="button"
-                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
-                *ngIf="!editModeVehicle"
-                (click)="updateVehicleActiveStatus()"
-              >
-                {{ "Active Vehicle" | translate }}
-              </button>
-              <button
                 type="submit"
                 class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
                 *ngIf="!editModeVehicle"
                 (click)="onModeChangeVehicle()"
               >
                 {{ "Edit" | translate }}
+              </button>
+              <button
+                type="button"
+                class="bg-slate-400 text-white px-2 py-1 mx-2 rounded hover-bg-blue-600 focus:outline-none"
+                *ngIf="editModeVehicle"
+                (click)="updateVehicleActiveStatus()"
+              >
+                {{ "Active Vehicle" | translate }}
               </button>
               <button
                 type="submit"

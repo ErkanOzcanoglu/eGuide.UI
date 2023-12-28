@@ -37,3 +37,15 @@
   border-radius: 5px; /* Köşe yuvarlama */
   cursor: pointer;
 }
+
+.form-control {
+  margin-left: 80px; /* Arama kutucuğunu sağa kaydırma */
+  width: 300px; /* Arama kutucuğu genişliği */
+  height: 40px;
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s;
+}
+

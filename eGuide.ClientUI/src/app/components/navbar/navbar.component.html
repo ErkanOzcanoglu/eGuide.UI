@@ -78,12 +78,12 @@
               'background-color': localColor.color3
             }"
           >
+            <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+              {{ "Settings" | translate }}
+            </button>
             <button (click)="logout()" class="block px-4 py-2 rounded-xl">
               {{ "Logout" | translate }}
             </button>
-            <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
-              "Settings" | translate
-            }}</a>
           </div>
         </button>
       </ng-container>
@@ -126,32 +126,25 @@
           >{{ "Services" | translate }}</a
         >
         <ng-container *ngIf="isLoggedIn; else loginRegister">
-          <button
-            class="relative group"
-            (click)="showUserMenu = !showUserMenu"
-            role="button"
-            tabindex="0"
+          <a
+            class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
+            >{{ user.name }}</a
           >
-            <a
-              class="text-lg font-bold p-5 flex justify-center items-center bg-opacity-95 cursor-pointer hover:border-b"
-              >{{ user.name }}</a
-            >
-            <div
-              *ngIf="showUserMenu"
-              class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
-              [style]="{
-                color: localColor.color2,
-                'background-color': localColor.color3
-              }"
-            >
-              <button (click)="logout()" class="block px-4 py-2 rounded-xl">
-                {{ "Logout" | translate }}
-              </button>
-              <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
-                "Settings" | translate
-              }}</a>
-            </div>
-          </button>
+          <div
+            *ngIf="showUserMenu"
+            class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
+            [style]="{
+              color: localColor.color2,
+              'background-color': localColor.color3
+            }"
+          >
+            <!-- <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+              {{ "Settings" | translate }}
+            </button>
+            <button (click)="logout()" class="block px-4 py-2 rounded-xl">
+              {{ "Logout" | translate }}
+            </button> -->
+          </div>
         </ng-container>
         <div>
           <button *ngIf="currentTheme === 'light'" (click)="changeTheme()">
@@ -236,12 +229,12 @@
             *ngIf="showUserMenu"
             class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
           >
+            <!-- <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+              {{ "Settings" | translate }}
+            </button>
             <button (click)="logout()" class="block px-4 py-2 rounded-xl">
               {{ "Logout" | translate }}
-            </button>
-            <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
-              "Settings" | translate
-            }}</a>
+            </button> -->
           </div>
         </button>
       </ng-container>
@@ -289,12 +282,12 @@
               *ngIf="showUserMenu"
               class="absolute left-0 mt-2 border shadow-lg rounded-xl z-50"
             >
+              <!-- <button (click)="settings()" class="block px-4 py-2 rounded-xl">
+                {{ "Settings" | translate }}
+              </button>
               <button (click)="logout()" class="block px-4 py-2 rounded-xl">
                 {{ "Logout" | translate }}
-              </button>
-              <a routerLink="/settings" class="block px-4 py-2 rounded-xl">{{
-                "Settings" | translate
-              }}</a>
+              </button> -->
             </div>
           </button>
         </ng-container>

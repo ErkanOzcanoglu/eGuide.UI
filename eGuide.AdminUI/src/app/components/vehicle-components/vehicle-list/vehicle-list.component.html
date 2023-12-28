@@ -37,8 +37,8 @@
     </thead>
     <tbody class="w-full">
       <tr
-        *ngFor="let item of vehicles | searchFilter : searchTerm"
-        (click)="toggleSelection(item)"
+        *ngFor="let vehicle of vehicles | searchFilterVehicle : searchTerm"
+        (click)="toggleSelection(vehicle)"
       >
         <td>
           <label>
@@ -46,29 +46,29 @@
           </label>
         </td>
         <td class="bg-primary">
-          <div class="font-bold">{{ item.brand + " " + item.model }}</div>
+          <div class="font-bold">{{ vehicle.brand + " " + vehicle.model }}</div>
         </td>
         <td class="bg-primary">
-          <div class="font-bold">{{ item.brand }}</div>
+          <div class="font-bold">{{ vehicle.brand }}</div>
         </td>
         <td class="bg-primary">
           <input
             class="bg-transparent border-none outline-none font-bold"
             type="text"
-            [value]="item.model"
-            [(ngModel)]="item.model"
+            [value]="vehicle.model"
+            [(ngModel)]="vehicle.model"
             [disabled]="!editMode"
           />
         </td>
         <td class="gap-x-2 flex">
           <button
             class="btn btn-ghost"
-            (click)="onSave(item)"
-            [disabled]="editMode && !item.isSelected"
+            (click)="onSave(vehicle)"
+            [disabled]="editMode && !vehicle.isSelected"
           >
-            {{ editMode && item.isSelected ? "Save" : "Edit" }}
+            {{ editMode && vehicle.isSelected ? "Save" : "Edit" }}
           </button>
-          <button class="btn btn-ghost" (click)="deleteVehicle(item.id)">
+          <button class="btn btn-ghost" (click)="deleteVehicle(vehicle.id)">
             Delete
           </button>
         </td>

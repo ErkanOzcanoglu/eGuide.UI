@@ -2,7 +2,6 @@ import { HomeComponent } from './screens/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserAuthComponent } from './components/user-auth/user-auth.component';
-import { AuthGuard } from './models/auth-guard';
 import { LoginComponent } from './components/user-login/login.component';
 import { SettingsComponent } from './screens/settings/settings/settings.component';
 import { PasswordSettingsComponent } from './screens/password-settings/password-settings.component';
@@ -14,6 +13,8 @@ import { ServiceComponent } from './screens/service/service.component';
 import { ContactComponent } from './screens/contact/contact.component';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './components/error-pages/page-not-found/page-not-found.component';
+import { AuthGuard } from './services/auth.guard';
+
 
 
 
