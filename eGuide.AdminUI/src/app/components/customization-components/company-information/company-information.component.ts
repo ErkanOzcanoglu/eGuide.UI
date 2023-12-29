@@ -12,7 +12,8 @@ import { WebsiteService } from 'src/app/services/website.service';
 export class CompanyInformationComponent implements OnInit {
   isEdit = false;
   companyInformationForm: FormGroup = new FormGroup({});
-  website?: Website;
+  website: Website[] = [];
+  isWebsiteEmpty = false;
 
   constructor(
     private websiteService: WebsiteService,
@@ -28,6 +29,9 @@ export class CompanyInformationComponent implements OnInit {
   getWebsite() {
     this.websiteService.getWebsite().subscribe((website) => {
       this.website = website;
+      if (this.website.length == 0) {
+        this.isWebsiteEmpty = true;
+      }
     });
   }
 
