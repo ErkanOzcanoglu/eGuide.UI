@@ -39,7 +39,7 @@ export class CompanyInformationComponent implements OnInit {
     this.companyInformationForm = this.formBuilder.group({
       description: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       address: ['', Validators.required],
       name: ['', Validators.required],
       navbar: [0],
@@ -52,32 +52,40 @@ export class CompanyInformationComponent implements OnInit {
       navbar: 1,
       footer: 1,
     });
-    this.websiteService
-      .addWebsite(this.companyInformationForm.value)
-      .subscribe({
-        next: () => {
-          this.toast.success('Website added successfully');
-          this.getWebsite();
-        },
-        error: () => {
-          this.toast.error('There was an error!');
-        },
-      });
+    if (this.companyInformationForm.valid) {
+      this.websiteService
+        .addWebsite(this.companyInformationForm.value)
+        .subscribe({
+          next: () => {
+            this.toast.success('Website added successfully');
+            this.getWebsite();
+          },
+          error: () => {
+            this.toast.error('There was an error!');
+          },
+        });
+    } else {
+      this.toast.error('Please fill all the required fields');
+    }
   }
 
   onUpdate(id: string) {
-    this.websiteService
-      .updateWebsite(id, this.companyInformationForm.value)
-      .subscribe({
-        next: () => {
-          this.toast.success('Website updated successfully');
-          this.getWebsite();
-          this.isEdit = false;
-        },
-        error: () => {
-          this.toast.error('There was an error!');
-        },
-      });
+    if (this.companyInformationForm.valid) {
+      this.websiteService
+        .updateWebsite(id, this.companyInformationForm.value)
+        .subscribe({
+          next: () => {
+            this.toast.success('Website updated successfully');
+            this.getWebsite();
+            this.isEdit = false;
+          },
+          error: () => {
+            this.toast.error('There was an error!');
+          },
+        });
+    } else {
+      this.toast.error('Please fill all the required fields');
+    }
   }
 
   editWebsite() {

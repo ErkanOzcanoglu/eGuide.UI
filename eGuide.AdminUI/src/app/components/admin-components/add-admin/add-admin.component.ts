@@ -27,11 +27,25 @@ export class AddAdminComponent implements OnInit {
 
   initializeForm() {
     this.adminForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.minLength(3),
+        ],
+      ],
+      surname: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.minLength(3),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      password: [''],
+      confirmPassword: [''],
       isMasterAdmin: [false],
     });
   }
@@ -42,20 +56,21 @@ export class AddAdminComponent implements OnInit {
     const password = `${surname}.${name}`;
     this.adminForm.get('password')?.setValue(password);
     this.adminForm.get('confirmPassword')?.setValue(password);
-    console.log(this.adminForm.value);
     if (this.adminForm.valid) {
       this.admin = this.adminForm.value;
       this.admin.isMasterAdmin = false;
-      this.adminService.adminRegister(this.admin).subscribe(
-        () => {
+      this.adminService.adminRegister(this.admin).subscribe({
+        next: () => {
           this.toastr.success('Admin added successfully');
           this.store.dispatch(setRefresh(true));
           this.adminForm.reset();
         },
-        () => {
+        error: () => {
           this.toastr.error('Admin could not be added');
-        }
-      );
+        },
+      });
+    } else {
+      this.toastr.error('Form is not valid');
     }
   }
 }
