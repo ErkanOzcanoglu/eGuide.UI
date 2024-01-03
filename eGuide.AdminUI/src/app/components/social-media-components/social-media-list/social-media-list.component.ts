@@ -45,18 +45,22 @@ export class SocialMediaListComponent implements OnInit {
   }
 
   submitForm() {
-    this.socialMediaService
-      .addSocialMedia(this.socialMediaForm.value)
-      .subscribe({
-        next: (response) => {
-          this.socialMedias.push(response);
-          this.isOpen = false;
-          this.socialMediaForm.reset();
-        },
-        error: () => {
-          console.log('Social media not added');
-        },
-      });
+    if (this.socialMediaForm.valid) {
+      this.socialMediaService
+        .addSocialMedia(this.socialMediaForm.value)
+        .subscribe({
+          next: (response) => {
+            this.socialMedias.push(response);
+            this.isOpen = false;
+            this.socialMediaForm.reset();
+          },
+          error: () => {
+            console.log('Social media not added');
+          },
+        });
+    } else {
+      console.log('Form is not valid');
+    }
   }
 
   toggleEdit(socialMedia: SocialMedia) {

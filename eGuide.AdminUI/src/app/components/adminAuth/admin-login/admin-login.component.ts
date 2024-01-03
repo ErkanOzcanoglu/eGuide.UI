@@ -31,7 +31,7 @@ export class AdminLoginComponent implements OnInit {
 
   initializeForm() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
@@ -61,6 +61,8 @@ export class AdminLoginComponent implements OnInit {
           this.toaster.error('Invalid email or password');
         },
       });
+    } else {
+      this.toaster.error('Please fill in the form correctly');
     }
   }
 }
