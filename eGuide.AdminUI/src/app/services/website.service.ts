@@ -10,8 +10,8 @@ import { environment } from '../environments/environment';
 export class WebsiteService {
   constructor(private httpClient: HttpClient) {}
 
-  getWebsite(): Observable<Website> {
-    return this.httpClient.get<Website>(`${environment.apiUrl}/Website`, {
+  getWebsite(): Observable<Website[]> {
+    return this.httpClient.get<Website[]>(`${environment.apiUrl}/Website`, {
       responseType: 'json',
     });
   }

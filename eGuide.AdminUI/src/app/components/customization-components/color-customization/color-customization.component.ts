@@ -26,15 +26,39 @@ export class ColorCustomizationComponent implements OnInit {
 
   initializeForm() {
     this.colorForm = this.formBuilder.group({
-      lightColor1: ['', Validators.required],
-      lightColor2: ['', Validators.required],
-      lightColor3: ['', Validators.required],
-      lightColor4: ['', Validators.required],
-      lightColor5: ['', Validators.required],
-      darkColor1: [''],
-      darkColor2: [''],
-      darkColor3: [''],
-      darkColor4: [''],
+      lightColor1: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      lightColor2: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      lightColor3: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      lightColor4: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      lightColor5: [''],
+      darkColor1: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      darkColor2: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      darkColor3: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
+      darkColor4: [
+        '',
+        [Validators.required, Validators.minLength(7), Validators.maxLength(7)],
+      ],
       darkColor5: [''],
     });
   }
@@ -60,7 +84,7 @@ export class ColorCustomizationComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.colorId != null) {
+    if (this.colorId != null && this.colorForm.valid) {
       this.colorService
         .updateColor(this.colorId, this.colorForm.value)
         .subscribe({
@@ -72,6 +96,8 @@ export class ColorCustomizationComponent implements OnInit {
             this.toastrService.error('Color update failed');
           },
         });
+    } else {
+      this.toastrService.error('Color update failed');
     }
   }
 }
