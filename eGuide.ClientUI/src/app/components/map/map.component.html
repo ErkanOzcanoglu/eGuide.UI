@@ -53,36 +53,26 @@
       class="p-3 w-12 h-12 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
       (click)="locateS()"
     >
-      <!-- after click start to dönmeye -->
-      <img
-        src="../../../assets/target.svg"
-        alt="target"
-        class="w-full h-full object-cover"
+      <i
+        class="fa-solid fa-location-arrow text-black text-xl"
         [ngClass]="{ 'animate-spin': isFound }"
-      />
+      ></i>
       <p class="text-[8px] w-10 text-black">Locate</p>
     </button>
     <button
-      class="p-3 w-12 h-12 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
+      class="p-3 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
+      [ngClass]="windowSize ? 'w-9 h-9' : 'w-12 h-12'"
       (click)="findNearestStations()"
     >
-      <img
-        src="../../../assets/target.svg"
-        alt="target"
-        class="w-full h-full object-cover"
-      />
-      <p class="text-[8px] w-10 text-black">Nearest</p>
+      <i class="fa-solid fa-location-crosshairs text-black text-xl"></i>
+      <p class="text-[8px] w-10 mb-1 text-black">Nearest</p>
     </button>
 
     <!-- ! Change Layer button -->
     <button
       class="p-3 w-12 h-12 rounded-lg border-none shadow shadow-black hover:bg-white bg-white flex flex-col justify-center items-center text-center"
     >
-      <img
-        src="../../../assets/layer.svg"
-        alt="target"
-        class="w-full h-full object-cover"
-      />
+      <i class="fa-solid fa-layer-group text-black text-xl"></i>
       <p class="text-[8px] w-10 text-black">Base Maps</p>
       <ul class="absolute right-12 gap-y-2 flex top-56 flex-col px-1">
         <button
@@ -98,10 +88,6 @@
           >
             {{ basemap.title }}
           </li>
-
-          <!-- <li class="btn bg-white hover:bg-white text-black mt-2">Street</li>
-          <li class="btn bg-white hover:bg-white text-black mt-2">Street</li>
-          <li class="btn bg-white hover:bg-white text-black mt-2">Street</li> -->
         </button>
       </ul>
     </button>

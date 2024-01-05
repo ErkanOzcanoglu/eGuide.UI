@@ -66,6 +66,11 @@ export class MapHelper {
     });
   }
 
+  windowSize() {
+    const size = window.innerWidth;
+    console.log(size, 'size');
+  }
+
   calculateNearestStations(userP: any, view: any): void {
     // Calculate distance between user and each station
     this.stations.forEach((station) => {
