@@ -60,7 +60,7 @@ export class VehicleFormComponent implements OnInit {
       });
       this.store.dispatch(setRefresh(false));
     } else {
-      console.error('Form control elements are null.');
+      this.toastr.error('Form control elements are null.');
     }
   }
 
@@ -70,7 +70,7 @@ export class VehicleFormComponent implements OnInit {
         this.vehicles = data;
       },
       error: (error) => {
-        console.error('Error getting vehicles:', error);
+        this.toastr.error('Error getting vehicles', 'Error');
       },
     });
   }
