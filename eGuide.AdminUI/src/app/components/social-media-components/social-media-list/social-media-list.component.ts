@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { SocialMedia } from 'src/app/models/social-media';
 import { SocialMediaService } from 'src/app/services/social-media.service';
 import Swal from 'sweetalert2';
@@ -16,7 +17,8 @@ export class SocialMediaListComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private socialMediaService: SocialMediaService
+    private socialMediaService: SocialMediaService,
+    private toatr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -53,13 +55,16 @@ export class SocialMediaListComponent implements OnInit {
             this.socialMedias.push(response);
             this.isOpen = false;
             this.socialMediaForm.reset();
+            this.toatr.success('Social media added successfully', 'Successful');
           },
           error: () => {
             console.log('Social media not added');
+            this.toatr.error('Social media not added', 'Error');
           },
         });
     } else {
       console.log('Form is not valid');
+      this.toatr.error('Form is not valid', 'Error');
     }
   }
 
@@ -83,11 +88,13 @@ export class SocialMediaListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.getSocialMedias();
+          this.toatr.success('Social media edited successfully', 'Successful');
           this.isOpen = false;
           this.socialMediaForm.reset();
         },
         error: () => {
           console.log('Social media not edited');
+          this.toatr.error('Social media not edited', 'Error');
         },
       });
   }
@@ -116,6 +123,7 @@ export class SocialMediaListComponent implements OnInit {
           },
           error: () => {
             console.log('Social media not deleted');
+            this.toatr.error('Social media not deleted', 'Error');
           },
         });
       }

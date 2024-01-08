@@ -136,6 +136,7 @@ export class ServiceFormComponent implements OnInit {
         };
     } else {
       console.log('Form is not valid');
+      this.toastr.error('Form is not valid');
     }
   }
 

@@ -4,6 +4,7 @@ import { Admin } from 'src/app/models/admin';
 import { Store } from '@ngrx/store';
 import { selectRefresh } from 'src/app/state/refresh-list/refresh-list.selector';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin',
@@ -15,7 +16,11 @@ export class AdminComponent implements OnInit {
   adminInfo: Admin[] = [];
   refresh$ = this.store.select(selectRefresh);
 
-  constructor(private adminService: AdminService, private store: Store) {
+  constructor(
+    private adminService: AdminService,
+    private store: Store,
+    private toatr: ToastrService
+  ) {
     this.refresh$.subscribe((refresh: boolean) => {
       if (refresh === true) {
         this.getAdmins();
@@ -57,6 +62,10 @@ export class AdminComponent implements OnInit {
             this.adminService.deleteAdmin(admin.id).subscribe({
               next: () => {
                 this.getAdmins();
+              },
+              error: (error) => {
+                console.log(error);
+                this.toatr.error('Admin not deleted', 'Error');
               },
             });
           }

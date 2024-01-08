@@ -56,7 +56,7 @@ export class SocketFormComponent implements OnInit {
           },
         });
     } else {
-      console.log('Form is not valid');
+      this.toastr.error('Please fill in the required fields');
     }
   }
 

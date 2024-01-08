@@ -2,11 +2,12 @@
   <div
     class="overflow-x-auto pt-16 mx-10 border-b border-secondary flex justify-between"
   >
-    <div class="font-bold text-2xl">Admin Settings</div>
+    <div class="uppercase font-bold text-2xl">Admin Settings</div>
     <button (click)="openForm()" class="btn btn-pr">
       {{ isOpen ? "Close" : "Add Admin" }}
     </button>
   </div>
+
   <div class="bg-primary">
     <app-add-admin></app-add-admin>
   </div>

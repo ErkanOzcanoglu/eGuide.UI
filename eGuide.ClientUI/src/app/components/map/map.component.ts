@@ -1,5 +1,5 @@
 import { LastVisitedStations } from './../../models/last-visited-stations';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Station } from 'src/app/models/station';
 import { UserStation } from 'src/app/models/user-station';
@@ -40,6 +40,8 @@ export class MapComponent implements OnInit {
 
   FilteredStations: Station[] = [];
   commentForm: FormGroup = new FormGroup({});
+  windowSize?: any;
+  isClicked = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,6 +61,11 @@ export class MapComponent implements OnInit {
 
   clearCahce() {
     this.stationService.clearStationCache().subscribe();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  getWindowSize() {
+    this.windowSize = window.innerWidth < 1450;
   }
 
   initializeMap() {

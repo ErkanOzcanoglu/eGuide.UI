@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import { ChargingUnit } from 'src/app/models/charging-unit';
 import { Connector } from 'src/app/models/connector';
 import { ChargingUnitService } from 'src/app/services/charging-unit.service';
@@ -24,7 +25,8 @@ export class SocketListComponent implements OnInit {
   constructor(
     private chargingUnitService: ChargingUnitService,
     private formBuilder: FormBuilder,
-    private store: Store
+    private store: Store,
+    private toastr: ToastrService
   ) {
     this.refreshState$.subscribe((refresh: boolean) => {
       if (refresh === true) {
@@ -76,10 +78,12 @@ export class SocketListComponent implements OnInit {
       .updateChargingUnit(id, this.socketUpdteForm.value)
       .subscribe({
         next: () => {
+          this.toastr.success('Socket updated successfully', 'Successful');
           this.getChargingUnitList();
         },
         error: (error) => {
           console.log(error);
+          this.toastr.error('Error updating socket', 'Error');
         },
       });
     // refresh the list
@@ -109,6 +113,7 @@ export class SocketListComponent implements OnInit {
           },
           error: (error) => {
             console.log(error);
+            this.toastr.error('Error deleting socket', 'Error');
           },
         });
       }

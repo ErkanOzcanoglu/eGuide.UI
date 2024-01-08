@@ -244,12 +244,7 @@ export class StationFormComponent implements OnInit {
                         });
                     }
                   );
-
-                  this.stationModelForm.reset();
-                  this.stationForm.reset();
-                  this.selectedChargingUnitForm.reset();
-                  this.stationChargingUnitForm.reset();
-                  this.selectedFacilitiesForm.reset();
+                  // this.clearForm();
                 },
                 error: (err) => {
                   console.log(err);
