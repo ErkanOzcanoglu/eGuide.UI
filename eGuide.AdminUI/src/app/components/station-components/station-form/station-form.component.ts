@@ -244,7 +244,7 @@ export class StationFormComponent implements OnInit {
                         });
                     }
                   );
-                  // this.clearForm();
+                  this.clearForm();
                 },
                 error: (err) => {
                   console.log(err);
